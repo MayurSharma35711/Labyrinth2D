@@ -1,0 +1,45 @@
+Here we detail a rough breakdown of the ideas we have for the game and its different aspects. 
+
+Equipment
+- an equipment for each of the 4 limbs, plus a helmet and then armor. each will have different attack, health, effect, biome interactions, and stats, and will have different interactions when paired with other equipment and based on AI or player behavior.
+
+Monsters
+- different tiers, having different ways of pathfinding, different interactions with players and their equipment, different damage and health stats, etc.
+
+Combat
+- most likely will be turnbased, but we should probably include this in the game division and game loop sections
+
+Game Division / Loop (Proposed Idea)
+- Computer first does the following (roughly simultaneously)
+	- Biome interactions
+	- monster interactions
+- Then players also have the following (similar to Polytopia)
+	- An effect step (1)
+	- A move step
+	- A combat step
+	- An effect step (2)
+
+Different Game Modes
+- one game mode where you just choose the equipment and everything is simulated by the AI
+- one game mode where you players can play against the AI and actually control their actions 
+- another where they can play against other players all at the same time.
+
+Biomes and Maze Properties
+- different biomes affect different stats and AI behavior
+- types would be lava, forest, water / river, marshy, snowy, desert, anti-gravity, dark (where monsters can surprise you more), poison fields, geyser fields, etc.
+- gray spots on the map where a monster or treasure could suddenly appear
+- destroyable walls
+- areas where visibility decreases
+- areas where the maze walls can move around a bit 
+- areas where you can go under or over walls
+
+Packages to get Used to 
+- Graphics
+- Keyboard and Mouse Input 
+- Networking (down the line with other people)
+
+Algorithms Required 
+- Maze generation (for the labyrinth)
+- Map generation (will be overlaid by the labyrinth but useful to get the maze)
+- Path finding (for the monsters and the AIs)
+	- Will need to have different tuneable parameters based on characteristics the player wants to have (ie. risk-averse vs reckless, aggressive vs calm, long-range vs short range fighter, willingness to cooperate, ability to see further vs take time and the like)  

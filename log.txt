@@ -1,0 +1,11 @@
+8/2/2024 
+- Here we will put our progress and changes for each file (preferably in as much detail as would be helpful)
+- Set up the Github repository and worked out the old Github commands
+- Found the old code Calvin had worked on for setting up, so going to read through that and set it up on my own later to have ways to connect multiple people together. He likely won't mind if I grab some old aspects of it, but I'll probably double check with him anyway. 
+- Added an ideas file, that I left somewhat organized.
+- Spoke more in-depth with Calvin to see what his thoughts were
+	- Made point that if we want to learn use C++, if we want to make a game, use Unity (scripts are in C#)
+	- Also, game dev life is long and hard
+
+(Mayur's Opinion): Let's shoot for C++. both of us already mostly know the language (i definitely have some kinks i need to work out, but I generally know the language). It will be a better learning experience, there's some overhead to learn when it comes to packages, but the skills we pick up will probably be more reusable compared to Unity (unless you're planning on becoming a game dev). Once welearn some basic graphics, the first version of the simulated game is already more or less ready as well, so it's an easy start in that regard. 
+In a sense, we can learn interesting algorithms and packages and memory structures while also constantly making interesting progress that should be able to continuously build, unlike something where we know less.
