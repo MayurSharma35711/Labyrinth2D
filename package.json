@@ -1,9 +1,7 @@
 {
-<<<<<<< HEAD
   "dependencies": {
     "http-server": "^14.1.1"
-  }
-=======
+  },
   "name": "labyrinth2d",
   "version": "1.0.0",
   "description": "2d labyrinth game",
@@ -21,5 +19,4 @@
     "url": "https://github.com/MayurSharma35711/Labyrinth2D/issues"
   },
   "homepage": "https://github.com/MayurSharma35711/Labyrinth2D#readme"
->>>>>>> f764e57335a61c4d6606a66c7224bba73d36d977
 }
