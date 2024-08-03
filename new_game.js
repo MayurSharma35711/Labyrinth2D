@@ -36,7 +36,7 @@ function screenAdjust(){
   }
 
 init()
-size=25;
+size=200;
 colnum = 0;
 xrectnum = Math.floor(app.renderer.width / size) + 1;
 yrectnum = Math.floor(app.renderer.height / size) + 1;
