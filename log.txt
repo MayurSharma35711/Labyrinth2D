@@ -15,7 +15,7 @@ In a sense, we can learn interesting algorithms and packages and memory structur
 - I have also set up index html file on my computer. 
 - We discussed the idea with appa as well, and doing it with JS seems like the least irritating way to do things, considering we care more about learning algorithms and basic graphics than doing a bunch of nonsensical garbage.
 
-- Got the node, npm, and http-server to all work.
+- Got the node, npm, and http-server to all work (npx http-server for Vivek).
 - To run everything, we need to first install http-server through npm to localhost things
 - After we run the local host, server, it will run the index.html file in the associated directory immediately
 - This will help us actually run the pixijs file, which otherwise won't work.
