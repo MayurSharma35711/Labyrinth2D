@@ -1,13 +1,7 @@
-let max_world_up = 10;
-let max_world_left = 10;
-let max_world_right = 10;
-let max_world_down = 10;
-class Block{
-    setBiome(biome)
-    {
-        this.biome = biome; //biomes can be represented with numbers with similar biomes being close in number
-    }
-}
+length = 20;
+size_val = length**2;
+import {hello} from 'Object.js';
+hello();
 const map = [];
 const rand = [0, 0];
 let max_biome_size = 0;
@@ -16,7 +10,7 @@ for(let i = 0;i < 20;i++)
 {
     for(let k = 0;k < 20;k++)
     {
-        map[i][k].setBiome(0); //0 means no biome set
+        map[i][k] = (0); //0 means no biome set
     }
 }
 let num_left = 400; //Counts how many blocks don't have set biomes
@@ -42,56 +36,56 @@ function genBiome()
         switch(dir)
         {
         case 0: //Right
-            if(map[rand[0]][rand[1] + 1].biome != 0 && !(rand[1] + 1 >= 20))
+            if(map[rand[0]][rand[1] + 1] != 0 && !(rand[1] + 1 >= 20))
             {
                 test = 0;
                 fail++;
             }
             else
             {
-                map[rand[0]][++rand[1]].setBiome(biome);
+                map[rand[0]][++rand[1]] = (biome);
                 test = 1;
                 num_left--;
                 fail = 0;
                 break;
             }
         case 1: //Left
-            if(map[rand[0]][rand[1] - 1].biome != 0 && !(rand[1] - 1 <= 20))
+            if(map[rand[0]][rand[1] - 1] != 0 && !(rand[1] - 1 <= 20))
             {
                 test = 0;
                 fail++;
             }
             else
             {
-                map[rand[0]][--rand[1]].setBiome(biome);
+                map[rand[0]][--rand[1]] = (biome);
                 test = 1;
                 num_left--;
                 fail = 0;
                 break;
             }
         case 2: //Down
-            if(map[rand[0] + 1][rand[1]].biome != 0 && !(rand[0] + 1 >= 20))
+            if(map[rand[0] + 1][rand[1]] != 0 && !(rand[0] + 1 >= 20))
             {
                 test = 0;
                 fail++;
             }                
             else
             {
-                map[++rand[0]][rand[1]].setBiome(biome);
+                map[++rand[0]][rand[1]] = (biome);
                 test = 1;
                 num_left--;
                 fail = 0;
                 break;
             }
         case 3: //Up
-            if(map[rand[0] - 1][rand[1]].biome != 0 && !(rand[0] - 1 <= 20))
+            if(map[rand[0] - 1][rand[1]] != 0 && !(rand[0] - 1 <= 20))
             {
                 test = 0;
                 fail++;
             }
             else
             {
-                map[--rand[0]][rand[1]].setBiome(biome);
+                map[--rand[0]][rand[1]] = (biome);
                 test = 1;
                 num_left--;
                 fail = 0;
@@ -118,10 +112,10 @@ function printWorldBiomes()
     {
         for(let k = 0;k < 20;k++)
         {
-            console.log(map[i][k].biome + " ");
+            console.log(map[i][k] + " ");
         }
         console.log("\n");
     }
 }
-setWorld();
+setWorld(9);
 printWorldBiomes();
