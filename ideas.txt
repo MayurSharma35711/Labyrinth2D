@@ -11,6 +11,7 @@ Equipment
 
 Monsters
 - different tiers, having different ways of pathfinding, different interactions with players and their equipment, different damage and health stats, etc.
+- higher tiers have smarter pathfinding algorithms
 
 Combat
 - most likely will be turnbased, but we should probably include this in the game division and game loop sections
