@@ -7,5 +7,10 @@
 	- Made point that if we want to learn use C++, if we want to make a game, use Unity (scripts are in C#)
 	- Also, game dev life is long and hard
 
-(Mayur's Opinion): Let's shoot for C++. both of us already mostly know the language (i definitely have some kinks i need to work out, but I generally know the language). It will be a better learning experience, there's some overhead to learn when it comes to packages, but the skills we pick up will probably be more reusable compared to Unity (unless you're planning on becoming a game dev). Once welearn some basic graphics, the first version of the simulated game is already more or less ready as well, so it's an easy start in that regard. 
+(Mayur's Opinion): Let's shoot for C++. both of us already mostly know the language (i definitely have some kinks i need to work out, but I generally know the language). It will be a better learning experience, there's some overhead to learn when it comes to packages, but the skills we pick up will probably be more reusable compared to Unity (unless you're planning on becoming a game dev). Once we learn some basic graphics, the first version of the simulated game is already more or less ready as well, so it's an easy start in that regard. 
 In a sense, we can learn interesting algorithms and packages and memory structures while also constantly making interesting progress that should be able to continuously build, unlike something where we know less.
+
+8/3/2024 
+- Vivek has now set up GitHub. 
+- I have also set up index html file on my computer. 
+- We discussed the idea with appa as well, and doing it with JS seems like the least irritating way to do things, considering we care more about learning algorithms and basic graphics than doing a bunch of nonsensical garbage.
