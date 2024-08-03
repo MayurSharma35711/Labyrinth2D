@@ -2,6 +2,12 @@ Here we detail a rough breakdown of the ideas we have for the game and its diffe
 
 Equipment
 - an equipment for each of the 4 limbs, plus a helmet and then armor. each will have different attack, health, effect, biome interactions, and stats, and will have different interactions when paired with other equipment and based on AI or player behavior.
+- Weapons
+	- Swords / mace / axe / spear (with effects obviously)
+	- Guns / bow and arrows (with effects and range)
+	- Some of the equipment could function as weapons
+		- Gravity Gauntlet on right arm: this could have its own effects 
+		- Fire gauntlet: have its own effects
 
 Monsters
 - different tiers, having different ways of pathfinding, different interactions with players and their equipment, different damage and health stats, etc.
