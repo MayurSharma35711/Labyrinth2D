@@ -1,6 +1,5 @@
 // ------------------------- INITIALIZE -----------------
 var app;
-
 function init(){
     let type = "WebGL";
     if(!PIXI.utils.isWebGLSupported()){
@@ -37,16 +36,38 @@ function screenAdjust(){
   }
 
 init()
-circle = new PIXI.Graphics();
-circle.beginFill(0x44FFFF);
-circle.drawCircle(100, 200, 25);
-circle.endFill();
-circle.x = 100-2*25;
-circle.y = 200-2*25;
-app.stage.addChild(circle);
+size=25;
+colnum = 0;
+xrectnum = Math.floor(app.renderer.width / size) + 1;
+yrectnum = Math.floor(app.renderer.height / size) + 1;
+console.log(xrectnum)
+for (i = 0; i < (xrectnum)*(yrectnum ); i++){
+    colorR = Math.floor(255 * (i % (xrectnum)) / (xrectnum));
+    colorG = Math.floor(255 * (colnum) / xrectnum);
+    if (i % (xrectnum) == 0 && i > 0 ){ 
+        rect = new PIXI.Graphics();
+        rect.beginFill(colorR*256*256+colorG*256)
+        rect.drawRect(size*xrectnum, size*colnum,(app.width-xrectnum*size),size)
+        app.stage.addChild(rect)
+        colnum++;
+    }
+    rect = new PIXI.Graphics();
+    rect.beginFill(colorR*256*256+colorG*256);
+    rect.drawRect(size*(i % xrectnum), size*colnum,size,size)
+    app.stage.addChild(rect)
+}
+console.log(colnum)
 
-console.log(window.innerWidth)
-console.log(window.innerHeight)
+// circle = new PIXI.Graphics();
+// circle.beginFill(0x44FFFF);
+// circle.drawCircle(100, 200, 25);
+// circle.endFill();
+// circle.x = 100-2*25;
+// circle.y = 200-2*25;
+// app.stage.addChild(circle);
+
+// console.log(window.innerWidth)
+// console.log(window.innerHeight)
 // var texture = new PIXI.RenderTexture(renderer, 16, 16);
 // var graphics = new PIXI.Graphics();
 // graphics.drawCircle(8, 8, 8);
