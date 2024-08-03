@@ -19,3 +19,6 @@ In a sense, we can learn interesting algorithms and packages and memory structur
 - To run everything, we need to first install http-server through npm to localhost things
 - After we run the local host, server, it will run the index.html file in the associated directory immediately
 - This will help us actually run the pixijs file, which otherwise won't work.
+
+- the command we actually have to run is npx http-server -c-1
+- this prevents the data from caching so changes can be made

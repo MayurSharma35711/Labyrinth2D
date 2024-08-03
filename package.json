@@ -1,5 +1,25 @@
 {
+<<<<<<< HEAD
   "dependencies": {
     "http-server": "^14.1.1"
   }
+=======
+  "name": "labyrinth2d",
+  "version": "1.0.0",
+  "description": "2d labyrinth game",
+  "main": "new_game.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MayurSharma35711/Labyrinth2D.git"
+  },
+  "author": "Vivek and Mayur S",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MayurSharma35711/Labyrinth2D/issues"
+  },
+  "homepage": "https://github.com/MayurSharma35711/Labyrinth2D#readme"
+>>>>>>> f764e57335a61c4d6606a66c7224bba73d36d977
 }
