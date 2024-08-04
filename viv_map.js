@@ -1,121 +1,182 @@
-length = 20;
-size_val = length**2;
-import {hello} from 'Object.js';
-hello();
-const map = [];
-const rand = [0, 0];
-let max_biome_size = 0;
-let biome_num = 5;
-for(let i = 0;i < 20;i++)
+//#include <iostream>
+//#include <stdio.h>
+//#include <stdlib.h>
+//#include <time.h>
+//#include <windows.h>
+//alert("Here");
+console.log(Math.random);
+//alert(Math.random);
+var max_biomesize = 35;
+var min_biomesize = 10;
+var amtbiomes = 8;
+var length = 40;
+var width = 40;
+var map = [];
+/*randNum()
 {
-    for(let k = 0;k < 20;k++)
-    {
-        map[i][k] = (0); //0 means no biome set
-    }
-}
-let num_left = 400; //Counts how many blocks don't have set biomes
+	int b = 0;
+	for (int i = 0; i < rand() % 6; i++)
+	{
+		b += rand();
+	}
+	return b;
+}*/
 function getRandBiomeSize()
 {
-    while(max_biome_size >= 20 || max_biome_size <= 5) //This assumes the max biome size is 20 and the min biome size is 5
-    {
-        max_biome_size = Math.random() % 20;
-    }
+	let biome = 0;
+	do
+	{
+		biome = Math.floor(Math.random() * (max_biomesize - min_biomesize) + min_biomesize) % max_biomesize;
+        //alert("HereBiomeSize");
+	} while (biome >= max_biomesize || biome < min_biomesize);
+    //alert("OutBiomeSize");
+	return biome;
 }
-function genBiome()
+/*int getRandDir()
 {
-    getRandBiomeSize();
-    let biome = Math.random() % biome_num;
-    let dir; //direction it will go
-    let test = 1; //tests whether the direction works
-    let fail = 0;
-    rand[0] = Math.random() % 20;
-    rand[1] = Math.random() % 20;
-    for(let i = 0;i < max_biome_size;i++)
-    {
-        dir = Math.random() % 4;
-        switch(dir)
-        {
-        case 0: //Right
-            if(map[rand[0]][rand[1] + 1] != 0 && !(rand[1] + 1 >= 20))
-            {
-                test = 0;
-                fail++;
-            }
-            else
-            {
-                map[rand[0]][++rand[1]] = (biome);
-                test = 1;
-                num_left--;
-                fail = 0;
-                break;
-            }
-        case 1: //Left
-            if(map[rand[0]][rand[1] - 1] != 0 && !(rand[1] - 1 <= 20))
-            {
-                test = 0;
-                fail++;
-            }
-            else
-            {
-                map[rand[0]][--rand[1]] = (biome);
-                test = 1;
-                num_left--;
-                fail = 0;
-                break;
-            }
-        case 2: //Down
-            if(map[rand[0] + 1][rand[1]] != 0 && !(rand[0] + 1 >= 20))
-            {
-                test = 0;
-                fail++;
-            }                
-            else
-            {
-                map[++rand[0]][rand[1]] = (biome);
-                test = 1;
-                num_left--;
-                fail = 0;
-                break;
-            }
-        case 3: //Up
-            if(map[rand[0] - 1][rand[1]] != 0 && !(rand[0] - 1 <= 20))
-            {
-                test = 0;
-                fail++;
-            }
-            else
-            {
-                map[--rand[0]][rand[1]] = (biome);
-                test = 1;
-                num_left--;
-                fail = 0;
-                break;
-            }
-        }
-        if(test >= 4)
-        {
-            break;
-        }
-    }
-    max_biome_size = 0;
+	srand(time(NULL));
+	return rand() % 4;
 }
-function setWorld(times)
+int getRandBiome()
 {
-    for(let i = 0;i < times;i++)
-    {
-        genBiome();
-    }
+	srand(time(NULL));
+	return rand() % amtbiomes;
 }
-function printWorldBiomes()
+void getRandIndex(int* p) 
 {
-    for(let i = 0;i < 20;i++)
-    {
-        for(let k = 0;k < 20;k++)
-        {
-            console.log(map[i][k] + " ");
-        }
-        console.log("\n");
-    }
+	srand(time(NULL));
+	*p = rand() % 20;
+	*(p + 1) = rand() % 20;
+}*/
+
+function setBiome()
+{
+	//srandNum(time(NULL));
+	let biome;
+	do
+	{
+        //alert("HereWhile1SetBiome");
+		biome = Math.floor(Math.random() * 8) % amtbiomes;
+	} while(biome == 0);
+    //alert("OutWhile1SetBiome");
+	let randNum_f = [];
+	let fail = 0;
+	do
+	{
+        //alert("HereWhile2setBiomeAgain...");
+        //alert(randNum_f[0] + " " + randNum_f[1]);
+        //alert(map[randNum_f[0] * width + randNum_f[1]]);
+		randNum_f[0] = Math.floor(length * Math.random()) % length;
+		randNum_f[1] = Math.floor(width * Math.random()) % width;
+	} while (map[randNum_f[0] * width + randNum_f[1]] != 0);
+    //alert("OutWhile2SetBiome");
+	for (let i = 0; i < getRandBiomeSize();i++)
+	{
+        //alert("InForLoopSetBiome")
+		if (fail == 0)
+		{
+			dir = Math.floor(Math.random() * 3);
+		}
+		switch (dir)
+		{
+		case 0: //Right
+			if (randNum_f[1] + 1 >= width/* || map[randNum_f[0]][randNum_f[1] + 1] != 0*/)
+			{
+				fail++;
+			}
+			else
+			{
+				fail = 0;
+				map[randNum_f[0] * width + ++randNum_f[1]] = biome;
+				//std::cout << 0;
+				break;
+			}
+		case 1: //Left
+			if (randNum_f[1] - 1 < 0/* || map[randNum_f[0]][randNum_f[1] - 1] != 0*/)
+			{
+				fail++;
+			}
+			else
+			{
+				fail = 0;
+				map[randNum_f[0] * width + --randNum_f[1]] = biome;
+				//std::cout << 1;
+				break;
+			}
+		case 2: //Up
+			if (randNum_f[0] - 1 < 0/* || map[randNum_f[0] - 1][randNum_f[1]] != 0*/)
+			{
+				fail++;
+			}
+			else
+			{
+				fail = 0;
+				map[--randNum_f[0] * width + randNum_f[1]] = biome;
+				//std::cout << 2;
+				break;
+			}
+		case 3:
+			if (randNum_f[0] + 1 >= length/* || map[randNum_f[0] + 1][randNum_f[1]] != 0*/)
+			{
+				fail++;
+			}
+			else
+			{
+				fail = 0;
+				map[++randNum_f[0] * width + randNum_f[1]] = biome;
+				//std::cout << 3;
+				break;
+			}
+		}
+		if (fail >= 4)
+		{
+			break;
+		}
+	}
+    //alert("OutForLoopSetBiome");
 }
-setWorld(9);
-printWorldBiomes();
+function multiBiomes(times)
+{
+    //alert("InMultiBiome");
+	for (let i = 0; i < times; i++)
+	{
+        //alert("BeforeSetBiomeCallMultibiome");
+		setBiome();
+        //alert("AfterSetBiomeCallMultiBiome");
+	}
+    //alert("OutMultiBiome");
+}
+function set()
+{
+    //alert("HereSet");
+	for (let i = 0; i < length; i++)
+	{
+		for (let k = 0; k < width; k++)
+		{
+			map[i * width + k] = 0;
+		}
+	}
+    //alert("OutSet");
+}
+
+set();
+multiBiomes(10);
+//fillIn(amtbiomes);
+//std::cout << std::endl;
+for (let i = 0; i < length; i++)
+{
+	for (let k = 0; k < width; k++)
+	{
+		if (map[i * width + k] == 0)
+		{
+            console.log("- ");
+			continue;
+		}
+        console.log("real " + map[i * width + k] + " ");
+//		std::cout << map[i][k] << " ";
+	}
+//	std::cout << std::endl << std::endl;
+}
+alert("End");
+console.log("End");
+	//std::cout << std::endl << std::endl << "1 is ocean, 2 is rain forest, 3 is snow, 4 is snowy forest\n5 is desert, 6 is savvanah, 7 is mountains, 8 is plains";
