@@ -38,29 +38,33 @@ function screenAdjust(){
     const screenW = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
     const screenH = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
     app.renderer.resize(screenW, screenH);
-  }
+}
 
 function map_init(cell_width, cell_height) {
     
     const cell_num = Math.floor((app.renderer.width * app.renderer.height)/(cell_width * cell_height));
-    const cell_size = cell_width*cell_height;
-    let xrectnum = Math.floor(app.renderer.width / cell_num) + 1;
-    let yrectnum = Math.floor(app.renderer.height / cell_num) + 1;
-    alert("broken?")
+    // const cell_size = cell_width*cell_height;
+    let xrectnum = Math.floor(app.renderer.width / cell_width) + 1;
+    let yrectnum = Math.floor(app.renderer.height / cell_height) + 1;
+    // alert("broken?")
     // console.log(xrectnum)
     let rect;
     // print_walls(maze_creator(30,30),30,30);
-    const map = multiBiomes(Math.floor(cell_num / 20), cell_width, cell_height, 9, Math.floor(cell_num / 20), Math.floor(cell_num * 3/ 20));
-    for (let i = 0; i < cell_num; i++){
+    const map = multiBiomes(Math.min(Math.floor(cell_num / 30), 40), xrectnum, yrectnum, 10, Math.floor(cell_num / 20), Math.floor(cell_num * 3/ 20));
+    print_map(map, xrectnum, yrectnum)
+    for (let i = 0; i < cell_num + xrectnum; i++){
         // let colorR = Math.floor(255 * (i % (xrectnum)) / (xrectnum));
         // let colorG = Math.floor(255 * (colnum) / xrectnum);
         rect = new PIXI.Graphics();
         // if (i % xrectnum == 0)
         //     alert(map[i])
+
+        // rather than define all the rectangles each time and assign color and attach each time
+        // maybe we make an array of the colors, and then adding walls would be easier too
         switch(map[i]){
         case 0:
             //Set Color To Biome Plains
-            rect.beginFill(0x08c208);
+            rect.beginFill(0x08b208);
             break;
         case 1:
             //Set Color To Biome Forest
@@ -75,29 +79,41 @@ function map_init(cell_width, cell_height) {
             rect.beginFill(0xccc621);
             break;
         case 4:
-            //Set Color To Biome Savvanah
-            rect.beginFill(0xcca421);
+            //Set Color To Biome ShadowLands
+            rect.beginFill(0x442105);
             break;
         case 5:
-            //Set Color To Biome Taiga/Coniferus Forest
-            rect.beginFill(0x9cbf91);
+            //Set Color To Biome Poison Field
+            rect.beginFill(0xAc0fB1);
             break;
         case 6:
-            //Set Color To Biome RainForest
-            rect.beginFill(0x32996e);
+            //Set Color To Biome Muddy RainForest
+            rect.beginFill(0xC2866e);
+            break;
+        case 7:
+            //Set Color To Biome river / water biome
+            rect.beginFill(0x3299FF);
+            break;
+        case 8:
+            //Set Color To Biome Volcano
+            rect.beginFill(0xDA306e);
+            break;
+        case 9:
+            //Set Color To Rocky / Mountain
+            rect.beginFill(0x666699);
             break;
         default:
             console.log(map[i])
         }
         // rect.beginFill(colorR*256*256+colorG*256)
         // rect.beginFill(colorR*256*256+colorG*256);
-        rect.drawRect(cell_size*(i % xrectnum), cell_size*(Math.floor(i / xrectnum)),cell_size,cell_size)
+        rect.drawRect(cell_width*(i % xrectnum), cell_height*(Math.floor(i / xrectnum)),cell_width,cell_height)
         app.stage.addChild(rect)
     }
 }
 
 init()
-// map_init(10,10)
+map_init(40,40)
 // circle = new PIXI.Graphics();
 // circle.beginFill(0x44FFFF);
 // circle.drawCircle(100, 200, 25);

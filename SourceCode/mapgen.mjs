@@ -57,7 +57,7 @@ function setBiome(width, height, amtbiomes, min_biomesize, max_biomesize, map)
 	do
 	{
         // alert("HereWhile1SetBiome");
-		biome = Math.floor(Math.random() * 8) % amtbiomes;
+		biome = Math.floor(Math.random() * amtbiomes) % amtbiomes;
 	} while(biome == 0);
     // alert("OutWhile1SetBiome");
 	let randNum_f = [];
