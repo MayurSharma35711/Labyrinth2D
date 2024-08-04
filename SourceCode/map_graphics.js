@@ -52,7 +52,7 @@ function map_init(cell_width, cell_height) {
     // print_walls(maze_creator(30,30),30,30);
     const map = multiBiomes(Math.min(Math.floor(cell_num / 30), 40), xrectnum, yrectnum, 10, Math.floor(cell_num / 20), Math.floor(cell_num * 3/ 20));
     print_map(map, xrectnum, yrectnum)
-    for (let i = 0; i < cell_num + xrectnum; i++){
+    for (let i = 0; i < cell_num + xrectnum + 1; i++){
         // let colorR = Math.floor(255 * (i % (xrectnum)) / (xrectnum));
         // let colorG = Math.floor(255 * (colnum) / xrectnum);
         rect = new PIXI.Graphics();
