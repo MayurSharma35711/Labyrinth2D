@@ -45,7 +45,7 @@ const size=100;
 let colnum = 0;
 let xrectnum = Math.floor(app.renderer.width / size) + 1;
 let yrectnum = Math.floor(app.renderer.height / size) + 1;
-console.log(xrectnum)
+// console.log(xrectnum)
 let rect;
 for (let i = 0; i < (xrectnum)*(yrectnum ); i++){
     let colorR = Math.floor(255 * (i % (xrectnum)) / (xrectnum));
