@@ -38,3 +38,8 @@ In a sense, we can learn interesting algorithms and packages and memory structur
 	- once this works, we can make the background graphics quickly (mayur)
 		- see how efficient / fast this is, if slow, have problem
 	- start character + equipment design and art (vivek)
+8/4/24 (basement)
+- Fixed dependencies
+	- https://stackoverflow.com/questions/950087/how-do-i-include-a-javascript-file-in-another-javascript-file
+	- make all .js files .mjs except the main file then, from the .mjs export the functions you want 
+	- to use in the main function. To import use "import {somefunction} from "./somefile.mjs";
