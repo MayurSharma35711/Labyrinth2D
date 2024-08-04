@@ -22,3 +22,19 @@ In a sense, we can learn interesting algorithms and packages and memory structur
 
 - the command we actually have to run is npx http-server -c-1
 - this prevents the data from caching so changes can be made
+
+8/3/2024 (night)
+- Had merge issues which took ~1 hour to solve. 
+- all following algorithms have variable length, width
+- Created biome generation using random walk algorithm (vivek)
+	- number of biomes is variable and fills in background with plains
+- fixed graphics from old code (mayur)
+	- can change color of each square independently and tinker with size of squares and size of fitting into computer screen
+	- (CONCERN) need to make sure that having this many objects doesn't slow things down
+- maze generation using random DFS algorithm to visit every cell (mayur)
+
+- next steps 
+	- fix the dependencies issue (vivek)
+	- once this works, we can make the background graphics quickly (mayur)
+		- see how efficient / fast this is, if slow, have problem
+	- start character + equipment design and art (vivek)
