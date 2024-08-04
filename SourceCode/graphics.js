@@ -1,3 +1,8 @@
+import { maze_creator } from "./mazegen.mjs";
+import { print_walls } from "./mazegen.mjs";
+import { print_map } from "./mapgen.mjs";
+import { multiBiomes } from "./mapgen.mjs";
+
 // ------------------------- INITIALIZE -----------------
 var app;
 function init(){
@@ -24,26 +29,27 @@ function init(){
   
     app.renderer.backgroundColor = 0x000000;
     // app.ticker.add(delta => gameLoop(delta));
-    t1 = Date.now();
+    // let t1 = Date.now();
   
     // document.addEventListener('keydown', keyStart);
     // document.addEventListener('keyup', keyEnd);
 }
 function screenAdjust(){
-    screenW = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
-    screenH = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+    const screenW = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+    const screenH = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
     app.renderer.resize(screenW, screenH);
   }
 
 init()
-size=100;
-colnum = 0;
-xrectnum = Math.floor(app.renderer.width / size) + 1;
-yrectnum = Math.floor(app.renderer.height / size) + 1;
+const size=100;
+let colnum = 0;
+let xrectnum = Math.floor(app.renderer.width / size) + 1;
+let yrectnum = Math.floor(app.renderer.height / size) + 1;
 console.log(xrectnum)
-for (i = 0; i < (xrectnum)*(yrectnum ); i++){
-    colorR = Math.floor(255 * (i % (xrectnum)) / (xrectnum));
-    colorG = Math.floor(255 * (colnum) / xrectnum);
+let rect;
+for (let i = 0; i < (xrectnum)*(yrectnum ); i++){
+    let colorR = Math.floor(255 * (i % (xrectnum)) / (xrectnum));
+    let colorG = Math.floor(255 * (colnum) / xrectnum);
     if (i % (xrectnum) == 0 && i > 0 ){ 
         rect = new PIXI.Graphics();
         rect.beginFill(colorR*256*256+colorG*256)
@@ -56,8 +62,8 @@ for (i = 0; i < (xrectnum)*(yrectnum ); i++){
     rect.drawRect(size*(i % xrectnum), size*colnum,size,size)
     app.stage.addChild(rect)
 }
-console.log(colnum)
-
+print_walls(maze_creator(30,30),30,30)
+print_map(multiBiomes(20, 30, 30, 9, 50, 180), 30, 30)
 // circle = new PIXI.Graphics();
 // circle.beginFill(0x44FFFF);
 // circle.drawCircle(100, 200, 25);
