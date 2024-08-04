@@ -8,10 +8,18 @@ Equipment
 	- Some of the equipment could function as weapons
 		- Gravity Gauntlet on right arm: this could have its own effects 
 		- Fire gauntlet: have its own effects
+- however, EVERYTHING has a counter
 
 Monsters
 - different tiers, having different ways of pathfinding, different interactions with players and their equipment, different damage and health stats, etc.
 - higher tiers have smarter pathfinding algorithms
+- we want a LOT of monsters
+- do we want to have bosses to get to the next level?
+- they drop loot and maybe items, however they can also pick these things up
+
+Stores and Rooms 
+- do we want a store and other cool (very varied, potentially procedurally-generated rooms) in the maze?
+
 
 Combat
 - most likely will be turnbased, but we should probably include this in the game division and game loop sections
@@ -20,11 +28,17 @@ Game Division / Loop (Proposed Idea)
 - Computer first does the following (roughly simultaneously)
 	- Biome interactions
 	- monster interactions
-- Then players also have the following (similar to Polytopia)
+- Then players also have the following (similar to Polytopia / Into the Breach)
 	- An effect step (1)
 	- A move step
 	- A combat step
 	- An effect step (2)
+
+Rendering / Visual + Maze tranversal
+- Have limited visibilty based on characters statistics
+- X marks the visited spots 
+	- Can also have other AI which also have their spots noted in the view
+
 
 Different Game Modes
 - one game mode where you just choose the equipment and everything is simulated by the AI
