@@ -73,7 +73,7 @@ function setBiome(width, height, amtbiomes, min_biomesize, max_biomesize, map)
 		// alert(randNum_f[0] + " " + randNum_f[1]);
         // alert(map[randNum_f[0] * width + randNum_f[1]]);
 	} while (map[randNum_f[0] * width + randNum_f[1]] != 0);
-	console.log(randNum_f[0],randNum_f[1])
+	// console.log(randNum_f[0],randNum_f[1])
     // alert("OutWhile2SetBiome");
 	for (let i = 0; i < getRandBiomeSize(min_biomesize, max_biomesize);i++)
 	{
