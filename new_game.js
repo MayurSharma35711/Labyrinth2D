@@ -1,5 +1,5 @@
 // ------------------------- INITIALIZE -----------------
-
+var app;
 function init(){
     let type = "WebGL";
     if(!PIXI.utils.isWebGLSupported()){
@@ -12,7 +12,7 @@ function init(){
       document.body.style.marginLeft = 0;
       document.body.style.marginBottom = 0;
       document.body.style.marginUp = 0;
-    // screenAdjust();
+    screenAdjust();
     // console.log(app.width);
     document.body.appendChild(app.view);
   
@@ -22,14 +22,20 @@ function init(){
     // var background = new PIXI.Sprite(texture);
     // gameScene.addChild(background);
   
-    app.renderer.backgroundColor = 0x061639;
-    app.ticker.add(delta => gameLoop(delta));
+    app.renderer.backgroundColor = 0x000000;
+    // app.ticker.add(delta => gameLoop(delta));
     t1 = Date.now();
   
     // document.addEventListener('keydown', keyStart);
     // document.addEventListener('keyup', keyEnd);
+}
+function screenAdjust(){
+    screenW = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+    screenH = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+    app.renderer.resize(screenW, screenH);
   }
 
+<<<<<<< HEAD
 // ------------------------- Vivek Map Code --------------
 length = 20;
 size_val = length**2;
@@ -157,11 +163,44 @@ printWorldBiomes();
 
 
 
+=======
+>>>>>>> ee43980248d7993a33f5694d9008229959ee3917
 init()
+size=200;
+colnum = 0;
+xrectnum = Math.floor(app.renderer.width / size) + 1;
+yrectnum = Math.floor(app.renderer.height / size) + 1;
+console.log(xrectnum)
+for (i = 0; i < (xrectnum)*(yrectnum ); i++){
+    colorR = Math.floor(255 * (i % (xrectnum)) / (xrectnum));
+    colorG = Math.floor(255 * (colnum) / xrectnum);
+    if (i % (xrectnum) == 0 && i > 0 ){ 
+        rect = new PIXI.Graphics();
+        rect.beginFill(colorR*256*256+colorG*256)
+        rect.drawRect(size*xrectnum, size*colnum,(app.width-xrectnum*size),size)
+        app.stage.addChild(rect)
+        colnum++;
+    }
+    rect = new PIXI.Graphics();
+    rect.beginFill(colorR*256*256+colorG*256);
+    rect.drawRect(size*(i % xrectnum), size*colnum,size,size)
+    app.stage.addChild(rect)
+}
+console.log(colnum)
 
-var texture = new PIXI.RenderTexture(renderer, 16, 16);
-var graphics = new PIXI.Graphics();
-graphics.beginFill(0x44FFFF);
-graphics.drawCircle(8, 8, 8);
-graphics.endFill();
-texture.render(graphics);
+// circle = new PIXI.Graphics();
+// circle.beginFill(0x44FFFF);
+// circle.drawCircle(100, 200, 25);
+// circle.endFill();
+// circle.x = 100-2*25;
+// circle.y = 200-2*25;
+// app.stage.addChild(circle);
+
+// console.log(window.innerWidth)
+// console.log(window.innerHeight)
+// var texture = new PIXI.RenderTexture(renderer, 16, 16);
+// var graphics = new PIXI.Graphics();
+// graphics.drawCircle(8, 8, 8);
+// graphics.beginFill(0x44FFFF);
+// graphics.endFill();
+// texture.render(graphics);
