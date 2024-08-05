@@ -42,4 +42,16 @@ In a sense, we can learn interesting algorithms and packages and memory structur
 - Fixed dependencies
 	- https://stackoverflow.com/questions/950087/how-do-i-include-a-javascript-file-in-another-javascript-file
 	- make all .js files .mjs except the main file then, from the .mjs export the functions you want 
-	- to use in the main function. To import use "import {somefunction} from "./somefile.mjs";
+	- to use in the main function. To import use "import {somefunction} from "./somefile.mjs"
+- Fixed graphics for biome generation
+	- Talked about Long term game dev with respect to amount of objects rendered
+- Fixed graphics for maze generation
+
+- next steps
+	- start game loop
+	- figure out how to implement visibility
+	- make a tile object (gives position, is visited (maybe?), biome, walls, etc.)
+	- use this to make a map array of tile objects, which is easy to implement visibility 
+		- using current position -> can get index of map array tile 
+		- map array tile has biome info and wall info
+		- from this get visibility info
