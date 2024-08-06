@@ -1,27 +1,76 @@
-// {import Hello from "./Dependency_Test"};
-//#include <iostream>
-//#include <stdio.h>
-//#include <stdlib.h>
-//#include <time.h>
-//#include <windows.h>
-//// alert("Here");
-console.log(Math.random);
-//// alert(Math.random);
-//var max_biomesize = 35;
-//var min_biomesize = 10;
-//var amtbiomes = 8;
-//var height = 40;
-//var width = 40;
-//var map = [];
-/*randNum()
-{
-	int b = 0;
-	for (int i = 0; i < rand() % 6; i++)
-	{
-		b += rand();
+class Tile {
+	biome = 0;
+	ind_x = 0;
+	ind_y = 0;
+	tile_image;
+	color
+    constructor (ind_x, ind_y) {
+        this.biome = 0
+		this.ind_x = ind_x
+		this.ind_y = ind_y
+		this.color = 0x08b208;
+    }
+	setColor () {
+		
+		switch(this.biome){
+			case 0:
+				//Set Color To Biome Plains
+				this.color = 0x08b208;
+				break;
+			case 1:
+				//Set Color To Biome Snowy
+				this.color = 0xFFFFFF;
+				break;
+			case 2:
+				//Set Color To Biome Desert
+				this.color = 0xccc621;
+				break;
+			case 3:
+				//Set Color To Biome ShadowLands
+				this.color = 0x000065;
+				break;
+			case 4:
+				//Set Color To Biome Poison Field
+				this.color = 0xAc0fB1;
+				break;
+			case 5:
+				//Set Color To Biome Muddy RainForest
+				this.color = 0x85552e;
+				break;
+			case 6:
+				//Set Color To Biome river / water biome
+				this.color = 0x3299FF;
+				break;
+			case 7:
+				//Set Color To Biome Volcano
+				this.color = 0xDA306e;
+				break;
+			case 8:
+				//Set Color To Rocky / Mountain
+				this.color = 0x666699;
+				break;
+			// case 9:
+			//     //Set Color To Biome Forest
+			//     this.color = 0x0c870c;
+			//     break;
+			default:
+				console.log(this.biome)
+			}
 	}
-	return b;
-}*/
+	setBiome(biome){
+		this.biome = biome
+		this.setColor()
+	}
+	getBiome(){
+		return this.biome
+	}
+	drawTile(cell_width,cell_height){
+		this.tile_image = new PIXI.Graphics();
+		this.tile_image.beginFill(this.color);
+		this.tile_image.drawRect((cell_width)*this.ind_x, (cell_height)*this.ind_y,cell_width,cell_height);
+	}
+}
+
 function getRandBiomeSize(min_biomesize, max_biomesize)
 {
 	let biome = 0;
@@ -33,22 +82,7 @@ function getRandBiomeSize(min_biomesize, max_biomesize)
     //// alert("OutBiomeSize");
 	return biome;
 }
-/*int getRandDir()
-{
-	srand(time(NULL));
-	return rand() % 4;
-}
-int getRandBiome()
-{
-	srand(time(NULL));
-	return rand() % amtbiomes;
-}
-void getRandIndex(int* p) 
-{
-	srand(time(NULL));
-	*p = rand() % 20;
-	*(p + 1) = rand() % 20;
-}*/
+
 
 function setBiome(width, height, amtbiomes, min_biomesize, max_biomesize, map)
 {
@@ -72,7 +106,7 @@ function setBiome(width, height, amtbiomes, min_biomesize, max_biomesize, map)
 		randNum_f[1] %= width;
 		// alert(randNum_f[0] + " " + randNum_f[1]);
         // alert(map[randNum_f[0] * width + randNum_f[1]]);
-	} while (map[randNum_f[0] * width + randNum_f[1]] != 0);
+	} while (map[randNum_f[0] * width + randNum_f[1]].getBiome() != 0);
 	// console.log(randNum_f[0],randNum_f[1])
     // alert("OutWhile2SetBiome");
 	for (let i = 0; i < getRandBiomeSize(min_biomesize, max_biomesize);i++)
@@ -92,7 +126,7 @@ function setBiome(width, height, amtbiomes, min_biomesize, max_biomesize, map)
 			else
 			{
 				fail = 0;
-				map[randNum_f[0] * width + ++randNum_f[1]] = biome;
+				map[randNum_f[0] * width + ++randNum_f[1]].setBiome(biome);
 				//std::cout << 0;
 				break;
 			}
@@ -104,7 +138,7 @@ function setBiome(width, height, amtbiomes, min_biomesize, max_biomesize, map)
 			else
 			{
 				fail = 0;
-				map[randNum_f[0] * width + --randNum_f[1]] = biome;
+				map[randNum_f[0] * width + --randNum_f[1]].setBiome(biome);
 				//std::cout << 1;
 				break;
 			}
@@ -116,7 +150,7 @@ function setBiome(width, height, amtbiomes, min_biomesize, max_biomesize, map)
 			else
 			{
 				fail = 0;
-				map[--randNum_f[0] * width + randNum_f[1]] = biome;
+				map[--randNum_f[0] * width + randNum_f[1]].setBiome(biome);
 				//std::cout << 2;
 				break;
 			}
@@ -128,7 +162,7 @@ function setBiome(width, height, amtbiomes, min_biomesize, max_biomesize, map)
 			else
 			{
 				fail = 0;
-				map[++randNum_f[0] * width + randNum_f[1]] = biome;
+				map[++randNum_f[0] * width + randNum_f[1]].setBiome(biome);
 				//std::cout << 3;
 				break;
 			}
@@ -149,53 +183,30 @@ function set(width, height)
 	{
 		for (let k = 0; k < width; k++)
 		{
-			map[i * width + k] = 0;
+			map[i * width + k] = new Tile(k, i)
 		}
 	}
     //// alert("OutSet");
 	return map;
 }
-export function multiBiomes(times, width, height, amtbiomes, min_biomesize, max_biomesize)
+function multiBiomes(times, width, height, amtbiomes, min_biomesize, max_biomesize)
 {
 	let map = set(width, height);
     // alert("InMultiBiome");
 	for (let i = 0; i < times; i++)
 	{
-        // alert("BeforeSetBiomeCallMultibiome");
 		map = setBiome(width, height, amtbiomes, min_biomesize, max_biomesize, map);
-        // alert("AfterSetBiomeCallMultiBiome");
 	}
-	// for (let i = 0; i < height; i++)
-	// {
-	// 	for (let k = 0; k < width; k++)
-	// 	{				
-	// 		if (map[i * width + k] == 0)
-	// 		{	
-	// 			console.log("- ");
-	// 			continue;
-	// 		}
-	// 		console.log("real " + map[i * width + k] + " ");
-	// 		// std::cout << map[i][k] << " ";
-	// 	}
-	// 	// std::cout << std::endl << std::endl;
-	// }
 	return map;
-    // alert("OutMultiBiome");
 }
 
 export function print_map(map, width, height) {
-    // console.log(walls)
     let strval = ""
-	// alert("got to print")
 	let indval;
 	let charval;
-	// console.log(map[0])
     for (let k = 0; k < height; k++) {
         for (let l = 0; l < width; l++) {
-			// if (k == 0) {
-			// 	console.log(map[l])
-			// }
-			indval = map[l+k*width]
+			indval = map[l+k*width].getBiome()
             charval = indval + " "
             if (indval == 0)
                 charval = "- "
@@ -206,15 +217,8 @@ export function print_map(map, width, height) {
     console.log(strval)
 }
 
-
-
-// multiBiomes(10, 5, 5, 3, 4, 10);
-//fillIn(amtbiomes);
-//std::cout << std::endl;
-// alert("End");
-// console.log("End");
-	//std::cout << std::endl << std::endl << "1 is ocean, 2 is rain forest, 3 is snow, 4 is snowy forest\n5 is desert, 6 is savvanah, 7 is mountains, 8 is plains";
-//import {Hello} from './Dependency_Test.mjs';
-//// alert(Hello());
-//let v = Hello();
-//// alert(v);
+export function map_init(xrectnum, yrectnum) {
+	let cell_num = xrectnum * yrectnum
+	const map = multiBiomes(Math.min(Math.floor(cell_num / 30), 40), xrectnum, yrectnum, 9, Math.floor(cell_num / 20), Math.floor(cell_num * 3/ 20));
+	return map
+}

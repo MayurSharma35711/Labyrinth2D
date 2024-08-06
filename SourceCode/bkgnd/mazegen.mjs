@@ -23,7 +23,51 @@ class Stack{
     }
 }
 
-function get_nbr(position, width, height){
+class TileWall{
+    ind_x;
+    ind_y;
+    exists;
+    isVertical;
+    isClimbable;
+    isBreakable;
+    color;
+    borderColor;
+    wall_image;
+    constructor(ind_x, ind_y, exists, isVertical, isClimbable = false, isBreakable = false) {
+        this.ind_x = ind_x
+        this.ind_y = ind_y
+        this.exists = exists;
+        this.isVertical = isVertical
+        this.isClimbable = isClimbable
+        this.isBreakable = isBreakable
+        this.setColor()
+    }
+    setColor() {
+        if (this.isClimbable) 
+            this.color = 0x777777
+        else
+            this.color = 0x000000
+        if (this.isBreakable)
+            this.borderColor = 0x00FFFF
+        else
+            this.borderColor = 0x000000
+    }
+    drawWall(cell_width,cell_height){
+        if (this.exists){
+            this.wall_image = new PIXI.Graphics();
+            this.wall_image.beginFill(this.color);
+            if (!this.isVertical) 
+                this.wall_image.drawRect((cell_width)*this.ind_x, (cell_height)*this.ind_y + Math.floor(cell_height * 0.9),cell_width,Math.floor(cell_height * 0.2));
+            else
+                this.wall_image.drawRect((cell_width)*this.ind_x + Math.floor(cell_width * 0.9), (cell_height)*this.ind_y,Math.floor(cell_width * 0.2),cell_height);
+        }
+	}
+    getWall() {
+        return this.exists
+    }
+}
+
+export function get_nbr(position, width, height){
     let nbr_arr = []
     nbr_arr.push(position - 1)
     nbr_arr.push(position + 1)
@@ -46,7 +90,7 @@ function get_nbr(position, width, height){
     return act_nbrs
 }
 
-export function maze_creator(width, height){
+function maze_creator(width, height){
     const area = width*height;
     let walls = Array(2*area); // even walls are the horizontal _ ones, odd are the vertical | walls
     let cell_visited = Array(area);
@@ -103,9 +147,9 @@ export function print_walls(walls, width, height) {
     for (let k = 0; k < height; k++) {
         for (let l = 0; l < 2*width; l++) {
             let charval = " "
-            if (l % 2 == 0 && walls[l+k*2*width] == true)
+            if (l % 2 == 0 && walls[l+k*2*width].getWall())
                 charval = "_"
-            if (l % 2 == 1 && walls[l+k*2*width] == true)
+            if (l % 2 == 1 && walls[l+k*2*width].getWall())
                 charval = "|"
             strval = strval + charval
         }
@@ -113,6 +157,16 @@ export function print_walls(walls, width, height) {
     }
     console.log(strval)
 }
-// print_walls(maze_creator(30,30), 30,30)
 
-// console.log(get_nbr(1,2,2))
+export function maze_init2(xrectnum, yrectnum) {
+    const walls = maze_creator(xrectnum, yrectnum);
+    let wall_tiles = Array(walls.length)
+    // print_walls(walls,xrectnum,yrectnum)
+    // print_map(map, xrectnum, yrectnum)
+    for (let index = 0; index < walls.length; index++) {
+        let ind_x = Math.floor((index % (2*xrectnum)) / 2);
+        let ind_y = Math.floor(index / (2*xrectnum))
+        wall_tiles[index] = new TileWall(ind_x,ind_y,walls[index],index %2)
+    }
+    return wall_tiles
+}

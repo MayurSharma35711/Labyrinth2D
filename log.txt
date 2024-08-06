@@ -68,3 +68,10 @@ In a sense, we can learn interesting algorithms and packages and memory structur
 		- using current position -> can get index of map array tile
 		- from that figure out visibility (probably just range but not obstructed by walls)
 	- start generating textures for biomes, players etc.
+
+8/6/24
+- Created a tile class, made map into a tile array that every function uses now 
+- Put all of the biome generation into a single file that gives just a map array 
+	- this effectively means we don't need map_classes, since mapgen.mjs gives all the map information
+- Created a tileWall class, made walls into a tile array that every function uses now
+- put all of the maze generation into a single file as well, so that should also be doesn
