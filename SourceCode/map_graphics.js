@@ -82,10 +82,10 @@ function maze_draw(maze, cell_width, cell_height) {
 }
 
 init();
-const sizer = 10;
+const sizer = 40;
 // const cell_num = Math.floor((app.renderer.width * app.renderer.height)/(sizer * sizer));
 // const cell_size = cell_width*cell_height;
-let xrectnum = Math.floor(app.renderer.width / sizer) + 1;
+let xrectnum = Math.floor(app.renderer.width / sizer);
 let yrectnum = Math.floor(app.renderer.height / sizer) + 1;
 
 let game_map = map_init(xrectnum,yrectnum);
@@ -93,7 +93,7 @@ let game_map = map_init(xrectnum,yrectnum);
 map_draw(game_map, sizer, sizer)
 
 let game_maze = maze_init2(xrectnum, yrectnum);
-// print_walls(game_maze, xrectnum, yrectnum)
+print_walls(game_maze, xrectnum, yrectnum)
 maze_draw(game_maze, sizer, sizer)
 
 // circle = new PIXI.Graphics();
