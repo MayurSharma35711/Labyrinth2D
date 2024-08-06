@@ -55,3 +55,16 @@ In a sense, we can learn interesting algorithms and packages and memory structur
 		- using current position -> can get index of map array tile 
 		- map array tile has biome info and wall info
 		- from this get visibility info
+8/5/24
+- Wrote classes for player and monster
+	- Implemented basic graphics for monsters and player
+	- Start pos for player is in corner, monsters spawn randomly
+	- Most functions have been written and have not been tested
+		- All funcitons for Entities are in class Entities which is inherited by class Player and class Monsters
+		- Functions include (dealDamage, takeDamage, setPos, setSpeed...)
+- next steps
+	- start game loop
+	- make a tile object and a wall object (different)
+		- using current position -> can get index of map array tile
+		- from that figure out visibility (probably just range but not obstructed by walls)
+	- start generating textures for biomes, players etc.
