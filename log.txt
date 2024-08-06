@@ -78,4 +78,14 @@ In a sense, we can learn interesting algorithms and packages and memory structur
 - all classes used for backgrounds are only instantiated in their file and so importing is unnecessary
 	- the function that creates the objects is all that is required.
 
-- side question: if a cell has 3 walls, give it a chance to have a treasure
+- side idea: if a cell has 3 walls, give it a chance to have a treasure
+
+- next immediate steps
+	- sprites and textures (monsters, players, equipment, and background)
+	- update loop (movement, monster movement, screen size change)
+	- keyboard input 
+- steps afterwards
+	- path finding for monsters / AI players
+	- visibility 
+	- creating equipment & statistics
+	- create chests & rooms
