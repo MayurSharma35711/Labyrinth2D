@@ -75,3 +75,5 @@ In a sense, we can learn interesting algorithms and packages and memory structur
 	- this effectively means we don't need map_classes, since mapgen.mjs gives all the map information
 - Created a tileWall class, made walls into a tile array that every function uses now
 - put all of the maze generation into a single file as well, so that should also be doesn
+- all classes used for backgrounds are only instantiated in their file and so importing is unnecessary
+	- the function that creates the objects is all that is required.
