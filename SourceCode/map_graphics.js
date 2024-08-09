@@ -3,6 +3,7 @@ import { print_walls } from "./bkgnd/mazegen.mjs";
 import { print_map } from "./bkgnd/mapgen.mjs";
 // import { multiBiomes } from "./bkgnd/mapgen.mjs";
 import { map_init } from "./bkgnd/mapgen.mjs";
+import { Monster, Player } from "./game_objs/entity_classes.mjs";
 // import { map_draw } from "./bkgnd/mapgen.mjs";
 
 // ------------------------- INITIALIZE -----------------
@@ -46,7 +47,15 @@ function screenAdjust(){
     const screenH = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
     app.renderer.resize(screenW, screenH);
 }
-
+function drawPlayer(length, width, color, cell_sizex, cell_sizey, x, y)
+{
+    let rect = new PIXI.Graphics();
+    rect.beginFill(color);
+    rect.lineStyle(5 , 0xFFFFFF);
+    rect.drawRect(x * cell_sizex, y * cell_sizey, length, width);
+    app.stage.addChild(rect);
+    requestAnimationFrame(rect);
+}
 function map_draw(map, cell_width, cell_height) {
 	// for (let i = 0; i < cell_num + xrectnum + 1; i++){
 	for (let i = 0; i < map.length; i++){
@@ -80,7 +89,6 @@ function maze_draw(maze, cell_width, cell_height) {
   app.stage.addChild(dwbnd)
   app.stage.addChild(rtbnd)
 }
-
 init();
 const sizer = 40;
 // const cell_num = Math.floor((app.renderer.width * app.renderer.height)/(sizer * sizer));
@@ -90,12 +98,193 @@ let yrectnum = Math.floor(app.renderer.height / sizer) + 1;
 
 let game_map = map_init(xrectnum,yrectnum);
 // print_map(game_map, xrectnum, yrectnum)
+
 map_draw(game_map, sizer, sizer)
 
 let game_maze = maze_init2(xrectnum, yrectnum);
-print_walls(game_maze, xrectnum, yrectnum)
+print_walls(game_maze, xrectnum, yrectnum);
 maze_draw(game_maze, sizer, sizer)
+let a = new Player(sizer, sizer);
+// drawPlayer(sizer/2, sizer/2, 0xFF0000, sizer, sizer, a.x, a.y);
+// game_map[1].drawTile(sizer, sizer);
+// app.stage.addChild(game_map[1].tile_image);
+// game_map[xrectnum].drawTile(sizer, sizer);
+// app.stage.addChild(game_map[xrectnum].tile_image);
+let arect = new PIXI.Graphics();
+arect.beginFill(0xFF0000);
+arect.lineStyle(5, 0xFFFFFF);
+arect.drawRect(a.x * sizer, a.y * sizer, sizer/2, sizer/2);
+app.stage.addChild(arect);
 
+function visibility(currx, curry, vis)
+{
+  let currindex = curry * xrectnum + currx;
+  // alert(currindex);
+  if(game_map[currindex].rendered == false)
+  {
+    // alert(game_map[currindex].rendered);
+    game_map[currindex].rendered = true;
+    game_map[currindex].drawTile(sizer, sizer);
+    app.stage.addChild(game_map[currindex].tile_image);
+  }
+  for(let i = 0;i < vis;i++)
+  {
+    for(let k = 0;k < vis;k++)
+    {
+      // alert(game_map[currindex + i * xrectnum + k].rendered);
+      if(currx + k < xrectnum && curry + i < yrectnum && game_map[currindex + i * xrectnum + k].rendered == false)
+      {
+        game_map[currindex + i * xrectnum + k].rendered = true;
+        game_map[currindex + i * xrectnum + k].drawTile(sizer, sizer);
+        app.stage.addChild(game_map[currindex + i * xrectnum + k].tile_image);
+        // alert(i);
+        // alert(k)
+      }
+      // if(currx - k >= 0 && curry + i < yrectnum && game_map[currindex + i * xrectnum + k].rendered == false)
+      // {
+      //   game_map[currindex + i * xrectnum - k].rendered = true;
+      //   game_map[currindex + i * xrectnum - k].drawTile(sizer, sizer);
+      //   app.stage.addChild(game_map[currindex + i * xrectnum - k].tile_image);
+      // }
+      // if(currx + k < xrectnum && curry - i >= 0 && game_map[currindex - i * xrectnum + k].rendered == false)
+      // {
+      //   game_map[currindex - i * xrectnum + k].rendered = true;
+      //   game_map[currindex - i * xrectnum + k].drawTile(sizer, sizer);
+      //   app.stage.addChild(game_map[currindex - i * xrectnum + k].tile_image);
+      // }
+      // if(currx - k >= 0 && curry - i >= 0 && game_map[currindex - i * xrectnum - k].rendered == false)
+      // {
+      //   game_map[currindex - i * xrectnum - k].rendered = true;
+      //   game_map[currindex - i * xrectnum - k].drawTile(sizer, sizer);
+      //   app.stage.addChild(game_map[currindex - i * xrectnum - k].tile_image);
+      // }
+    }
+  }
+  for(let i = 0;i < vis;i++)
+  {
+    for(let k = 0;k < vis;k += 2)
+    {
+      // alert(game_maze[2 * (currindex + i * xrectnum + k)].rendered);
+      if (game_maze[2 * (currindex + i * xrectnum + k)].getWall() && game_maze[2 * (currindex + i * xrectnum + k)].rendered == false)
+      {
+        game_maze[2 * (currindex + i * xrectnum + k)].rendered = true;
+        game_maze[2 * (currindex + i * xrectnum + k)].drawWall(sizer, sizer);
+        app.stage.addChild(game_maze[2 * (currindex + i * xrectnum + k)].wall_image);
+      }
+      if (game_maze[2 * (currindex + i * xrectnum + k) + 1].getWall() && game_maze[2 * (currindex + i * xrectnum + k) + 1].rendered == false)
+      {
+        game_maze[2 * (currindex + i * xrectnum + k) + 1].rendered = true;
+        game_maze[2 * (currindex + i * xrectnum + k) + 1].drawWall(sizer, sizer);
+        app.stage.addChild(game_maze[2 * (currindex + i * xrectnum + k) + 1].wall_image);
+      }
+    }
+  }
+  // maze_draw(game_maze, sizer, sizer);
+}
+// game_map[0].drawTile(sizer, sizer);
+// app.stage.addChild(game_map[0].tile_image);
+// let time;
+// let prevtime;
+// let timenow;
+document.addEventListener('keydown', keyStart);
+let left = 37;
+let up = 38;
+let right = 39;
+let down = 40;
+// let endrect = new PIXI.Graphics();
+// endrect.beginFill(0xFF00FF);
+// endrect.drawRect(Math.floor(xrectnum/2) * sizer, Math.floor(yrectnum/2) * sizer, sizer, sizer);
+// app.stage.addChild(endrect);
+// let parent = new PIXI.Graphics();
+let x = 0;
+let vis = 4;
+function keyStart(e)
+{
+  // alert("Here");
+  let key = e.keyCode;
+  // alert(key);
+  let currx = Math.floor(arect.x/sizer);
+  let curry = Math.floor(arect.y/sizer);
+  // game_map[curry * xrectnum + currx].drawTile(sizer, sizer);
+  // app.stage.addChild(game_map[curry * xrectnum + currx].tile_image);
+  // arect.beginFill(0xFF0000);
+  // arect.lineStyle(5, 0xFFFFFF);
+  // arect.drawRect(arect.x, arect.y, sizer/2, sizer/2);
+  // app.stage.addChild(arect);
+  // game_map[curry * xrectnum + currx + 1].drawTile(sizer, sizer);
+  // app.stage.addChild(game_map[curry * xrectnum + currx + 1].tile_image);
+  // game_map[curry * xrectnum + currx - 1].drawTile(sizer, sizer);
+  // app.stage.addChild(game_map[curry * xrectnum + currx - 1].tile_image);
+  // game_map[(curry - 1) * xrectnum + currx + 1].drawTile(sizer, sizer);
+  // app.stage.addChild(game_map[(curry - 1) * xrectnum + currx + 1].tile_image);
+  // game_map[(curry + 1) * xrectnum + currx + 1].drawTile(sizer, sizer);
+  // app.stage.addChild(game_map[(curry + 1) * xrectnum + currx + 1].tile_image);
+  // game_map[curry * xrectnum + currx].drawTile(sizer, sizer);
+  // app.stage.addChild(game_map[curry * xrectnum + currx].tile_image);
+
+
+  // if(currx - 1 >= 0 && !(game_map[curry * xrectnum + currx - 1].rendered == true))
+  // {
+  //   // alert("HERE");
+  //   game_map[curry * xrectnum + currx - 1].drawTile(sizer, sizer);
+  //   app.stage.addChild(game_map[curry * xrectnum + currx - 1].tile_image);
+  //   game_map[curry * xrectnum + currx - 1].rendered = true;
+  // }
+  // if(currx + 1 <= xrectnum && !(game_map[curry * xrectnum + currx + 1].rendered == true))
+  // {
+  //   game_map[curry * xrectnum + currx + 1].drawTile(sizer, sizer);
+  //   app.stage.addChild(game_map[curry * xrectnum + currx + 1].tile_image);
+  //   game_map[curry * xrectnum + currx + 1].rendered = true;
+  // }
+  // if(curry - 1 >= 0 && !(game_map[(curry - 1) * xrectnum + currx].rendered == true))
+  // {
+  //   game_map[(curry - 1) * xrectnum + currx].drawTile(sizer, sizer);
+  //   app.stage.addChild(game_map[(curry - 1) * xrectnum + currx + 1].tile_image);
+  //   game_map[(curry - 1) * xrectnum + currx].rendered = true;
+  // }
+  // if(curry + 1 <= yrectnum && !(game_map[(curry + 1) * xrectnum + currx].rendered == true))
+  // {
+  //   game_map[(curry + 1) * xrectnum + currx].drawTile(sizer, sizer);
+  //   app.stage.addChild(game_map[(curry + 1) * xrectnum + currx].tile_image);
+  //   game_map[(curry - 1) * xrectnum + currx].rendered = true;
+  // }
+  // visibility(currx, curry, vis);
+  app.stage.addChild(arect);
+  if(key == left && !game_maze[curry * 2 * xrectnum + currx * 2 - 1].getWall())
+  {
+    arect.x -= sizer;
+  }
+  else if(key == up && !game_maze[(curry - 1) * 2 * xrectnum + currx * 2].getWall())
+  {
+    arect.y -= sizer;
+  }
+  else if(key == right && !game_maze[curry * 2 * xrectnum + currx * 2 + 1].getWall())
+  {
+    arect.x += sizer;
+  }
+  else if(key == down && !game_maze[(curry) * 2 * xrectnum + currx * 2].getWall())
+  {
+    arect.y += sizer;
+  }
+  // maze_draw(game_maze, sizer, sizer);
+  // if(dist(arect.x, arect.y, endrect.x, endrect.y) < 1)
+  // {
+  //   alert("End");
+  // }
+  // parent.addChild(game_map[(curry - 3) * xrectnum + currx]);
+}
+
+// while(a.health > 0)
+// {
+
+//   // Update loop
+//   arect.x += sizer;
+//   // app.render(app.stage);
+//   a.health--; //This is just for testing porpuses
+// }
+// let a = new Player(sizer, sizer)
+// a.move(5, -5);
+// a.move(3, -2);
 // circle = new PIXI.Graphics();
 // circle.beginFill(0x44FFFF);
 // circle.drawCircle(100, 200, 25);

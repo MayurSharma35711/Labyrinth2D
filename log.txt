@@ -89,3 +89,18 @@ In a sense, we can learn interesting algorithms and packages and memory structur
 	- visibility 
 	- creating equipment & statistics
 	- create chests & rooms
+8/7/24 (morning)
+- Added movement along with detection of walls which cancels movement
+	- Function name is keyStart for now it works only with arrow keys but should be easy to implement WASD
+- next steps/work for tonight
+	- figure out how implement gameLoop/visibility
+	- Long term figure out specifics for pathfinding algorithm/Monsters and AI
+8/9/24 (afternoon)
+- Added rendering for biomes kind of (A new kind of rendering idea)
+	- Kind of light paint where part of the map gets unlocked everytime you move meaning that the more you move around the more you see
+	- It is a basic square around the player that gets rendered
+- Rendering doesn't work for walls yet
+8/9/24 (early evening)
+- Find a bug in rendering
+	- When moving up or to the left it has trouble rendering this is because of just adding to the index and not subtracting
+- If we add the rendering idea from before then there is no point in adding the visited attribute to tiles

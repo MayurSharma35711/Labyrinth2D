@@ -9,6 +9,7 @@ class Tile {
 		this.ind_x = ind_x
 		this.ind_y = ind_y
 		this.color = 0x08b208;
+		this.rendered = false;
     }
 	setColor () {
 		

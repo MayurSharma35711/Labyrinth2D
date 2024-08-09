@@ -4,12 +4,6 @@ class Entities{
         this.x = x;
         this.y = y;
     }
-    move(ax, ay)
-    {
-        // If wall is present cancel movement
-        this.x += ax;
-        this.y += ay;
-    }
     takeDamage(damage)
     {
         this.health -= damage;
@@ -37,6 +31,7 @@ class Entities{
     setHealth(health)
     {
         this.health = health;
+        console.log(this.health);
     }
     setProt(durability, prot)
     {
@@ -47,13 +42,13 @@ class Entities{
     {
         this.range = range;
     }
-    drawMe(length, width, color, cell_sizex, cell_sizey)
+    move(ax, ay)
     {
-        let rect = new PIXI.Graphics();
-        rect.beginFill(color);
-        rect.lineStyle(5 , 0xFFFFFF);
-        rect.drawRect(this.x * cell_sizex, this.y * cell_sizey, length, width);
-        app.stage.addChild(rect);
+        // If wall is present cancel movement
+        this.x += ax;
+        this.y += ay;
+        console.log(this.x);
+        console.log(this.y);
     }
     printPos()
     {
@@ -61,7 +56,7 @@ class Entities{
         // alert(this.y);
     }
 }
-class Player extends Entities
+export class Player extends Entities
 {
     constructor(cell_sizex, cell_sizey)
     {
@@ -71,7 +66,7 @@ class Player extends Entities
         // console.log("hi")
         // super.printHello();
         // console.log("hi2")
-        // setHealth(10);
+        super.setHealth(10);
         // // alert("0");
         // setHealth(10);
         // // alert("1");
@@ -87,13 +82,19 @@ class Player extends Entities
         // // alert("6");
         // super.move(10, 10);
         // super.printPos();
-        super.drawMe(cell_sizex/2, cell_sizey/2, 0xFF0000, cell_sizex, cell_sizey);
+        // super.drawMe(cell_sizex/2, cell_sizey/2, 0xFF0000, cell_sizex, cell_sizey);
         // // alert("7")
         // super.printHello();
         // // alert("8 = End");
     }
+    // moveMe(cell_sizex, cell_sizey, ax, ay)
+    // {
+    //     super.x += ax;
+    //     super.y += ay;
+    //     super.drawMe(cell_sizex/2, cell_sizey/2, 0xFF0000, cell_sizex, cell_sizey);
+    // }
 }
-class Monster extends Entities
+export class Monster extends Entities
 {
     constructor(tier, cell_sizex, cell_sizey)
     {
@@ -137,7 +138,7 @@ class Monster extends Entities
         // // alert(color);
         // // alert("Here");
         super.printPos();
-        super.drawMe(cell_sizex/tier, cell_sizey/tier, color, cell_sizex, cell_sizey);
+        // super.drawMe(cell_sizex/tier, cell_sizey/tier, color, cell_sizex, cell_sizey);
         // // alert("Out");
     }
 }
