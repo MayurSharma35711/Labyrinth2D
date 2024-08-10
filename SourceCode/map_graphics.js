@@ -181,6 +181,7 @@ function visibility(currx, curry, vis)
   }
   // maze_draw(game_maze, sizer, sizer);
 }
+
 // game_map[0].drawTile(sizer, sizer);
 // app.stage.addChild(game_map[0].tile_image);
 // let time;
@@ -196,6 +197,7 @@ let down = 40;
 // endrect.drawRect(Math.floor(xrectnum/2) * sizer, Math.floor(yrectnum/2) * sizer, sizer, sizer);
 // app.stage.addChild(endrect);
 // let parent = new PIXI.Graphics();
+// chest_gen();
 let x = 0;
 let vis = 4;
 function keyStart(e)
@@ -250,19 +252,19 @@ function keyStart(e)
   // }
   // visibility(currx, curry, vis);
   app.stage.addChild(arect);
-  if(key == left && !game_maze[curry * 2 * xrectnum + currx * 2 - 1].getWall())
+  if(currx - 1 >= 0 && key == left && !game_maze[curry * 2 * xrectnum + currx * 2 - 1].getWall())
   {
     arect.x -= sizer;
   }
-  else if(key == up && !game_maze[(curry - 1) * 2 * xrectnum + currx * 2].getWall())
+  else if(curry - 1 >= 0 && key == up && !game_maze[(curry - 1) * 2 * xrectnum + currx * 2].getWall())
   {
     arect.y -= sizer;
   }
-  else if(key == right && !game_maze[curry * 2 * xrectnum + currx * 2 + 1].getWall())
+  else if(currx + 1 < xrectnum && key == right && !game_maze[curry * 2 * xrectnum + currx * 2 + 1].getWall())
   {
     arect.x += sizer;
   }
-  else if(key == down && !game_maze[(curry) * 2 * xrectnum + currx * 2].getWall())
+  else if(curry + 1 < yrectnum && key == down && !game_maze[(curry) * 2 * xrectnum + currx * 2].getWall())
   {
     arect.y += sizer;
   }
