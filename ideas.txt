@@ -21,6 +21,15 @@ Monsters
 Stores and Rooms 
 - do we want a store and other cool (very varied, potentially procedurally-generated rooms) in the maze?
 
+Party System
+- To add even more diversity and customization, we could add a party system 
+- give a character classes: 
+	(these are pulled from DnD)
+	- barbarian, druid, paladin, rogue, artificer, bard, 
+	- fighter, ranger, warlock, cleric, monk, wizard
+	(these are additional ones we could add)
+	- gunner, mech-user, ninja, pirate, cyborg, elemental, 
+	- knight / samurai, assassin, beastmaster, vigilante, space wizard, necromancer
 
 Combat
 - most likely will be turnbased, but we should probably include this in the game division and game loop sections

@@ -65,10 +65,11 @@ class Tile {
 	getBiome(){
 		return this.biome
 	}
-	drawTile(cell_width,cell_height){
+	drawTile(cell_width,cell_height, pos_x, pos_y, total_x, total_y){
 		this.tile_image = new PIXI.Graphics();
 		this.tile_image.beginFill(this.color);
-		this.tile_image.drawRect((cell_width)*this.ind_x, (cell_height)*this.ind_y,cell_width,cell_height);
+		this.tile_image.drawRect((cell_width)*(this.ind_x-pos_x) + Math.floor(total_x/2),
+			(cell_height)*(this.ind_y-pos_y)  + Math.floor(total_y/2),cell_width,cell_height);
 	}
 }
 
