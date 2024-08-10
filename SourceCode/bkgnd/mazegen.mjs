@@ -41,6 +41,7 @@ class TileWall{
         this.isClimbable = isClimbable
         this.isBreakable = isBreakable
         this.setColor()
+        this.rendered = false;
     }
     setColor() {
         if (this.isClimbable) 
@@ -52,16 +53,14 @@ class TileWall{
         else
             this.borderColor = 0x000000
     }
-    drawWall(cell_width,cell_height, pos_x, pos_y, total_x, total_y){
+    drawWall(cell_width,cell_height){
         if (this.exists){
             this.wall_image = new PIXI.Graphics();
             this.wall_image.beginFill(this.color);
             if (!this.isVertical) 
-                this.wall_image.drawRect((cell_width)*(this.ind_x-pos_x)+Math.floor(total_x/2), 
-                    (cell_height)*(this.ind_y-pos_y) + Math.floor(total_y/2) + Math.floor(cell_height * 0.9),cell_width,Math.floor(cell_height * 0.2));
+                this.wall_image.drawRect((cell_width)*this.ind_x, (cell_height)*this.ind_y + Math.floor(cell_height * 0.9),cell_width,Math.floor(cell_height * 0.2));
             else
-                this.wall_image.drawRect((cell_width)*(this.ind_x-pos_x)+Math.floor(total_x/2) + Math.floor(cell_width * 0.9), 
-                    (cell_height)*(this.ind_y-pos_y) + Math.floor(total_y/2),Math.floor(cell_width * 0.2),cell_height);
+                this.wall_image.drawRect((cell_width)*this.ind_x + Math.floor(cell_width * 0.9), (cell_height)*this.ind_y,Math.floor(cell_width * 0.2),cell_height);
         }
 	}
     getWall() {

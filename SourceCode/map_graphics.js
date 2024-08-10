@@ -3,6 +3,7 @@ import { print_walls } from "./bkgnd/mazegen.mjs";
 import { print_map } from "./bkgnd/mapgen.mjs";
 // import { multiBiomes } from "./bkgnd/mapgen.mjs";
 import { map_init } from "./bkgnd/mapgen.mjs";
+import { Monster, Player } from "./game_objs/entity_classes.mjs";
 // import { map_draw } from "./bkgnd/mapgen.mjs";
 
 // ------------------------- INITIALIZE -----------------
@@ -46,7 +47,15 @@ function screenAdjust(){
     const screenH = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
     app.renderer.resize(screenW, screenH);
 }
-
+function drawPlayer(length, width, color, cell_sizex, cell_sizey, x, y)
+{
+    let rect = new PIXI.Graphics();
+    rect.beginFill(color);
+    rect.lineStyle(5 , 0xFFFFFF);
+    rect.drawRect(x * cell_sizex, y * cell_sizey, length, width);
+    app.stage.addChild(rect);
+    requestAnimationFrame(rect);
+}
 function map_draw(map, cell_width, cell_height) {
 	// for (let i = 0; i < cell_num + xrectnum + 1; i++){
 	for (let i = 0; i < map.length; i++){
@@ -80,7 +89,6 @@ function maze_draw(maze, cell_width, cell_height) {
   app.stage.addChild(dwbnd)
   app.stage.addChild(rtbnd)
 }
-
 init();
 const sizer = 40;
 // const cell_num = Math.floor((app.renderer.width * app.renderer.height)/(sizer * sizer));
@@ -90,13 +98,24 @@ let yrectnum = Math.floor(app.renderer.height / sizer) + 1;
 
 let game_map = map_init(xrectnum,yrectnum);
 // print_map(game_map, xrectnum, yrectnum)
+
 map_draw(game_map, sizer, sizer)
 
 let game_maze = maze_init2(xrectnum, yrectnum);
-print_walls(game_maze, xrectnum, yrectnum)
+print_walls(game_maze, xrectnum, yrectnum);
 maze_draw(game_maze, sizer, sizer)
+let a = new Player(sizer, sizer);
+// drawPlayer(sizer/2, sizer/2, 0xFF0000, sizer, sizer, a.x, a.y);
+// game_map[1].drawTile(sizer, sizer);
+// app.stage.addChild(game_map[1].tile_image);
+// game_map[xrectnum].drawTile(sizer, sizer);
+// app.stage.addChild(game_map[xrectnum].tile_image);
+let arect = new PIXI.Graphics();
+arect.beginFill(0xFF0000);
+arect.lineStyle(5, 0xFFFFFF);
+arect.drawRect(a.x * sizer, a.y * sizer, sizer/2, sizer/2);
+app.stage.addChild(arect);
 
-<<<<<<< HEAD
 function visibility(currx, curry, vis)
 {
   let currindex = curry * xrectnum + currx;
@@ -162,7 +181,6 @@ function visibility(currx, curry, vis)
   }
   // maze_draw(game_maze, sizer, sizer);
 }
-
 // game_map[0].drawTile(sizer, sizer);
 // app.stage.addChild(game_map[0].tile_image);
 // let time;
@@ -178,7 +196,6 @@ let down = 40;
 // endrect.drawRect(Math.floor(xrectnum/2) * sizer, Math.floor(yrectnum/2) * sizer, sizer, sizer);
 // app.stage.addChild(endrect);
 // let parent = new PIXI.Graphics();
-// chest_gen();
 let x = 0;
 let vis = 4;
 function keyStart(e)
@@ -233,19 +250,19 @@ function keyStart(e)
   // }
   // visibility(currx, curry, vis);
   app.stage.addChild(arect);
-  if(currx - 1 >= 0 && key == left && !game_maze[curry * 2 * xrectnum + currx * 2 - 1].getWall())
+  if(key == left && !game_maze[curry * 2 * xrectnum + currx * 2 - 1].getWall())
   {
     arect.x -= sizer;
   }
-  else if(curry - 1 >= 0 && key == up && !game_maze[(curry - 1) * 2 * xrectnum + currx * 2].getWall())
+  else if(key == up && !game_maze[(curry - 1) * 2 * xrectnum + currx * 2].getWall())
   {
     arect.y -= sizer;
   }
-  else if(currx + 1 < xrectnum && key == right && !game_maze[curry * 2 * xrectnum + currx * 2 + 1].getWall())
+  else if(key == right && !game_maze[curry * 2 * xrectnum + currx * 2 + 1].getWall())
   {
     arect.x += sizer;
   }
-  else if(curry + 1 < yrectnum && key == down && !game_maze[(curry) * 2 * xrectnum + currx * 2].getWall())
+  else if(key == down && !game_maze[(curry) * 2 * xrectnum + currx * 2].getWall())
   {
     arect.y += sizer;
   }
@@ -268,8 +285,6 @@ function keyStart(e)
 // let a = new Player(sizer, sizer)
 // a.move(5, -5);
 // a.move(3, -2);
-=======
->>>>>>> parent of c4bd3a1 (implemented basic movement updated log)
 // circle = new PIXI.Graphics();
 // circle.beginFill(0x44FFFF);
 // circle.drawCircle(100, 200, 25);
