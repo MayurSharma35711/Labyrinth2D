@@ -41,7 +41,6 @@ class TileWall{
         this.isClimbable = isClimbable
         this.isBreakable = isBreakable
         this.setColor()
-        this.rendered = false;
     }
     setColor() {
         if (this.isClimbable) 
