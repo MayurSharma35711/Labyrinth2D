@@ -97,10 +97,27 @@ In a sense, we can learn interesting algorithms and packages and memory structur
 	- Long term figure out specifics for pathfinding algorithm/Monsters and AI
 8/9/24 (afternoon)
 - Added rendering for biomes kind of (A new kind of rendering idea)
-	- Kind of light paint where part of the map gets unlocked everytime you move meaning that the more you move around the more you see
+	- Kind of light paint where part of the  map gets unlocked everytime you move meaning that the more you move around the more you see
 	- It is a basic square around the player that gets rendered
 - Rendering doesn't work for walls yet
 8/9/24 (early evening)
 - Find a bug in rendering
 	- When moving up or to the left it has trouble rendering this is because of just adding to the index and not subtracting
 - If we add the rendering idea from before then there is no point in adding the visited attribute to tiles
+
+8/10/24
+- Vivek worked on chests
+- Mayur screwed up graphics and then reverted things to an older commit
+
+8/11/24
+- the entity classes need to be updated to work better with graphics code
+	- we currently have 2 positions, the rectangle and the object position
+- organizationally, we probably want a file that does all the map updates using just the index of each object within the map
+- these objects should then be wrapped into a single array giving map items
+- we then have our visibility file which draws the map tiles and walls which are visible and then the items and objects on it as well
+- this will require the following
+	- updates to the current classes, so that the super class has a drawMe function
+		- the function should then use the provided texture to produce the actual image
+
+- currently wrote up a few visibility methods to give the party's seen tiles at any time
+	- cannot test it without modified graphics code as well though

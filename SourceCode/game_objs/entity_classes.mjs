@@ -31,7 +31,7 @@ class Entities{
     setHealth(health)
     {
         this.health = health;
-        console.log(this.health);
+        // console.log(this.health);
     }
     setProt(durability, prot)
     {
@@ -58,6 +58,7 @@ class Entities{
 }
 export class Player extends Entities
 {
+    arect;
     constructor(cell_sizex, cell_sizey)
     {
         // // alert("Here");
@@ -78,6 +79,9 @@ export class Player extends Entities
         // // alert("4");
         super.setProt(0, 0);
         // // alert("5");
+        this.arect = new PIXI.Graphics();
+        this.arect.beginFill(0xFF0000);
+        this.arect.lineStyle(5, 0x8888FF);
         super.setpos(0.25, 0.25);
         // // alert("6");
         // super.move(10, 10);
@@ -86,6 +90,12 @@ export class Player extends Entities
         // // alert("7")
         // super.printHello();
         // // alert("8 = End");
+        // this.drawMe()
+        // console.log(this.x)
+        this.drawMe(cell_sizex, cell_sizey)
+    }
+    drawMe (sizex,sizey) {
+        this.arect.drawRect(this.x * sizex, this.y * sizey, sizex/2, sizey/2);
     }
     // moveMe(cell_sizex, cell_sizey, ax, ay)
     // {
@@ -96,28 +106,27 @@ export class Player extends Entities
 }
 export class Monster extends Entities
 {
-    constructor(tier, cell_sizex, cell_sizey)
+    constructor(tier, cell_sizex, cell_sizey, num_x, num_y)
     {
         super();
         super.setSpeed((6 - tier));
         super.setStrength(6 - tier);
         super.setRange(Math.floor(0.5 * (6 - tier)));
         super.setProt((6 - tier), (2 * (6 - tier)));
-        super.setpos(Math.floor(Math.random() * app.renderer.width/cell_sizex), Math.floor(Math.random() * app.renderer.height/cell_sizey));
-        let color;
+        super.setpos(0.25+Math.floor(Math.random() * num_x), 0.25+Math.floor(Math.random() * num_y));
         switch(tier)
         {
         case 1:
-            color = 0xFF0000
+            this.color = 0xFF0000
             // // alert(color);
             break;
         case 2:
-            color = 0x0000FF
+            this.color = 0x0000FF
             // // alert("2");
             // // alert(color);
             break;
         case 3:
-            color = 0x00FF00
+            this.color = 0x00FF00
             // // alert(3)
             // // alert(color);
             break;
@@ -140,5 +149,12 @@ export class Monster extends Entities
         super.printPos();
         // super.drawMe(cell_sizex/tier, cell_sizey/tier, color, cell_sizex, cell_sizey);
         // // alert("Out");
+        this.drawMe(cell_sizex, cell_sizey)
+    }
+    drawMe (sizex,sizey) {
+        this.arect = new PIXI.Graphics();
+        this.arect.beginFill(this.color);
+        this.arect.lineStyle(5, 0x00FF88);
+        this.arect.drawRect(this.x * sizex, this.y * sizey, sizex/2, sizey/2);
     }
 }
