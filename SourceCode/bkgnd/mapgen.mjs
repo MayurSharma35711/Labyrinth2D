@@ -1,9 +1,12 @@
+// import { plain_text, lava_text, rocky_text } from "../map_graphics2.mjs";
+
 class Tile {
 	biome = 0;
 	ind_x = 0;
 	ind_y = 0;
 	tile_image;
-	color
+	color;
+	text;
     constructor (ind_x, ind_y) {
         this.biome = 0
 		this.ind_x = ind_x
@@ -17,38 +20,42 @@ class Tile {
 			case 0:
 				//Set Color To Biome Plains
 				this.color = 0x08b208;
+				this.text = PIXI.loader.shared('/Users/mayur/Documents/Github/Labyrinth2D/Textures/bkgnd/Plains.png');
+				// var plain_text = 
 				break;
+			// case 1:
+			// 	//Set Color To Biome Snowy
+			// 	this.color = 0xFFFFFF;
+			// 	break;
+			// case 2:
+			// 	//Set Color To Biome Desert
+			// 	this.color = 0xccc621;
+			// 	break;
+			// case 3:
+			// 	//Set Color To Biome ShadowLands
+			// 	this.color = 0x000065;
+			// 	break;
+			// case 4:
+			// 	//Set Color To Biome Poison Field
+			// 	this.color = 0xAc0fB1;
+			// 	break;
+			// case 5:
+			// 	//Set Color To Biome Muddy RainForest
+			// 	this.color = 0x85552e;
+			// 	break;
+			// case 6:
+			// 	//Set Color To Biome river / water biome
+			// 	this.color = 0x3299FF;
+			// 	break;
 			case 1:
-				//Set Color To Biome Snowy
-				this.color = 0xFFFFFF;
-				break;
-			case 2:
-				//Set Color To Biome Desert
-				this.color = 0xccc621;
-				break;
-			case 3:
-				//Set Color To Biome ShadowLands
-				this.color = 0x000065;
-				break;
-			case 4:
-				//Set Color To Biome Poison Field
-				this.color = 0xAc0fB1;
-				break;
-			case 5:
-				//Set Color To Biome Muddy RainForest
-				this.color = 0x85552e;
-				break;
-			case 6:
-				//Set Color To Biome river / water biome
-				this.color = 0x3299FF;
-				break;
-			case 7:
 				//Set Color To Biome Volcano
 				this.color = 0xDA306e;
+				this.text = PIXI.loader.shared('/Users/mayur/Documents/Github/Labyrinth2D/Textures/bkgnd/Lava.png');
 				break;
-			case 8:
+			case 2:
 				//Set Color To Rocky / Mountain
 				this.color = 0x666699;
+				this.text = PIXI.loader.shared('/Users/mayur/Documents/Github/Labyrinth2D/Textures/bkgnd/RockyArea.png');
 				break;
 			// case 9:
 			//     //Set Color To Biome Forest
@@ -66,9 +73,11 @@ class Tile {
 		return this.biome
 	}
 	drawTile(cell_width,cell_height){
-		this.tile_image = new PIXI.Graphics();
-		this.tile_image.beginFill(this.color);
-		this.tile_image.drawRect((cell_width)*this.ind_x, (cell_height)*this.ind_y,cell_width,cell_height);
+		// console.log(this.color)
+		this.tile_image = new PIXI.Sprite(this.text);
+		// this.tile_image = new PIXI.Graphics();
+		// this.tile_image.beginFill(this.color);
+		// this.tile_image.drawRect((cell_width)*this.ind_x, (cell_height)*this.ind_y,cell_width,cell_height);
 	}
 }
 
@@ -220,6 +229,6 @@ export function print_map(map, width, height) {
 
 export function map_init(xrectnum, yrectnum) {
 	let cell_num = xrectnum * yrectnum
-	const map = multiBiomes(Math.min(Math.floor(cell_num / 30), 40), xrectnum, yrectnum, 9, Math.floor(cell_num / 20), Math.floor(cell_num * 3/ 20));
+	const map = multiBiomes(Math.min(Math.floor(cell_num / 30), 40), xrectnum, yrectnum, 3, Math.floor(cell_num / 20), Math.floor(cell_num * 3/ 20));
 	return map
 }
