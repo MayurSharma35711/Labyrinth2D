@@ -4,6 +4,7 @@ import { print_map } from "./bkgnd/mapgen.mjs";
 // import { multiBiomes } from "./bkgnd/mapgen.mjs";
 import { map_init } from "./bkgnd/mapgen.mjs";
 import { Monster, Player } from "./game_objs/entity_classes.mjs";
+import { chest } from "./game_objs/equipment.mjs";
 // import { map_draw } from "./bkgnd/mapgen.mjs";
 
 // ------------------------- INITIALIZE -----------------
@@ -64,7 +65,56 @@ function map_draw(map, cell_width, cell_height) {
     app.stage.addChild(map[i].tile_image);
 	}
 }
-
+function chest_gen(chest_num, maze, width, height, cell_width, cell_height)
+{
+    let index;
+    let ct;
+    let chest_graph = new PIXI.Graphics();
+    let chests = new Array(chest_num);
+    for(let i = 0;i < height;i++)
+    {
+        for(let k = 0;k < width;k++)
+        {
+            ct = 0;
+            index = 2 * (width * i + k);
+            if(maze[index].getWall())
+            {
+                ct++;
+            }
+            if(index - 2 * width >= 0 && maze[index - 2 * width].getWall())
+            {
+                ct++;
+            }
+            if(maze[index + 1].getWall())
+            {
+                ct++;
+            }
+            if(index - 1 >= 0 && maze[index - 1].getWall())
+            {
+                ct++;
+            }
+            if(ct >= 3 && Math.floor(Math.random() * 6) == 1)
+            {
+              chest_graph.beginFill(0x9999FF);
+              chest_graph.drawRect((index/2 % width) * cell_width + 0.25 * cell_width, Math.floor(index/(2 * width)) * cell_height + 0.25 * cell_height, cell_width/2, cell_height/2);
+              app.stage.addChild(chest_graph);
+              chests = new chest(k, i);
+              // alert(i);
+              // alert(k);
+              chest_num--;
+            }
+            if(chest_num <= 0)
+            {
+              break;
+            }
+        }
+        if(chest_num <= 0)
+        {
+          break;
+        }
+    }
+    return chests;
+}
 function maze_draw(maze, cell_width, cell_height) {
   for (let i =0; i < maze.length; i++) {
     if (maze[i].getWall()){
@@ -115,7 +165,7 @@ arect.beginFill(0xFF0000);
 arect.lineStyle(5, 0xFFFFFF);
 arect.drawRect(a.x * sizer, a.y * sizer, sizer/2, sizer/2);
 app.stage.addChild(arect);
-
+chest_gen(30, game_maze, xrectnum, yrectnum, sizer, sizer)
 function visibility(currx, curry, vis)
 {
   let currindex = curry * xrectnum + currx;
