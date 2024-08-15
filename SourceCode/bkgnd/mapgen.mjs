@@ -16,54 +16,54 @@ class Tile {
     }
 	setColor () {
 		
-		switch(this.biome){
-			case 0:
-				//Set Color To Biome Plains
-				this.color = 0x08b208;
-				this.text = PIXI.loader.shared('/Users/mayur/Documents/Github/Labyrinth2D/Textures/bkgnd/Plains.png');
-				// var plain_text = 
-				break;
-			// case 1:
-			// 	//Set Color To Biome Snowy
-			// 	this.color = 0xFFFFFF;
-			// 	break;
-			// case 2:
-			// 	//Set Color To Biome Desert
-			// 	this.color = 0xccc621;
-			// 	break;
-			// case 3:
-			// 	//Set Color To Biome ShadowLands
-			// 	this.color = 0x000065;
-			// 	break;
-			// case 4:
-			// 	//Set Color To Biome Poison Field
-			// 	this.color = 0xAc0fB1;
-			// 	break;
-			// case 5:
-			// 	//Set Color To Biome Muddy RainForest
-			// 	this.color = 0x85552e;
-			// 	break;
-			// case 6:
-			// 	//Set Color To Biome river / water biome
-			// 	this.color = 0x3299FF;
-			// 	break;
-			case 1:
-				//Set Color To Biome Volcano
-				this.color = 0xDA306e;
-				this.text = PIXI.loader.shared('/Users/mayur/Documents/Github/Labyrinth2D/Textures/bkgnd/Lava.png');
-				break;
-			case 2:
-				//Set Color To Rocky / Mountain
-				this.color = 0x666699;
-				this.text = PIXI.loader.shared('/Users/mayur/Documents/Github/Labyrinth2D/Textures/bkgnd/RockyArea.png');
-				break;
-			// case 9:
-			//     //Set Color To Biome Forest
-			//     this.color = 0x0c870c;
-			//     break;
-			default:
-				console.log(this.biome)
-			}
+		// switch(this.biome){
+		// 	case 0:
+		// 		//Set Color To Biome Plains
+		// 		this.color = 0x08b208;
+		// 		this.text = PIXI.loader.shared('/Users/mayur/Documents/Github/Labyrinth2D/Textures/bkgnd/Plains.png');
+		// 		// var plain_text = 
+		// 		break;
+		// 	// case 1:
+		// 	// 	//Set Color To Biome Snowy
+		// 	// 	this.color = 0xFFFFFF;
+		// 	// 	break;
+		// 	// case 2:
+		// 	// 	//Set Color To Biome Desert
+		// 	// 	this.color = 0xccc621;
+		// 	// 	break;
+		// 	// case 3:
+		// 	// 	//Set Color To Biome ShadowLands
+		// 	// 	this.color = 0x000065;
+		// 	// 	break;
+		// 	// case 4:
+		// 	// 	//Set Color To Biome Poison Field
+		// 	// 	this.color = 0xAc0fB1;
+		// 	// 	break;
+		// 	// case 5:
+		// 	// 	//Set Color To Biome Muddy RainForest
+		// 	// 	this.color = 0x85552e;
+		// 	// 	break;
+		// 	// case 6:
+		// 	// 	//Set Color To Biome river / water biome
+		// 	// 	this.color = 0x3299FF;
+		// 	// 	break;
+		// 	case 1:
+		// 		//Set Color To Biome Volcano
+		// 		this.color = 0xDA306e;
+		// 		this.text = PIXI.loader.shared('/Users/mayur/Documents/Github/Labyrinth2D/Textures/bkgnd/Lava.png');
+		// 		break;
+		// 	case 2:
+		// 		//Set Color To Rocky / Mountain
+		// 		this.color = 0x666699;
+		// 		this.text = PIXI.loader.shared('/Users/mayur/Documents/Github/Labyrinth2D/Textures/bkgnd/RockyArea.png');
+		// 		break;
+		// 	// case 9:
+		// 	//     //Set Color To Biome Forest
+		// 	//     this.color = 0x0c870c;
+		// 	//     break;
+		// 	default:
+		// 		console.log(this.biome)
+		// 	}
 	}
 	setBiome(biome){
 		this.biome = biome
@@ -229,6 +229,6 @@ export function print_map(map, width, height) {
 
 export function map_init(xrectnum, yrectnum) {
 	let cell_num = xrectnum * yrectnum
-	const map = multiBiomes(Math.min(Math.floor(cell_num / 30), 40), xrectnum, yrectnum, 3, Math.floor(cell_num / 20), Math.floor(cell_num * 3/ 20));
+	const map = multiBiomes(Math.min(Math.floor(cell_num / 30), 40), xrectnum, yrectnum, 9, Math.floor(cell_num / 20), Math.floor(cell_num * 3/ 20));
 	return map
 }
