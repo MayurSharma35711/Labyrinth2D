@@ -6,7 +6,6 @@ document.body.appendChild(app.canvas);
 await PIXI.Assets.load('../Textures/bkgnd/ShadowLands.png');
 let sprite = PIXI.Sprite.from('../Textures/bkgnd/ShadowLands.png');
 app.stage.addChild(sprite);
-
 // Add a variable to count up the seconds our demo has been running
 let elapsed = 0.0;
 // Tell our application's ticker to run a new callback every frame, passing

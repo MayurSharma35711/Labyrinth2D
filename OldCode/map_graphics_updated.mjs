@@ -1,11 +1,11 @@
-import { map_init } from "./bkgnd/mapgen.mjs";
-import { maze_init2 } from "./bkgnd/mazegen.mjs";
-import { print_map } from "./bkgnd/mapgen.mjs";
-import { get_view_sqr } from "./visibility.mjs";
+import { map_init } from "../SourceCode/bkgnd/mapgen.mjs";
+import { maze_init2 } from "../SourceCode/bkgnd/mazegen.mjs";
+import { print_map } from "../SourceCode/bkgnd/mapgen.mjs";
+import { get_view_sqr } from "../SourceCode/methods/visibility.mjs";
 const app = new PIXI.Application();
-const size = 100;
-const tot_width = 700
-const tot_height = 700
+const size = 200;
+const tot_width = 1000
+const tot_height = 900
 await app.init({ width: tot_width, height: tot_height });
 document.body.appendChild(app.canvas);
 let xrectnum = 20
@@ -72,11 +72,11 @@ let up = 38;
 let right = 39;
 let down = 40;
 const container = new PIXI.Container();
-let vis_tier = 2;
+let vis_tier = 1;
 let vis_objs = container;
 app.stage.addChild(vis_objs);
-vis_objs.x = Math.floor((tot_width-size)/2);
-vis_objs.y = Math.floor((tot_height-size)/2);
+vis_objs.x = Math.floor(tot_width/2);
+vis_objs.y = Math.floor(tot_height/2);
 function vis(currx, curry)
 {
     let map_indices = get_view_sqr(currx, curry, xrectnum, yrectnum, vis_tier);
@@ -119,7 +119,7 @@ function vis(currx, curry)
         vis_sprites[i].y = (Math.floor((map_indices[i] / xrectnum))-curry) * size;
         vis_objs.addChild(vis_sprites[i]);
     }
-    // return map_indices.length
+    
     // alert(vis_objs.x);
 }
 // let arect = new PIXI.Graphics();
@@ -135,11 +135,9 @@ let key;
 function keyStart(e)
 {
   // alert("Here");
-  
-// console.log(vis_objs)
-    
   key = e.keyCode;
   // alert(key);
+  vis(currx, curry);
   // game_map[curry * xrectnum + currx].drawTile(sizer, sizer);
   // app.stage.addChild(game_map[curry * xrectnum + currx].tile_image);
   // arect.beginFill(0xFF0000);
@@ -187,38 +185,20 @@ function keyStart(e)
 //   app.stage.addChild(arect);
   if(currx - 1 >= 0 && key == left/* && !game_maze[curry * 2 * xrectnum + currx * 2 - 1].getWall()*/)
   {
-    while(vis_objs.children[0]) { 
-        vis_objs.removeChild(vis_objs.children[0]);
-    }
      currx--;
-     vis(currx, curry);
   }
   else if(curry - 1 >= 0 && key == up/* && !game_maze[(curry - 1) * 2 * xrectnum + currx * 2].getWall()*/)
   {
-    while(vis_objs.children[0]) { 
-        vis_objs.removeChild(vis_objs.children[0]);
-    }
     curry--;
-    vis(currx, curry);
   }
   else if(currx + 1 < xrectnum && key == right/* && !game_maze[curry * 2 * xrectnum + currx * 2 + 1].getWall()*/)
   {
-    while(vis_objs.children[0]) { 
-        vis_objs.removeChild(vis_objs.children[0]);
-    }
     currx++;
-    vis(currx, curry);
   }
   else if(curry + 1 < yrectnum && key == down/* && !game_maze[(curry) * 2 * xrectnum + currx * 2].getWall()*/)
   {
-    while(vis_objs.children[0]) { 
-        vis_objs.removeChild(vis_objs.children[0]);
-    }
     curry++;
-    vis(currx, curry);
   }
-//   console.log(currx, curry)
-  
   // maze_draw(game_maze, sizer, sizer);
   // if(dist(arect.x, arect.y, endrect.x, endrect.y) < 1)
   // {

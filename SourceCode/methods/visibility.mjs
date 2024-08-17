@@ -1,6 +1,3 @@
-let xrectnum = 20;
-let yrectnum = 20;
-
 // this is the function we would change for more varied visibility conditions
 // tier indicates the visibility index
 // tier 0 gets the 4 sides displayed
@@ -40,27 +37,48 @@ function get_view_sqr (center_x, center_y, numx, numy, tier) {
     }   
     return map_indices
 }
-
+function dist(x1, y1, x2, y2)
+{
+    return Math.sqrt((x2 - x1)**2 + (y2 - y1)**2);
+}
 // gets the indices for all the players
 // compares to see if they intersect with the captain
 // returns all the ones that do, to give all map-tiles of interest
 export function total_visible_indices (players, numx, numy) {
     // give in captain player first
-    let players_indices = []
+    let players_indices = [];
     for (let k = 0; k < players.length; k++){
-        players_indices.push(Set(get_view_sqr(players[k].x,players[k].y,numx,numy,players[k].vis_tier)))
+        let new_inds = get_view_sqr(players[k].x,players[k].y,numx,numy,players[k].vis_tier)
+        // console.log(new_inds)
+        players_indices.push(new Set(new_inds))
     }
-    let keep_indices = []
-    keep_indices = Array.from(players_indices[0])
+    let keep_indices = new Set(players_indices[0])
+    // let dist = new Array(players.length - 1);
+    let connected = new Array(players.length - 1);
+    for(let i = 0;i < connected.length;i++)
+    {
+        connected[i] = false;
+    }
     for (let k = 1; k < players.length; k++){
-        if ((players_indices[0].intersection(players_indices[k])).size > 0)
-            keep_indices.concat(Array.from(players_indices[k]))
+        if ((keep_indices.intersection(players_indices[k])).size > 0) {
+            keep_indices = keep_indices.union(players_indices[k])
+            connected[k - 1] = true;
+        }
     }
-    return keep_indices
+    for (let k = 1; k < players.length; k++){
+        if ((keep_indices.intersection(players_indices[k])).size > 0 && !connected[k - 1]) {
+            keep_indices = keep_indices.union(players_indices[k])
+            connected[k - 1] = true;
+        }
+    }
+    for (let k = 1; k < players.length; k++){
+        if ((keep_indices.intersection(players_indices[k])).size > 0 && !connected[k - 1]) {
+            keep_indices = keep_indices.union(players_indices[k])
+            connected[k - 1] = true;
+        }
+    }
+    return Array.from(keep_indices)
 }
-
-
-
 
 
 

@@ -1,18 +1,18 @@
 // import { plain_text, lava_text, rocky_text } from "../map_graphics2.mjs";
-
+import { vis } from "../vis_updated.mjs";
 class Tile {
 	biome = 0;
 	ind_x = 0;
 	ind_y = 0;
 	tile_image;
-	color;
+	// color;
 	text;
     constructor (ind_x, ind_y) {
         this.biome = 0
 		this.ind_x = ind_x
 		this.ind_y = ind_y
-		this.color = 0x08b208;
 		this.rendered = false;
+        this.tile_image = new PIXI.Sprite();
     }
 	setColor () {
 		
@@ -72,9 +72,49 @@ class Tile {
 	getBiome(){
 		return this.biome
 	}
-	drawTile(cell_width,cell_height){
+	drawMe(cell_width, cell_height, currx, curry){
 		// console.log(this.color)
-		this.tile_image = new PIXI.Sprite(this.text);
+		switch(this.biome)
+        {
+        case 2:
+            this.sprite = PIXI.Sprite.from('../Textures/bkgnd/ShadowLands2.png');
+            break;
+        case 1:
+            this.sprite = PIXI.Sprite.from('../Textures/bkgnd/Desert2.png');
+            break;
+        case 0:
+            this.sprite = PIXI.Sprite.from('../Textures/bkgnd/GrassyPlains.png');
+            break;
+        case 3:
+            this.sprite = PIXI.Sprite.from('../Textures/bkgnd/Lava.png');
+            break;
+        case 4:
+            this.sprite = PIXI.Sprite.from('../Textures/bkgnd/MuddyRainforest2.png');
+            break;
+        case 5:
+            this.sprite = PIXI.Sprite.from('../Textures/bkgnd/PoisonOoze.png');
+            break;
+        case 6:
+            this.sprite = PIXI.Sprite.from('../Textures/bkgnd/RockyArea.png');
+            break;
+        case 7:
+            this.sprite = PIXI.Sprite.from('../Textures/bkgnd/SnowyIce.png');
+            break;
+        case 8:
+            this.sprite = PIXI.Sprite.from('../Textures/bkgnd/Waves2.png');
+            break;
+        }
+        this.sprite.x = (this.ind_x - currx) * cell_width;
+        this.sprite.y = (this.ind_y - curry) * cell_height;
+		if (this.sprite.y < -500) {
+			console.log("here1")
+			console.log(curry)
+			console.log(this.ind_y)
+			console.log("here2")
+		}
+        this.sprite.width = cell_width;
+        this.sprite.height = cell_height;
+        vis.addChild(this.sprite);
 		// this.tile_image = new PIXI.Graphics();
 		// this.tile_image.beginFill(this.color);
 		// this.tile_image.drawRect((cell_width)*this.ind_x, (cell_height)*this.ind_y,cell_width,cell_height);

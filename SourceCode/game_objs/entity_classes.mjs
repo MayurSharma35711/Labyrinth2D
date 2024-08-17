@@ -42,6 +42,10 @@ class Entities{
     {
         this.range = range;
     }
+    setVis(vis)
+    {
+        this.vis_tier = vis;
+    }
     move(ax, ay)
     {
         // If wall is present cancel movement
@@ -58,8 +62,7 @@ class Entities{
 }
 export class Player extends Entities
 {
-    arect;
-    constructor(cell_sizex, cell_sizey)
+    constructor( player_ind, sizex, sizey)
     {
         // // alert("Here");
         super();
@@ -78,11 +81,21 @@ export class Player extends Entities
         super.setRange(1);
         // // alert("4");
         super.setProt(0, 0);
+        super.setVis(2);
         // // alert("5");
-        this.arect = new PIXI.Graphics();
-        this.arect.beginFill(0xFF0000);
-        this.arect.lineStyle(5, 0x8888FF);
-        super.setpos(0.25, 0.25);
+        super.setpos(0, 0);
+        this.player_ind = player_ind
+        
+        this.rect = new PIXI.Graphics();
+        this.rect.rect(0, 0, sizex/2, sizey/2);
+        if (this.player_ind == 0)
+            this.rect.fill(0xFF0000);
+        else if (this.player_ind == 1)
+            this.rect.fill(0x00FF00);
+        else if (this.player_ind == 2)
+            this.rect.fill(0x0000FF);
+        else if (this.player_ind == 3)
+            this.rect.fill(0xFF00FF);
         // // alert("6");
         // super.move(10, 10);
         // super.printPos();
@@ -92,10 +105,12 @@ export class Player extends Entities
         // // alert("8 = End");
         // this.drawMe()
         // console.log(this.x)
-        this.drawMe(cell_sizex, cell_sizey)
+        // this.drawMe(cell_sizex, cell_sizey)
     }
-    drawMe (sizex,sizey) {
-        this.arect.drawRect(this.x * sizex, this.y * sizey, sizex/2, sizey/2);
+    drawMe (sizex,sizey, currx, curry) {
+        this.rect.x = (this.x - currx + 0.25) * sizex + 500
+        this.rect.y = (this.y - curry + 0.25) * sizey + 400
+        // this.rect.setStrokeStyle(10, 0x8888FF);
     }
     // moveMe(cell_sizex, cell_sizey, ax, ay)
     // {

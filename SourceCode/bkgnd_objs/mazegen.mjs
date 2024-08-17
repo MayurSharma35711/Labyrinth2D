@@ -1,4 +1,8 @@
-class Stack{
+import { walls } from "../vis_updated.mjs";
+await PIXI.Assets.load('../Textures/bkgnd/WallsVertical2.png');
+await PIXI.Assets.load('../Textures/bkgnd/WallsHorizontal2.png');
+
+export class Stack{
     constructor(){
         this.items = []
     }
@@ -47,20 +51,46 @@ class TileWall{
         if (this.isClimbable) 
             this.color = 0x777777
         else
-            this.color = 0x000000
+            this.color = 0xFFFFFF
         if (this.isBreakable)
             this.borderColor = 0x00FFFF
         else
             this.borderColor = 0x000000
     }
-    drawWall(cell_width,cell_height){
+    drawMe(cell_width, cell_height, currx, curry){
         if (this.exists){
-            this.wall_image = new PIXI.Graphics();
-            this.wall_image.beginFill(this.color);
-            if (!this.isVertical) 
-                this.wall_image.drawRect((cell_width)*this.ind_x, (cell_height)*this.ind_y + Math.floor(cell_height * 0.9),cell_width,Math.floor(cell_height * 0.2));
-            else
-                this.wall_image.drawRect((cell_width)*this.ind_x + Math.floor(cell_width * 0.9), (cell_height)*this.ind_y,Math.floor(cell_width * 0.2),cell_height);
+            // this.wall_image = new PIXI.Graphics();
+            // this.wall_image.fill(this.color);
+            // if (!this.isVertical) 
+            //     this.wall_image.rect((cell_width)*this.ind_x, (cell_height)*this.ind_y + Math.floor(cell_height * 0.9),cell_width,Math.floor(cell_height * 0.2));
+            // else
+            //     this.wall_image.rect((cell_width)*this.ind_x + Math.floor(cell_width * 0.9), (cell_height)*this.ind_y,Math.floor(cell_width * 0.2),cell_height);
+            // this.wall_image.x = (this.ind_x - currx) * cell_width;
+            // this.wall_image.y = (this.ind_y - curry) * cell_height;
+            // walls.addChild(this.wall_image);
+            if(this.exists)
+            {
+                this.wall_image = new PIXI.Sprite();
+                if(this.isVertical)
+                {
+                    this.wall_image = PIXI.Sprite.from('../Textures/bkgnd/WallsVertical2.png');
+                    this.wall_image.height = cell_height;
+                    this.wall_image.width = 0.3 * cell_width;
+                    this.wall_image.x = (this.ind_x - currx) * cell_width  + 0.85*cell_width;
+                    this.wall_image.y = (this.ind_y - curry) * cell_height;
+                    this.wall_image.borderColor = 0xFFFFFF
+                }
+                else
+                {
+                    this.wall_image = PIXI.Sprite.from('../Textures/bkgnd/WallsHorizontal2.png');
+                    this.wall_image.height = 0.3 * cell_height;
+                    this.wall_image.width = cell_width;
+                    this.wall_image.x = (this.ind_x - currx) * cell_width;
+                    this.wall_image.y = (this.ind_y - curry) * cell_height + 0.85*cell_height;
+                    this.wall_image.borderColor = 0xFFFFFF
+                }
+                walls.addChild(this.wall_image);
+            }
         }
 	}
     getWall() {

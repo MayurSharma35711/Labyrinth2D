@@ -1,10 +1,10 @@
-import { maze_init2 } from "./bkgnd/mazegen.mjs";
-import { print_walls } from "./bkgnd/mazegen.mjs";
-import { print_map } from "./bkgnd/mapgen.mjs";
+import { maze_init2 } from "../SourceCode/bkgnd/mazegen.mjs";
+import { print_walls } from "../SourceCode/bkgnd/mazegen.mjs";
+import { print_map } from "../SourceCode/bkgnd/mapgen.mjs";
 // import { multiBiomes } from "./bkgnd/mapgen.mjs";
-import { map_init } from "./bkgnd/mapgen.mjs";
-import { Monster, Player } from "./game_objs/entity_classes.mjs";
-import { chest } from "./game_objs/equipment.mjs";
+import { map_init } from "../SourceCode/bkgnd/mapgen.mjs";
+import { Monster, Player } from "../SourceCode/game_objs/entity_classes.mjs";
+import { chest } from "../SourceCode/game_objs/equipment.mjs";
 // import { map_draw } from "./bkgnd/mapgen.mjs";
 
 // ------------------------- INITIALIZE -----------------

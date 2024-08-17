@@ -79,8 +79,8 @@ Graphics Optimization
 	- Containers
 		- Visibility is a container and it has the sub-visibilities of all players
 		- This makes it easy to access different objects as all objects will be loaded through this
-		- If anything happens to the container it automatically to the children
-
+		- If anything happens to the container it automatically happens to the children
+			- This loads computation off of the CPU to the GPU which allows it to run faster
 
 Different Game Modes
 - one game mode where you just choose the equipment and everything is simulated by the AI

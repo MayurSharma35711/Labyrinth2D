@@ -121,3 +121,9 @@ In a sense, we can learn interesting algorithms and packages and memory structur
 
 - currently wrote up a few visibility methods to give the party's seen tiles at any time
 	- cannot test it without modified graphics code as well though
+
+8/15/24 (night future plans)
+- Get visibility to work with the maze
+- Get everything streamlined
+- Larger Biomes
+- Pathfinding
