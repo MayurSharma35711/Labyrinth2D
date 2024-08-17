@@ -121,7 +121,7 @@ export function get_nbr(position, width, height){
     return act_nbrs
 }
 
-function maze_creator(width, height){
+export function maze_creator(width, height){
     const area = width*height;
     let walls = Array(2*area); // even walls are the horizontal _ ones, odd are the vertical | walls
     let cell_visited = Array(area);
@@ -169,6 +169,14 @@ function maze_creator(width, height){
         // console.log("-------------------------")
         walls[indexer] = false
     }
+    // this is a later addition to the maze to give it some character and more branching paths
+    for (let k = 0; k < walls.length; k++) {
+        if (!walls[k] || k % (2*width) == 2*width - 1 || k % (2*width) == -1 || (k % 2 == 0 && k > walls.length - 2*width)) 
+            continue
+        if (Math.random() > 0.8)
+            walls[k] = false
+    }
+
     return walls
 }
 

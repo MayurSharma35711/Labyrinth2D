@@ -58,7 +58,7 @@ function heur_linfty(xinit, yinit, xfin, yfin){
     return Math.max(Math.abs(xinit - xfin), Math.abs(yinit - yfin))
 }
 function heur_l1(xinit, yinit, xfin, yfin){
-    return Math.abs(xinit - xfin) //+ Math.abs(yinit - yfin)
+    return Math.abs(xinit - xfin) + Math.abs(yinit - yfin)
 }
 function heur_l2sqr(xinit, yinit, xfin, yfin){
     return (xinit - xfin)*(xinit - xfin) + (yinit - yfin)*(yinit - yfin)
@@ -80,6 +80,10 @@ function heur_xy_4(xinit, yinit, xfin, yfin){
 function heur_xy_9(xinit, yinit, xfin, yfin){
     let val = Math.abs(xinit - xfin) + Math.abs(yinit - yfin)
     return val + Math.abs(xinit - xfin) * Math.abs(yinit - yfin) / 9
+}
+function heur_garbo(xinit, yinit, xfin, yfin){
+    let val = 1/Math.abs(xinit - xfin + 0.1) + 1/Math.abs(yinit - yfin + 0.1)
+    return val
 }
 function dijkstra(xinit, yinit, xfin, yfin) {
     return 0
@@ -169,24 +173,24 @@ function print_bool_maze(walls, width, height) {
     console.log(strval)
 }
 
-const sidelen = 100
+const sidelen = 20
 const maze = maze_creator(sidelen,sidelen)
 print_bool_maze(maze, sidelen, sidelen)
 console.log("dijkstra")
 console.log(Astar(maze, sidelen, sidelen, 0, 0, sidelen - 1, sidelen - 1, dijkstra))
 console.log("l1 norm")
 console.log(Astar(maze, sidelen, sidelen, 0, 0, sidelen - 1, sidelen - 1, heur_l1))
-console.log("l2 norm")
-console.log(Astar(maze, sidelen, sidelen, 0, 0, sidelen - 1, sidelen - 1, heur_l2))
-console.log("linfty norm")
-console.log(Astar(maze, sidelen, sidelen, 0, 0, sidelen - 1, sidelen - 1, heur_linfty))
-console.log("l2 squared")
-console.log(Astar(maze, sidelen, sidelen, 0, 0, sidelen - 1, sidelen - 1, heur_l2sqr))
-console.log("xy/2")
-console.log(Astar(maze, sidelen, sidelen, 0, 0, sidelen - 1, sidelen - 1, heur_xy_2))
-console.log("x+y + xy/4")
-console.log(Astar(maze, sidelen, sidelen, 0, 0, sidelen - 1, sidelen - 1, heur_xy_4))
-console.log("x+y + xy/9")
-console.log(Astar(maze, sidelen, sidelen, 0, 0, sidelen - 1, sidelen - 1, heur_xy_9))
-console.log("l2 * l1")
-console.log(Astar(maze, sidelen, sidelen, 0, 0, sidelen - 1, sidelen - 1, heur_norm_mods))
+// console.log("l2 norm")
+// console.log(Astar(maze, sidelen, sidelen, 0, 0, sidelen - 1, sidelen - 1, heur_l2))
+console.log("garbo")
+console.log(Astar(maze, sidelen, sidelen, 0, 0, sidelen - 1, sidelen - 1, heur_garbo))
+// console.log("l2 squared")
+// console.log(Astar(maze, sidelen, sidelen, 0, 0, sidelen - 1, sidelen - 1, heur_l2sqr))
+// console.log("xy/2")
+// console.log(Astar(maze, sidelen, sidelen, 0, 0, sidelen - 1, sidelen - 1, heur_xy_2))
+// console.log("x+y + xy/4")
+// console.log(Astar(maze, sidelen, sidelen, 0, 0, sidelen - 1, sidelen - 1, heur_xy_4))
+// console.log("x+y + xy/9")
+// console.log(Astar(maze, sidelen, sidelen, 0, 0, sidelen - 1, sidelen - 1, heur_xy_9))
+// console.log("l2 * l1")
+// console.log(Astar(maze, sidelen, sidelen, 0, 0, sidelen - 1, sidelen - 1, heur_norm_mods))

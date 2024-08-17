@@ -159,3 +159,23 @@ In a sense, we can learn interesting algorithms and packages and memory structur
 - vivek will do rooms 
 
 - Check with nikki for her thoughts
+
+8/17/24 (early morning)
+- Mayur got path finding to work completely with many different heuristics
+	- every single case was equivalent to dijkstra
+		- this is likely a result of the maze not really having a sense of directionality
+		- the point of the heuristic is to give an estimate of how far away you are
+		- but, if the maze is random, there is no such function for large mazes and at small mazes, the path found is trivial
+- decided to make a modification to the maze generation to take out some number of maze tiles 
+	- thought this could distinguish path finding (it didn't)
+	- however, it also means there are loops in the maze, which didn't exist earlier
+
+- to ensure path finding is still efficient, we shoudl probably do the following
+	- low tier monsters just go in the direction of the player if possible
+	- slightly higher tier monsters do the same, but they prefer to move in groups
+	- for path finding we split up the map into sectors 
+		- each sector has a representative tile which we use for path finding
+			- using these representative paths, the monsters go to the sector they choose to go to
+		- mid tiers will try to go towards the players and fight them 
+		- different higher tiers will either go towards the player or get between the player and a room
+	
