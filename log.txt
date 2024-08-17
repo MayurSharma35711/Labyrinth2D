@@ -127,3 +127,35 @@ In a sense, we can learn interesting algorithms and packages and memory structur
 - Get everything streamlined
 - Larger Biomes
 - Pathfinding
+
+8/16/24
+- Got visibility to work with multiple players
+- Got maze to work with visibility
+	- made wall tiles with border
+	- got left and top walls to work
+- added user input for multiple players
+	- can change current player by clicking their corresponding number
+	- cannot move through walls 
+	- if player is out of captain's visibility
+		- they can't move and their visibility disappears
+		- they are still visible on the screen so that you can find them though
+		- screen center also changes to only active players
+- biome sizes look fine the way they are 
+- map tiles, maze tiles, and players all have drawMe
+	- have 1 container for map
+	- have another container for maze
+	- will make container for player
+
+- mayur will see if he can write A* algorithm at some point
+	- sample heuristic functions
+		- L_1 norm: x+y
+		- L_infty norm: max( x,y)
+		- L_2 norm squared: x^2 + y^2
+		- L_2 norm: sqrt(x^2 + y^2)
+		- function1: xy/2
+		- function2: sqrt(x^2+y^2)*(x+y)
+		- function3: (x+y) + xy/9
+		- function4: (x+y) + xy/4
+- vivek will do rooms 
+
+- Check with nikki for her thoughts
