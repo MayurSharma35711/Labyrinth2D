@@ -179,3 +179,14 @@ In a sense, we can learn interesting algorithms and packages and memory structur
 		- mid tiers will try to go towards the players and fight them 
 		- different higher tiers will either go towards the player or get between the player and a room
 	
+8/18/24
+- Vivek implemented chests with a chest open and chest closed texture
+- Vivek implemented a beta for room generation in the maze
+- Next things he has to do 
+	- prevent room overlapping
+		- multirooms should 
+			- first generate each of the room sizes and the room starting point
+			- check if there is overlapping immediately and if so, recorrect
+			- then call the room generation code
+	- prevent spots from being unreachable
+		- check the maze code and run a similar BFS for it without deleting maze walls unless necessary
