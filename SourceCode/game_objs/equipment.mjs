@@ -1,3 +1,6 @@
+await PIXI.Assets.load('../Textures/items/Chests.png');
+await PIXI.Assets.load('../Textures/items/ChestsOpen.png');
+import { vis } from "../vis_updated.mjs";
 class equipment
 {
     constructor()
@@ -98,42 +101,125 @@ class binoculars extends equipment
 }
 export class chest
 {
-    constructor(x, y)
+    constructor(x, y, width)
     {
-        let item_num = 2 + Math.floor(Math.random() * 3);
-        let items = new Array(item_num);
-        for(let i = 0;i < item_num;i++)
+        this.item_num = 2 + Math.floor(Math.random() * 3);
+        this.items = new Array(this.item_num);
+        for(let i = 0;i < this.item_num;i++)
         {
             switch(Math.floor(Math.random() * 8))
             {
             case 0:
-                items[i] = new binoculars;
+                this.items[i] = new binoculars;
                 break;
             case 1:
-                items[i] = new helmet;
+                this.items[i] = new helmet;
                 break;
             case 2:
-                items[i] = new chestplate;
+                this.items[i] = new chestplate;
                 break;
             case 3:
-                items[i] = new snowBoots;
+                this.items[i] = new snowBoots;
                 break;
             case 4:
-                items[i] = new crossbow;
+                this.items[i] = new crossbow;
                 break;
             case 5:
-                items[i] = new bow;
+                this.items[i] = new bow;
                 break;
             case 6:
-                items[i] = new rocket_launcher;
+                this.items[i] = new rocket_launcher;
                 break;
             case 7:
-                items[i] = new pistol;
+                this.items[i] = new pistol;
                 break;
             }
             // alert(items[i].name);
         }
         this.x = x;
         this.y = y;
+        this.index = this.y * width + this.x;
+        this.opened = false;
     }
+    drawMe(cell_width, cell_height, currx, curry)
+    {
+        if(this.opened)
+        {
+            this.sprite = PIXI.Sprite.from('../Textures/items/ChestsOpen.png');
+            this.sprite.width = 0.7 * cell_width;
+            this.sprite.height = 0.7 * cell_height;
+            this.sprite.x = (this.x + 0.15 - currx) * cell_width;
+            this.sprite.y = (this.y + 0.12 - curry) * cell_height;
+            vis.addChild(this.sprite);
+        }
+        else
+        {
+            this.sprite = PIXI.Sprite.from('../Textures/items/Chests.png');
+            this.sprite.width = 0.7 * cell_width;
+            this.sprite.height = 0.7 * cell_height;
+            this.sprite.x = (this.x + 0.15 - currx) * cell_width;
+            this.sprite.y = (this.y + 0.12 - curry) * cell_height;
+            vis.addChild(this.sprite);
+        }
+    }
+    Open()
+    {
+        this.opened = true;
+    }
+    listItems()
+    {
+        for(let i = 0;i < this.item_num;i++)
+        {
+            alert(this.items[i].name);
+        }
+    }
+}
+export function chest_gen(chest_num, maze, width, height)
+{
+    let index;
+    let ct;
+    let chests = [];
+    let chest_ct = 0;
+    for(let i = 0;i < height;i++)
+    {
+        for(let k = 0;k < width;k++)
+        {
+            ct = 0;
+            index = 2 * (width * i + k);
+            if(maze[index].getWall())
+            {
+                ct++;
+            }
+            if(index - 2 * width >= 0 && maze[index - 2 * width].getWall())
+            {
+                ct++;
+            }
+            if(maze[index + 1].getWall())
+            {
+                ct++;
+            }
+            if(index - 1 >= 0 && maze[index - 1].getWall())
+            {
+                ct++;
+            }
+            if(ct >= 3 && Math.floor(Math.random() * 3) == 0)
+            {
+              chests[chest_ct] = new chest(k, i, width);
+              console.log(chests[chest_ct].index);
+              chest_ct++;
+              // alert(i);
+              // alert(k);
+              chest_num--;
+            }
+            if(chest_num <= 0)
+            {
+              break;
+            }
+        }
+        if(chest_num <= 0)
+        {
+          break;
+        }
+    }
+    return chests;
 }
