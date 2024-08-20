@@ -1,57 +1,10 @@
 import { maze_creator } from "../bkgnd_objs/mazegen.mjs";
+import { Priority_Queue } from "./datatypes.mjs";
+import { Dictionary } from "./datatypes.mjs";
 
-// A* requires the use of a priority queue and nodes 
-class Priority_Queue{
-    elts;
-    constructor(){
-        this.elts = []
-    }
-    isEmpty(){
-        return this.elts.length == 0
-    }
-    // This insertion works at O(log(N)) time now
-    insert(elt, priority){
-        if (this.isEmpty()) {
-            this.elts.push([elt, priority])
-            return null
-        }
-        if (this.elts.length < 4) {
-            let v;
-            for(v = 0; v < this.elts.length; v++) {
-                if(priority > this.elts[v][1])
-                    break
-            }
-            this.elts.splice(v,0,[elt, priority])
-            return null
-        }
-        let k = Math.floor(this.elts.length / 2)
-        let increment = Math.ceil(this.elts.length / 4)
-        while (true) {
-            if (increment == 0) 
-                break
-            if (priority < this.elts[k][1]) 
-                k = k + increment
-            else if(priority > this.elts[k][1])
-                k = k - increment
-            else
-                break
-            increment = Math.floor(increment / 2)
-        }
-        this.elts.splice(k,0,[elt, priority])
-    }
-    get_elt() {
-        return this.elts.pop()[0]
-    }
-    contains_elt(elt) {
-        if (this.isEmpty())
-            return false
-        for (let k = 0; k < this.elts.length; k++) {
-            if (this.elts[k][0] == elt)
-                return true
-        }
-        return false
-    }
-}
+// -------------------------- Classes Used ------------------------------------------
+
+// -------------------------- Heuristics ------------------------------------------
 
 // these heuristics are given relative to the actual cost of the path
 function heur_linfty(xinit, yinit, xfin, yfin){
@@ -89,6 +42,8 @@ function dijkstra(xinit, yinit, xfin, yfin) {
     return 0
 }
 
+// -------------------------- A* Algorithm ------------------------------------------
+
 // implementation of A* algorithm (went through wikipedia guide)
 function remake_path(prior_list, curr_node){
     let full_path = []
@@ -97,7 +52,7 @@ function remake_path(prior_list, curr_node){
         if (prior_list[k] != -1) 
             counter = counter + 1
     }
-    console.log("num points checked:", counter)
+    // console.log("num points checked:", counter)
     while (curr_node != -1) {
         full_path.push(curr_node)
         curr_node = prior_list[curr_node]
@@ -105,7 +60,7 @@ function remake_path(prior_list, curr_node){
     return full_path
 }
 
-function Astar(maze, numx, numy, x0, y0, xfin, yfin, heur) {
+function Astar_maze(maze, numx, numy, x0, y0, xfin, yfin, heur) {
     let open_points = new Priority_Queue()
     let visited_nodes = Array(maze.length/2).fill(-1)
     let best_scores = Array(maze.length/2).fill(-1)
@@ -128,14 +83,14 @@ function Astar(maze, numx, numy, x0, y0, xfin, yfin, heur) {
         
         let nbrs = []
         // console.log(current)
-        if (maze[2*current] == false && y_comp < numy - 1){
+        if (maze[2*current].getWall() == false && y_comp < numy - 1){
             nbrs.push(current + numx)
         }
-        if (maze[2*current+1] == false && x_comp < numx - 1)
+        if (maze[2*current+1].getWall() == false && x_comp < numx - 1)
             nbrs.push(current + 1)
-        if (x_comp > 0 && maze[2*current-1] == false)
+        if (x_comp > 0 && maze[2*current-1].getWall() == false)
             nbrs.push(current - 1)
-        if (y_comp > 0 && maze[2*current-2*numx] == false)
+        if (y_comp > 0 && maze[2*current-2*numx].getWall() == false)
             nbrs.push(current - numx)
         // console.log(nbrs)
         // console.log(best_scores)
@@ -156,34 +111,41 @@ function Astar(maze, numx, numy, x0, y0, xfin, yfin, heur) {
     return false
 }
 
-function print_bool_maze(walls, width, height) {
-    // console.log(walls)
-    let strval=""
-    for (let k = 0; k < height; k++) {
-        for (let l = 0; l < 2*width; l++) {
-            let charval = " "
-            if (l % 2 == 0 && walls[l+k*2*width])
-                charval = "_"
-            if (l % 2 == 1 && walls[l+k*2*width])
-                charval = "|"
-            strval = strval + charval
+// ---------------- Loading Pathfinding for Maze Initially -------------------------
+
+function get_sector_indices(numx, numy, sector_size, secx, secy){
+    let sector_inds = []
+    const base_ind = (secx * sector_size + secy * sector_size * numx)
+    for(let i = 0; i < sector_size; i++) {
+        let yind = i * numx
+        if (base_ind + yind)
+            break
+        for(let j = 0; j < sector_size; j++) {
+            let xind = j
+            if (xind != 0 && (base_ind + xind) % numx == 0)
+                break
+            sector_inds.push(base_ind + yind + xind)
         }
-        strval = strval + "\n"
     }
-    console.log(strval)
+    return sector_inds
 }
 
-const sidelen = 20
-const maze = maze_creator(sidelen,sidelen)
-print_bool_maze(maze, sidelen, sidelen)
-console.log("dijkstra")
-console.log(Astar(maze, sidelen, sidelen, 0, 0, sidelen - 1, sidelen - 1, dijkstra))
-console.log("l1 norm")
-console.log(Astar(maze, sidelen, sidelen, 0, 0, sidelen - 1, sidelen - 1, heur_l1))
-// console.log("l2 norm")
-// console.log(Astar(maze, sidelen, sidelen, 0, 0, sidelen - 1, sidelen - 1, heur_l2))
-console.log("garbo")
-console.log(Astar(maze, sidelen, sidelen, 0, 0, sidelen - 1, sidelen - 1, heur_garbo))
+// function 
+
+// const xrows = Math.ceil(numx / sector_size)
+// const yrows = Math.ceil(numy / sector_size)
+
+// const sidelen = 20
+// const maze = maze_creator(sidelen,sidelen)
+// print_bool_maze(maze, sidelen, sidelen)
+// console.log("dijkstra")
+// console.log(Astar(maze, sidelen, sidelen, 0, 0, sidelen - 1, sidelen - 1, dijkstra))
+// console.log("l1 norm")
+// console.log(Astar(maze, sidelen, sidelen, 0, 0, sidelen - 1, sidelen - 1, heur_l1))
+// // console.log("l2 norm")
+// // console.log(Astar(maze, sidelen, sidelen, 0, 0, sidelen - 1, sidelen - 1, heur_l2))
+// console.log("garbo")
+// console.log(Astar(maze, sidelen, sidelen, 0, 0, sidelen - 1, sidelen - 1, heur_garbo))
 // console.log("l2 squared")
 // console.log(Astar(maze, sidelen, sidelen, 0, 0, sidelen - 1, sidelen - 1, heur_l2sqr))
 // console.log("xy/2")

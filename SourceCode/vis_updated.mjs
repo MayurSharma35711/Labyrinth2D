@@ -1,7 +1,7 @@
 import { map_init } from "./bkgnd_objs/mapgen.mjs";
 import { maze_init2 } from "./bkgnd_objs/mazegen.mjs";
 import { print_map } from "./bkgnd_objs/mapgen.mjs";
-import { Player } from "./game_objs/entity_classes.mjs";
+import { Player } from "./game_objs/player.mjs";
 import { total_visible_indices } from "./methods/visibility.mjs";
 import { print_walls } from "./bkgnd_objs/mazegen.mjs";
 import { chest, chest_gen } from "./game_objs/equipment.mjs";
@@ -15,6 +15,8 @@ await PIXI.Assets.load('../Textures/bkgnd/PoisonOoze.png');
 await PIXI.Assets.load('../Textures/bkgnd/RockyArea.png');
 await PIXI.Assets.load('../Textures/bkgnd/SnowyIce.png');
 await PIXI.Assets.load('../Textures/bkgnd/Waves2.png');
+await PIXI.Assets.load('../Textures/bkgnd/Dungeon.png');
+await PIXI.Assets.load('../Textures/bkgnd/RoomFloor.png');
 
 
 const app = new PIXI.Application();
@@ -27,25 +29,28 @@ let xrectnum = 40;
 let yrectnum = 40;
 let game_map = map_init(xrectnum, yrectnum);
 let game_maze = maze_init2(xrectnum, yrectnum);
-game_maze = multiRooms(xrectnum, yrectnum, 10, 12, game_maze, 6);
+let output = multiRooms(xrectnum, yrectnum, 7, 12, game_maze, game_map, 6);
+game_maze = output[0]
+game_map = output[1]
+let rooms = output[2]
 print_walls(game_maze, xrectnum, yrectnum);
 let chests = chest_gen(40, game_maze, xrectnum, yrectnum);
-console.log("There are this many chests");
-console.log(chests.length);
-console.log("This is the x and y of all the chests");
-for(let i = 0;i < chests.length;i++)
-{
-    console.log("New");
-    console.log(chests[i].x);
-    console.log(chests[i].y);
-}
+// console.log("There are this many chests");
+// console.log(chests.length);
+// console.log("This is the x and y of all the chests");
+// for(let i = 0;i < chests.length;i++)
+// {
+//     console.log("New");
+//     console.log(chests[i].x);
+//     console.log(chests[i].y);
+// }
 let chest_indices = [];
-console.log(chests.length);
-for(let i = 0;i < chests.length;i++)
-{
-    console.log(chests[i].index);
-    console.log(i);
-}
+// console.log(chests.length);
+// for(let i = 0;i < chests.length;i++)
+// {
+//     console.log(chests[i].index);
+//     console.log(i);
+// }
 for(let i = 0;i < chests.length;i++)
 {
     chest_indices[i] = chests[i].index;
@@ -93,6 +98,7 @@ function sight()
     let map_indices = total_visible_indices(players, xrectnum, yrectnum);
     for(let i = 0;i < map_indices.length;i++)
     {
+        // console.log(game_map[map_indices[i]].biome)
         game_map[map_indices[i]].drawMe(size, size, currx, curry);
     }
     for(let i = 0;i < map_indices.length;i++)
@@ -163,7 +169,7 @@ sight();
 
 for (let t = 0; t < players.length; t++) {
     players[t].drawMe(size, size, currx, curry)
-    console.log(players[t].x, players[t].y)
+    // console.log(players[t].x, players[t].y)
     app.stage.addChild(players[t].rect)
 }
 
@@ -225,7 +231,7 @@ function keyStart(e)
         alert('wtf')
     currx = Math.floor(currx / counter);
     curry = Math.floor(curry / counter);
-    console.log(currx, curry)
+    // console.log(currx, curry)
     sight();
     for (let t = 0; t < players.length; t++) {
         players[t].drawMe(size, size, currx, curry)

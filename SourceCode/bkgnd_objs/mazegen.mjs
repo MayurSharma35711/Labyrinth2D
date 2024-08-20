@@ -1,31 +1,7 @@
 import { walls } from "../vis_updated.mjs";
 await PIXI.Assets.load('../Textures/bkgnd/WallsVertical2.png');
 await PIXI.Assets.load('../Textures/bkgnd/WallsHorizontal2.png');
-
-export class Stack{
-    constructor(){
-        this.items = []
-    }
-    isEmpty() {
-        return (this.items.length == 0)
-    }
-    push(item) {
-        this.items.push(item);
-    }
-    pop() {
-        if (this.isEmpty()) 
-            return 'uh oh'
-        return this.items.pop();
-    }
-    peek() {
-        if (this.isEmpty()) 
-            return 'uh oh'
-        return this.items[this.items.length - 1];
-    }
-    size() {
-        return this.items.length;
-    }
-}
+import { Stack } from "../methods/datatypes.mjs";
 
 class TileWall{
     ind_x;
@@ -189,6 +165,23 @@ export function print_walls(walls, width, height) {
             if (l % 2 == 0 && walls[l+k*2*width].getWall())
                 charval = "_"
             if (l % 2 == 1 && walls[l+k*2*width].getWall())
+                charval = "|"
+            strval = strval + charval
+        }
+        strval = strval + "\n"
+    }
+    console.log(strval)
+}
+
+function print_bool_maze(walls, width, height) {
+    // console.log(walls)
+    let strval=""
+    for (let k = 0; k < height; k++) {
+        for (let l = 0; l < 2*width; l++) {
+            let charval = " "
+            if (l % 2 == 0 && walls[l+k*2*width])
+                charval = "_"
+            if (l % 2 == 1 && walls[l+k*2*width])
                 charval = "|"
             strval = strval + charval
         }

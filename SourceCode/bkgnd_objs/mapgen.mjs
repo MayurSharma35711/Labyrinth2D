@@ -76,14 +76,14 @@ class Tile {
 		// console.log(this.color)
 		switch(this.biome)
         {
+		case 0:
+			this.sprite = PIXI.Sprite.from('../Textures/bkgnd/GrassyPlains.png');
+			break;
+		case 1:
+			this.sprite = PIXI.Sprite.from('../Textures/bkgnd/Desert2.png');
+			break;
         case 2:
             this.sprite = PIXI.Sprite.from('../Textures/bkgnd/ShadowLands2.png');
-            break;
-        case 1:
-            this.sprite = PIXI.Sprite.from('../Textures/bkgnd/Desert2.png');
-            break;
-        case 0:
-            this.sprite = PIXI.Sprite.from('../Textures/bkgnd/GrassyPlains.png');
             break;
         case 3:
             this.sprite = PIXI.Sprite.from('../Textures/bkgnd/Lava.png');
@@ -103,15 +103,23 @@ class Tile {
         case 8:
             this.sprite = PIXI.Sprite.from('../Textures/bkgnd/Waves2.png');
             break;
+		case 9:
+			// console.log("roomfloor")
+			this.sprite = PIXI.Sprite.from('../Textures/bkgnd/RoomFloor.png')
+			break;
+		case 10:
+			// console.log("dungeon")
+			this.sprite = PIXI.Sprite.from('../Textures/bkgnd/Dungeon.png')
+			break;
         }
         this.sprite.x = (this.ind_x - currx) * cell_width;
         this.sprite.y = (this.ind_y - curry) * cell_height;
-		if (this.sprite.y < -500) {
-			console.log("here1")
-			console.log(curry)
-			console.log(this.ind_y)
-			console.log("here2")
-		}
+		// if (this.sprite.y < -500) {
+		// 	console.log("here1")
+		// 	console.log(curry)
+		// 	console.log(this.ind_y)
+		// 	console.log("here2")
+		// }
         this.sprite.width = cell_width;
         this.sprite.height = cell_height;
         vis.addChild(this.sprite);

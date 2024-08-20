@@ -205,7 +205,7 @@ export function chest_gen(chest_num, maze, width, height)
             if(ct >= 3 && Math.floor(Math.random() * 3) == 0)
             {
               chests[chest_ct] = new chest(k, i, width);
-              console.log(chests[chest_ct].index);
+            //   console.log(chests[chest_ct].index);
               chest_ct++;
               // alert(i);
               // alert(k);

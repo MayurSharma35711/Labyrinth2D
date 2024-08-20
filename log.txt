@@ -190,3 +190,16 @@ In a sense, we can learn interesting algorithms and packages and memory structur
 			- then call the room generation code
 	- prevent spots from being unreachable
 		- check the maze code and run a similar BFS for it without deleting maze walls unless necessary
+
+8/19/24
+- Mayur fixed the room code
+	- there are no overlapping rooms
+	- there are some buffers in the system to prevent it from going into the walls
+	- no more this.exists is undefined issues 
+	- textures for walls also work now 
+	- the location, size, and biome of rooms is also saved
+- Next 
+	- Vivek needs to set up doors within the wall class
+	- Vivek needs to do DFS to make sure everything is connected
+	- Mayur will do Monster movement and path-finding set up for the future
+	- We will meet with Nikki to finalize character, combat, gameplay, and story
