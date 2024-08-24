@@ -190,16 +190,17 @@ In a sense, we can learn interesting algorithms and packages and memory structur
 			- then call the room generation code
 	- prevent spots from being unreachable
 		- check the maze code and run a similar BFS for it without deleting maze walls unless necessary
+- Put a thing in the wall class isDoor
+	- This is for extra biomes (dungeons, shop, rest areas, etc.)
+	- These can open
+8/23/24
+- We fixed the maze after adding rooms
+	- All parts of the maze can be reached from the starting position
+	- Added extra walls
+- We added zooming in and out
+	- Also added center of screen moving up, down, left, and right
+next steps
 
-8/19/24
-- Mayur fixed the room code
-	- there are no overlapping rooms
-	- there are some buffers in the system to prevent it from going into the walls
-	- no more this.exists is undefined issues 
-	- textures for walls also work now 
-	- the location, size, and biome of rooms is also saved
-- Next 
-	- Vivek needs to set up doors within the wall class
-	- Vivek needs to do DFS to make sure everything is connected
-	- Mayur will do Monster movement and path-finding set up for the future
-	- We will meet with Nikki to finalize character, combat, gameplay, and story
+- Think about how to implement turns
+- Monster AI
+- Combat
