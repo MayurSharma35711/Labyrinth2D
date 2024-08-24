@@ -215,3 +215,6 @@ Biome effects
 	- Range debuffed
 - Note all entities are affected
 	- Exceptions are given based on equipment/character class/monster class
+
+- potential future idea; maze regions each have their own biome.
+	- this would add a coolness / difficulty factor

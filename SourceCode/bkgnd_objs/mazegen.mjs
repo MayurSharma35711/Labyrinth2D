@@ -1,6 +1,6 @@
 import { walls } from "../vis_updated.mjs";
-await PIXI.Assets.load('../Textures/bkgnd/WallsVertical2.png');
-await PIXI.Assets.load('../Textures/bkgnd/WallsHorizontal2.png');
+await PIXI.Assets.load('../Textures/bkgnd/WallsVertical.png');
+await PIXI.Assets.load('../Textures/bkgnd/WallsHorizontal.png');
 import { Stack } from "../methods/datatypes.mjs";
 
 class TileWall{
@@ -22,6 +22,12 @@ class TileWall{
         this.isBreakable = isBreakable
         this.setColor()
         this.rendered = false;
+        this.setDoor = false;
+    }
+    isDoor()
+    {
+        this.setDoor = true;
+        this.exists = false;
     }
     setColor() {
         if (this.isClimbable) 
@@ -35,21 +41,12 @@ class TileWall{
     }
     drawMe(cell_width, cell_height, currx, curry){
         if (this.exists){
-            // this.wall_image = new PIXI.Graphics();
-            // this.wall_image.fill(this.color);
-            // if (!this.isVertical) 
-            //     this.wall_image.rect((cell_width)*this.ind_x, (cell_height)*this.ind_y + Math.floor(cell_height * 0.9),cell_width,Math.floor(cell_height * 0.2));
-            // else
-            //     this.wall_image.rect((cell_width)*this.ind_x + Math.floor(cell_width * 0.9), (cell_height)*this.ind_y,Math.floor(cell_width * 0.2),cell_height);
-            // this.wall_image.x = (this.ind_x - currx) * cell_width;
-            // this.wall_image.y = (this.ind_y - curry) * cell_height;
-            // walls.addChild(this.wall_image);
             if(this.exists)
             {
                 this.wall_image = new PIXI.Sprite();
                 if(this.isVertical)
                 {
-                    this.wall_image = PIXI.Sprite.from('../Textures/bkgnd/WallsVertical2.png');
+                    this.wall_image = PIXI.Sprite.from('../Textures/bkgnd/WallsVertical.png');
                     this.wall_image.height = cell_height;
                     this.wall_image.width = 0.3 * cell_width;
                     this.wall_image.x = (this.ind_x - currx) * cell_width  + 0.85*cell_width;
@@ -58,7 +55,7 @@ class TileWall{
                 }
                 else
                 {
-                    this.wall_image = PIXI.Sprite.from('../Textures/bkgnd/WallsHorizontal2.png');
+                    this.wall_image = PIXI.Sprite.from('../Textures/bkgnd/WallsHorizontal.png');
                     this.wall_image.height = 0.3 * cell_height;
                     this.wall_image.width = cell_width;
                     this.wall_image.x = (this.ind_x - currx) * cell_width;
@@ -145,12 +142,26 @@ export function maze_creator(width, height){
         // console.log("-------------------------")
         walls[indexer] = false
     }
+    // print_bool_maze(walls,width,height)
     // this is a later addition to the maze to give it some character and more branching paths
+    let prob_cond = 0.85
+    // for (let k = 0; k < walls.length; k++) {
+    //     if (!walls[k] || k % (2*width) == 2*width - 1 || k % (2*width) == -1 || (k % 2 == 0 && k >= walls.length - 2*width)) 
+    //         continue
+    //     if (Math.random() > prob_cond)
+    //     {
+    //         walls[k] = false
+    //         continue;
+    //     }
+    // }
     for (let k = 0; k < walls.length; k++) {
-        if (!walls[k] || k % (2*width) == 2*width - 1 || k % (2*width) == -1 || (k % 2 == 0 && k > walls.length - 2*width)) 
+        if (walls[k] || k % (2*width) == 2*width - 1 || k % (2*width) == -1 || (k % 2 == 0 && k >= walls.length - 2*width)) 
             continue
-        if (Math.random() > 0.8)
-            walls[k] = false
+        if (Math.random() > prob_cond)
+        {
+            walls[k] = true
+            continue;
+        }
     }
 
     return walls

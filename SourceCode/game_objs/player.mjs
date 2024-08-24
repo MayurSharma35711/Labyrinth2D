@@ -51,6 +51,10 @@ export class Player extends Entities
         this.rect.y = (this.y - curry + 0.25) * sizey + 400
         // this.rect.setStrokeStyle(10, 0x8888FF);
     }
+    resize(sizex, sizey) {
+        this.rect.width = sizex / 2
+        this.rect.height = sizey / 2
+    }
     // moveMe(cell_sizex, cell_sizey, ax, ay)
     // {
     //     super.x += ax;

@@ -1,15 +1,10 @@
 import { print_walls } from "../bkgnd_objs/mazegen.mjs";
+import { Stack } from "./datatypes.mjs";
+import { get_nbr } from "../bkgnd_objs/mazegen.mjs";
 
 function room_gen(startx, starty, xnum, ynum, xsize, ysize, maze, map, new_biome)
 {
-    // print_walls(maze, xnum, ynum)
-    // console.log(xsize)
-    // console.log(ysize)
-    // let startx = Math.floor(Math.random() * (xnum - xsize - 1));
-    // let starty = Math.floor(Math.random() * (ynum - ysize - 1));
     let start_point = starty * xnum + startx;
-    // console.log(startx)
-    // console.log(starty)
     for(let i = 0;i < ysize;i++)
     {
         if (start_point + i*xnum > map.length)
@@ -31,20 +26,15 @@ function room_gen(startx, starty, xnum, ynum, xsize, ysize, maze, map, new_biome
     for(let i = 0;i < ysize;i++)
     {
         // this case needs to be improved
-        maze[2 * (Math.min((starty + i), ynum - 1) * xnum + startx) - 1].exists = true;
+        // console.log(starty, startx)
+        maze[2 * (Math.min(Math.min((starty + i), ynum - 1) * xnum + startx) - 1, 0)].exists = true;
         maze[2 * (Math.min((starty + i), ynum - 1) * xnum + Math.min(startx + xsize - 1,xnum - 1)) + 1].exists = true;
     }
-    maze[2 * start_point - 1].exists = false;
-    maze[2 * start_point - 2*xnum].exists = false;
-    // maze[2 * (start_point + (ysize-1) * xnum)].exists = false;
-    // maze[2 * (start_point + (ysize-1) * xnum) - 1].exists = false;
-    maze[2 * (Math.min((starty + ysize-1), ynum - 1) * xnum + Math.min(startx + xsize - 1,xnum - 1))].exists = false;
-    maze[2 * (Math.min((starty + ysize-1), ynum - 1) * xnum + Math.min(startx + xsize - 1,xnum - 1)) + 1].exists = false;
-    // maze[2 * (start_point + (xsize-1)) + 1].exists = false;
-    // maze[2 * (start_point + (xsize-1)) - xnum].exists = false;
-    // console.log("hhhhhhhhhhhhhhhhhhhhhhhhhhh")
     return [maze, map];
 }
+
+
+
 export function multiRooms(xnum, ynum, minsize, maxsize, maze, map, room_num)
 {
     let room_size1, room_size2, room_startx, room_starty;
@@ -59,8 +49,8 @@ export function multiRooms(xnum, ynum, minsize, maxsize, maze, map, room_num)
             break
         room_size1 = Math.floor(Math.random() * (maxsize - minsize) + minsize);
         room_size2 = Math.floor(Math.random() * (maxsize - minsize) + minsize);
-        room_startx = Math.floor(Math.random() * (xnum - 2*buffer_x)+2);
-        room_starty = Math.floor(Math.random() * (ynum - 2*buffer_y)+2);
+        room_startx = Math.floor(Math.random() * (xnum - 2*buffer_x)+buffer_x);
+        room_starty = Math.floor(Math.random() * (ynum - 2*buffer_y)+buffer_y);
         let room_biome;
         if (Math.random() > 0.7)
             room_biome = 10
@@ -70,9 +60,7 @@ export function multiRooms(xnum, ynum, minsize, maxsize, maze, map, room_num)
         let x2 = room_startx + room_size1
         let y1 = room_starty
         let y2 = room_starty + room_size2
-        // console.log("here")
-        // console.log(room_dets)
-        // console.log(room_startx, room_starty, room_size1, room_size2)
+        
         let k = 0;
         for (; k < room_dets.length; k++){
             let room = room_dets[k]
@@ -100,9 +88,189 @@ export function multiRooms(xnum, ynum, minsize, maxsize, maze, map, room_num)
 
     let out;
     for (let k = 0; k < room_num; k++) {
+        if (room_dets[k].length == 0)
+            continue
         out = room_gen(room_dets[k][0], room_dets[k][1], xnum, ynum, room_dets[k][2], room_dets[k][3], maze, map, room_dets[k][4]);
         maze = out[0]
         map = out[1]
     }
     return [maze, map, room_dets];
+}
+
+function rand_inds(arr)
+{
+    let retArr = [];
+    let newArr = [];
+    for(let i = 0;i < arr.length;i++)
+    {
+        newArr.push(arr[i]);
+    }
+    let len = arr.length;
+    let ind = 0;
+    while(newArr.length != 0)
+    {
+        ind = Math.floor(Math.random() * newArr.length);
+        retArr.push(newArr[ind]);
+        newArr.splice(ind, 1);
+    }
+    // console.log(retArr);
+    return retArr;
+}
+
+
+
+function delWall(map_ind1, map_ind2, maze, width)
+{
+    // console.log(map_ind1, map_ind2)
+    switch(map_ind1 - map_ind2)
+    {
+    case 1:
+        maze[2 * map_ind1 - 1].exists = false;
+        break;
+    case -1:
+        maze[2 * map_ind1 + 1].exists = false;
+        break;
+    case width:
+        maze[2 * (map_ind1 - width)].exists = false;
+        break;
+    case -width:
+        maze[2 * map_ind1].exists = false;
+        break;
+    }
+}
+
+
+
+export function maze_check(maze, width, height){
+    // print_walls(maze, width, height)
+    const area = width*height;
+    let regions = []
+    let curr_cell_visited = Array(area);
+    let cell_visited = [];
+    for (let l = 0; l < 2*area; l++){
+        // walls[l] = true;
+        if (l % 2 == 0)
+        {
+            cell_visited[Math.floor(l/2)] = false
+            curr_cell_visited[Math.floor(1/2)] = false;
+        }
+    }
+
+
+    let visited_cells = new Stack()
+    visited_cells.push(0)
+    let curr_cell;
+    let nbrs;
+    let visitors;
+
+    
+    while (cell_visited.includes(false)){
+        // console.log(visited_cells)
+        if(!visited_cells.isEmpty()) {
+            curr_cell = visited_cells.pop();
+        }
+        else
+        {
+            regions.push([]);
+            // console.log(cell_visited+"------------");
+            let act_cell_vis = []
+            for(let i = 0;i < cell_visited.length;i++)
+            {
+                if(cell_visited[i])
+                    act_cell_vis.push(i)
+            }
+            let shuffle_inds = rand_inds(act_cell_vis)
+            // console.log(shuffle_inds+"------------");
+            let cell_val = 0;
+            let nbr_vals
+            let t
+            let ind = 0;
+            let out = false;
+
+
+            for(let k=0; k < shuffle_inds.length; k++) {
+                out = false;
+                cell_val = shuffle_inds[k];
+                // ind = shuffle_inds[k];
+                // if(!cell_val)
+                //     continue
+                nbr_vals = get_nbr(cell_val, width, height)
+                // console.log(nbr_vals);
+                for(t = 0; t < nbr_vals.length; t++) {
+                    if(!act_cell_vis.includes(nbr_vals[t]))
+                    {
+                        out = true;
+                        break
+                    }
+                }
+                if(out)
+                    break
+            }
+            for(let i = 0;i < cell_visited.length;i++)
+            {
+                if(curr_cell_visited[i] == true)
+                {
+                    regions[regions.length - 1].push(i);
+                }
+            }
+            // console.log(cell_val,nbr_vals[t])
+            delWall(cell_val, nbr_vals[t], maze, width);
+            // if (cell_visited[curr_cell - 1] && curr_cell % width != 0) {
+            //     maze[2*curr_cell - 1].exists = false
+            // } else if(curr_cell/width >= 1){
+            //     maze[2*curr_cell - 2*width].exists = false
+            // }
+            curr_cell = nbr_vals[t];
+            curr_cell_visited.splice(0, curr_cell_visited.length);
+        }
+        
+        cell_visited[curr_cell] = true;
+        curr_cell_visited[curr_cell] = true;
+
+
+        nbrs = get_nbr(curr_cell, width, height); 
+        visitors = []
+        for (let k = 0; k < nbrs.length; k++) { 
+            if (cell_visited[nbrs[k]] == false)
+            {
+                switch(nbrs[k] - curr_cell)
+                {
+                case 1:
+                    if(maze[2 * curr_cell + 1].getWall())
+                        continue;
+                    break;
+                case -1:
+                    if(maze[2 * curr_cell - 1].getWall())
+                        continue;
+                    break;
+                case -width:
+                    if(maze[2 * curr_cell - 2 * width].getWall())
+                        continue;
+                    break;
+                case width:
+                    if(maze[2 * curr_cell].getWall())
+                        continue;
+                    break;
+                }
+                visitors.push(nbrs[k])
+            }
+        }
+
+        if (visitors.length > 0)
+            visited_cells.push(curr_cell)
+        // const randpos = visitors[Math.floor(Math.random() * visitors.length)];
+        for(let t = 0; t < visitors.length; t++)
+            visited_cells.push(visitors[t])
+    }
+
+
+
+    regions.push([]);
+    for(let i = 0;i < curr_cell_visited.length;i++)
+    {
+        if(curr_cell_visited[i])
+            regions[regions.length - 1].push(i);
+    }
+    // print_walls(maze, width, height)
+    return [regions, maze];
 }
