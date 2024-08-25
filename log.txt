@@ -204,3 +204,19 @@ next steps
 - Think about how to implement turns
 - Monster AI
 - Combat
+
+8/24/24
+- Made a sector indexing dictionary
+	- can use this saved data for large map path-finding
+	- shorter regions will still use A* just to get through the maze
+- Made path-finding dictionary between sectors
+	- had loop issue; fixed it as well
+
+- next things to do
+	- vivek
+		- set up turns 
+		- clean up vis_updated
+			- map gen, maze gen, rooms, chests can be made into a background_init()
+	- mayur
+		- node A* function
+		- monster AI

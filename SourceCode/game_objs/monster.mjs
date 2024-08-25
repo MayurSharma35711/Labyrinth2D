@@ -1,4 +1,6 @@
 import { Entities } from "./entity_classes.mjs";
+
+// shoudl have isOccupied condition for tile, so that if monsters or players are on tile, you can't move onto it
 export class Monster extends Entities
 {
     constructor(tier, sizex, sizey, num_x, num_y, indx = 0, indy = 0)
@@ -55,5 +57,9 @@ export class Monster extends Entities
         // this.spr.x = (this.x - relx)
         this.rect.x = (this.x - currx + 0.25) * sizex + 500
         this.rect.y = (this.y - curry + 0.25) * sizey + 400
+    }
+    resize (sizex, sizey) {
+        this.rect.width = sizex / 2
+        this.rect.height = sizey / 2
     }
 }

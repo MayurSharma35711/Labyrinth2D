@@ -33,6 +33,7 @@ export class Priority_Queue{
     }
     // This insertion works at O(log(N)) time now
     insert(elt, priority){
+        // console.log("priority: ", priority)
         if (this.isEmpty()) {
             this.elts.push([elt, priority])
             return null
@@ -78,15 +79,42 @@ export class Priority_Queue{
 export class Dictionary{
     constructor(){
         this.elts = []
+        this.keys = []
     }
     add(key, elt){
-        this.elts.push([key, elt])
+        this.elts.push(elt)
+        this.keys.push(key)
+        // console.log(this.elts)
     }
     getElt(key) {
+        // console.log("key: ", key)
+        // console.log(this.keys)
+        // console.log(this.elts)
         for (let ind = 0; ind < this.elts.length; ind++) {
-            if (this.elts[ind][0] == key)
-                return this.elts[ind][1]
+            // console.log(ind, this.keys[ind])
+            // console.log(this.elts[ind][0])
+            if (arrayEqual(this.keys[ind], key))
+                return this.elts[ind]
         }
         return false
     }
+}
+
+// compares nested arrays (only code to use recursion)
+function arrayEqual(arr1, arr2) {
+    // console.log(arr1,arr2,typeof(arr1), typeof(arr2))
+    if (typeof(arr1) != typeof(arr2))
+        return false
+    if (arr1.length != arr2.length) 
+        return false
+    let val = true
+    for (let k = 0; k < arr1.length; k++) {
+        if (!val)
+            return val
+        if (typeof(arr1[k]) != 'number')
+            val = val && arrayEqual(arr1[k], arr2[k])
+        else
+            val = val && (arr1[k] == arr2[k])
+    }
+    return val
 }

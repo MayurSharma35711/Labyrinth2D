@@ -7,6 +7,8 @@ import { print_walls } from "./bkgnd_objs/mazegen.mjs";
 import { chest, chest_gen } from "./game_objs/equipment.mjs";
 import { multiRooms } from "./methods/rooms.mjs";
 import { maze_check } from "./methods/rooms.mjs";
+import { make_maze_dicts } from "./methods/path_finding_nodes.mjs";
+
 await PIXI.Assets.load('../Textures/bkgnd/ShadowLands2.png');
 await PIXI.Assets.load('../Textures/bkgnd/Desert2.png');
 await PIXI.Assets.load('../Textures/bkgnd/GrassyPlains.png');
@@ -26,11 +28,11 @@ const tot_width = 1000
 const tot_height = 800
 await app.init({ width: tot_width, height: tot_height });
 document.body.appendChild(app.canvas);
-let xrectnum = 40;
-let yrectnum = 40;
+let xrectnum = 20;
+let yrectnum = 20;
 let game_map = map_init(xrectnum, yrectnum);
-let game_maze = maze_init2(xrectnum, yrectnum);
-let output = multiRooms(xrectnum, yrectnum, 2, 4, game_maze, game_map, 0);
+export let game_maze = maze_init2(xrectnum, yrectnum);
+let output = multiRooms(xrectnum, yrectnum, 5, 8, game_maze, game_map, 2);
 game_maze = output[0]
 // print_walls(game_maze, xrectnum, yrectnum)
 game_map = output[1]
@@ -42,6 +44,15 @@ game_maze = output2[1]
 let regions = output2[0]
 // console.log(regions)
 let chests = chest_gen(40, game_maze, xrectnum, yrectnum);
+print_walls(game_maze, xrectnum, yrectnum)
+
+
+// choose odd numbers for the sectors or they will be on the edge of the sector
+let dicts = make_maze_dicts(game_maze, xrectnum, yrectnum, 7)
+console.log(dicts[0])
+console.log(dicts[1])
+
+
 // console.log("There are this many chests");
 // console.log(chests.length);
 // console.log("This is the x and y of all the chests");
@@ -210,7 +221,7 @@ for (let t = 0; t < players.length; t++) {
 
 function keyStart(e)
 {
-    console.log(shiftx, shifty, currx, curry)
+    // console.log(shiftx, shifty, currx, curry)
     key = e.keyCode;
     if (key == key_r) {
         if (size > 20)

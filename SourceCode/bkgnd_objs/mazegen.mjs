@@ -144,16 +144,7 @@ export function maze_creator(width, height){
     }
     // print_bool_maze(walls,width,height)
     // this is a later addition to the maze to give it some character and more branching paths
-    let prob_cond = 0.85
-    // for (let k = 0; k < walls.length; k++) {
-    //     if (!walls[k] || k % (2*width) == 2*width - 1 || k % (2*width) == -1 || (k % 2 == 0 && k >= walls.length - 2*width)) 
-    //         continue
-    //     if (Math.random() > prob_cond)
-    //     {
-    //         walls[k] = false
-    //         continue;
-    //     }
-    // }
+    let prob_cond = 0.8
     for (let k = 0; k < walls.length; k++) {
         if (walls[k] || k % (2*width) == 2*width - 1 || k % (2*width) == -1 || (k % 2 == 0 && k >= walls.length - 2*width)) 
             continue
@@ -163,6 +154,16 @@ export function maze_creator(width, height){
             continue;
         }
     }
+    for (let k = 0; k < walls.length; k++) {
+        if (!walls[k] || k % (2*width) == 2*width - 1 || k % (2*width) == -1 || (k % 2 == 0 && k >= walls.length - 2*width)) 
+            continue
+        if (Math.random() > prob_cond)
+        {
+            walls[k] = false
+            continue;
+        }
+    }
+    
 
     return walls
 }
@@ -184,7 +185,7 @@ export function print_walls(walls, width, height) {
     console.log(strval)
 }
 
-function print_bool_maze(walls, width, height) {
+export function print_bool_maze(walls, width, height) {
     // console.log(walls)
     let strval=""
     for (let k = 0; k < height; k++) {
