@@ -217,6 +217,8 @@ next steps
 		- set up turns 
 		- clean up vis_updated
 			- map gen, maze gen, rooms, chests can be made into a background_init()
+		- clean up rooms 
+			- maze_check and functions it calls go in their own file
 	- mayur
 		- node A* function
 		- monster AI
