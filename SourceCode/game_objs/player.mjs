@@ -13,7 +13,6 @@ export class Player extends Entities
         // // alert("0");
         // setHealth(10);
         // // alert("1");
-        super.setSpeed(4);
         // // alert("2");
         super.setStrength(4);
         // // alert("3");

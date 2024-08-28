@@ -3,7 +3,7 @@ import { Entities } from "./entity_classes.mjs";
 // shoudl have isOccupied condition for tile, so that if monsters or players are on tile, you can't move onto it
 export class Monster extends Entities
 {
-    constructor(tier, sizex, sizey, num_x, num_y, indx = 0, indy = 0)
+    constructor(tier, sizex, sizey, num_x, num_y)
     {
         super();
         super.setSpeed((6 - tier));
@@ -46,8 +46,8 @@ export class Monster extends Entities
         super.printPos();
         // super.drawMe(cell_sizex/tier, cell_sizey/tier, color, cell_sizex, cell_sizey);
         // // alert("Out");
-        this.x = indx
-        this.y = indy
+        // this.x = indx
+        // this.y = indy
         this.rect = new PIXI.Graphics();
         this.rect.rect(0, 0, sizex/2, sizey/2);
         this.rect.fill(this.color);

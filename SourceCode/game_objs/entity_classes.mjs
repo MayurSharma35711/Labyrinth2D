@@ -1,4 +1,9 @@
 export class Entities{
+    constructor()
+    {
+        this.speed = 1;
+        this.blks_moved = 0;
+    }
     setpos(x, y)
     {
         this.x = x;
@@ -12,12 +17,12 @@ export class Entities{
             delete this;
         }
     }
-    dealDamage(damage, target)
+    dealDamage(target)
     {
         if(dist(this.x, this.y, target.x, target.y) <= range)
         {
-            this.health += 0.2 * damage;
-            target.takeDamage(damage);
+            this.health += 0.2 * this.strength;
+            target.takeDamage(this.strength);
         }
     }
     setSpeed(speed)
