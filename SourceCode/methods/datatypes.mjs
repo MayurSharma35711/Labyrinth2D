@@ -32,15 +32,21 @@ export class Priority_Queue{
         return this.elts.length == 0
     }
     // This insertion works at O(log(N)) time now
-    insert(elt, priority){
-        // console.log("priority: ", priority)
+    insert(elt, priority, dontprint = true){
+        if (!dontprint ){
+            for (let k = 0; k < this.elts.length; k++)
+                console.log("elts:" + this.elts[k])
+            // console.log("priority: ", priority)
+        }
         if (this.isEmpty()) {
             this.elts.push([elt, priority])
             return null
         }
-        if (this.elts.length < 4) {
+        if (this.elts.length < 10) {
             let v;
             for(v = 0; v < this.elts.length; v++) {
+                if (!dontprint )
+                    console.log("priority-test: " + this.elts[v][1], priority)
                 if(priority > this.elts[v][1])
                     break
             }
@@ -69,7 +75,8 @@ export class Priority_Queue{
         if (this.isEmpty())
             return false
         for (let k = 0; k < this.elts.length; k++) {
-            if (this.elts[k][0] == elt)
+            // console.log(this.elts[k], elt, arrayEqual(this.elts[k][0], elt))
+            if (this.elts[k][0] == elt || arrayEqual(this.elts[k][0], elt))
                 return true
         }
         return false
@@ -87,9 +94,6 @@ export class Dictionary{
         // console.log(this.elts)
     }
     getElt(key) {
-        // console.log("key: ", key)
-        // console.log(this.keys)
-        // console.log(this.elts)
         for (let ind = 0; ind < this.elts.length; ind++) {
             // console.log(ind, this.keys[ind])
             // console.log(this.elts[ind][0])
@@ -98,12 +102,25 @@ export class Dictionary{
         }
         return false
     }
+    assign(key, val){
+        for (let ind = 0; ind < this.elts.length; ind++) {
+            // console.log(ind, this.keys[ind])
+            // console.log(this.elts[ind][0])
+            if (arrayEqual(this.keys[ind], key)) {
+                this.elts[ind] = val
+                return true
+            }
+        }
+        return false
+    }
 }
 
 // compares nested arrays (only code to use recursion)
 function arrayEqual(arr1, arr2) {
     // console.log(arr1,arr2,typeof(arr1), typeof(arr2))
-    if (typeof(arr1) != typeof(arr2))
+    if (typeof(arr1) != typeof(arr2)) 
+        return false
+    if (typeof(arr1) == 'number' && arr1 != arr2) 
         return false
     if (arr1.length != arr2.length) 
         return false

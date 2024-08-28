@@ -88,7 +88,7 @@ export function multiRooms(xnum, ynum, minsize, maxsize, maze, map, room_num)
 
     let out;
     for (let k = 0; k < room_num; k++) {
-        if (room_dets[k].length == 0)
+        if (room_dets[k] == undefined || room_dets[k].length == 0)
             continue
         out = room_gen(room_dets[k][0], room_dets[k][1], xnum, ynum, room_dets[k][2], room_dets[k][3], maze, map, room_dets[k][4]);
         maze = out[0]

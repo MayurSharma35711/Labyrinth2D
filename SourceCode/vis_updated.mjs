@@ -2,8 +2,10 @@ import { Player } from "./game_objs/player.mjs";
 import { Monster } from "./game_objs/monster.mjs";
 import { total_visible_indices } from "./methods/visibility.mjs";
 import { print_walls } from "./bkgnd_objs/mazegen.mjs";
+import { chest, chest_gen } from "./game_objs/equipment.mjs";
+import { multiRooms } from "./methods/rooms.mjs";
+import { maze_check } from "./methods/rooms.mjs";
 import { make_maze_dicts } from "./methods/path_finding_nodes.mjs";
-import { init_bkgnd } from "./init.mjs";
 
 await PIXI.Assets.load('../Textures/bkgnd/ShadowLands2.png');
 await PIXI.Assets.load('../Textures/bkgnd/Desert2.png');
@@ -26,11 +28,20 @@ await app.init({ width: tot_width, height: tot_height });
 document.body.appendChild(app.canvas);
 let xrectnum = 20;
 let yrectnum = 20;
-let output = init_bkgnd(xrectnum, yrectnum);
-let game_map = output[0];
-let game_maze = output[1];
-let rooms = output[2];
-let chests = output[3];
+let game_map = map_init(xrectnum, yrectnum);
+export let game_maze = maze_init2(xrectnum, yrectnum);
+let output = multiRooms(xrectnum, yrectnum, 5, 8, game_maze, game_map, 2);
+game_maze = output[0]
+// print_walls(game_maze, xrectnum, yrectnum)
+game_map = output[1]
+let rooms = output[2]
+// console.log(rooms);
+// print_walls(game_maze, xrectnum, yrectnum);
+let output2 = maze_check(game_maze, xrectnum, yrectnum);
+game_maze = output2[1]
+let regions = output2[0]
+// console.log(regions)
+let chests = chest_gen(40, game_maze, xrectnum, yrectnum);
 print_walls(game_maze, xrectnum, yrectnum)
 game_maze[0].exists = false;
 game_maze[1].exists = false;
@@ -42,9 +53,12 @@ game_map[xrectnum].biome = 0;
 game_map[xrectnum + 1].biome = 0;
 
 // choose odd numbers for the sectors or they will be on the edge of the sector
-let dicts = make_maze_dicts(game_maze, xrectnum, yrectnum, 7)
+let sect_size = 1
+let dicts = make_maze_dicts(game_maze, xrectnum, yrectnum, sect_size)
 console.log(dicts[0])
 console.log(dicts[1])
+console.log(Astar_nodes(dicts[1], ~~(xrectnum / sect_size), ~~(yrectnum / sect_size)
+    , 0, 0, ~~(xrectnum / sect_size) - 1, ~~(yrectnum / sect_size) - 1, sect_size))
 
 
 // console.log("There are this many chests");

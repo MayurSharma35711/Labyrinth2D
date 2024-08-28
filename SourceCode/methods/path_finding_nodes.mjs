@@ -1,7 +1,7 @@
 import { Priority_Queue } from "./datatypes.mjs"
 import { Dictionary } from "./datatypes.mjs"
 import { Astar_maze } from "./path_finding.mjs"
-import { heur_l2sqr, dijkstra } from "./path_finding.mjs"
+import { heur_l2sqr, dijkstra, heur_l1 } from "./path_finding.mjs"
 
 function get_sector_indices(numx, numy, sector_size, secx, secy){
     let sector_inds = []
@@ -81,7 +81,7 @@ export function make_maze_dicts(maze, numx, numy, sector_size) {
                 // console.log([[moreInds2get[k][0],moreInds2get[k][1]],[i,j]])
                 let rev_path = path_dict.getElt([ [moreInds2get[k][0],moreInds2get[k][1]], [i,j] ])
                 let new_path = rev_path.slice().reverse()
-                path_dict.add([[moreInds2get[k][0],moreInds2get[k][1]],[i-1,j]], new_path )
+                path_dict.add([[moreInds2get[k][0],moreInds2get[k][1]],[i,j]], new_path )
             }
         }
     }
@@ -90,73 +90,101 @@ export function make_maze_dicts(maze, numx, numy, sector_size) {
     return [sector_dict, path_dict]
 }
 
+function remake_nodes_path(prior_list, curr_node){
+    let full_path = []
+    let counter = 0
+    // for (let k = 0; k < prior_list.length; k++){
+    //     if (prior_list[k] != -1) 
+    //         counter = counter + 1
+    // }
+    // console.log("num points checked:", counter)
+    while (curr_node != -1) {
+        full_path.push(curr_node)
+        curr_node = prior_list.getElt(curr_node)
+    }
+    return full_path
+}
 
-// function Astar_nodes(maze, numx, numy, x0, y0, xfin, yfin, heur) {
-//     // print_walls(maze, numx, numy)
-//     let open_points = new Priority_Queue()
-//     let visited_nodes = Array(maze.length/2).fill(-1)
-//     let best_scores = Array(maze.length/2).fill(-1)
-//     best_scores[x0 + y0*numx] = 0
+export function Astar_nodes(nodes, numx, numy, x0, y0, xfin, yfin, sect_size) {
+    // print_walls(maze, numx, numy)
+    let open_points = new Priority_Queue()
+    // let visited_nodes = Array(maze.length/2).fill(-1)
+    // let best_scores = Array(maze.length/2).fill(-1)
+    let visited_nodes = new Dictionary()
+    let best_scores = new Dictionary()
+    let guess_scores = new Dictionary()
+    for (let i = 0; i < numx; i++) {
+        for (let j = 0; j < numy; j++) {
+            best_scores.add([i,j], -1)
+            visited_nodes.add([i,j], -1)
+            guess_scores.add([i,j], -1)
+        }
+    }
+    best_scores.assign([x0, y0], 0)
+    guess_scores.assign([x0, y0], sect_size*dijkstra(x0, y0, xfin, yfin))
 
-//     let guess_scores = Array(maze.length).fill(-1)
-//     guess_scores[x0 + y0*numx] = heur(x0, y0, xfin, yfin)
+    // let guess_scores = Array(maze.length).fill(-1)
 
-//     open_points.insert(x0 + y0*numx, guess_scores[x0 + y0*numx])
+    open_points.insert([x0, y0], guess_scores.getElt([x0, y0]), false)
 
-//     while (!open_points.isEmpty()) {
-//         // console.log(best_scores)
-//         let current = open_points.get_elt()
-//         // console.log(current)
-//         let x_comp = current % numx
-//         let y_comp = Math.floor(current / numx)
+    while (!open_points.isEmpty()) {
+        // console.log("--------------------")
+        // console.log(visited_nodes.keys, visited_nodes.elts)
+        let str = ""
+        for(let k = 0; k < best_scores.elts.length; k++){
+            str = str + " (" + best_scores.keys[k] + "): " + best_scores.elts[k] + "|"
+        }
+        console.log("-------------------")
+        console.log("best: " + str)
+        let current = open_points.get_elt()
+        // console.log(current)
+        let x_comp = current[0]
+        let y_comp = current[1]
 
-//         if (x_comp == xfin && y_comp == yfin) {
-//             let path = remake_path(visited_nodes, current)
-//             return path.reverse()
-//         }
+        console.log(current)
+
+        if (x_comp == xfin && y_comp == yfin) {
+            let path = remake_nodes_path(visited_nodes, current)
+            return path.reverse()
+        }
         
-//         let nbrs = []
-//         // console.log(current)
+        let nbrs = []
+        if (x_comp > 0 && y_comp > 0) // top left
+            nbrs.push([x_comp - 1, y_comp - 1])
+        if (x_comp > 0) // left
+            nbrs.push([x_comp - 1, y_comp])
+        if (y_comp > 0) // top
+            nbrs.push([x_comp, y_comp - 1])
+        if (x_comp > 0 && y_comp + 1 < numy) // bottom left
+            nbrs.push([x_comp - 1, y_comp + 1])
+        if (y_comp + 1 < numy) // bottom
+            nbrs.push([x_comp, y_comp + 1])
+        if (x_comp + 1 < numx && y_comp + 1 < numy) // bottom right
+            nbrs.push([x_comp + 1, y_comp + 1])
+        if (x_comp + 1 < numx) // right
+            nbrs.push([x_comp + 1, y_comp])
+        if (x_comp + 1 < numx && y_comp > 0)
+            nbrs.push([x_comp + 1, y_comp - 1])
+        console.log(nbrs)
 
-//         // if (maze[2*current] == false && y_comp < numy - 1){
-//         //     nbrs.push(current + numx)
-//         // }
-//         // if (maze[2*current+1] == false && x_comp < numx - 1)
-//         //     nbrs.push(current + 1)
-//         // if (x_comp > 0 && maze[2*current-1] == false)
-//         //     nbrs.push(current - 1)
-//         // if (y_comp > 0 && maze[2*current-2*numx] == false)
-//         //     nbrs.push(current - numx)
-//         // console.log(current)
-//         if (y_comp < numy - 1 && maze[2*current].getWall() == false){
-//             nbrs.push(current + numx)
-//         }
-//         if (x_comp < numx - 1 && maze[2*current+1].getWall() == false)
-//             nbrs.push(current + 1)
-//         if (x_comp > 0 && maze[2*current-1].getWall() == false)
-//             nbrs.push(current - 1)
-//         if (y_comp > 0 && maze[2*current-2*numx].getWall() == false)
-//             nbrs.push(current - numx)
-
-//         // console.log(nbrs)
-//         // console.log(x0, y0, xfin, yfin, best_scores)
-//         for (let i = 0; i < nbrs.length; i++) {
-//             let tent_score = best_scores[current] + 1
-//             let nbr_x = nbrs[i] % numx
-//             let nbr_y = Math.floor(nbrs[i] / numx)
-//             if (best_scores[nbrs[i]] == -1 || tent_score < best_scores[nbrs[i]]) {
-//                 visited_nodes[nbrs[i]] = current
-//                 best_scores[nbrs[i]] = tent_score
-//                 guess_scores[nbrs[i]] = tent_score + heur(nbr_x, nbr_y, xfin, yfin)
-//                 if (!open_points.contains_elt(nbrs[i]))
-//                     open_points.insert(nbrs[i], guess_scores[nbrs[i]])
-//             }
-//         }
-//         // for(let k = 0; k < open_points.elts.length; k++)
-//         //     console.log(open_points.elts[k])
-//     }
-//     console.log("failed")
-//     return false
-// }
-
+        for (let i = 0; i < nbrs.length; i++) {
+            let tent_score = best_scores.getElt(current) + nodes.getElt([current, nbrs[i]]).length - 1
+            // the minus one is above to not include the first element
+            let nbr_x = nbrs[i][0]
+            let nbr_y = nbrs[i][1]
+            if (best_scores.getElt(nbrs[i]) == -1 || tent_score < best_scores.getElt(nbrs[i])) {
+                console.log(nbrs[i], tent_score)
+                visited_nodes.assign(nbrs[i], current)
+                best_scores.assign(nbrs[i], tent_score)
+                guess_scores.assign(nbrs[i], tent_score + sect_size*dijkstra(nbr_x, nbr_y, xfin, yfin))
+                if (!open_points.contains_elt(nbrs[i]))
+                    open_points.insert(nbrs[i], guess_scores.getElt(nbrs[i]), false)
+            }
+        }
+        // for(let k = 0; k < open_points.elts.length; k++)
+        //     console.log(open_points.elts[k])
+    }
+    console.log("failed")
+    return false
+}
 
