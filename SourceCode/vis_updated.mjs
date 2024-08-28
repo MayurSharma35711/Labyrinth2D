@@ -1,13 +1,9 @@
-import { map_init } from "./bkgnd_objs/mapgen.mjs";
-import { maze_init2 } from "./bkgnd_objs/mazegen.mjs";
-import { print_map } from "./bkgnd_objs/mapgen.mjs";
 import { Player } from "./game_objs/player.mjs";
+import { Monster } from "./game_objs/monster.mjs";
 import { total_visible_indices } from "./methods/visibility.mjs";
 import { print_walls } from "./bkgnd_objs/mazegen.mjs";
-import { chest, chest_gen } from "./game_objs/equipment.mjs";
-import { multiRooms } from "./methods/rooms.mjs";
-import { maze_check } from "./methods/rooms.mjs";
 import { make_maze_dicts } from "./methods/path_finding_nodes.mjs";
+import { init_bkgnd } from "./init.mjs";
 
 await PIXI.Assets.load('../Textures/bkgnd/ShadowLands2.png');
 await PIXI.Assets.load('../Textures/bkgnd/Desert2.png');
@@ -30,22 +26,20 @@ await app.init({ width: tot_width, height: tot_height });
 document.body.appendChild(app.canvas);
 let xrectnum = 20;
 let yrectnum = 20;
-let game_map = map_init(xrectnum, yrectnum);
-export let game_maze = maze_init2(xrectnum, yrectnum);
-let output = multiRooms(xrectnum, yrectnum, 5, 8, game_maze, game_map, 2);
-game_maze = output[0]
-// print_walls(game_maze, xrectnum, yrectnum)
-game_map = output[1]
-let rooms = output[2]
-// console.log(rooms);
-// print_walls(game_maze, xrectnum, yrectnum);
-let output2 = maze_check(game_maze, xrectnum, yrectnum);
-game_maze = output2[1]
-let regions = output2[0]
-// console.log(regions)
-let chests = chest_gen(40, game_maze, xrectnum, yrectnum);
+let output = init_bkgnd(xrectnum, yrectnum);
+let game_map = output[0];
+let game_maze = output[1];
+let rooms = output[2];
+let chests = output[3];
 print_walls(game_maze, xrectnum, yrectnum)
-
+game_maze[0].exists = false;
+game_maze[1].exists = false;
+game_maze[2].exists = false;
+game_maze[2 * xrectnum + 1].exists = false;
+game_map[0].biome = 0;
+game_map[1].biome = 0;
+game_map[xrectnum].biome = 0;
+game_map[xrectnum + 1].biome = 0;
 
 // choose odd numbers for the sectors or they will be on the edge of the sector
 let dicts = make_maze_dicts(game_maze, xrectnum, yrectnum, 7)
@@ -88,16 +82,20 @@ app.stage.addChild(walls);
 
 let tier = 4;
 let players = new Array(4);
+let monsters = new Array(1);
 let currx = 0;
 let curry = 0;
 let act_currx = 0;
 let act_curry = 0;
 let shiftx = 0
 let shifty = 0
+
+monsters[0] = new Monster(3, size, size, xrectnum, yrectnum);
+
 players[0] = new Player(0, size, size);
 players[1] = new Player(1, size, size);
 // players[1].y = 8;
-players[1].vis_tier = 4;
+players[1].vis_tier = 5;
 players[2] = new Player(2, size, size);
 // players[2].y = 5;
 // players[2].x = 3;
@@ -105,6 +103,55 @@ players[2].vis_tier = 3;
 players[3] = new Player(3, size, size);
 // players[3].y = 11;
 players[3].vis_tier = 1;
+
+players[1].x = 1;
+players[2].y = 1;
+players[3].x = 1;
+players[3].y = 1;
+
+players[0].speed = 3;
+players[1].speed = 2;
+players[2].speed = 1;
+players[3].speed = 5;
+
+function monster_move()
+{
+    for(let k = 0;k < monsters.length;k++)
+    {
+        for(let i = 0;i < 4;i++)
+        {
+            monsters[k].dealDamage(players[i]);
+        }
+        let dir = Math.random() * 4;
+        switch(dir)
+        {
+        case 0: // Left
+            if(monsters[k].x % xrectnum != 0)
+            {
+               monsters[k].x--;
+            }
+        case 1: //Right
+            if(monsters[k].x % xrectnum != -1)
+            {
+                monsters[k].x++;
+            }
+        case 2:
+            if(monsters[k].y % yrectnum != 0)
+            {
+                monsters[k].y--;
+            }
+        case 3:
+            if(monsters[k].y % yrectnum != -1)
+            {
+                monsters[k].y++;
+            }
+        }
+        for(let i = 0;i < 4;i++)
+        {
+            monsters[k].dealDamage(players[i]);
+        }
+    }
+}
 
 // Sight uses visiblity code to show the map tiles and maze tiles that are visible
 function sight()
@@ -166,6 +213,10 @@ function sight()
 document.addEventListener('keydown', keyStart)
 
 let key
+let key_w = 87;
+let key_a = 65;
+let key_s = 83;
+let key_d = 68;
 let keyone = 49
 let keytwo = 50
 let keythree = 51
@@ -181,6 +232,8 @@ let right = 39;
 let down = 40;
 let key_r = 82;
 let key_open = 69;
+let key_p = 80;
+let key_n = 78;
 let curr_player = players[0]
 let seen_indices;
 
@@ -218,6 +271,29 @@ for (let t = 0; t < players.length; t++) {
     app.stage.addChild(players[t].rect)
 }
 
+function checkPlayer(map_ind)
+{
+    for(let i = 0;i < players.length;i++)
+    {
+        if(players[i].y * xrectnum + players[i].x == map_ind)
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
+function checkMonster(map_ind)
+{
+    for(let i = 0;i < players.length;i++)
+    {
+        if(players[i].y * xrectnum + players[i].x == map_ind)
+        {
+            return true;
+        }
+    }
+    return false;
+}
 
 function keyStart(e)
 {
@@ -263,34 +339,54 @@ function keyStart(e)
     else if(key == keyfour) {
         curr_player = players[3]
     }
-    else if(seen_indices.includes(curr_player.x + curr_player.y*xrectnum) && curr_player.x - 1 >= 0 && key == left && !game_maze[curr_player.y * 2 * xrectnum + curr_player.x * 2 - 1].getWall())
+    else if(key == key_n)
+    {
+
+    }
+    else if(key == key_p) //Turn over
+    {
+        console.log("Turn over");
+        console.log(players[0].blks_moved);
+        for(let n = 0;n < 4;n++)
+        {
+            players[n].blks_moved = 0;
+        }
+        //Call monster stuff here or somewhere else
+        monster_move();
+        return;
+    }
+    else if(seen_indices.includes(curr_player.x + curr_player.y*xrectnum) && curr_player.x - 1 >= 0 && (key == left || key == key_a) && !game_maze[curr_player.y * 2 * xrectnum + curr_player.x * 2 - 1].getWall() && curr_player.blks_moved != curr_player.speed && !checkPlayer(curr_player.y * xrectnum + curr_player.x - 1))
     {
         curr_player.x--;
+        curr_player.blks_moved++;
         shifty = Math.max(shifty, -curry)
         shiftx = Math.max(shiftx, -currx)
         shifty = Math.min(shifty, yrectnum - curry - 2)
         shiftx = Math.min(shiftx, xrectnum - curry - 2)
     }
-    else if(seen_indices.includes(curr_player.x + curr_player.y*xrectnum) && curr_player.y - 1 >= 0 && key == up && !game_maze[(curr_player.y - 1) * 2 * xrectnum + curr_player.x * 2].getWall())
+    else if(seen_indices.includes(curr_player.x + curr_player.y*xrectnum) && curr_player.y - 1 >= 0 && (key == up || key == key_w) && !game_maze[(curr_player.y - 1) * 2 * xrectnum + curr_player.x * 2].getWall() && curr_player.blks_moved != curr_player.speed && !checkPlayer(curr_player.y * xrectnum + curr_player.x - xrectnum))
     {
         curr_player.y--;
+        curr_player.blks_moved++;
         shifty = Math.max(shifty, -curry)
         shiftx = Math.max(shiftx, -currx)
         shifty = Math.min(shifty, yrectnum - curry - 2)
         shiftx = Math.min(shiftx, xrectnum - curry - 2)
         
     }
-    else if(seen_indices.includes(curr_player.x + curr_player.y*xrectnum) && curr_player.x + 1 < xrectnum && key == right && !game_maze[curr_player.y * 2 * xrectnum + curr_player.x * 2 + 1].getWall())
+    else if(seen_indices.includes(curr_player.x + curr_player.y*xrectnum) && curr_player.x + 1 < xrectnum && (key == right || key == key_d) && !game_maze[curr_player.y * 2 * xrectnum + curr_player.x * 2 + 1].getWall() && curr_player.blks_moved != curr_player.speed && !checkPlayer(curr_player.y * xrectnum + curr_player.x + 1))
     {
         curr_player.x++;
+        curr_player.blks_moved++;
         shifty = Math.max(shifty, -curry)
         shiftx = Math.max(shiftx, -currx)
         shifty = Math.min(shifty, yrectnum - curry - 2)
         shiftx = Math.min(shiftx, xrectnum - curry - 2)
     }
-    else if(seen_indices.includes(curr_player.x + curr_player.y*xrectnum) && curry + 1 < yrectnum && key == down && !game_maze[(curr_player.y) * 2 * xrectnum + curr_player.x * 2].getWall())
+    else if(seen_indices.includes(curr_player.x + curr_player.y*xrectnum) && curry + 1 < yrectnum && (key == down || key == key_s) && !game_maze[(curr_player.y) * 2 * xrectnum + curr_player.x * 2].getWall() && curr_player.blks_moved != curr_player.speed && !checkPlayer(curr_player.y * xrectnum + curr_player.x + xrectnum))
     {
         curr_player.y++;
+        curr_player.blks_moved++;
         shifty = Math.max(shifty, -curry)
         shiftx = Math.max(shiftx, -currx)
         shifty = Math.min(shifty, yrectnum - curry - 2)
