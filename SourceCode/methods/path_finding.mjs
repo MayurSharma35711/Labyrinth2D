@@ -11,7 +11,7 @@ import { maze_check } from "./rooms.mjs";
 function heur_linfty(xinit, yinit, xfin, yfin){
     return Math.max(Math.abs(xinit - xfin), Math.abs(yinit - yfin))
 }
-function heur_l1(xinit, yinit, xfin, yfin){
+export function heur_l1(xinit, yinit, xfin, yfin){
     return Math.abs(xinit - xfin) + Math.abs(yinit - yfin)
 }
 export function heur_l2sqr(xinit, yinit, xfin, yfin){
@@ -50,10 +50,10 @@ export function dijkstra(xinit, yinit, xfin, yfin) {
 function remake_path(prior_list, curr_node){
     let full_path = []
     let counter = 0
-    for (let k = 0; k < prior_list.length; k++){
-        if (prior_list[k] != -1) 
-            counter = counter + 1
-    }
+    // for (let k = 0; k < prior_list.length; k++){
+    //     if (prior_list[k] != -1) 
+    //         counter = counter + 1
+    // }
     // console.log("num points checked:", counter)
     while (curr_node != -1) {
         full_path.push(curr_node)
