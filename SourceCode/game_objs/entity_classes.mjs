@@ -9,22 +9,6 @@ export class Entities{
         this.x = x;
         this.y = y;
     }
-    takeDamage(damage)
-    {
-        this.health -= damage;
-        if(this.health - damage <= 0)
-        {
-            delete this;
-        }
-    }
-    dealDamage(target)
-    {
-        if(dist(this.x, this.y, target.x, target.y) <= range)
-        {
-            this.health += 0.2 * this.strength;
-            target.takeDamage(this.strength);
-        }
-    }
     setSpeed(speed)
     {
         this.speed = speed;

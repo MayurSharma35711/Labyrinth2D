@@ -222,3 +222,36 @@ next steps
 	- mayur
 		- node A* function
 		- monster AI
+
+9/11/24
+
+- Didn't write in log for a while
+- Some stuff may not just be today
+
+- Drew up flowchart for Monster AI and worked out many mechanics for it
+
+- Combat
+	- A shaded square shows you where you are going to heuristic
+		- It is supposed to stay within you range
+		- If you miss the hit your combat ends early
+			- You can click "n" again to attack
+		- Your range is shaded
+	- It has wall detection as in if your attack would be impossible due to a wall it is
+	- Player class modifications
+		- str_atk tells you whether your character can only attack in a str line
+		- in_combat tells you whether your charater is in combat
+		- To come
+			- hit tells you whether your character has already succesfully hit
+
+- next steps
+	- make the player's screen look nicer
+		- make the combat range viewer ignore or not ignore walls based on the weapon
+	- modulize the code better and potentially make new folders for this
+	- start working on different weapon implementation
+		- sword
+		- gun 
+		- bomb 
+		- hammer (causes damage through walls with AOE)
+		- ghost sword (sword but ignores walls)
+	- stat menu
+	- monster AI implementation

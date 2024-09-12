@@ -72,7 +72,7 @@ class Tile {
 	getBiome(){
 		return this.biome
 	}
-	drawMe(cell_width, cell_height, currx, curry){
+	drawMe(cell_width, cell_height, currx, curry, opac){
 		// console.log(this.color)
 		switch(this.biome)
         {
@@ -112,6 +112,8 @@ class Tile {
 			this.sprite = PIXI.Sprite.from('../Textures/bkgnd/Dungeon.png')
 			break;
         }
+		// this.sprite.tint = 0xFFBB66;
+		this.sprite.alpha = opac;
         this.sprite.x = (this.ind_x - currx) * cell_width;
         this.sprite.y = (this.ind_y - curry) * cell_height;
 		// if (this.sprite.y < -500) {

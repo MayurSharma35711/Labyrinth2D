@@ -16,13 +16,14 @@ export class Player extends Entities
         // // alert("2");
         super.setStrength(4);
         // // alert("3");
-        super.setRange(1);
+        super.setRange(2);
         // // alert("4");
         super.setProt(0, 0);
-        super.setVis(2);
+        super.setVis(3);
         // // alert("5");
         super.setpos(0, 0);
         this.player_ind = player_ind
+        this.atk_str = true;
         
         this.rect = new PIXI.Graphics();
         this.rect.rect(0, 0, sizex/2, sizey/2);
@@ -34,6 +35,7 @@ export class Player extends Entities
             this.rect.fill(0x0000FF);
         else if (this.player_ind == 3)
             this.rect.fill(0xFF00FF);
+        this.in_combat = false;
         // // alert("6");
         // super.move(10, 10);
         // super.printPos();

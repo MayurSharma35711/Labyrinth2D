@@ -1,6 +1,6 @@
 import { Player } from "./game_objs/player.mjs";
 import { Monster } from "./game_objs/monster.mjs";
-import { total_visible_indices } from "./methods/visibility.mjs";
+import { total_visible_indices, get_view_sqr, get_view_range } from "./methods/visibility.mjs";
 import { print_walls } from "./bkgnd_objs/mazegen.mjs";
 import { make_maze_dicts } from "./methods/path_finding_nodes.mjs";
 import { init_bkgnd } from "./init.mjs";
@@ -31,6 +31,8 @@ let game_map = output[0];
 let game_maze = output[1];
 let rooms = output[2];
 let chests = output[3];
+let ptr = 0;
+let monster_num = 15;
 print_walls(game_maze, xrectnum, yrectnum)
 game_maze[0].exists = false;
 game_maze[1].exists = false;
@@ -68,7 +70,26 @@ for(let i = 0;i < chests.length;i++)
     chest_indices[i] = chests[i].index;
 }
 
-
+function dist(x1, y1, x2, y2)
+{
+    return Math.sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
+}
+function takeDamage(target, damage)
+{
+    target.health -= damage;
+    if(target.health - damage <= 0)
+    {
+        //Somehow destroy target
+    }
+}
+function dealDamage(attacker, target)
+{
+    if(dist(attacker.x, attacker.y, target.x, target.y) <= attacker.range)
+    {
+        attacker.health += 0.2 * attacker.strength;
+        takeDamage(target, attacker.strength);
+    }
+}
 // const container = new PIXI.Container();
 export let vis = new PIXI.Container();
 export let walls = new PIXI.Container();
@@ -82,7 +103,8 @@ app.stage.addChild(walls);
 
 let tier = 4;
 let players = new Array(4);
-let monsters = new Array(1);
+let monsters = new Array(monster_num);
+let monster_indices = new Array(monsters.length);
 let currx = 0;
 let curry = 0;
 let act_currx = 0;
@@ -90,8 +112,10 @@ let act_curry = 0;
 let shiftx = 0
 let shifty = 0
 
-monsters[0] = new Monster(3, size, size, xrectnum, yrectnum);
-
+for(let i = 0;i < monster_num;i++)
+{
+    monsters[i] = new Monster(3, size, size, xrectnum, yrectnum);
+}
 players[0] = new Player(0, size, size);
 players[1] = new Player(1, size, size);
 // players[1].y = 8;
@@ -109,49 +133,30 @@ players[2].y = 1;
 players[3].x = 1;
 players[3].y = 1;
 
-players[0].speed = 3;
-players[1].speed = 2;
-players[2].speed = 1;
-players[3].speed = 5;
+players[0].speed = 100;
+players[1].speed = 100;
+players[2].speed = 100;
+players[3].speed = 100;
 
-function monster_move()
+let curr_player = players[0]
+
+for(let i = 0;i < monsters.length;i++)
 {
-    for(let k = 0;k < monsters.length;k++)
+    monster_indices[i] = monsters[i].y * xrectnum + monsters[i].x;
+}
+
+function printMonsterLoc()
+{
+    for(let i = 0;i < monster_indices.length;i++)
     {
-        for(let i = 0;i < 4;i++)
+        if(monster_indices[i] < 35)
         {
-            monsters[k].dealDamage(players[i]);
-        }
-        let dir = Math.random() * 4;
-        switch(dir)
-        {
-        case 0: // Left
-            if(monsters[k].x % xrectnum != 0)
-            {
-               monsters[k].x--;
-            }
-        case 1: //Right
-            if(monsters[k].x % xrectnum != -1)
-            {
-                monsters[k].x++;
-            }
-        case 2:
-            if(monsters[k].y % yrectnum != 0)
-            {
-                monsters[k].y--;
-            }
-        case 3:
-            if(monsters[k].y % yrectnum != -1)
-            {
-                monsters[k].y++;
-            }
-        }
-        for(let i = 0;i < 4;i++)
-        {
-            monsters[k].dealDamage(players[i]);
+            console.log(monster_indices[i]);
+            console.log(monsters[i].health);
         }
     }
 }
+printMonsterLoc();
 
 // Sight uses visiblity code to show the map tiles and maze tiles that are visible
 function sight()
@@ -165,10 +170,30 @@ function sight()
         walls.removeChild(walls.children[0]);
     }
     let map_indices = total_visible_indices(players, xrectnum, yrectnum);
-    for(let i = 0;i < map_indices.length;i++)
+    let curr_player_view = get_view_sqr(curr_player.x, curr_player.y, xrectnum, yrectnum, curr_player.vis_tier)
+    let range = get_view_range(curr_player.x, curr_player.y, xrectnum, yrectnum, curr_player.range)
+    let opac_arr = new Array(map_indices.length);
+    for (let k = 0; k < map_indices.length; k++) {
+        if(map_indices[k] == ptr && curr_player.in_combat)
+        {
+            opac_arr[k] = 0.1
+            continue
+        }
+        // if(range.includes(map_indices[k]))
+        //     opac_arr[k] = 1;
+        if (curr_player_view.includes(map_indices[k]))
+            opac_arr[k] = 0.8
+        else
+            opac_arr[k] = 0.4
+    }
+
+    for(let i = 0; i < map_indices.length;i++)
     {
-        // console.log(game_map[map_indices[i]].biome)
-        game_map[map_indices[i]].drawMe(size, size, currx, curry);
+        game_map[map_indices[i]].drawMe(size, size, currx, curry, opac_arr[i]);
+        if(map_indices[i] == ptr)
+        {
+            console.log(ptr);
+        }
     }
     for(let i = 0;i < map_indices.length;i++)
     {
@@ -190,13 +215,25 @@ function sight()
             walls.addChild(leftwall)
         }
         if(!map_indices.includes(map_indexer - xrectnum) && map_indexer - xrectnum >= 0) {
-            game_maze[2 * map_indices[i] - 2*xrectnum].drawMe(size, size, currx, curry);
+            if (opac_arr[i] != 0.3)
+                game_maze[2 * map_indices[i] - 2*xrectnum].drawMe(size, size, currx, curry, (1+opac_arr[i])/2);
+            else
+                game_maze[2 * map_indices[i] - 2*xrectnum].drawMe(size, size, currx, curry, 1);
         }
         if(!map_indices.includes(map_indexer - 1) && map_indexer % xrectnum > 0) {
-            game_maze[2 * map_indices[i] - 1].drawMe(size, size, currx, curry);
+            if (opac_arr[i] != 0.3)
+                game_maze[2 * map_indices[i] - 1].drawMe(size, size, currx, curry, (1+opac_arr[i])/2);
+            else
+                game_maze[2 * map_indices[i] - 1].drawMe(size, size, currx, curry, 1);
         }
-        game_maze[2 * map_indices[i]].drawMe(size, size, currx, curry);
-        game_maze[2 * map_indices[i] + 1].drawMe(size, size, currx, curry);
+        if (opac_arr[i] != 0.3) {
+            game_maze[2 * map_indices[i]].drawMe(size, size, currx, curry, (1+opac_arr[i])/2);
+            game_maze[2 * map_indices[i] + 1].drawMe(size, size, currx, curry, (1+opac_arr[i])/2);
+        }
+        else{
+            game_maze[2 * map_indices[i]].drawMe(size, size, currx, curry, 1);
+            game_maze[2 * map_indices[i] + 1].drawMe(size, size, currx, curry, 1);
+        }
     }
     for(let i = 0;i < chest_indices.length;i++)
     {
@@ -207,6 +244,96 @@ function sight()
             // console.log(chests[i].x);
             // console.log(chests[i].y);
         }
+    }
+    if(curr_player.in_combat)
+    {
+        // console.log(game_map[range[0]].sprite.saturation)
+        for(let i = 0;i < range.length;i++)
+        {
+            game_map[range[i]].sprite.alpha = 0.5;
+            game_map[range[i]].sprite.tint = 0xFFBB88;
+            // game_map[range[i]].sprite.saturation = .1;
+        }
+        game_map[ptr].sprite.alpha = 0
+        game_map[ptr].sprite.tint = 0xFFFFFF;
+    }
+}
+
+function checkHit()
+{
+    if(ptr == curr_player.y * xrectnum + curr_player.x)
+        return false;
+    if(!monster_indices.includes(ptr))
+        return false;
+    if(curr_player.atk_str)
+    {
+        if(Math.abs(curr_player.y * xrectnum + curr_player.x - ptr) % xrectnum != 0 && ~~((curr_player.y * xrectnum + curr_player.x) / xrectnum) != ~~(ptr / xrectnum))
+            return false;
+        let dir;
+        if((curr_player.y * xrectnum + curr_player.x - ptr) % xrectnum == 0 && curr_player.y * xrectnum + curr_player.x - ptr > 0)
+            dir = 0; // dir is up
+        else if((curr_player.y * xrectnum + curr_player.x - ptr) % xrectnum == 0 && curr_player.y * xrectnum + curr_player.x - ptr < 0)
+            dir = 1; // dir is down
+        else if(curr_player.y * xrectnum + curr_player.x - ptr < 0 && ~~((curr_player.y * xrectnum + curr_player.x) / xrectnum) == ~~(ptr / xrectnum))
+            dir = 2; // dir is right
+        else if(curr_player.y * xrectnum + curr_player.x - ptr > 0 && ~~((curr_player.y * xrectnum + curr_player.x) / xrectnum) == ~~(ptr / xrectnum))
+            dir = 3; // dir is left
+        else
+        {
+            console.log("OH NO!")
+            console.log(curr_player.y * xrectnum + curr_player.x + " and " + ptr);
+        }
+        let pos;
+        switch(dir)
+        {
+        case 0:
+            pos = curr_player.y * xrectnum + curr_player.x - xrectnum;
+            while(pos != ptr)
+            {
+                if(game_maze[2 * pos].exists)
+                    return false;
+                pos -= xrectnum
+            }
+            if(game_maze[2 * ptr].exists)
+                return false;
+            break;
+        case 1:
+            pos = curr_player.y * xrectnum + curr_player.x;
+            while(pos != ptr)
+            {
+                if(game_maze[2 * pos].exists)
+                    return false;
+                pos += xrectnum
+            }
+            break;
+        case 2:
+            pos = curr_player.y * xrectnum + curr_player.x;
+            while(pos != ptr)
+            {
+                if(game_maze[2 * pos + 1].exists)
+                    return false;
+                pos++;
+            }
+            break;
+        case 3:
+            pos = curr_player.y * xrectnum + curr_player.x;
+            while(pos != ptr)
+            {
+                if(2 * pos - 1 > 0)
+                {
+                    if(game_maze[2 * pos - 1].exists)
+                        return false;
+                    pos--;
+                    break;
+                }
+            }
+            break;
+        }
+        console.log(dir);
+        dealDamage(curr_player, monsters[monster_indices.indexOf(ptr)]);
+        console.log(monsters[monster_indices.indexOf(ptr)].health);
+        console.log("HIT");
+        return true;
     }
 }
 
@@ -234,8 +361,8 @@ let key_r = 82;
 let key_open = 69;
 let key_p = 80;
 let key_n = 78;
-let curr_player = players[0]
 let seen_indices;
+
 
 
 seen_indices = total_visible_indices(players, xrectnum, yrectnum);
@@ -328,31 +455,83 @@ function keyStart(e)
         chests[chest_indices.indexOf(curr_player.y * xrectnum + curr_player.x)].listItems();
     }
     else if (key == keyone) {
+        curr_player.in_combat = false;
         curr_player = players[0]
+        ptr = curr_player.y * xrectnum + curr_player.x;
     }
     else if(key == keytwo) {
+        curr_player.in_combat = false;
         curr_player = players[1]
+        ptr = curr_player.y * xrectnum + curr_player.x;
     }
     else if(key == keythree) {
+        curr_player.in_combat = false;
         curr_player = players[2]
+        ptr = curr_player.y * xrectnum + curr_player.x;
     }
     else if(key == keyfour) {
+        curr_player.in_combat = false;
         curr_player = players[3]
+        ptr = curr_player.y * xrectnum + curr_player.x;
     }
     else if(key == key_n)
     {
-
+        if(curr_player.in_combat) // Add getValid to check if a sqr is valid for attack
+        {
+            // Add dealDamage stuff
+            
+            // Add that if you missed then end combat early
+            let hit = checkHit();
+            if(!hit) //This will also just run through the entire function so even if it hits the rigth functino will be carried out
+            {
+                curr_player.in_combat = false;
+                ptr = curr_player.y * xrectnum + curr_player.x;
+            }
+        }
+        else
+        {
+            curr_player.in_combat = true;
+            ptr = curr_player.y * xrectnum + curr_player.x;
+        }
+    }
+    else if(key == up && curr_player.in_combat)
+    {
+        if(get_view_range(curr_player.x, curr_player.y, xrectnum, yrectnum, curr_player.range).includes(ptr - xrectnum))
+        {
+            ptr = ptr - xrectnum;
+        }
+    }
+    else if(key == down && curr_player.in_combat)
+    {
+        if(get_view_range(curr_player.x, curr_player.y, xrectnum, yrectnum, curr_player.range).includes(ptr + xrectnum))
+        {
+            ptr = ptr + xrectnum;
+        }
+    }
+    else if(key == left && curr_player.in_combat)
+    {
+        if(get_view_range(curr_player.x, curr_player.y, xrectnum, yrectnum, curr_player.range).includes(ptr - 1))
+        {
+            ptr--;
+        }
+    }
+    else if(key == right && curr_player.in_combat)
+    {
+        if(get_view_range(curr_player.x, curr_player.y, xrectnum, yrectnum, curr_player.range).includes(ptr + 1))
+        {
+            ptr++;
+        }
     }
     else if(key == key_p) //Turn over
     {
         console.log("Turn over");
-        console.log(players[0].blks_moved);
+        // console.log(players[0].blks_moved);
         for(let n = 0;n < 4;n++)
         {
             players[n].blks_moved = 0;
         }
+        curr_player.in_combat = false;
         //Call monster stuff here or somewhere else
-        monster_move();
         return;
     }
     else if(seen_indices.includes(curr_player.x + curr_player.y*xrectnum) && curr_player.x - 1 >= 0 && (key == left || key == key_a) && !game_maze[curr_player.y * 2 * xrectnum + curr_player.x * 2 - 1].getWall() && curr_player.blks_moved != curr_player.speed && !checkPlayer(curr_player.y * xrectnum + curr_player.x - 1))
@@ -363,6 +542,8 @@ function keyStart(e)
         shiftx = Math.max(shiftx, -currx)
         shifty = Math.min(shifty, yrectnum - curry - 2)
         shiftx = Math.min(shiftx, xrectnum - curry - 2)
+        ptr = curr_player.y * xrectnum + curr_player.x;
+        console.log(ptr);
     }
     else if(seen_indices.includes(curr_player.x + curr_player.y*xrectnum) && curr_player.y - 1 >= 0 && (key == up || key == key_w) && !game_maze[(curr_player.y - 1) * 2 * xrectnum + curr_player.x * 2].getWall() && curr_player.blks_moved != curr_player.speed && !checkPlayer(curr_player.y * xrectnum + curr_player.x - xrectnum))
     {
@@ -372,7 +553,8 @@ function keyStart(e)
         shiftx = Math.max(shiftx, -currx)
         shifty = Math.min(shifty, yrectnum - curry - 2)
         shiftx = Math.min(shiftx, xrectnum - curry - 2)
-        
+        ptr = curr_player.y * xrectnum + curr_player.x;
+        console.log(ptr);
     }
     else if(seen_indices.includes(curr_player.x + curr_player.y*xrectnum) && curr_player.x + 1 < xrectnum && (key == right || key == key_d) && !game_maze[curr_player.y * 2 * xrectnum + curr_player.x * 2 + 1].getWall() && curr_player.blks_moved != curr_player.speed && !checkPlayer(curr_player.y * xrectnum + curr_player.x + 1))
     {
@@ -382,6 +564,8 @@ function keyStart(e)
         shiftx = Math.max(shiftx, -currx)
         shifty = Math.min(shifty, yrectnum - curry - 2)
         shiftx = Math.min(shiftx, xrectnum - curry - 2)
+        ptr = curr_player.y * xrectnum + curr_player.x;
+        console.log(ptr);
     }
     else if(seen_indices.includes(curr_player.x + curr_player.y*xrectnum) && curry + 1 < yrectnum && (key == down || key == key_s) && !game_maze[(curr_player.y) * 2 * xrectnum + curr_player.x * 2].getWall() && curr_player.blks_moved != curr_player.speed && !checkPlayer(curr_player.y * xrectnum + curr_player.x + xrectnum))
     {
@@ -391,6 +575,8 @@ function keyStart(e)
         shiftx = Math.max(shiftx, -currx)
         shifty = Math.min(shifty, yrectnum - curry - 2)
         shiftx = Math.min(shiftx, xrectnum - curry - 2)
+        ptr = curr_player.y * xrectnum + curr_player.x;
+        console.log(ptr);
     }
     else
         return null
@@ -429,4 +615,7 @@ function keyStart(e)
         // console.log(players[t])
         // app.stage.addChild(players[t].rect)
     }
+    // console.log(ptr);
+    // console.log(get_view_sqr(curr_player.x, curr_player.y, xrectnum, yrectnum, curr_player.vis_tier));
+    // console.log(game_map[ptr].biome);
 }

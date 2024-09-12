@@ -10,7 +10,8 @@ export class Monster extends Entities
         super.setStrength(6 - tier);
         super.setRange(Math.floor(0.5 * (6 - tier)));
         super.setProt((6 - tier), (2 * (6 - tier)));
-        super.setpos(0.25+Math.floor(Math.random() * num_x), 0.25+Math.floor(Math.random() * num_y));
+        super.setpos(Math.floor(Math.random() * num_x), Math.floor(Math.random() * num_y));
+        super.setHealth((9 - tier) * 2);
         switch(tier)
         {
         case 1:

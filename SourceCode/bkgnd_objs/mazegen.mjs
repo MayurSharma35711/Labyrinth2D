@@ -39,7 +39,7 @@ class TileWall{
         else
             this.borderColor = 0x000000
     }
-    drawMe(cell_width, cell_height, currx, curry){
+    drawMe(cell_width, cell_height, currx, curry, opac){
         if (this.exists){
             if(this.exists)
             {
@@ -52,6 +52,7 @@ class TileWall{
                     this.wall_image.x = (this.ind_x - currx) * cell_width  + 0.85*cell_width;
                     this.wall_image.y = (this.ind_y - curry) * cell_height;
                     this.wall_image.borderColor = 0xFFFFFF
+                    this.wall_image.alpha = opac
                 }
                 else
                 {
@@ -61,6 +62,7 @@ class TileWall{
                     this.wall_image.x = (this.ind_x - currx) * cell_width;
                     this.wall_image.y = (this.ind_y - curry) * cell_height + 0.85*cell_height;
                     this.wall_image.borderColor = 0xFFFFFF
+                    this.wall_image.alpha = opac
                 }
                 walls.addChild(this.wall_image);
             }

@@ -4,7 +4,9 @@
 // tier 1 gets a 3x3 visibility square
 // tier 2 gets a 5x5 visibility square without corners
 // tier 3 gets a 7x7 visibility square with 3-triangles cut from corners
-function get_view_sqr (center_x, center_y, numx, numy, tier) {
+
+// can us get view square for AOE damage
+export function get_view_sqr (center_x, center_y, numx, numy, tier) {
     // These give the shape of the visibility square
     let cutoff;
     if (tier == 0) 
@@ -37,6 +39,44 @@ function get_view_sqr (center_x, center_y, numx, numy, tier) {
     }   
     return map_indices
 }
+
+// can use this for most other damages
+export function get_view_range (center_x, center_y, numx, numy, tier) {
+    // These give the shape of the visibility square
+    // let cutoff;
+    // if (tier == 0) 
+    //     cutoff = 1
+    // else if (tier == 1)
+    //     cutoff = 0
+    // else if (tier == 2)
+    //     cutoff = 1
+    // else if (tier > 2)
+    //     cutoff = tier - 1
+    const off_cen_size = Math.max(1, tier)
+
+    // We now use this to give our side indices
+    let map_indices = []
+    for (let y_off = -off_cen_size; y_off < off_cen_size + 1; y_off++) {
+        if (center_y + y_off < 0 || center_y + y_off > numy - 1)
+            continue
+        map_indices.push(center_x + numx*(center_y + y_off))
+    }  
+    for (let x_off = -off_cen_size; x_off < off_cen_size + 1; x_off++) {
+        // remove corners
+        // console.log(y_off, x_off)
+        // remove indices outside
+        
+        // if ((Math.abs(y_off) + cutoff > off_cen_size) && (Math.abs(x_off) + cutoff > 2*off_cen_size - Math.abs(y_off))){
+        //     // console.log("here")
+        //     continue
+        // }
+        if (center_x + x_off < 0 || center_x + x_off > numx - 1)
+            continue
+        map_indices.push((center_x+x_off) + numx*(center_y))
+    } 
+    return map_indices
+}
+
 function dist(x1, y1, x2, y2)
 {
     return Math.sqrt((x2 - x1)**2 + (y2 - y1)**2);
