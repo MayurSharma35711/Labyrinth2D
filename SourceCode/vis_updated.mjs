@@ -112,21 +112,19 @@ let act_curry = 0;
 let shiftx = 0
 let shifty = 0
 
-for(let i = 0;i < monster_num;i++)
+for(let i = 0; i < monster_num;i++)
 {
-    monsters[i] = new Monster(3, size, size, xrectnum, yrectnum);
+    console.log((i % 5) + 1)
+    monsters[i] = new Monster((i % 5) + 1, size, size, xrectnum, yrectnum);
 }
-players[0] = new Player(0, size, size);
-players[1] = new Player(1, size, size);
+players[0] = new Player(0, size, size, 2);
+players[1] = new Player(1, size, size, 5);
 // players[1].y = 8;
-players[1].vis_tier = 5;
-players[2] = new Player(2, size, size);
+players[2] = new Player(2, size, size, 3);
 // players[2].y = 5;
 // players[2].x = 3;
-players[2].vis_tier = 3;
-players[3] = new Player(3, size, size);
+players[3] = new Player(3, size, size, 1);
 // players[3].y = 11;
-players[3].vis_tier = 1;
 
 players[1].x = 1;
 players[2].y = 1;
@@ -190,10 +188,10 @@ function sight()
     for(let i = 0; i < map_indices.length;i++)
     {
         game_map[map_indices[i]].drawMe(size, size, currx, curry, opac_arr[i]);
-        if(map_indices[i] == ptr)
-        {
-            console.log(ptr);
-        }
+        // if(map_indices[i] == ptr)
+        // {
+        //     console.log(ptr);
+        // }
     }
     for(let i = 0;i < map_indices.length;i++)
     {
@@ -245,11 +243,25 @@ function sight()
             // console.log(chests[i].y);
         }
     }
+    for(let i = 0;i < monsters.length;i++)
+    {
+        app.stage.removeChild(monsters[i].rect);
+        if(map_indices.includes(monster_indices[i]))
+        {
+            console.log(monster_indices[i], i)
+            monsters[i].drawMe(size, size, currx, curry);
+            app.stage.addChild(monsters[i].rect)
+            // console.log("HERE");
+            // console.log(chests[i].x);
+            // console.log(chests[i].y);
+        }
+    }
     if(curr_player.in_combat)
     {
         // console.log(game_map[range[0]].sprite.saturation)
         for(let i = 0;i < range.length;i++)
         {
+            console.log(game_map[range[i]])
             game_map[range[i]].sprite.alpha = 0.5;
             game_map[range[i]].sprite.tint = 0xFFBB88;
             // game_map[range[i]].sprite.saturation = .1;
@@ -259,47 +271,60 @@ function sight()
     }
 }
 
-function checkHit()
+let play_inds = new Array(players.length);
+function setPlays()
 {
-    if(ptr == curr_player.y * xrectnum + curr_player.x)
-        return false;
-    if(!monster_indices.includes(ptr))
-        return false;
-    if(curr_player.atk_str)
+    for(let i = 0;i < players.length;i++)
     {
-        if(Math.abs(curr_player.y * xrectnum + curr_player.x - ptr) % xrectnum != 0 && ~~((curr_player.y * xrectnum + curr_player.x) / xrectnum) != ~~(ptr / xrectnum))
+        play_inds[i] = players[i].y * xrectnum + players[i].x;
+    }
+}
+
+setPlays();
+
+function inRange(attacker, target_pos)
+{
+    if(!monster_indices.includes(target_pos))
+        return false;
+    let target = monsters[monster_indices.indexOf(target_pos)];
+    let atk_pos = attacker.y * xrectnum + attacker.x;
+    if(target_pos == atk_pos)
+        return false;
+    if(attacker.atk_str)
+    {
+        if(Math.abs(atk_pos - target_pos) % xrectnum != 0 && ~~((atk_pos) / xrectnum) != ~~(target_pos / xrectnum))
             return false;
         let dir;
-        if((curr_player.y * xrectnum + curr_player.x - ptr) % xrectnum == 0 && curr_player.y * xrectnum + curr_player.x - ptr > 0)
+        if((atk_pos - target_pos) % xrectnum == 0 && atk_pos - target_pos > 0)
             dir = 0; // dir is up
-        else if((curr_player.y * xrectnum + curr_player.x - ptr) % xrectnum == 0 && curr_player.y * xrectnum + curr_player.x - ptr < 0)
+        else if((atk_pos - target_pos) % xrectnum == 0 && atk_pos - target_pos < 0)
             dir = 1; // dir is down
-        else if(curr_player.y * xrectnum + curr_player.x - ptr < 0 && ~~((curr_player.y * xrectnum + curr_player.x) / xrectnum) == ~~(ptr / xrectnum))
+        else if(atk_pos - target_pos < 0 && ~~((atk_pos) / xrectnum) == ~~(target_pos / xrectnum))
             dir = 2; // dir is right
-        else if(curr_player.y * xrectnum + curr_player.x - ptr > 0 && ~~((curr_player.y * xrectnum + curr_player.x) / xrectnum) == ~~(ptr / xrectnum))
+        else if(atk_pos - target_pos > 0 && ~~((atk_pos) / xrectnum) == ~~(target_pos / xrectnum))
             dir = 3; // dir is left
         else
         {
             console.log("OH NO!")
-            console.log(curr_player.y * xrectnum + curr_player.x + " and " + ptr);
+            console.log(atk_pos + " and " + target_pos);
         }
         let pos;
         switch(dir)
         {
         case 0:
-            pos = curr_player.y * xrectnum + curr_player.x - xrectnum;
-            while(pos != ptr)
+            pos = atk_pos - xrectnum;
+            while(pos != target_pos)
             {
                 if(game_maze[2 * pos].exists)
                     return false;
                 pos -= xrectnum
             }
-            if(game_maze[2 * ptr].exists)
+            if(game_maze[2 * target_pos].exists)
                 return false;
             break;
         case 1:
-            pos = curr_player.y * xrectnum + curr_player.x;
-            while(pos != ptr)
+            pos = atk_pos;
+            while(pos != target_pos)
             {
                 if(game_maze[2 * pos].exists)
                     return false;
@@ -307,8 +332,8 @@ function checkHit()
             }
             break;
         case 2:
-            pos = curr_player.y * xrectnum + curr_player.x;
-            while(pos != ptr)
+            pos = atk_pos;
+            while(pos != target_pos)
             {
                 if(game_maze[2 * pos + 1].exists)
                     return false;
@@ -316,8 +341,8 @@ function checkHit()
             }
             break;
         case 3:
-            pos = curr_player.y * xrectnum + curr_player.x;
-            while(pos != ptr)
+            pos = atk_pos;
+            while(pos != target_pos)
             {
                 if(2 * pos - 1 > 0)
                 {
@@ -329,9 +354,9 @@ function checkHit()
             }
             break;
         }
-        console.log(dir);
-        dealDamage(curr_player, monsters[monster_indices.indexOf(ptr)]);
-        console.log(monsters[monster_indices.indexOf(ptr)].health);
+        // console.log(dir);
+        // dealDamage(attacker, monsters[monster_indices.indexOf(target_pos)]);
+        // console.log(monsters[monster_indices.indexOf(target_pos)].health);
         console.log("HIT");
         return true;
     }
@@ -397,6 +422,7 @@ for (let t = 0; t < players.length; t++) {
     // console.log(players[t].x, players[t].y)
     app.stage.addChild(players[t].rect)
 }
+
 
 function checkPlayer(map_ind)
 {
@@ -474,14 +500,20 @@ function keyStart(e)
         curr_player = players[3]
         ptr = curr_player.y * xrectnum + curr_player.x;
     }
-    else if(key == key_n)
+    else if(key == key_n && !curr_player.turn_end)
     {
         if(curr_player.in_combat) // Add getValid to check if a sqr is valid for attack
         {
             // Add dealDamage stuff
             
             // Add that if you missed then end combat early
-            let hit = checkHit();
+            let hit = inRange(curr_player, ptr);
+            if(hit)
+            {
+                dealDamage(curr_player, ptr);
+                curr_player.turn_end = true;
+                curr_player.in_combat = false;
+            }
             if(!hit) //This will also just run through the entire function so even if it hits the rigth functino will be carried out
             {
                 curr_player.in_combat = false;
@@ -529,12 +561,13 @@ function keyStart(e)
         for(let n = 0;n < 4;n++)
         {
             players[n].blks_moved = 0;
+            players[n].turn_end = false;
         }
         curr_player.in_combat = false;
         //Call monster stuff here or somewhere else
         return;
     }
-    else if(seen_indices.includes(curr_player.x + curr_player.y*xrectnum) && curr_player.x - 1 >= 0 && (key == left || key == key_a) && !game_maze[curr_player.y * 2 * xrectnum + curr_player.x * 2 - 1].getWall() && curr_player.blks_moved != curr_player.speed && !checkPlayer(curr_player.y * xrectnum + curr_player.x - 1))
+    else if(seen_indices.includes(curr_player.x + curr_player.y*xrectnum) && curr_player.x - 1 >= 0 && (key == left || key == key_a) && !game_maze[curr_player.y * 2 * xrectnum + curr_player.x * 2 - 1].getWall() && curr_player.blks_moved != curr_player.speed && !checkPlayer(curr_player.y * xrectnum + curr_player.x - 1) && !curr_player.turn_end)
     {
         curr_player.x--;
         curr_player.blks_moved++;
@@ -543,9 +576,9 @@ function keyStart(e)
         shifty = Math.min(shifty, yrectnum - curry - 2)
         shiftx = Math.min(shiftx, xrectnum - curry - 2)
         ptr = curr_player.y * xrectnum + curr_player.x;
-        console.log(ptr);
+        // console.log(ptr);
     }
-    else if(seen_indices.includes(curr_player.x + curr_player.y*xrectnum) && curr_player.y - 1 >= 0 && (key == up || key == key_w) && !game_maze[(curr_player.y - 1) * 2 * xrectnum + curr_player.x * 2].getWall() && curr_player.blks_moved != curr_player.speed && !checkPlayer(curr_player.y * xrectnum + curr_player.x - xrectnum))
+    else if(seen_indices.includes(curr_player.x + curr_player.y*xrectnum) && curr_player.y - 1 >= 0 && (key == up || key == key_w) && !game_maze[(curr_player.y - 1) * 2 * xrectnum + curr_player.x * 2].getWall() && curr_player.blks_moved != curr_player.speed && !checkPlayer(curr_player.y * xrectnum + curr_player.x - xrectnum) && !curr_player.turn_end)
     {
         curr_player.y--;
         curr_player.blks_moved++;
@@ -554,9 +587,9 @@ function keyStart(e)
         shifty = Math.min(shifty, yrectnum - curry - 2)
         shiftx = Math.min(shiftx, xrectnum - curry - 2)
         ptr = curr_player.y * xrectnum + curr_player.x;
-        console.log(ptr);
+        // console.log(ptr);
     }
-    else if(seen_indices.includes(curr_player.x + curr_player.y*xrectnum) && curr_player.x + 1 < xrectnum && (key == right || key == key_d) && !game_maze[curr_player.y * 2 * xrectnum + curr_player.x * 2 + 1].getWall() && curr_player.blks_moved != curr_player.speed && !checkPlayer(curr_player.y * xrectnum + curr_player.x + 1))
+    else if(seen_indices.includes(curr_player.x + curr_player.y*xrectnum) && curr_player.x + 1 < xrectnum && (key == right || key == key_d) && !game_maze[curr_player.y * 2 * xrectnum + curr_player.x * 2 + 1].getWall() && curr_player.blks_moved != curr_player.speed && !checkPlayer(curr_player.y * xrectnum + curr_player.x + 1) && !curr_player.turn_end)
     {
         curr_player.x++;
         curr_player.blks_moved++;
@@ -565,9 +598,9 @@ function keyStart(e)
         shifty = Math.min(shifty, yrectnum - curry - 2)
         shiftx = Math.min(shiftx, xrectnum - curry - 2)
         ptr = curr_player.y * xrectnum + curr_player.x;
-        console.log(ptr);
+        // console.log(ptr);
     }
-    else if(seen_indices.includes(curr_player.x + curr_player.y*xrectnum) && curry + 1 < yrectnum && (key == down || key == key_s) && !game_maze[(curr_player.y) * 2 * xrectnum + curr_player.x * 2].getWall() && curr_player.blks_moved != curr_player.speed && !checkPlayer(curr_player.y * xrectnum + curr_player.x + xrectnum))
+    else if(seen_indices.includes(curr_player.x + curr_player.y*xrectnum) && curry + 1 < yrectnum && (key == down || key == key_s) && !game_maze[(curr_player.y) * 2 * xrectnum + curr_player.x * 2].getWall() && curr_player.blks_moved != curr_player.speed && !checkPlayer(curr_player.y * xrectnum + curr_player.x + xrectnum) && !curr_player.turn_end)
     {
         curr_player.y++;
         curr_player.blks_moved++;
@@ -576,7 +609,7 @@ function keyStart(e)
         shifty = Math.min(shifty, yrectnum - curry - 2)
         shiftx = Math.min(shiftx, xrectnum - curry - 2)
         ptr = curr_player.y * xrectnum + curr_player.x;
-        console.log(ptr);
+        // console.log(ptr);
     }
     else
         return null
@@ -618,4 +651,5 @@ function keyStart(e)
     // console.log(ptr);
     // console.log(get_view_sqr(curr_player.x, curr_player.y, xrectnum, yrectnum, curr_player.vis_tier));
     // console.log(game_map[ptr].biome);
+    setPlays();
 }

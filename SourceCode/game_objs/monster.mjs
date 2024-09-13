@@ -29,12 +29,12 @@ export class Monster extends Entities
             // // alert(color);
             break;
         case 4:
-            color = 0x6011FF
+            this.color = 0x6011FF
             // // alert(4)
             // // alert(color)
             break;
         case 5:
-            color = 0xBB1F71
+            this.color = 0xBB1F71
             // // alert(6);
             // // alert(color)
             break;

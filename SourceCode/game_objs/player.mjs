@@ -1,7 +1,7 @@
 import { Entities } from "./entity_classes.mjs";
 export class Player extends Entities
 {
-    constructor( player_ind, sizex, sizey)
+    constructor( player_ind, sizex, sizey, vis_tier)
     {
         // // alert("Here");
         super();
@@ -16,12 +16,13 @@ export class Player extends Entities
         // // alert("2");
         super.setStrength(4);
         // // alert("3");
-        super.setRange(2);
         // // alert("4");
         super.setProt(0, 0);
-        super.setVis(3);
+        super.setVis(vis_tier);
         // // alert("5");
         super.setpos(0, 0);
+        super.setRange(Math.min(2, vis_tier));
+
         this.player_ind = player_ind
         this.atk_str = true;
         
@@ -36,6 +37,7 @@ export class Player extends Entities
         else if (this.player_ind == 3)
             this.rect.fill(0xFF00FF);
         this.in_combat = false;
+        this.turn_end = false;
         // // alert("6");
         // super.move(10, 10);
         // super.printPos();
