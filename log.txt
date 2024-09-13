@@ -282,3 +282,18 @@ next steps
 		- ghost sword (sword but ignores walls)
 	- stat menu
 	- monster AI implementation
+
+9/12/2024 
+- modulize vis_updated
+	- the result genuinely looks pretty good right now
+	- however, the code steps are very ugly
+	- sight, inrange, etc. can be made their own files, and vis_updated needs to be cleaned
+	- the directory also needs to be made way cleaner
+	- note to vivek: if a function is important, give it its own file or group with other things in a new file
+- combat stuff
+	- don't highlight if through a wall
+	- need to configure how bombs / monsters / players would work in the way of combat
+- begin monster AI implementation
+	- note to mayur: go through entity stuff and see how it all works
+- make the display screen
+	- either of us can do this
