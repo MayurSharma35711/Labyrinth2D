@@ -26,5 +26,7 @@ IDEAS
     
     - You cannot change any pieces of equipment you have on after you attack that must be done in the interaction step
 
+    - If speed is high then you may about half the number of steps, attack then again move half the number of steps
+
 --------------------------------------------------
 */

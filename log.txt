@@ -223,6 +223,33 @@ next steps
 		- node A* function
 		- monster AI
 
+8/28/24
+- spoke with manthan
+	- perhaps put loops in how the level backgrounds are generated
+		- plains -> water or desert as neighbors
+		- water -> snowy or muddy as neighbors
+		- only put this in if infinite levels or level loop
+	- add in items related to lore
+		- these could have special effects and add to collectibles in games
+		- sub-boss that runs around map 
+			- when defeated shows where you have been
+	- strict improvement of weapon and armor systems doesn't make sense
+		- however, make it so that higher tiers are more generally useful
+		- lower tier items might require to rest a turn
+	- good traps could be nice
+		- stop player from moving for 1 or 2 turns
+		- bomb on tile
+		- laser that goes down tile
+	- checkout pixel dungeon and grim tides (both free) and spelunky 2 (not free)
+	- track usage of items for sake of statistics and how to balance
+		- play rate and win rate
+	- slightly gray out visibility of players a,b,c when controlling player d
+		- this will prevent you from losing them accidentally
+	- when you die, rather than keep your inventory
+		- keep them as blueprints which you can craft
+			- given you have the money and, if S tier, you have items
+		- however, you can start with B or C tier of that item 
+
 9/11/24
 
 - Didn't write in log for a while
