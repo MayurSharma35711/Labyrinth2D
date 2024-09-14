@@ -4,6 +4,8 @@ import { total_visible_indices, get_view_sqr, get_view_range } from "./methods/v
 import { print_walls } from "./bkgnd_objs/mazegen.mjs";
 import { make_maze_dicts } from "./methods/path_finding_nodes.mjs";
 import { init_bkgnd } from "./init.mjs";
+import { sight } from "./sight.mjs";
+import { inRange } from "./inRange.mjs";
 
 await PIXI.Assets.load('../Textures/bkgnd/ShadowLands2.png');
 await PIXI.Assets.load('../Textures/bkgnd/Desert2.png');
@@ -156,121 +158,6 @@ function printMonsterLoc()
 }
 printMonsterLoc();
 
-// Sight uses visiblity code to show the map tiles and maze tiles that are visible
-function sight()
-{
-    while(vis.children[0])
-    {
-        vis.removeChild(vis.children[0]);
-    }
-    while(walls.children[0])
-    {
-        walls.removeChild(walls.children[0]);
-    }
-    let map_indices = total_visible_indices(players, xrectnum, yrectnum);
-    let curr_player_view = get_view_sqr(curr_player.x, curr_player.y, xrectnum, yrectnum, curr_player.vis_tier)
-    let range = get_view_range(curr_player.x, curr_player.y, xrectnum, yrectnum, curr_player.range)
-    let opac_arr = new Array(map_indices.length);
-    for (let k = 0; k < map_indices.length; k++) {
-        if(map_indices[k] == ptr && curr_player.in_combat)
-        {
-            opac_arr[k] = 0.1
-            continue
-        }
-        // if(range.includes(map_indices[k]))
-        //     opac_arr[k] = 1;
-        if (curr_player_view.includes(map_indices[k]))
-            opac_arr[k] = 0.8
-        else
-            opac_arr[k] = 0.4
-    }
-
-    for(let i = 0; i < map_indices.length;i++)
-    {
-        game_map[map_indices[i]].drawMe(size, size, currx, curry, opac_arr[i]);
-        // if(map_indices[i] == ptr)
-        // {
-        //     console.log(ptr);
-        // }
-    }
-    for(let i = 0;i < map_indices.length;i++)
-    {
-        let map_indexer = map_indices[i]
-        if(map_indexer < xrectnum) {
-            let upwall = PIXI.Sprite.from('../Textures/bkgnd/WallsHorizontal.png');
-            upwall.height = 0.3 * size;
-            upwall.width = size;
-            upwall.x = (map_indexer - currx) * size;
-            upwall.y = (- curry) * size - 0.15*size;
-            walls.addChild(upwall)
-        }
-        if(map_indexer % xrectnum == 0) {
-            let leftwall = PIXI.Sprite.from('../Textures/bkgnd/WallsVertical.png');
-            leftwall.height = size;
-            leftwall.width = 0.3 * size;
-            leftwall.x = (0 - currx) * size - 0.15*size;
-            leftwall.y = (map_indexer / xrectnum - curry) * size;
-            walls.addChild(leftwall)
-        }
-        if(!map_indices.includes(map_indexer - xrectnum) && map_indexer - xrectnum >= 0) {
-            if (opac_arr[i] != 0.3)
-                game_maze[2 * map_indices[i] - 2*xrectnum].drawMe(size, size, currx, curry, (1+opac_arr[i])/2);
-            else
-                game_maze[2 * map_indices[i] - 2*xrectnum].drawMe(size, size, currx, curry, 1);
-        }
-        if(!map_indices.includes(map_indexer - 1) && map_indexer % xrectnum > 0) {
-            if (opac_arr[i] != 0.3)
-                game_maze[2 * map_indices[i] - 1].drawMe(size, size, currx, curry, (1+opac_arr[i])/2);
-            else
-                game_maze[2 * map_indices[i] - 1].drawMe(size, size, currx, curry, 1);
-        }
-        if (opac_arr[i] != 0.3) {
-            game_maze[2 * map_indices[i]].drawMe(size, size, currx, curry, (1+opac_arr[i])/2);
-            game_maze[2 * map_indices[i] + 1].drawMe(size, size, currx, curry, (1+opac_arr[i])/2);
-        }
-        else{
-            game_maze[2 * map_indices[i]].drawMe(size, size, currx, curry, 1);
-            game_maze[2 * map_indices[i] + 1].drawMe(size, size, currx, curry, 1);
-        }
-    }
-    for(let i = 0;i < chest_indices.length;i++)
-    {
-        if(map_indices.includes(chest_indices[i]))
-        {
-            chests[i].drawMe(size, size, currx, curry);
-            // console.log("HERE");
-            // console.log(chests[i].x);
-            // console.log(chests[i].y);
-        }
-    }
-    for(let i = 0;i < monsters.length;i++)
-    {
-        app.stage.removeChild(monsters[i].rect);
-        if(map_indices.includes(monster_indices[i]))
-        {
-            console.log(monster_indices[i], i)
-            monsters[i].drawMe(size, size, currx, curry);
-            app.stage.addChild(monsters[i].rect)
-            // console.log("HERE");
-            // console.log(chests[i].x);
-            // console.log(chests[i].y);
-        }
-    }
-    if(curr_player.in_combat)
-    {
-        // console.log(game_map[range[0]].sprite.saturation)
-        for(let i = 0;i < range.length;i++)
-        {
-            console.log(game_map[range[i]])
-            game_map[range[i]].sprite.alpha = 0.5;
-            game_map[range[i]].sprite.tint = 0xFFBB88;
-            // game_map[range[i]].sprite.saturation = .1;
-        }
-        game_map[ptr].sprite.alpha = 0
-        game_map[ptr].sprite.tint = 0xFFFFFF;
-    }
-}
-
 let play_inds = new Array(players.length);
 function setPlays()
 {
@@ -281,86 +168,6 @@ function setPlays()
 }
 
 setPlays();
-
-function inRange(attacker, target_pos)
-{
-    if(!monster_indices.includes(target_pos))
-        return false;
-    let target = monsters[monster_indices.indexOf(target_pos)];
-    let atk_pos = attacker.y * xrectnum + attacker.x;
-    if(target_pos == atk_pos)
-        return false;
-    if(attacker.atk_str)
-    {
-        if(Math.abs(atk_pos - target_pos) % xrectnum != 0 && ~~((atk_pos) / xrectnum) != ~~(target_pos / xrectnum))
-            return false;
-        let dir;
-        if((atk_pos - target_pos) % xrectnum == 0 && atk_pos - target_pos > 0)
-            dir = 0; // dir is up
-        else if((atk_pos - target_pos) % xrectnum == 0 && atk_pos - target_pos < 0)
-            dir = 1; // dir is down
-        else if(atk_pos - target_pos < 0 && ~~((atk_pos) / xrectnum) == ~~(target_pos / xrectnum))
-            dir = 2; // dir is right
-        else if(atk_pos - target_pos > 0 && ~~((atk_pos) / xrectnum) == ~~(target_pos / xrectnum))
-            dir = 3; // dir is left
-        else
-        {
-            console.log("OH NO!")
-            console.log(atk_pos + " and " + target_pos);
-        }
-        let pos;
-        switch(dir)
-        {
-        case 0:
-            pos = atk_pos - xrectnum;
-            while(pos != target_pos)
-            {
-                if(game_maze[2 * pos].exists)
-                    return false;
-                pos -= xrectnum
-            }
-            if(game_maze[2 * target_pos].exists)
-                return false;
-            break;
-        case 1:
-            pos = atk_pos;
-            while(pos != target_pos)
-            {
-                if(game_maze[2 * pos].exists)
-                    return false;
-                pos += xrectnum
-            }
-            break;
-        case 2:
-            pos = atk_pos;
-            while(pos != target_pos)
-            {
-                if(game_maze[2 * pos + 1].exists)
-                    return false;
-                pos++;
-            }
-            break;
-        case 3:
-            pos = atk_pos;
-            while(pos != target_pos)
-            {
-                if(2 * pos - 1 > 0)
-                {
-                    if(game_maze[2 * pos - 1].exists)
-                        return false;
-                    pos--;
-                    break;
-                }
-            }
-            break;
-        }
-        // console.log(dir);
-        // dealDamage(attacker, monsters[monster_indices.indexOf(target_pos)]);
-        // console.log(monsters[monster_indices.indexOf(target_pos)].health);
-        console.log("HIT");
-        return true;
-    }
-}
 
 document.addEventListener('keydown', keyStart)
 
@@ -415,7 +222,7 @@ act_currx = currx
 act_curry = curry
 // console.log("-----------------")
 // console.log(currx,curry)
-sight();
+sight(game_map, game_maze, xrectnum, yrectnum, players, curr_player, monsters, ptr, size, currx, curry, chest_indices, chests, monster_indices, app);
 
 for (let t = 0; t < players.length; t++) {
     players[t].drawMe(size, size, currx, curry)
@@ -425,18 +232,6 @@ for (let t = 0; t < players.length; t++) {
 
 
 function checkPlayer(map_ind)
-{
-    for(let i = 0;i < players.length;i++)
-    {
-        if(players[i].y * xrectnum + players[i].x == map_ind)
-        {
-            return true;
-        }
-    }
-    return false;
-}
-
-function checkMonster(map_ind)
 {
     for(let i = 0;i < players.length;i++)
     {
@@ -507,7 +302,7 @@ function keyStart(e)
             // Add dealDamage stuff
             
             // Add that if you missed then end combat early
-            let hit = inRange(curr_player, ptr);
+            let hit = inRange(curr_player, ptr, monster_indices, monsters, xrectnum, game_maze);
             if(hit)
             {
                 dealDamage(curr_player, ptr);
@@ -642,7 +437,7 @@ function keyStart(e)
     // console.log("-----------------")
 // console.log(currx,curry)
     // console.log(currx, curry)
-    sight();
+    sight(game_map, game_maze, xrectnum, yrectnum, players, curr_player, monsters, ptr, size, currx, curry, chest_indices, chests, monster_indices, app);
     for (let t = 0; t < players.length; t++) {
         players[t].drawMe(size, size, currx, curry)
         // console.log(players[t])
