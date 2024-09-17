@@ -14,7 +14,7 @@ export function sight(game_map, game_maze, xrectnum, yrectnum, players, curr_pla
     }
     let map_indices = total_visible_indices(players, xrectnum, yrectnum);
     let curr_player_view = get_view_sqr(curr_player.x, curr_player.y, xrectnum, yrectnum, curr_player.vis_tier)
-    let range = get_view_range(curr_player.x, curr_player.y, xrectnum, yrectnum, curr_player.range)
+    let range = get_view_range(curr_player.x, curr_player.y, xrectnum, yrectnum, curr_player.range, game_maze)
     let opac_arr = new Array(map_indices.length);
     for (let k = 0; k < map_indices.length; k++) {
         if(map_indices[k] == ptr && curr_player.in_combat)

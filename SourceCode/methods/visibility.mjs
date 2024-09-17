@@ -40,8 +40,69 @@ export function get_view_sqr (center_x, center_y, numx, numy, tier) {
     return map_indices
 }
 
+function blocked(pt1, pt2, xrectnum, game_maze) // pt1 is curr pos, pt2 is questioned pos
+{
+    if(Math.abs(pt1 - pt2) % xrectnum != 0 && ~~((pt1) / xrectnum) != ~~(pt2 / xrectnum))
+        return false;
+    let dir;
+    if((pt1 - pt2) % xrectnum == 0 && pt1 - pt2 > 0)
+        dir = 0; // dir is up
+    else if((pt1 - pt2) % xrectnum == 0 && pt1 - pt2 < 0)
+        dir = 1; // dir is down
+    else if(pt1 - pt2 < 0 && ~~((pt1) / xrectnum) == ~~(pt2 / xrectnum))
+        dir = 2; // dir is right
+    else if(pt1 - pt2 > 0 && ~~((pt1) / xrectnum) == ~~(pt2 / xrectnum))
+        dir = 3; // dir is left
+    let pos;
+    switch(dir)
+    {
+    case 0:
+        pos = pt1 - xrectnum;
+        while(pos != pt2)
+        {
+            if(game_maze[2 * pos].exists)
+                return false;
+            pos -= xrectnum
+        }
+        if(game_maze[2 * pt2].exists)
+            return false;
+        break;
+    case 1:
+        pos = pt1;
+        while(pos != pt2)
+        {
+            if(game_maze[2 * pos].exists)
+                return false;
+            pos += xrectnum
+        }
+        break;
+    case 2:
+        pos = pt1;
+        while(pos != pt2)
+        {
+            if(game_maze[2 * pos + 1].exists)
+                return false;
+            pos++;
+        }
+        break;
+    case 3:
+        pos = pt1;
+        while(pos != pt2)
+        {
+            if(2 * pos - 1 > 0)
+            {
+                if(game_maze[2 * pos - 1].exists)
+                    return false;
+                pos--;
+            }
+        }
+        break;
+    }
+    return true; // This means I wasn't blocked
+}
+
 // can use this for most other damages
-export function get_view_range (center_x, center_y, numx, numy, tier) {
+export function get_view_range (center_x, center_y, numx, numy, tier, game_maze) {
     // These give the shape of the visibility square
     // let cutoff;
     // if (tier == 0) 
@@ -59,6 +120,8 @@ export function get_view_range (center_x, center_y, numx, numy, tier) {
     for (let y_off = -off_cen_size; y_off < off_cen_size + 1; y_off++) {
         if (center_y + y_off < 0 || center_y + y_off > numy - 1)
             continue
+        if (!blocked(center_y * numx + center_x, center_x + numx*(center_y + y_off), numx, game_maze))
+            continue;
         map_indices.push(center_x + numx*(center_y + y_off))
     }  
     for (let x_off = -off_cen_size; x_off < off_cen_size + 1; x_off++) {
@@ -72,8 +135,10 @@ export function get_view_range (center_x, center_y, numx, numy, tier) {
         // }
         if (center_x + x_off < 0 || center_x + x_off > numx - 1)
             continue
+        if (!blocked(center_y * numx + center_x, (center_x+x_off) + numx*(center_y), numx, game_maze))
+            continue;
         map_indices.push((center_x+x_off) + numx*(center_y))
-    } 
+    }
     return map_indices
 }
 

@@ -145,19 +145,6 @@ for(let i = 0;i < monsters.length;i++)
     monster_indices[i] = monsters[i].y * xrectnum + monsters[i].x;
 }
 
-function printMonsterLoc()
-{
-    for(let i = 0;i < monster_indices.length;i++)
-    {
-        if(monster_indices[i] < 35)
-        {
-            console.log(monster_indices[i]);
-            console.log(monsters[i].health);
-        }
-    }
-}
-printMonsterLoc();
-
 let play_inds = new Array(players.length);
 function setPlays()
 {
@@ -302,8 +289,8 @@ function keyStart(e)
             // Add dealDamage stuff
             
             // Add that if you missed then end combat early
-            let hit = inRange(curr_player, ptr, monster_indices, monsters, xrectnum, game_maze);
-            if(hit)
+            let hit = inRange(curr_player, ptr, xrectnum, game_maze, monster_indices);
+            if(hit && monster_indices.includes(ptr))
             {
                 dealDamage(curr_player, ptr);
                 curr_player.turn_end = true;
@@ -323,28 +310,28 @@ function keyStart(e)
     }
     else if(key == up && curr_player.in_combat)
     {
-        if(get_view_range(curr_player.x, curr_player.y, xrectnum, yrectnum, curr_player.range).includes(ptr - xrectnum))
+        if(get_view_range(curr_player.x, curr_player.y, xrectnum, yrectnum, curr_player.range, game_maze, curr_player, game_maze).includes(ptr - xrectnum))
         {
             ptr = ptr - xrectnum;
         }
     }
     else if(key == down && curr_player.in_combat)
     {
-        if(get_view_range(curr_player.x, curr_player.y, xrectnum, yrectnum, curr_player.range).includes(ptr + xrectnum))
+        if(get_view_range(curr_player.x, curr_player.y, xrectnum, yrectnum, curr_player.range, game_maze, curr_player, game_maze).includes(ptr + xrectnum))
         {
             ptr = ptr + xrectnum;
         }
     }
     else if(key == left && curr_player.in_combat)
     {
-        if(get_view_range(curr_player.x, curr_player.y, xrectnum, yrectnum, curr_player.range).includes(ptr - 1))
+        if(get_view_range(curr_player.x, curr_player.y, xrectnum, yrectnum, curr_player.range, game_maze, curr_player, game_maze).includes(ptr - 1))
         {
             ptr--;
         }
     }
     else if(key == right && curr_player.in_combat)
     {
-        if(get_view_range(curr_player.x, curr_player.y, xrectnum, yrectnum, curr_player.range).includes(ptr + 1))
+        if(get_view_range(curr_player.x, curr_player.y, xrectnum, yrectnum, curr_player.range, game_maze, curr_player, game_maze).includes(ptr + 1))
         {
             ptr++;
         }
