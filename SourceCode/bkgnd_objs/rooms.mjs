@@ -1,6 +1,6 @@
-import { print_walls } from "../bkgnd_objs/mazegen.mjs";
-import { Stack } from "./datatypes.mjs";
-import { get_nbr } from "../bkgnd_objs/mazegen.mjs";
+import { print_walls } from "./mazegen.mjs";
+import { Stack } from "../methods/datatypes.mjs";
+import { get_nbr } from "./mazegen.mjs";
 
 function room_gen(startx, starty, xnum, ynum, xsize, ysize, maze, map, new_biome)
 {

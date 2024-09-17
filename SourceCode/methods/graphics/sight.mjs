@@ -1,6 +1,6 @@
-import { vis } from "./vis_updated.mjs";
-import { walls } from "./vis_updated.mjs";
-import { total_visible_indices, get_view_range, get_view_sqr } from "./methods/visibility.mjs";
+import { vis } from "../../vis_updated.mjs";
+import { walls } from "../../vis_updated.mjs";
+import { total_visible_indices, get_view_range, get_view_sqr } from "./visibility.mjs";
 // Sight uses visiblity code to show the map tiles and maze tiles that are visible
 export function sight(game_map, game_maze, xrectnum, yrectnum, players, curr_player, monsters, ptr, size, currx, curry, chest_indices, chests, monster_indices, app)
 {

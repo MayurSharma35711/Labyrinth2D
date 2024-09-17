@@ -1,5 +1,5 @@
-import { Priority_Queue } from "./datatypes.mjs"
-import { Dictionary } from "./datatypes.mjs"
+import { Priority_Queue } from "../datatypes.mjs"
+import { Dictionary } from "../datatypes.mjs"
 import { Astar_maze } from "./path_finding.mjs"
 import { heur_l2sqr, dijkstra, heur_l1 } from "./path_finding.mjs"
 

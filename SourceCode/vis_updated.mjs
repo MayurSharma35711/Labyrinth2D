@@ -1,11 +1,11 @@
 import { Player } from "./game_objs/player.mjs";
 import { Monster } from "./game_objs/monster.mjs";
-import { total_visible_indices, get_view_sqr, get_view_range } from "./methods/visibility.mjs";
+import { total_visible_indices, get_view_sqr, get_view_range } from "./methods/graphics/visibility.mjs";
 import { print_walls } from "./bkgnd_objs/mazegen.mjs";
-import { make_maze_dicts } from "./methods/path_finding_nodes.mjs";
+import { make_maze_dicts } from "./methods/monster/path_finding_nodes.mjs";
 import { init_bkgnd } from "./init.mjs";
-import { sight } from "./sight.mjs";
-import { inRange } from "./inRange.mjs";
+import { sight } from "./methods/graphics/sight.mjs";
+import { inRange } from "./methods/inRange.mjs";
 
 await PIXI.Assets.load('../Textures/bkgnd/ShadowLands2.png');
 await PIXI.Assets.load('../Textures/bkgnd/Desert2.png');
