@@ -1,4 +1,4 @@
-import { get_view_range } from "./methods/visibility.mjs";
+import { get_view_range } from "../graphics/visibility.mjs";
 
 export function inRange(curr_player, target_pos, xrectnum, game_maze, monster_indices)
 {

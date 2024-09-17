@@ -297,3 +297,14 @@ next steps
 	- note to mayur: go through entity stuff and see how it all works
 - make the display screen
 	- either of us can do this
+
+9/16/2024
+- (vivek) combat now mostly works
+	- need to configure bombs and AOE effects and other weird weapon shapes (X, spiral, etc.) works
+- (mayur) set up monster AI 
+	- start out with simple AI 
+- (mayur or vivek) make a simple display working 
+	- when not in combat, put stats for current character
+	- when in combat, but stats for item on map tile
+- (vivek) use oldcode stuff to get a pause menu, title menu, and a game win / game over screen
+- figure out how to process damage and make things die

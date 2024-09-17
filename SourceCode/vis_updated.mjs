@@ -5,7 +5,7 @@ import { print_walls } from "./bkgnd_objs/mazegen.mjs";
 import { make_maze_dicts } from "./methods/monster/path_finding_nodes.mjs";
 import { init_bkgnd } from "./init.mjs";
 import { sight } from "./methods/graphics/sight.mjs";
-import { inRange } from "./methods/inRange.mjs";
+import { inRange } from "./methods/combat/inRange.mjs";
 
 await PIXI.Assets.load('../Textures/bkgnd/ShadowLands2.png');
 await PIXI.Assets.load('../Textures/bkgnd/Desert2.png');
