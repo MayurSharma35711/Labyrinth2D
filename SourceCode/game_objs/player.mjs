@@ -25,6 +25,7 @@ export class Player extends Entities
 
         this.player_ind = player_ind
         this.atk_str = true;
+        this.range_type = "regular";
         
         this.rect = new PIXI.Graphics();
         this.rect.rect(0, 0, sizex/2, sizey/2);

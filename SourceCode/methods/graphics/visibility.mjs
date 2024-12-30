@@ -4,6 +4,7 @@
 // tier 1 gets a 3x3 visibility square
 // tier 2 gets a 5x5 visibility square without corners
 // tier 3 gets a 7x7 visibility square with 3-triangles cut from corners
+import { x_view_range } from "../combat/xRange.mjs";
 
 // can us get view square for AOE damage
 export function get_view_sqr (center_x, center_y, numx, numy, tier) {
@@ -102,7 +103,7 @@ function blocked(pt1, pt2, xrectnum, game_maze) // pt1 is curr pos, pt2 is quest
 }
 
 // can use this for most other damages
-export function get_view_range (center_x, center_y, numx, numy, tier, game_maze) {
+export function get_view_range (center_x, center_y, numx, numy, tier, game_maze, range_type) {
     // These give the shape of the visibility square
     // let cutoff;
     // if (tier == 0) 
@@ -113,6 +114,10 @@ export function get_view_range (center_x, center_y, numx, numy, tier, game_maze)
     //     cutoff = 1
     // else if (tier > 2)
     //     cutoff = tier - 1
+    if(range_type == "xrange")
+    {
+        return x_view_range(center_x, center_y, numx, numy, tier);
+    }
     const off_cen_size = Math.max(1, tier)
 
     // We now use this to give our side indices

@@ -69,6 +69,14 @@ Rendering / Visual + Maze tranversal
 - Torches spawn randomly
 - All textures have secondary textures
 	- The textures are too bright
+- Make get_view_range gives you combatable indices
+	- parameters
+		- attacker (Entity)
+			- gives str_atk, curr_pos, curr_equipment etc.
+	- returns
+		- array of indices in combatable range
+	- usefulness
+		- inRange will call this using ".includes" for easy implementation
 
 Graphics Optimization
 	- Spritesheets

@@ -14,7 +14,16 @@ export function sight(game_map, game_maze, xrectnum, yrectnum, players, curr_pla
     }
     let map_indices = total_visible_indices(players, xrectnum, yrectnum);
     let curr_player_view = get_view_sqr(curr_player.x, curr_player.y, xrectnum, yrectnum, curr_player.vis_tier)
-    let range = get_view_range(curr_player.x, curr_player.y, xrectnum, yrectnum, curr_player.range, game_maze)
+    let range = get_view_range(curr_player.x, curr_player.y, xrectnum, yrectnum, curr_player.range, game_maze, curr_player.range_type)
+    range = new Set(range);
+    range = range.intersection(new Set(curr_player_view));
+    range = Array.from(range)
+    // console.log("---########################");
+    // console.log(range.length);
+    // console.log(range);
+    // console.log(curr_player_view);
+    
+    // console.log("---########################");
     let opac_arr = new Array(map_indices.length);
     for (let k = 0; k < map_indices.length; k++) {
         if(map_indices[k] == ptr && curr_player.in_combat)
@@ -106,6 +115,8 @@ export function sight(game_map, game_maze, xrectnum, yrectnum, players, curr_pla
         // console.log(game_map[range[0]].sprite.saturation)
         for(let i = 0;i < range.length;i++)
         {
+            if(!curr_player_view.includes(range[i]))
+                continue;
             console.log(game_map[range[i]])
             game_map[range[i]].sprite.alpha = 0.5;
             game_map[range[i]].sprite.tint = 0xFFBB88;
