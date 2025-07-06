@@ -1,5 +1,7 @@
 // import { plain_text, lava_text, rocky_text } from "../map_graphics2.mjs";
 import { vis } from "../vis_updated.mjs";
+import { genBiomes } from "./mapgenV2.mjs";
+
 class Tile {
 	biome = 0;
 	ind_x = 0;
@@ -74,33 +76,35 @@ class Tile {
 	}
 	drawMe(cell_width, cell_height, currx, curry, opac){
 		// console.log(this.color)
+		console.log("I'm here and my biome is " + this.biome);
 		switch(this.biome)
         {
-		case 0:
-			this.sprite = PIXI.Sprite.from('../Textures/bkgnd/GrassyPlains.png');
-			break;
 		case 1:
+			this.sprite = PIXI.Sprite.from('../Textures/bkgnd/GrassyPlains.png');
+			// console.log("Complete");
+			break;
+		case 5:
 			this.sprite = PIXI.Sprite.from('../Textures/bkgnd/Desert2.png');
 			break;
-        case 2:
+        case 7:
             this.sprite = PIXI.Sprite.from('../Textures/bkgnd/ShadowLands2.png');
             break;
-        case 3:
+        case 6:
             this.sprite = PIXI.Sprite.from('../Textures/bkgnd/Lava.png');
             break;
         case 4:
             this.sprite = PIXI.Sprite.from('../Textures/bkgnd/MuddyRainforest2.png');
             break;
-        case 5:
+        case 8:
             this.sprite = PIXI.Sprite.from('../Textures/bkgnd/PoisonOoze.png');
             break;
-        case 6:
+        case 2:
             this.sprite = PIXI.Sprite.from('../Textures/bkgnd/RockyArea.png');
             break;
-        case 7:
+        case 3:
             this.sprite = PIXI.Sprite.from('../Textures/bkgnd/SnowyIce.png');
             break;
-        case 8:
+        case 0:
             this.sprite = PIXI.Sprite.from('../Textures/bkgnd/Waves2.png');
             break;
 		case 9:
@@ -116,6 +120,9 @@ class Tile {
 		this.sprite.alpha = opac;
         this.sprite.x = (this.ind_x - currx) * cell_width;
         this.sprite.y = (this.ind_y - curry) * cell_height;
+		console.log("Location--------------")
+		console.log(this.ind_x + ", " + this.ind_y);
+		console.log("----------------------");
 		// if (this.sprite.y < -500) {
 		// 	console.log("here1")
 		// 	console.log(curry)
@@ -266,7 +273,8 @@ export function print_map(map, width, height) {
 	let charval;
     for (let k = 0; k < height; k++) {
         for (let l = 0; l < width; l++) {
-			indval = map[l+k*width].getBiome()
+			// map[l + k * width] *= 100;
+			indval = map[l+k*width].toFixed(2);
             charval = indval + " "
             if (indval == 0)
                 charval = "- "
@@ -279,6 +287,46 @@ export function print_map(map, width, height) {
 
 export function map_init(xrectnum, yrectnum) {
 	let cell_num = xrectnum * yrectnum
-	const map = multiBiomes(Math.min(Math.floor(cell_num / 30), 40), xrectnum, yrectnum, 9, Math.floor(cell_num / 20), Math.floor(cell_num * 3/ 20));
-	return map
+	// const map = multiBiomes(Math.min(Math.floor(cell_num / 30), 40), xrectnum, yrectnum, 9, Math.floor(cell_num / 20), Math.floor(cell_num * 3/ 20));
+	let map = new Array(xrectnum * yrectnum);
+	map = genBiomes(map, xrectnum, yrectnum, Math.sqrt(xrectnum * yrectnum) * 3, 8);
+
+	print_map(map, xrectnum, yrectnum);
+
+	// const biomeMap = map;
+
+	let biomeMap = new Array(xrectnum * yrectnum);
+	for(let i = 0;i < yrectnum;i++)
+	{
+		for(let k = 0;k < xrectnum;k++)
+		{
+			biomeMap[i * xrectnum + k] = new Tile();
+			biomeMap[i * xrectnum + k].ind_x = k;
+			biomeMap[i * xrectnum + k].ind_y = i;
+			biomeMap[i * xrectnum + k].setBiome(map[i * xrectnum + k]);
+		}
+	}
+	return biomeMap
 }
+
+// export function map_init(xrectnum, yrectnum) {
+// 	let cell_num = xrectnum * yrectnum
+// 	const map = multiBiomes(Math.min(Math.floor(cell_num / 30), 40), xrectnum, yrectnum, 9, Math.floor(cell_num / 20), Math.floor(cell_num * 3/ 20));
+// 	// let map = new Array(xrectnum * yrectnum);
+// 	// map = genBiomes(map, xrectnum, yrectnum, Math.sqrt(xrectnum * yrectnum) * 3, 8);
+
+// 	// print_map(map, xrectnum, yrectnum);
+
+// 	// const biomeMap = map;
+
+// 	// let biomeMap = new Array(xrectnum * yrectnum);
+// 	// for(let i = 0;i < yrectnum;i++)
+// 	// {
+// 	// 	for(let k = 0;k < xrectnum;k++)
+// 	// 	{
+// 	// 		biomeMap[i * xrectnum + k] = new Tile();
+// 	// 		biomeMap[i * xrectnum + k].setBiome(map[i * xrectnum + k]);
+// 	// 	}
+// 	// }
+// 	return map
+// }

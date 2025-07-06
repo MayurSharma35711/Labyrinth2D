@@ -8,6 +8,10 @@ import { sight } from "./methods/graphics/sight.mjs";
 import { inRange } from "./methods/combat/inRange.mjs";
 import { x_view_range } from "./methods/combat/xRange.mjs";
 
+import { print_map } from "./bkgnd_objs/mapgen.mjs";
+import { displayMap } from "./bkgnd_objs/mapgenV2.mjs";
+import { genBiomes } from "./bkgnd_objs/mapgenV2.mjs";
+
 await PIXI.Assets.load('../Textures/bkgnd/ShadowLands2.png');
 await PIXI.Assets.load('../Textures/bkgnd/Desert2.png');
 await PIXI.Assets.load('../Textures/bkgnd/GrassyPlains.png');
@@ -46,11 +50,20 @@ game_map[1].biome = 0;
 game_map[xrectnum].biome = 0;
 game_map[xrectnum + 1].biome = 0;
 
+console.log(game_map);
+
 // choose odd numbers for the sectors or they will be on the edge of the sector
 let dicts = make_maze_dicts(game_maze, xrectnum, yrectnum, 7)
 // console.log(dicts[0])
 // console.log(dicts[1])
 
+// let map = new Array(xrectnum * yrectnum);
+// map = genBiomes(map, xrectnum, yrectnum, Math.sqrt(xrectnum * yrectnum) * 3, 8);
+// print_map(map, xrectnum, yrectnum);
+
+// alert("Here");
+
+// print_map(map, xrectnum, yrectnum);
 
 // console.log("There are this many chests");
 // console.log(chests.length);
@@ -119,7 +132,7 @@ for(let i = 0; i < monster_num;i++)
     monsters[i] = new Monster((i % 5) + 1, size, size, xrectnum, yrectnum);
 }
 players[0] = new Player(0, size, size, 2);
-players[1] = new Player(1, size, size, 5);
+players[1] = new Player(1, size, size, 20);
 // players[1].y = 8;
 players[2] = new Player(2, size, size, 3);
 // players[2].y = 5;

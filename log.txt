@@ -308,3 +308,46 @@ next steps
 	- when in combat, but stats for item on map tile
 - (vivek) use oldcode stuff to get a pause menu, title menu, and a game win / game over screen
 - figure out how to process damage and make things die
+
+7/4/25
+
+- (vivek)
+	- coded a new algorithm to create biomes in C++
+		- will make biomes smoother
+		- generates a heat map that can then generate biomes
+		- first generates hotspots, then calculates an influence based on the formula sum(strength / (dist * number_of_hotspots)) for every hotspot and indice is able to generate a map
+	- next steps for biomes
+		- incorporate the algorithm into js and make it work with existing codebase (ASAP)
+		- lava, shadow, and poison biomes shouldn't rly be included in the heat map so work on making a seperate algorithm for it
+
+Jobs
+- vivek
+	- biomes
+		- test all 3 and decide which is basement
+- mayur
+	- mob AI
+	- rooms
+- nicki
+	- story
+	- armor and items (maybe vivek too?)
+	- music (maybe vivek too?)
+- All 3
+	- pause screens and menus
+	- interacting
+	
+7/6/25
+- (vivek)
+	- coded the new algorithm in js
+		- after extensive debugging it seems to be working and rendering fine
+	- potential problems and adjustments
+		- biomes are much smaller
+			- maybe make more intermediate biomes (for example there are 2 plains and 2 oceans, maybe have this for other biomes too?)
+			- maybe change the formula into sum(strength / ((dist + 1) * number)) idk but maybe change it into something that yields smoother results
+		- the heat values for biomes are all working
+			- even after adjusting them myself they are rly weird and not right at all
+			- we could use real life existing data for biomes and could consider adding more biomes to make the terrain even more realistic
+		- the shadow, lava, and poison aren't rly being included properly rn because having a heat map val for them would be kind of weird
+- future plans/next steps
+	- implement a new algorithm to add the three cool biomes (lava, shadow, and poison) into the terrain (maybe look to add these specifically around or in dungeons?)
+	- continue adjusting biome algorithm constants until looks more realistic
+	- when Anna(Mayur) comes back maybe schedule with Nikki to meet up and talk abt game design?
