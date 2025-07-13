@@ -351,3 +351,9 @@ Jobs
 	- implement a new algorithm to add the three cool biomes (lava, shadow, and poison) into the terrain (maybe look to add these specifically around or in dungeons?)
 	- continue adjusting biome algorithm constants until looks more realistic
 	- when Anna(Mayur) comes back maybe schedule with Nikki to meet up and talk abt game design?
+
+7/12/25
+- (vivek)
+	- coded the new new algorithm for biome generation (to minimize the distance between hotspot and index)
+	- it works pretty well and generates somewhat natural terrain	
+	- for custom worlds there are many constants

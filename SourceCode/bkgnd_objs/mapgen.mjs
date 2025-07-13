@@ -1,6 +1,7 @@
 // import { plain_text, lava_text, rocky_text } from "../map_graphics2.mjs";
 import { vis } from "../vis_updated.mjs";
 import { genBiomes } from "./mapgenV2.mjs";
+import { VectorBiomes } from "./mapgenV2.mjs";
 
 class Tile {
 	biome = 0;
@@ -76,7 +77,7 @@ class Tile {
 	}
 	drawMe(cell_width, cell_height, currx, curry, opac){
 		// console.log(this.color)
-		console.log("I'm here and my biome is " + this.biome);
+		// console.log("I'm here and my biome is " + this.biome);
 		switch(this.biome)
         {
 		case 1:
@@ -115,14 +116,16 @@ class Tile {
 			// console.log("dungeon")
 			this.sprite = PIXI.Sprite.from('../Textures/bkgnd/Dungeon.png')
 			break;
+		default:
+			this.sprite = PIXI.Sprite.from('../Textures/bkgnd/Waves2.png');
         }
 		// this.sprite.tint = 0xFFBB66;
 		this.sprite.alpha = opac;
         this.sprite.x = (this.ind_x - currx) * cell_width;
         this.sprite.y = (this.ind_y - curry) * cell_height;
-		console.log("Location--------------")
-		console.log(this.ind_x + ", " + this.ind_y);
-		console.log("----------------------");
+		// console.log("Location--------------")
+		// console.log(this.ind_x + ", " + this.ind_y);
+		// console.log("----------------------");
 		// if (this.sprite.y < -500) {
 		// 	console.log("here1")
 		// 	console.log(curry)
@@ -289,7 +292,7 @@ export function map_init(xrectnum, yrectnum) {
 	let cell_num = xrectnum * yrectnum
 	// const map = multiBiomes(Math.min(Math.floor(cell_num / 30), 40), xrectnum, yrectnum, 9, Math.floor(cell_num / 20), Math.floor(cell_num * 3/ 20));
 	let map = new Array(xrectnum * yrectnum);
-	map = genBiomes(map, xrectnum, yrectnum, Math.sqrt(xrectnum * yrectnum) * 3, 8);
+	map = VectorBiomes(map, xrectnum, yrectnum, Math.sqrt(xrectnum * yrectnum) * 3, 8);
 
 	print_map(map, xrectnum, yrectnum);
 
