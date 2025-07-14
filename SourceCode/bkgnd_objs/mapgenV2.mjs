@@ -14,11 +14,12 @@ function genHotspots(width, height, num, hotspot_num) // num is number of dif ty
     let hotspots = new Array(hotspot_num);
     for(let i = 0;i < hotspot_num;i++)
     {
-        hotspots[i] = new Array(3); //0 is x, 1 is y, and 2 is strength
+        hotspots[i] = new Array(4); //0 is x, 1 is y, and 2 is strength
         let coordinate = pickRandIndicies(width, height);
         hotspots[i][0] = coordinate[0];
         hotspots[i][1] = coordinate[1];
         hotspots[i][2] = Math.round(Math.random() * num);
+        hotspots[i][3] = eccenVal(hotspots[i][2])
     }
     return hotspots;
 }
@@ -83,10 +84,57 @@ export function displayMap(map, width, height) // map is not array of tiles, js 
     }
 }
 
-export function VectorBiomes(map, width, height, num, biome_num)
+function eccenVal(biome) // input is biome; output is eccentricity
 {
-    let arrHotspots = new Array(num);
-    arrHotspots = genHotspots(width, height, biome_num, num);
+    let sign = -1;
+    if(Math.random() > 0.5)
+    {
+        sign = 1;
+    }
+    if(biome == 0 || biome == 2) // Mountain or River
+    {
+        console.log("CASE 1 = " + (((Math.random()/2) + 0.5) * sign + 1))
+        return ((Math.random()/2) + 0.5) * sign + 1;
+    }
+    else if(biome == 1 || biome == 5 || biome == 3) // Plains or Desert
+    {
+        console.log("CASE 2 = " + ((Math.random()/4) * sign + 1))
+        return (Math.random()/3) * sign + 1;
+    }
+    else if(biome == 4 || biome == 6 || biome == 7 || biome == 8)
+    {
+        console.log("CASE 3 = " + (1 + ((Math.random()/3) * sign)))
+        return 1 + (Math.random()/4) * sign;
+    }
+    else if(biome == 6 || biome == 7 || biome == 8)
+    {
+        // console.log("CASE 4 = " + 1)
+        return 1; // idk?
+    }
+}
+
+export function VectorBiomes(map, width, height, num, biome_num, customSpots = [])
+{
+    let arrHotspots;
+    if(customSpots.length != 0)
+    {
+        num = customSpots.length;
+        arrHotspots = new Array(customSpots.length);
+        for(let i = 0;i < customSpots.length;i++)
+        {
+            arrHotspots[i] = new Array(4);
+            let coords = pickRandIndicies(width, height);
+            arrHotspots[i][0] = coords[0];
+            arrHotspots[i][1] = coords[1];
+            arrHotspots[i][2] = customSpots[i];
+            arrHotspots[i][3] = eccenVal(arrHotspots[i][2])
+        }
+    }
+    else
+    {
+        arrHotspots = new Array(num);
+        arrHotspots = genHotspots(width, height, biome_num, num);
+    }
     for(let i = 0;i < height;i++)
     {
         for(let k = 0;k < width;k++)
@@ -103,15 +151,15 @@ export function VectorBiomes(map, width, height, num, biome_num)
                 let index = new Array(2);
                 index[0] = k;
                 index[1] = i;
-                if(distance(hotspot_coords, index) < best)
+                if(distance(hotspot_coords, index, arrHotspots[l][3]) < best)
                 {
-                    best = distance(hotspot_coords, index); // influence(i * width + k, arrHotspots[l], width, height, num);
+                    best = distance(hotspot_coords, index, arrHotspots[l][3]); // influence(i * width + k, arrHotspots[l], width, height, num);
                     best_save = l;
                 }
                 // map[i * width + k] = hotspot[2];
             }
             map[i * width + k] = arrHotspots[best_save][2];
-            console.log(map[i * width + k] + ", " + arrHotspots[best_save] + " This is important");
+            // console.log(map[i * width + k] + ", " + arrHotspots[best_save] + " This is important");
             // map[i * width + k] *= 100;
             // map[i * width + k] = Math.floor(map[i * width + k]);
         }

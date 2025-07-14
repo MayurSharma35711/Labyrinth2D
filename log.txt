@@ -323,7 +323,7 @@ next steps
 Jobs
 - vivek
 	- biomes
-		- test all 3 and decide which is basement
+		- test all 3 and decide which is best
 - mayur
 	- mob AI
 	- rooms
@@ -357,3 +357,19 @@ Jobs
 	- coded the new new algorithm for biome generation (to minimize the distance between hotspot and index)
 	- it works pretty well and generates somewhat natural terrain	
 	- for custom worlds there are many constants
+- future plans/next steps
+	- use new eccentricity function to add more unique and realistic shape too biomes
+
+7/13/25
+- (vivek)
+	- expanded upon the algorithm from yesterday
+		- wrote a function to find the eccentricity value for any given biome
+		- added mountain ranges and rivers as well as more realistic terrain Overall
+- future plans/next steps
+	- for biomes
+		- find best eccentricity values for each biome through testing
+		- maybe add a noise function to add randomness to biomes(?)
+		- maybe add more biomes to smoothen out the map a little
+		- go through and rework some of the biome textures
+	- overall
+		- after biome stuff is done start thinking about entity mechanics and turn ending mechanics as those systems are lacking so far

@@ -45,10 +45,10 @@ game_maze[0].exists = false;
 game_maze[1].exists = false;
 game_maze[2].exists = false;
 game_maze[2 * xrectnum + 1].exists = false;
-game_map[0].biome = 0;
-game_map[1].biome = 0;
-game_map[xrectnum].biome = 0;
-game_map[xrectnum + 1].biome = 0;
+// game_map[0].biome = 0;
+// game_map[1].biome = 0;
+// game_map[xrectnum].biome = 0;
+// game_map[xrectnum + 1].biome = 0;
 
 console.log(game_map);
 
