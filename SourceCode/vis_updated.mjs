@@ -327,14 +327,20 @@ function keyStart(e)
                 console.log('------222222222---------2222222----------')
                 console.log(monsters[monster_indices.indexOf(hit_indices[i])])
                 dealDamage(curr_player, monsters[monster_indices.indexOf(hit_indices[i])]);
+                if(monsters[monster_indices.indexOf(hit_indices[i])].health <= 0)
+                {
+                    app.stage.removeChild(monsters[monster_indices.indexOf(hit_indices[i])].rect);
+                    monsters.splice(monster_indices.indexOf(hit_indices[i]), 1);
+                    monster_indices.splice(monster_indices.indexOf(hit_indices[i]), 1);
+                }
             }
             
             if(hit)
             {
                 console.log("HITITITITITITITIT");
                 curr_player.turn_end = true;
-                curr_player.in_combat = false;
             }
+            curr_player.in_combat = false;
         }
         else if(curr_player.in_combat && curr_player.range_type == "regular") // Add getValid to check if a sqr is valid for attack
         {
@@ -345,7 +351,13 @@ function keyStart(e)
             if(hit && monster_indices.includes(ptr))
             {
                 dealDamage(curr_player, monsters[monster_indices.indexOf(ptr)]);
-                curr_player.turn_end = false;
+                if(monsters[monster_indices.indexOf(ptr)].health <= 0)
+                {
+                    app.stage.removeChild(monsters[monster_indices.indexOf(ptr)].rect);
+                    monsters.splice(monster_indices.indexOf(ptr), 1);
+                    monster_indices.splice(monster_indices.indexOf(ptr), 1);
+                }
+                curr_player.turn_end = true;
                 curr_player.in_combat = false;
             }
             if(!hit) //This will also just run through the entire function so even if it hits the rigth functino will be carried out

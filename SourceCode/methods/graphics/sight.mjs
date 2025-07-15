@@ -100,7 +100,12 @@ export function sight(game_map, game_maze, xrectnum, yrectnum, players, curr_pla
     for(let i = 0;i < monsters.length;i++)
     {
         app.stage.removeChild(monsters[i].rect);
-        if(map_indices.includes(monster_indices[i]))
+        if(monsters[i].health <= 0)
+        {
+            delete monsters[i];
+            delete monster_indices[i];
+        }
+        if(monster_indices[i] != undefined && map_indices.includes(monster_indices[i]))
         {
             console.log(monster_indices[i], i)
             monsters[i].drawMe(size, size, currx, curry);
@@ -108,6 +113,14 @@ export function sight(game_map, game_maze, xrectnum, yrectnum, players, curr_pla
             // console.log("HERE");
             // console.log(chests[i].x);
             // console.log(chests[i].y);
+        }
+    }
+    for(let i = 0;i < monsters.length;i++)
+    {
+        if(monster_indices[i] == undefined)
+        {
+            monsters.splice(i, 1);
+            monster_indices.splice(i, 1);
         }
     }
     if(curr_player.in_combat)
@@ -122,7 +135,10 @@ export function sight(game_map, game_maze, xrectnum, yrectnum, players, curr_pla
             game_map[range[i]].sprite.tint = 0xFFBB88;
             // game_map[range[i]].sprite.saturation = .1;
         }
-        game_map[ptr].sprite.alpha = 0
-        game_map[ptr].sprite.tint = 0xFFFFFF;
+        if(curr_player.range_type == "regular")
+        {
+            game_map[ptr].sprite.alpha = 0
+            game_map[ptr].sprite.tint = 0xFFFFFF;
+        }
     }
 }
