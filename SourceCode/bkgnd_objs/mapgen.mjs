@@ -3,7 +3,7 @@ import { vis } from "../vis_updated.mjs";
 import { genBiomes } from "./mapgenV2.mjs";
 import { VectorBiomes } from "./mapgenV2.mjs";
 
-class Tile {
+export class Tile {
 	biome = 0;
 	ind_x = 0;
 	ind_y = 0;
@@ -117,7 +117,7 @@ class Tile {
 			this.sprite = PIXI.Sprite.from('../Textures/bkgnd/Dungeon.png')
 			break;
 		default:
-			this.sprite = PIXI.Sprite.from('../Textures/bkgnd/Waves2.png');
+			this.sprite = PIXI.Sprite.from('../Textures/bkgnd/blank.png');
         }
 		// this.sprite.tint = 0xFFBB66;
 		this.sprite.alpha = opac;

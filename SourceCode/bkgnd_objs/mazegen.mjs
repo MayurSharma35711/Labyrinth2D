@@ -3,7 +3,7 @@ await PIXI.Assets.load('../Textures/bkgnd/WallsVertical.png');
 await PIXI.Assets.load('../Textures/bkgnd/WallsHorizontal.png');
 import { Stack } from "../methods/datatypes.mjs";
 
-class TileWall{
+export class TileWall{
     ind_x;
     ind_y;
     exists;

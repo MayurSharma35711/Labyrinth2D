@@ -56,6 +56,8 @@ export class Monster extends Entities
     }
     drawMe (sizex,sizey, currx, curry) {
         // this.spr.x = (this.x - relx)
+        this.rect.width = sizex / 2
+        this.rect.height = sizey / 2
         this.rect.x = (this.x - currx + 0.25) * sizex + 500
         this.rect.y = (this.y - curry + 0.25) * sizey + 400
     }

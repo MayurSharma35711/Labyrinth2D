@@ -373,3 +373,15 @@ Jobs
 		- go through and rework some of the biome textures
 	- overall
 		- after biome stuff is done start thinking about entity mechanics and turn ending mechanics as those systems are lacking so far
+
+7/25/25
+- (mayur)
+- Bit of a late update
+- Vivek fixed up some bugs in combat mechanics, so that monsters can now disappears
+- Nikki gave me a rough sketch of how the plot will look and what culture each region will be based on 
+- I wrote up some code which can be used to create dungeons
+	- the dungeons will be the same for each save file, but the mazes will be randomly generated 
+- The vis_updated file NEEDS to be organized (probably into multiple files)
+	- this is the only way that I think multiple rooms can be implemented
+	- it is also necessary to make it clearer where to put the monster section
+- I am currently going to work on display screens so that the game looks a bit clearer overall.

@@ -22,6 +22,7 @@ await PIXI.Assets.load('../Textures/bkgnd/RockyArea.png');
 await PIXI.Assets.load('../Textures/bkgnd/SnowyIce.png');
 await PIXI.Assets.load('../Textures/bkgnd/Waves2.png');
 await PIXI.Assets.load('../Textures/bkgnd/Dungeon.png');
+await PIXI.Assets.load('../Textures/bkgnd/blank.png');
 await PIXI.Assets.load('../Textures/bkgnd/RoomFloor.png');
 
 
@@ -41,10 +42,13 @@ let chests = output[3];
 let ptr = 0;
 let monster_num = 15;
 print_walls(game_maze, xrectnum, yrectnum)
-game_maze[0].exists = false;
-game_maze[1].exists = false;
-game_maze[2].exists = false;
-game_maze[2 * xrectnum + 1].exists = false;
+
+// game_maze[0].exists = false;
+// game_maze[1].exists = false;
+// game_maze[2].exists = false;
+// game_maze[2 * xrectnum + 1].exists = false;
+// (above line are needed for a MAZE)
+
 // game_map[0].biome = 0;
 // game_map[1].biome = 0;
 // game_map[xrectnum].biome = 0;
@@ -53,7 +57,7 @@ game_maze[2 * xrectnum + 1].exists = false;
 console.log(game_map);
 
 // choose odd numbers for the sectors or they will be on the edge of the sector
-let dicts = make_maze_dicts(game_maze, xrectnum, yrectnum, 7)
+// let dicts = make_maze_dicts(game_maze, xrectnum, yrectnum, 7)
 // console.log(dicts[0])
 // console.log(dicts[1])
 
@@ -131,7 +135,7 @@ for(let i = 0; i < monster_num;i++)
     // console.log((i % 5) + 1)
     monsters[i] = new Monster((i % 5) + 1, size, size, xrectnum, yrectnum);
 }
-players[0] = new Player(0, size, size, 2);
+players[0] = new Player(0, size, size, 1000);
 players[1] = new Player(1, size, size, 5);
 // players[1].y = 8;
 players[2] = new Player(2, size, size, 3);

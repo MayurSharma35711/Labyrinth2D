@@ -1,20 +1,15 @@
 // export let screen = new PIXI.Container();
 // screen.backgroundColor = 0x0000FF
 
-import { Player } from "./player.mjs";
-
-const app = new PIXI.Application();
-
-function display_screen (entity){
-    let screen = new PIXI.Container();
-    screen.backgroundColor = 0x0000FF
-    const clone_image = structuredClone(entity.rect);
+export function update_stat_screen (entity){
+    // screen.backgroundColor = 0x0000FF
+    const clone_image = structuredClone(entity.sprite);
     clone_image.width = 100
     clone_image.height = 100
-    clone_image.x = entity.width / 10
-    clone_image.x = entity.height / 5
+    clone_image.x = entity.sprite.width / 10 + base_x;
+    clone_image.x = entity.sprite.height / 5 + base_y;
 
-    screen.addChild(clone_image)
+    screen.addChild(clone_image);
     app.stage.addChild(screen);
 }
 
