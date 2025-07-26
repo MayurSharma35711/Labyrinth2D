@@ -93,17 +93,17 @@ function eccenVal(biome) // input is biome; output is eccentricity
     }
     if(biome == 0 || biome == 2) // Mountain or River
     {
-        console.log("CASE 1 = " + (((Math.random()/2) + 0.5) * sign + 1))
+        // console.log("CASE 1 = " + (((Math.random()/2) + 0.5) * sign + 1))
         return ((Math.random()/2) + 0.5) * sign + 1;
     }
     else if(biome == 1 || biome == 5 || biome == 3) // Plains or Desert
     {
-        console.log("CASE 2 = " + ((Math.random()/4) * sign + 1))
+        // console.log("CASE 2 = " + ((Math.random()/4) * sign + 1))
         return (Math.random()/3) * sign + 1;
     }
     else if(biome == 4 || biome == 6 || biome == 7 || biome == 8)
     {
-        console.log("CASE 3 = " + (1 + ((Math.random()/3) * sign)))
+        // console.log("CASE 3 = " + (1 + ((Math.random()/3) * sign)))
         return 1 + (Math.random()/4) * sign;
     }
     else if(biome == 6 || biome == 7 || biome == 8)
@@ -164,8 +164,8 @@ export function VectorBiomes(map, width, height, num, biome_num, customSpots = [
             // map[i * width + k] = Math.floor(map[i * width + k]);
         }
     }
-    console.log("HOTSPOTS---------------------------------------------");
-    console.log(arrHotspots);
-    console.log("-----------------------------------------------------");
+    // console.log("HOTSPOTS---------------------------------------------");
+    // console.log(arrHotspots);
+    // console.log("-----------------------------------------------------");
     return map;
 }

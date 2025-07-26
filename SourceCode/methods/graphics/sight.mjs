@@ -107,7 +107,7 @@ export function sight(game_map, game_maze, xrectnum, yrectnum, players, curr_pla
         }
         if(monster_indices[i] != undefined && map_indices.includes(monster_indices[i]))
         {
-            console.log(monster_indices[i], i)
+            // console.log(monster_indices[i], i)
             monsters[i].drawMe(size, size, currx, curry);
             app.stage.addChild(monsters[i].rect);
             // console.log("HERE");

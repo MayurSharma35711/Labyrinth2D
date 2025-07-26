@@ -385,3 +385,11 @@ Jobs
 	- this is the only way that I think multiple rooms can be implemented
 	- it is also necessary to make it clearer where to put the monster section
 - I am currently going to work on display screens so that the game looks a bit clearer overall.
+
+7/26/25
+- (mayur)
+- wrote a wrapper class so that exported variables could be updated in other files 
+	- this was pretty important for organizing the vis_updated file into 2 files
+		- one initializes and sets up the game, the other gives all of the keyboard bindings 
+- I also organized the entire repository, so that it made more sense
+- I sorted vis_updated, so that it is much shorter, and ideally, more readible (although that might still take work)

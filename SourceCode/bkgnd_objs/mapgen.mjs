@@ -285,7 +285,7 @@ export function print_map(map, width, height) {
         }
         strval = strval + "\n"
     }
-    console.log(strval)
+    // console.log(strval)
 }
 
 export function map_init(xrectnum, yrectnum) {

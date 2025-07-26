@@ -226,3 +226,44 @@ Biome effects
 
 - potential future idea; maze regions each have their own biome.
 	- this would add a coolness / difficulty factor
+
+
+
+
+Inspirations:
+- water; temple ruins biome (NOT MADE YET)
+	- greece
+- fire; lava biome
+	- south / southeast asia
+- ice; snowy biome
+	- russian / scandinavian biome
+- poison; rainforest biome
+	- aztec / incan (for now)
+- air; desert
+	- arab / moroccan
+- normal; plains
+	- classic fantasy
+- dark / shadow; shadowlands
+	- east asian
+- light; medieval (NOT MADE YET)
+	- germany (mondstadt from genshin)
+
+the 'rock-paper-scissors' of the top five don't really make sense to me yet
+
+- possible monsters
+- nikki can handle greece
+- south / southeast asia (inspiration for not copied ideas)
+	- narasimha (human torso and lower body, with a lion face and claws)
+		- hanuman
+		- varaha 
+		- ganesha
+		are similarly cool inspirations
+		- nagas could be a cool medium level boss you meet in the maze (half human, half serpent)
+	- garuda (mythical bird)
+	- parashurama would be a cool NPC to meet
+	- hindu demons are called rakshasas
+		- would be cool if there was a neutral evil NPC rakshasi who tried to seduce you
+- aztec / incan
+
+it might be better to use specific creatures or inspiration for bosses, but not necessarily for every monster
+some cultures do not have a ton of exactly documented creatures

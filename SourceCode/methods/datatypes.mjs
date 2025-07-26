@@ -115,6 +115,15 @@ export class Dictionary{
     }
 }
 
+// THIS IS A REALLLLLLYYYY IMPORTANT CLASS
+// IT WRAPS ANY THING INTO AN OBJECT SO THAT IT CAN BE ASSIGNED OUT OF SCOPE WITHOUT CONST ISSUES
+export class Wrapper{
+    item
+    constructor(item){
+        this.item = item
+    }
+}
+
 // compares nested arrays (only code to use recursion)
 function arrayEqual(arr1, arr2) {
     // console.log(arr1,arr2,typeof(arr1), typeof(arr2))
@@ -135,3 +144,4 @@ function arrayEqual(arr1, arr2) {
     }
     return val
 }
+

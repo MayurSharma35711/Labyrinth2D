@@ -1,0 +1,7 @@
+This folder contains the following
+- Making the map biome, maze walls, and dungeon code
+- Putting these into area wrapper classes, which make up the core game
+
+- TO DO
+- the area code putting everything is yet to be finished
+- we also need many more actual dungeon examples to be created by someone

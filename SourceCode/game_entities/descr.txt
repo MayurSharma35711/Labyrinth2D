@@ -1,0 +1,8 @@
+This folder contains the following game elements
+- the parent class for a general entity
+- this allows for the creation of monster AI, players, equipment, and other interactable items
+
+
+- TO DO 
+- the interactable items and monster AI are yet to be finished
+- the next phase would also involve fine tuning the equipment system to a much greater degree

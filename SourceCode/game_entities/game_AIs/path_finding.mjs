@@ -1,4 +1,4 @@
-import { Priority_Queue } from "../datatypes.mjs";
+import { Priority_Queue } from "../../methods/datatypes.mjs"
 import { maze_init2, print_walls } from "../../bkgnd_objs/mazegen.mjs";
 import { maze_check } from "../../bkgnd_objs/rooms.mjs";
 
