@@ -13,6 +13,7 @@ import { displayMap } from "./bkgnd_objs/mapgenV2.mjs";
 import { genBiomes } from "./bkgnd_objs/mapgenV2.mjs";
 import {key_setup, setPlays} from "./methods/key_bind.mjs"
 import { Wrapper } from "./methods/datatypes.mjs";
+import { init_pause_menu, init_health_bars } from "./methods/displays/side_screen.mjs";
 
 
 // HERE WE LOAD THE TEXTURE REQUIRED FOR THE CODE TO RUN
@@ -38,16 +39,18 @@ const tot_height = 800
 await app.init({ width: tot_width, height: tot_height });
 document.body.appendChild(app.canvas);
 
+export const menu_container = init_pause_menu(app)
+export const pause = new Wrapper(false)
 
-export let xrectnum = 20;
-export let yrectnum = 20;
+export let xrectnum = 21;
+export let yrectnum = 21;
 let output = init_bkgnd(xrectnum, yrectnum);
 export let game_map = output[0];
 export let game_maze = output[1];
 let rooms = output[2];
 export let chests = output[3];
 export let ptr = new Wrapper(0);
-let monster_num = 15;
+let monster_num = 0;
 // print_walls(game_maze, xrectnum, yrectnum)
 
 game_maze[0].exists = false;
@@ -94,13 +97,17 @@ for(let i = 0; i < monster_num;i++)
     // console.log((i % 5) + 1)
     monsters[i] = new Monster((i % 5) + 1, size, size, xrectnum, yrectnum);
 }
-players[0] = new Player(0, size, size, 1000);
-players[1] = new Player(1, size, size, 5);
+for(let i = 0;i < monsters.length;i++)
+{
+    monster_indices[i] = monsters[i].y * xrectnum + monsters[i].x;
+}
+players[0] = new Player(0, size, size, 1000, 'vivek');
+players[1] = new Player(1, size, size, 5, 'jane');
 // players[1].y = 8;
-players[2] = new Player(2, size, size, 3);
+players[2] = new Player(2, size, size, 3, 'nikki');
 // players[2].y = 5;
 // players[2].x = 3;
-players[3] = new Player(3, size, size, 1);
+players[3] = new Player(3, size, size, 1, 'mayur');
 // players[3].y = 11;
 
 players[1].range_type = "xrange";
@@ -116,6 +123,8 @@ players[1].speed = 100;
 players[2].speed = 100;
 players[3].speed = 100;
 
+export const player_health = init_health_bars(app, players)
+app.stage.addChild(player_health)
 
 
 export let curr_player = new Wrapper(players[0])
@@ -123,10 +132,7 @@ export let curr_player = new Wrapper(players[0])
 
 export let play_inds = new Array(players.length);
 
-for(let i = 0;i < monsters.length;i++)
-{
-    monster_indices[i] = monsters[i].y * xrectnum + monsters[i].x;
-}
+
 
 
 
@@ -167,11 +173,5 @@ for (let t = 0; t < players.length; t++) {
 }
 
 
-
-// export function mod_curr_player(value){
-//     console.log(curr_player)
-//     curr_player = value
-//     console.log(curr_player)
-// }
-
-// export function
+app.stage.addChild(menu_container)
+menu_container.visible = pause.item

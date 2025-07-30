@@ -288,11 +288,11 @@ export function print_map(map, width, height) {
     // console.log(strval)
 }
 
-export function map_init(xrectnum, yrectnum) {
+export function map_init(xrectnum, yrectnum, hotspots = []) {
 	let cell_num = xrectnum * yrectnum
 	// const map = multiBiomes(Math.min(Math.floor(cell_num / 30), 40), xrectnum, yrectnum, 9, Math.floor(cell_num / 20), Math.floor(cell_num * 3/ 20));
 	let map = new Array(xrectnum * yrectnum);
-	map = VectorBiomes(map, xrectnum, yrectnum, 3/*Math.sqrt(xrectnum * yrectnum) * 3*/, 8, [0,1,1,1,0,1,1]); 
+	map = VectorBiomes(map, xrectnum, yrectnum, 3/*Math.sqrt(xrectnum * yrectnum) * 3*/, 8, hotspots); 
 
 	print_map(map, xrectnum, yrectnum);
 

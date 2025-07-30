@@ -1,5 +1,5 @@
 import { total_visible_indices, get_view_sqr, get_view_range } from "../methods/graphics/visibility.mjs";
-import {game_map, game_maze, xrectnum, yrectnum, players, play_inds, curr_player, monsters, ptr, size, currx, curry, act_currx, act_curry, shiftx, shifty, chest_indices, chests, monster_indices, app, seen_indices} from "../vis_updated.mjs"
+import {game_map, game_maze, xrectnum, yrectnum, players, play_inds, curr_player, monsters, pause, menu_container, ptr, size, currx, curry, act_currx, act_curry, shiftx, shifty, chest_indices, chests, monster_indices, app, seen_indices} from "../vis_updated.mjs"
 import { sight } from "./graphics/sight.mjs";
 import { x_view_range } from "./combat/xRange.mjs";
 import { inRange } from "./combat/inRange.mjs";
@@ -89,7 +89,7 @@ let key_p = 80;
 let key_n = 78;
 let key_v = 86;
 let key_esc = 27;
-let pause = false;
+// let pause.item = false;
 
 
 
@@ -98,7 +98,7 @@ function keyStart(e)
 {
     // // console.log(shiftx.item, shifty.item, currx.item, curry.item)
     key = e.keyCode;
-    if (!pause && key == key_r) {
+    if (!pause.item && key == key_r) {
         if (size > 20)
             size = Math.floor(size / 1.2)
         else
@@ -108,50 +108,50 @@ function keyStart(e)
             players[t].resize(size, size)
         }
     }
-    else if(!pause && key == key_i)
+    else if(!pause.item && key == key_i)
         shifty.item = Math.max(shifty.item - 1, -act_curry.item +1 )
-    else if(!pause && key == key_j)
+    else if(!pause.item && key == key_j)
         shiftx.item = Math.max(shiftx.item - 1, -act_currx.item + 1)
-    else if(!pause && key == key_k)
+    else if(!pause.item && key == key_k)
         shifty.item = Math.min(shifty.item + 1, yrectnum - act_curry.item - 2)
-    else if(!pause && key == key_l)
+    else if(!pause.item && key == key_l)
         shiftx.item = Math.min(shiftx.item + 1, xrectnum - act_currx.item - 2)
-    else if(!pause && key == key_h) {
+    else if(!pause.item && key == key_h) {
         shifty.item = 0 
         shiftx.item = 0
     }
-    else if(!pause && key == key_open && (chest_indices.includes(curr_player.item.y * xrectnum + curr_player.item.x) && !chests[chest_indices.indexOf(curr_player.item.y * xrectnum + curr_player.item.x)].opened))
+    else if(!pause.item && key == key_open && (chest_indices.includes(curr_player.item.y * xrectnum + curr_player.item.x) && !chests[chest_indices.indexOf(curr_player.item.y * xrectnum + curr_player.item.x)].opened))
     {
         // alert("Good");
         chests[chest_indices.indexOf(curr_player.item.y * xrectnum + curr_player.item.x)].Open();
         chests[chest_indices.indexOf(curr_player.item.y * xrectnum + curr_player.item.x)].listItems();
     }
-    else if (!pause && key == keyone) {
+    else if (!pause.item && key == keyone) {
         curr_player.item.in_combat = false;
         curr_player.item = players[0]
         ptr.item = curr_player.item.y * xrectnum + curr_player.item.x;
     }
-    else if(!pause && key == keytwo) {
+    else if(!pause.item && key == keytwo) {
         curr_player.item.in_combat = false;
         curr_player.item = players[1]
         ptr.item = curr_player.item.y * xrectnum + curr_player.item.x;
     }
-    else if(!pause && key == keythree) {
+    else if(!pause.item && key == keythree) {
         curr_player.item.in_combat = false;
         curr_player.item = players[2]
         ptr.item = curr_player.item.y * xrectnum + curr_player.item.x;
     }
-    else if(!pause && key == keyfour) {
+    else if(!pause.item && key == keyfour) {
         curr_player.item.in_combat = false;
         curr_player.item = players[3]
         ptr.item = curr_player.item.y * xrectnum + curr_player.item.x;
     }
-    else if(!pause && key == key_v && curr_player.item.range_type == "xrange" && curr_player.item.in_combat)
+    else if(!pause.item && key == key_v && curr_player.item.range_type == "xrange" && curr_player.item.in_combat)
     {
         curr_player.item.in_combat = false;
         console.log("HEREHRHERHERHEHR");
     }
-    else if(!pause && key == key_n && !curr_player.item.turn_end)
+    else if(!pause.item && key == key_n && !curr_player.item.turn_end)
     {
         if(curr_player.item.in_combat && curr_player.item.range_type == "xrange")
         {
@@ -220,35 +220,35 @@ function keyStart(e)
             ptr.item = curr_player.item.y * xrectnum + curr_player.item.x;
         }
     }
-    else if(!pause && key == up && curr_player.item.in_combat && curr_player.item.range_type == "regular")
+    else if(!pause.item && key == up && curr_player.item.in_combat && curr_player.item.range_type == "regular")
     {
         if(get_view_range(curr_player.item.x, curr_player.item.y, xrectnum, yrectnum, curr_player.item.range, game_maze, curr_player.item, game_maze).includes(ptr.item - xrectnum))
         {
             ptr.item = ptr.item - xrectnum;
         }
     }
-    else if(!pause && key == down && curr_player.item.in_combat && curr_player.item.range_type == "regular")
+    else if(!pause.item && key == down && curr_player.item.in_combat && curr_player.item.range_type == "regular")
     {
         if(get_view_range(curr_player.item.x, curr_player.item.y, xrectnum, yrectnum, curr_player.item.range, game_maze, curr_player.item, game_maze).includes(ptr.item + xrectnum))
         {
             ptr.item = ptr.item + xrectnum;
         }
     }
-    else if(!pause && key == left && curr_player.item.in_combat && curr_player.item.range_type == "regular")
+    else if(!pause.item && key == left && curr_player.item.in_combat && curr_player.item.range_type == "regular")
     {
         if(get_view_range(curr_player.item.x, curr_player.item.y, xrectnum, yrectnum, curr_player.item.range, game_maze, curr_player.item, game_maze).includes(ptr.item - 1))
         {
             ptr.item--;
         }
     }
-    else if(!pause && key == right && curr_player.item.in_combat && curr_player.item.range_type == "regular")
+    else if(!pause.item && key == right && curr_player.item.in_combat && curr_player.item.range_type == "regular")
     {
         if(get_view_range(curr_player.item.x, curr_player.item.y, xrectnum, yrectnum, curr_player.item.range, game_maze, curr_player.item, game_maze).includes(ptr.item + 1))
         {
             ptr.item++;
         }
     }
-    else if(!pause && key == key_p) //Turn over
+    else if(!pause.item && key == key_p) //Turn over
     {
         // console.log("Turn over");
         // // console.log(players[0].blks_moved);
@@ -261,7 +261,7 @@ function keyStart(e)
         //Call monster stuff here or somewhere else
         return;
     }
-    else if(!pause && !curr_player.item.in_combat && seen_indices.item.includes(curr_player.item.x + curr_player.item.y*xrectnum) && curr_player.item.x - 1 >= 0 && (key == left || key == key_a) && !game_maze[curr_player.item.y * 2 * xrectnum + curr_player.item.x * 2 - 1].getWall() && curr_player.item.blks_moved != curr_player.item.speed && !checkPlayer(curr_player.item.y * xrectnum + curr_player.item.x - 1) && !curr_player.item.turn_end && !checkMonster(curr_player.item.y * xrectnum + curr_player.item.x - 1))
+    else if(!pause.item && !curr_player.item.in_combat && seen_indices.item.includes(curr_player.item.x + curr_player.item.y*xrectnum) && curr_player.item.x - 1 >= 0 && (key == left || key == key_a) && !game_maze[curr_player.item.y * 2 * xrectnum + curr_player.item.x * 2 - 1].getWall() && curr_player.item.blks_moved != curr_player.item.speed && !checkPlayer(curr_player.item.y * xrectnum + curr_player.item.x - 1) && !curr_player.item.turn_end && !checkMonster(curr_player.item.y * xrectnum + curr_player.item.x - 1))
     {
         curr_player.item.x--;
         curr_player.item.blks_moved++;
@@ -272,7 +272,7 @@ function keyStart(e)
         ptr.item = curr_player.item.y * xrectnum + curr_player.item.x;
         // // console.log(ptr.item);
     }
-    else if(!pause && !curr_player.item.in_combat && seen_indices.item.includes(curr_player.item.x + curr_player.item.y*xrectnum) && curr_player.item.y - 1 >= 0 && (key == up || key == key_w) && !game_maze[(curr_player.item.y - 1) * 2 * xrectnum + curr_player.item.x * 2].getWall() && curr_player.item.blks_moved != curr_player.item.speed && !checkPlayer(curr_player.item.y * xrectnum + curr_player.item.x - xrectnum) && !curr_player.item.turn_end && !checkMonster((curr_player.item.y * xrectnum + curr_player.item.x - xrectnum)))
+    else if(!pause.item && !curr_player.item.in_combat && seen_indices.item.includes(curr_player.item.x + curr_player.item.y*xrectnum) && curr_player.item.y - 1 >= 0 && (key == up || key == key_w) && !game_maze[(curr_player.item.y - 1) * 2 * xrectnum + curr_player.item.x * 2].getWall() && curr_player.item.blks_moved != curr_player.item.speed && !checkPlayer(curr_player.item.y * xrectnum + curr_player.item.x - xrectnum) && !curr_player.item.turn_end && !checkMonster((curr_player.item.y * xrectnum + curr_player.item.x - xrectnum)))
     {
         curr_player.item.y--;
         curr_player.item.blks_moved++;
@@ -283,7 +283,7 @@ function keyStart(e)
         ptr.item = curr_player.item.y * xrectnum + curr_player.item.x;
         // // console.log(ptr.item);
     }
-    else if(!pause && !curr_player.item.in_combat && seen_indices.item.includes(curr_player.item.x + curr_player.item.y*xrectnum) && curr_player.item.x + 1 < xrectnum && (key == right || key == key_d) && !game_maze[curr_player.item.y * 2 * xrectnum + curr_player.item.x * 2 + 1].getWall() && curr_player.item.blks_moved != curr_player.item.speed && !checkPlayer(curr_player.item.y * xrectnum + curr_player.item.x + 1) && !curr_player.item.turn_end && !checkMonster((curr_player.item.y * xrectnum + curr_player.item.x + 1)))
+    else if(!pause.item && !curr_player.item.in_combat && seen_indices.item.includes(curr_player.item.x + curr_player.item.y*xrectnum) && curr_player.item.x + 1 < xrectnum && (key == right || key == key_d) && !game_maze[curr_player.item.y * 2 * xrectnum + curr_player.item.x * 2 + 1].getWall() && curr_player.item.blks_moved != curr_player.item.speed && !checkPlayer(curr_player.item.y * xrectnum + curr_player.item.x + 1) && !curr_player.item.turn_end && !checkMonster((curr_player.item.y * xrectnum + curr_player.item.x + 1)))
     {
         curr_player.item.x++;
         curr_player.item.blks_moved++;
@@ -294,7 +294,7 @@ function keyStart(e)
         ptr.item = curr_player.item.y * xrectnum + curr_player.item.x;
         // // console.log(ptr.item);
     }
-    else if(!pause && !curr_player.item.in_combat && seen_indices.item.includes(curr_player.item.x + curr_player.item.y*xrectnum) && curry.item + 1 < yrectnum && (key == down || key == key_s) && !game_maze[(curr_player.item.y) * 2 * xrectnum + curr_player.item.x * 2].getWall() && curr_player.item.blks_moved != curr_player.item.speed && !checkPlayer(curr_player.item.y * xrectnum + curr_player.item.x + xrectnum) && !curr_player.item.turn_end && !checkMonster((curr_player.item.y * xrectnum + curr_player.item.x + xrectnum)))
+    else if(!pause.item && !curr_player.item.in_combat && seen_indices.item.includes(curr_player.item.x + curr_player.item.y*xrectnum) && curry.item + 1 < yrectnum && (key == down || key == key_s) && !game_maze[(curr_player.item.y) * 2 * xrectnum + curr_player.item.x * 2].getWall() && curr_player.item.blks_moved != curr_player.item.speed && !checkPlayer(curr_player.item.y * xrectnum + curr_player.item.x + xrectnum) && !curr_player.item.turn_end && !checkMonster((curr_player.item.y * xrectnum + curr_player.item.x + xrectnum)))
     {
         curr_player.item.y++;
         curr_player.item.blks_moved++;
@@ -305,17 +305,19 @@ function keyStart(e)
         ptr.item = curr_player.item.y * xrectnum + curr_player.item.x;
         // // console.log(ptr.item);
     }
-    else if(key == key_esc && !pause)
+    else if(key == key_esc && !pause.item)
     {
         //display screens
-        pause = true;
-        console.log("GAME IS PAUSED");
+        pause.item = true;
+        menu_container.visible = true
+        console.log("GAME IS pause.itemD");
     }
-    else if(key == key_esc && pause)
+    else if(key == key_esc && pause.item)
     {
         //escape display
-        pause = false;
-        console.log("GAME IS UNPAUSED");
+        pause.item = false;
+        menu_container.visible = false
+        console.log("GAME IS UNpause.itemD");
     }
     else
         return null

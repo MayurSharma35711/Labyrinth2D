@@ -1,7 +1,7 @@
 import { Entities } from "./entity_classes.mjs";
 export class Player extends Entities
 {
-    constructor( player_ind, sizex, sizey, vis_tier)
+    constructor( player_ind, sizex, sizey, vis_tier, name)
     {
         // // alert("Here");
         super();
@@ -24,6 +24,7 @@ export class Player extends Entities
         super.setRange(Math.min(2, vis_tier));
 
         this.player_ind = player_ind
+        this.name = name
         this.atk_str = true;
         this.range_type = "regular";
         

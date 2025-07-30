@@ -1,4 +1,5 @@
-
+import { init_maze_level } from "./init_level.mjs";
+import { init_dungeon_level } from "./init_level.mjs";
 
 class Area{
     id; 
@@ -6,23 +7,25 @@ class Area{
     size_x;
     size_y;
     doors;
+    full_setup;
     constructor(id, x_size, y_size, typer, doors){
+        this.id = id
         this.size_x = x_size;
         this.size_y = y_size;
         this.type = typer;
         this.doors = doors
+        if (this.typer == "d") {
+            this.full_setup = init_dungeon_level(this.size_x, this.size_y)
+        }
+        if (this.typer == "m") {
+            this.full_setup = init_maze_level(this.size_x, this.size_y)
+        }
     }
-    init_bkgnd(){
-    // if typer is dungeon => do to dungeon creator
-    // if typer is maze => do to maze creator
-    // if typer is village / hall => do to village / hall creator
-    }
-    
 }
 
-class Door{
-    loc1;
-    spot1;
+class Level_Door{
+    loc1; // this is an area
+    spot1; // this is an [x,y] array
 
     loc2;
     spot2;

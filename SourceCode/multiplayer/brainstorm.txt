@@ -1,0 +1,16 @@
+I thought about this somemore, and it might be a cool thing to include
+multiplayer is often where more engagement can be made, and it would be a cool show of our ability
+
+the set up is as follows
+- we get many people together in a largeish maze 
+    - we will have roughly the same set up as the single playre games but with larger map_classes
+- they each control a single character
+    - if 2 people have their visibility overlap, they can message each other
+    - there is a button allowing them to befriend each other 
+        - then, they will each have their visibilities overlap
+            - without sharing it with whoever else they may each have befriended
+        - there is still friendly fire and they have to decide on who gets the localhost
+    - if a player kills another player character, it would be cool to have them covered in blood temporarily
+- turns will work a bit differently
+    - now monsters will all move after a specific timer has been hit (dictated by the game settings)
+    - everyone has to take their turn before that, regardless of their order

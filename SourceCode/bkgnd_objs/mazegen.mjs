@@ -146,7 +146,7 @@ export function maze_creator(width, height){
     }
     // print_bool_maze(walls,width,height)
     // this is a later addition to the maze to give it some character and more branching paths
-    let prob_cond = 0.8
+    let prob_cond = 0.7
     for (let k = 0; k < walls.length; k++) {
         if (walls[k] || k % (2*width) == 2*width - 1 || k % (2*width) == -1 || (k % 2 == 0 && k >= walls.length - 2*width)) 
             continue

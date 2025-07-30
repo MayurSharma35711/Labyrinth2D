@@ -34,7 +34,7 @@ function room_gen(startx, starty, xnum, ynum, xsize, ysize, maze, map, new_biome
 }
 
 
-
+// this function needs to start producing less randomness and more human input 
 export function multiRooms(xnum, ynum, minsize, maxsize, maze, map, room_num)
 {
     let room_size1, room_size2, room_startx, room_starty;
