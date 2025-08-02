@@ -1,9 +1,10 @@
 import { total_visible_indices, get_view_sqr, get_view_range } from "../methods/graphics/visibility.mjs";
 import {game_map, game_maze, xrectnum, yrectnum, players, play_inds, curr_player, monsters, pause, menu_container, ptr, size, currx, curry, act_currx, act_curry, shiftx, shifty, chest_indices, chests, monster_indices, app, seen_indices} from "../vis_updated.mjs"
 import { sight } from "./graphics/sight.mjs";
-import { x_view_range } from "./combat/xRange.mjs";
-import { inRange } from "./combat/inRange.mjs";
-
+import { x_view_range } from "./combat/inRangeFuncs.mjs";
+import { inRange } from "./combat/inRangeFuncs.mjs";
+import { take_game_turn } from "../game_entities/game_AIs/game_turn.mjs";
+import { update_health_bars } from "./displays/side_screen.mjs";
 
 export function key_setup(){
     document.addEventListener('keydown', keyStart)
@@ -15,16 +16,16 @@ function dist(x1, y1, x2, y2)
 }
 function takeDamage(target, damage)
 {
-    target.health -= damage;
+    target.health = Math.max(0, target.health - damage);
     if(target.health - damage <= 0)
     {
         //Somehow destroy target
     }
 }
-function dealDamage(attacker, target)
+export function dealDamage(attacker, target)
 {
     console.log(target);
-    attacker.health += 0.2 * attacker.strength;
+    // attacker.health += 0.2 * attacker.strength;
     takeDamage(target, attacker.strength);
 }
 
@@ -99,13 +100,16 @@ function keyStart(e)
     // // console.log(shiftx.item, shifty.item, currx.item, curry.item)
     key = e.keyCode;
     if (!pause.item && key == key_r) {
-        if (size > 20)
-            size = Math.floor(size / 1.2)
+        if (size.item > 20)
+            size.item = Math.floor(size.item / 1.2)
         else
-            size = 140
-        // // console.log(size)
+            size.item = 140
+        // // console.log(size.item)
         for (let t = 0; t < players.length; t++) {
-            players[t].resize(size, size)
+            players[t].resize(size.item, size.item)
+        }
+        for (let t = 0; t < monsters.length; t++) {
+            monsters[t].resize(size.item, size.item)
         }
     }
     else if(!pause.item && key == key_i)
@@ -251,17 +255,22 @@ function keyStart(e)
     else if(!pause.item && key == key_p) //Turn over
     {
         // console.log("Turn over");
-        // // console.log(players[0].blks_moved);
+        // console.log(players[0].blks_moved);
         for(let n = 0;n < 4;n++)
         {
             players[n].blks_moved = 0;
             players[n].turn_end = false;
         }
         curr_player.item.in_combat = false;
-        //Call monster stuff here or somewhere else
-        return;
+        for (let l = 0; l < players.length; l++){
+            if(!seen_indices.item.includes(play_inds[l]))
+                players[l].health -= 0.5
+        }
+        take_game_turn()
+
+        // return;
     }
-    else if(!pause.item && !curr_player.item.in_combat && seen_indices.item.includes(curr_player.item.x + curr_player.item.y*xrectnum) && curr_player.item.x - 1 >= 0 && (key == left || key == key_a) && !game_maze[curr_player.item.y * 2 * xrectnum + curr_player.item.x * 2 - 1].getWall() && curr_player.item.blks_moved != curr_player.item.speed && !checkPlayer(curr_player.item.y * xrectnum + curr_player.item.x - 1) && !curr_player.item.turn_end && !checkMonster(curr_player.item.y * xrectnum + curr_player.item.x - 1))
+    else if(!pause.item && !curr_player.item.in_combat && curr_player.item.health > 0 && seen_indices.item.includes(curr_player.item.x + curr_player.item.y*xrectnum) && curr_player.item.x - 1 >= 0 && (key == left || key == key_a) && !game_maze[curr_player.item.y * 2 * xrectnum + curr_player.item.x * 2 - 1].getWall() && curr_player.item.blks_moved != curr_player.item.speed && !checkPlayer(curr_player.item.y * xrectnum + curr_player.item.x - 1) && !curr_player.item.turn_end && !checkMonster(curr_player.item.y * xrectnum + curr_player.item.x - 1))
     {
         curr_player.item.x--;
         curr_player.item.blks_moved++;
@@ -272,7 +281,7 @@ function keyStart(e)
         ptr.item = curr_player.item.y * xrectnum + curr_player.item.x;
         // // console.log(ptr.item);
     }
-    else if(!pause.item && !curr_player.item.in_combat && seen_indices.item.includes(curr_player.item.x + curr_player.item.y*xrectnum) && curr_player.item.y - 1 >= 0 && (key == up || key == key_w) && !game_maze[(curr_player.item.y - 1) * 2 * xrectnum + curr_player.item.x * 2].getWall() && curr_player.item.blks_moved != curr_player.item.speed && !checkPlayer(curr_player.item.y * xrectnum + curr_player.item.x - xrectnum) && !curr_player.item.turn_end && !checkMonster((curr_player.item.y * xrectnum + curr_player.item.x - xrectnum)))
+    else if(!pause.item && !curr_player.item.in_combat && curr_player.item.health > 0 && seen_indices.item.includes(curr_player.item.x + curr_player.item.y*xrectnum) && curr_player.item.y - 1 >= 0 && (key == up || key == key_w) && !game_maze[(curr_player.item.y - 1) * 2 * xrectnum + curr_player.item.x * 2].getWall() && curr_player.item.blks_moved != curr_player.item.speed && !checkPlayer(curr_player.item.y * xrectnum + curr_player.item.x - xrectnum) && !curr_player.item.turn_end && !checkMonster((curr_player.item.y * xrectnum + curr_player.item.x - xrectnum)))
     {
         curr_player.item.y--;
         curr_player.item.blks_moved++;
@@ -283,7 +292,7 @@ function keyStart(e)
         ptr.item = curr_player.item.y * xrectnum + curr_player.item.x;
         // // console.log(ptr.item);
     }
-    else if(!pause.item && !curr_player.item.in_combat && seen_indices.item.includes(curr_player.item.x + curr_player.item.y*xrectnum) && curr_player.item.x + 1 < xrectnum && (key == right || key == key_d) && !game_maze[curr_player.item.y * 2 * xrectnum + curr_player.item.x * 2 + 1].getWall() && curr_player.item.blks_moved != curr_player.item.speed && !checkPlayer(curr_player.item.y * xrectnum + curr_player.item.x + 1) && !curr_player.item.turn_end && !checkMonster((curr_player.item.y * xrectnum + curr_player.item.x + 1)))
+    else if(!pause.item && !curr_player.item.in_combat && curr_player.item.health > 0 && seen_indices.item.includes(curr_player.item.x + curr_player.item.y*xrectnum) && curr_player.item.x + 1 < xrectnum && (key == right || key == key_d) && !game_maze[curr_player.item.y * 2 * xrectnum + curr_player.item.x * 2 + 1].getWall() && curr_player.item.blks_moved != curr_player.item.speed && !checkPlayer(curr_player.item.y * xrectnum + curr_player.item.x + 1) && !curr_player.item.turn_end && !checkMonster((curr_player.item.y * xrectnum + curr_player.item.x + 1)))
     {
         curr_player.item.x++;
         curr_player.item.blks_moved++;
@@ -294,7 +303,7 @@ function keyStart(e)
         ptr.item = curr_player.item.y * xrectnum + curr_player.item.x;
         // // console.log(ptr.item);
     }
-    else if(!pause.item && !curr_player.item.in_combat && seen_indices.item.includes(curr_player.item.x + curr_player.item.y*xrectnum) && curry.item + 1 < yrectnum && (key == down || key == key_s) && !game_maze[(curr_player.item.y) * 2 * xrectnum + curr_player.item.x * 2].getWall() && curr_player.item.blks_moved != curr_player.item.speed && !checkPlayer(curr_player.item.y * xrectnum + curr_player.item.x + xrectnum) && !curr_player.item.turn_end && !checkMonster((curr_player.item.y * xrectnum + curr_player.item.x + xrectnum)))
+    else if(!pause.item && !curr_player.item.in_combat && curr_player.item.health > 0 && seen_indices.item.includes(curr_player.item.x + curr_player.item.y*xrectnum) && curry.item + 1 < yrectnum && (key == down || key == key_s) && !game_maze[(curr_player.item.y) * 2 * xrectnum + curr_player.item.x * 2].getWall() && curr_player.item.blks_moved != curr_player.item.speed && !checkPlayer(curr_player.item.y * xrectnum + curr_player.item.x + xrectnum) && !curr_player.item.turn_end && !checkMonster((curr_player.item.y * xrectnum + curr_player.item.x + xrectnum)))
     {
         curr_player.item.y++;
         curr_player.item.blks_moved++;
@@ -350,18 +359,24 @@ function keyStart(e)
     // // console.log("-----------------")
 // // console.log(currx.item,curry.item)
     // // console.log(currx.item, curry.item)
-    sight(game_map, game_maze, xrectnum, yrectnum, players, curr_player.item, monsters, ptr.item, size, currx.item, curry.item, chest_indices, chests, monster_indices, app);
+    
+    sight(game_map, game_maze, xrectnum, yrectnum, players, curr_player.item, monsters, ptr.item, size.item, currx.item, curry.item, chest_indices, chests, monster_indices, app);
+    
     for (let t = 0; t < players.length; t++) {
-        players[t].drawMe(size, size, currx.item, curry.item)
+        players[t].drawMe(size.item, size.item, currx.item, curry.item)
         // // console.log(players[t])
         // app.stage.addChild(players[t].rect)
     }
+    for (let t = 0; t < monsters.length; t++) {
+        monsters[t].drawMe(size.item, size.item, currx.item, curry.item)
+    }
     let x_indices = x_view_range(curr_player.item.x, curr_player.item.y, xrectnum, yrectnum, curr_player.item.range);
-    console.log("START");
-    console.log(x_indices);
-    console.log("END");
+    // console.log("START");
+    // console.log(x_indices);
+    // console.log("END");
     // // console.log(ptr.item);
     // // console.log(get_view_sqr(curr_player.item.x, curr_player.item.y, xrectnum, yrectnum, curr_player.item.vis_tier));
     // // console.log(game_map[ptr.item].biome);
     setPlays();
+    update_health_bars();
 }

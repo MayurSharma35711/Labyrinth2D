@@ -4,7 +4,7 @@
 // tier 1 gets a 3x3 visibility square
 // tier 2 gets a 5x5 visibility square without corners
 // tier 3 gets a 7x7 visibility square with 3-triangles cut from corners
-import { x_view_range } from "../combat/xRange.mjs";
+import { x_view_range } from "../combat/inRangeFuncs.mjs";
 
 // can us get view square for AOE damage
 export function get_view_sqr (center_x, center_y, numx, numy, tier) {
@@ -41,7 +41,7 @@ export function get_view_sqr (center_x, center_y, numx, numy, tier) {
     return map_indices
 }
 
-function blocked(pt1, pt2, xrectnum, game_maze) // pt1 is curr pos, pt2 is questioned pos
+export function blocked(pt1, pt2, xrectnum, game_maze) // pt1 is curr pos, pt2 is questioned pos
 {
     if(Math.abs(pt1 - pt2) % xrectnum != 0 && ~~((pt1) / xrectnum) != ~~(pt2 / xrectnum))
         return false;

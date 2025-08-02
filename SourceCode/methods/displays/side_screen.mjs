@@ -1,4 +1,6 @@
 import { pause } from "../../vis_updated.mjs";
+import { tot_player_health, players, ptr, game_maze, xrectnum, yrectnum, app, seen_indices, play_inds } from "../../vis_updated.mjs";
+import { get_view_sqr } from "../graphics/visibility.mjs";
 
 // export let screen = new PIXI.Container();
 // screen.backgroundColor = 0x0000FF
@@ -79,26 +81,57 @@ export function init_health_bars(app, players){
     const health_bars = new PIXI.Container();
     health_bars.position.set(app.screen.width / 10, app.screen.height * 9 / 10); // Center the menu
     
+    let indiv_bars = []
+    let each_health_bar = []
     for(let i = 0; i < players.length; i++) {
+        const ind_bar = new PIXI.Container()
+
         const bndy_rect = new PIXI.Graphics();
         bndy_rect.rect(-app.screen.width / 15 - app.screen.width / 400, -app.screen.width / 10 + 2 * i * app.screen.width / 80 - app.screen.width / 400 
             , app.screen.width / 8 + app.screen.width / 200, app.screen.width / 70 + app.screen.width / 200);
         bndy_rect.fill(0x000000);
         // bkg_rect.lineStyle(100, 0x000000, 1)
-        health_bars.addChild(bndy_rect)
+        // health_bars.addChild(bndy_rect)
 
         const bkg_rect = new PIXI.Graphics();
         bkg_rect.rect(-app.screen.width / 15, -app.screen.width / 10 + 2 * i * app.screen.width / 80 , app.screen.width / 8, app.screen.width / 70);
         bkg_rect.fill(0x33FF66);
         // bkg_rect.lineStyle(100, 0x000000, 1)
-        health_bars.addChild(bkg_rect)
+        // health_bars.addChild(bkg_rect)
 
         const health_rect = new PIXI.Graphics();
         health_rect.rect(-app.screen.width / 15 + app.screen.width / 200, -app.screen.width / 10 + 2 * i * app.screen.width / 80 + app.screen.width / 420, 
             (app.screen.width / 8 - app.screen.width / 100) * players[i].health / 10, app.screen.width / 105);
         //  ; ;  
         health_rect.fill(0xFF3366);
-        health_bars.addChild(health_rect)
+        // health_bars.addChild(health_rect)
+
+        ind_bar.addChild(bndy_rect)
+        ind_bar.addChild(bkg_rect)
+        ind_bar.addChild(health_rect)
+        health_bars.addChild(ind_bar)
+        indiv_bars.push(ind_bar)
+        each_health_bar.push(health_rect)
     }
-    return health_bars
+    // console.log(health_bars)
+    return [health_bars, indiv_bars, each_health_bar]
+}
+
+
+export function update_health_bars(){
+    let play_visible = []
+    for (let l = 0; l < players.length; l++) {
+        play_visible.push(seen_indices.item.includes(play_inds[l]))
+    }
+    let indiv_bars = tot_player_health[1]
+    let indiv_health = tot_player_health[2]
+    // console.log(play_visible)
+    // console.log(ptr)
+    for (let k = 0; k < players.length; k++) {
+        indiv_bars[k].visible = play_visible[k]
+        let init_width = indiv_health[k].width
+        indiv_health[k].width = Math.max(0, (app.screen.width / 8 - app.screen.width / 100) * players[k].health / 10)
+        indiv_health[k].x = indiv_health[k].x - (init_width - indiv_health[k].width) / 2
+    }
+
 }

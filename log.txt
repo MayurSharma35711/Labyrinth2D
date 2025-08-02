@@ -393,3 +393,76 @@ Jobs
 		- one initializes and sets up the game, the other gives all of the keyboard bindings 
 - I also organized the entire repository, so that it made more sense
 - I sorted vis_updated, so that it is much shorter, and ideally, more readible (although that might still take work)
+
+7/30/25
+- (mayur)
+- I updated the area code a bit but the game doesn't actually implement it yet
+	- for it to be implemented requires having doors work properly
+	- we need vis_updated and sight to be called a bit differently then
+	- it should work, but it just hasn't been done yet 
+- we also need to udpate room generation
+	- they should be the size, shape, and location we want
+	- they should also either connect to another area or just be an empty area of the map
+- I made a full dungeon, I think it looks pretty cool
+	- we'll need like ... 25 more 
+- i designed a multiplayer that we can implement without as much difficulty as I thought 
+	- it will require having socket io set up (but there's already a template for it online)
+- I will start working on monster AI currently, since once that is ready, what we have right now will be playable
+
+Things to do 
+- monster AI 
+- room update
+- area implementation
+- door implementation
+- dungeon creator
+- multiplayer
+- different weapons
+- weapons for monsters and how they do damage
+
+- need to fine tune the turn set-ups
+
+
+- nikki stuff
+
+I also double checked how electron works, and it will be compatible with HTML, so we will use that for extra screens
+we will use PIXI for specific things still though, like things that need extra animation
+
+8/1/25
+- wrote up some monster AI stuff
+- we need it so that monsters can't go into rooms
+	- this shouldn't be super difficult, just need to have A* not allowed going into those indices
+- i also made working health bars and made the monsters only seek out players which are seen and have positive health
+
+- should we have it so that the player has a chance to react to the monster about to hit you like in into the breach? 
+- or should have we have it so that the combat is just done after the monster has a chance to move? 
+	- the into the breach case is primarily difficult because there are things to protect
+	- it would likely be way easier in this sort of set up, where you just have to fight the monsters 
+		- so the difficulty would only occur if there are MANY monsters to deal with 
+
+- at this point, once we have the patrol AI working, we have a playable beta to show people :) 
+
+TO DO:
+- I would still need to add more complex AIs to the game 
+- work on different screens for the game (HTMl ugh)
+	- need a main screen 
+	- need a small screen showing the selector
+	- need a chest-opening screen
+- implement how areas work 
+- implement how doors work
+- improve how rooms work
+	- they need to be MUCH more customizable
+	- prevent things from going into the rooms every
+- update how mazes work
+	- they should be solvable without going into the rooms 
+	- then they shoudl have multiple paths 
+		- this is easier; just intersect 2 mazes on top of each other :)
+		- also include the randomness factor
+- I also updated how the screen works using some CSS / HTML so that it all looks a lot nicer
+
+- if you can get this on a site, then you can show it to Nikki and others as to what you have :)
+
+- start working on weapons 
+- start working on armor 
+- start working on biome effects
+
+- start working on multiplayers

@@ -1,4 +1,5 @@
 import { Entities } from "./entity_classes.mjs";
+import { tot_height, tot_width } from "../vis_updated.mjs";
 export class Player extends Entities
 {
     constructor( player_ind, sizex, sizey, vis_tier, name)
@@ -52,8 +53,20 @@ export class Player extends Entities
         // this.drawMe(cell_sizex, cell_sizey)
     }
     drawMe (sizex,sizey, currx, curry) {
-        this.rect.x = (this.x - currx + 0.25) * sizex + 500
-        this.rect.y = (this.y - curry + 0.25) * sizey + 400
+        this.rect.x = (this.x - currx + 0.25) * sizex + Math.floor(tot_width / 2)
+        this.rect.y = (this.y - curry + 0.25) * sizey + Math.floor(tot_height / 2)
+        if (this.health <= 0) {
+            console.log('here')
+            if (this.player_ind == 0)
+                this.rect.fill(0x770000);
+            else if (this.player_ind == 1)
+                this.rect.fill(0x007700);
+            else if (this.player_ind == 2)
+                this.rect.fill(0x000077);
+            else if (this.player_ind == 3)
+                this.rect.fill(0x770077);
+        }
+        // console.log(this.rect.x, this.rect.y)
         // this.rect.setStrokeStyle(10, 0x8888FF);
     }
     resize(sizex, sizey) {

@@ -21,7 +21,29 @@ class D_Room{
     }
 }
 
+function rev_dung(output){
+    const rooms = output[0]
+    const corridors = output[1]
 
+    let new_rooms = []
+    let new_corrs = []
+
+    for (let l = 0; l < rooms.length; l++) {
+        let cur_room = rooms[l]
+        // console.log(cur_room)
+        let rev_room = new D_Room(cur_room.start_y, cur_room.start_x, cur_room.size_y, cur_room.size_x)
+        new_rooms.push(rev_room)
+    }
+    for (let l = 0; l < corridors.length; l++) {
+        let cur_corr = corridors[l]
+        let rev_corr = []
+        for (let k = 0; k < cur_corr.length; k++) {
+            rev_corr.push([cur_corr[k][1], cur_corr[k][0]])
+        }
+        new_corrs.push(rev_corr)
+    }
+    return [new_rooms, new_corrs]
+}
 
 function dung_type_1(){
     let room1 = new D_Room(0, 0, 5, 4)
@@ -46,6 +68,38 @@ function dung_type_1(){
     return [[room1, room2, room3, room4, room5, room6, room7, room8], corridors]
 }
 
+function rev_dung_type_1(){
+    const output = dung_type_1()
+    const better_out = rev_dung(output)
+    return better_out
+}
+
+
+function dung_type_2(){
+    let room1 = new D_Room(0, 0, 5, 5)
+    let room2 = new D_Room(0, 7, 4, 4)
+    let room3 = new D_Room(7, 0, 4, 4)
+    let room4 = new D_Room(13, 0, 4, 4)
+    let room5 = new D_Room(0, 13, 4, 4)
+    let room6 = new D_Room(7, 7, 4, 4)
+    let room7 = new D_Room(13, 13, 6, 6)
+    let corridors = []
+    corridors.push([[5, 1], [6,1], [5, 2], [6, 2]])
+    corridors.push([[1, 5], [1,6], [2, 5], [2, 6]])
+    corridors.push([[4,8],[5, 8], [6,8], [4,9], [5, 9], [6, 9]])
+    corridors.push([[8,4],[8, 5], [8,6], [9,4], [9, 5], [9, 6]])
+    corridors.push([[12, 1], [11,1], [12, 2], [11, 2]])
+    corridors.push([[1, 12], [1,11], [2, 12], [2, 11]])
+
+    corridors.push([[15, 12], [15,11], [16, 12], [16, 11], [15, 10], [15,9], [16, 10], [16, 9]])
+    corridors.push([[15, 8], [15,7], [16, 8], [16, 7], [15, 6], [15,5], [16, 6], [16, 5], [15,4], [16,4]])
+    corridors.push([[12, 15], [11,15], [12, 16], [11, 16], [10, 15], [9,15], [10, 16], [9, 16]])
+    corridors.push([[8, 15], [7,15], [8, 16], [7, 16], [6, 15], [5,15], [6, 16], [5, 16], [4,15], [4,16]])
+    // corridors.push([[12, 1], [11,1], [12, 2], [11, 2]])
+
+
+    return [[room1, room2, room3, room4, room5, room6, room7], corridors]
+}
 
 // put walls around the border of the entire dungeon
 
@@ -66,7 +120,7 @@ export function full_dungeon(sizex, sizey, typer) {
     // sizex = sizex + extender[0]
     // sizey = sizey + extender[1]
 
-    let output = dung_type_1()
+    let output = dung_type_2()
     let dung_rooms = output[0]
     let corridors = output[1]
     
@@ -98,7 +152,7 @@ export function full_dungeon(sizex, sizey, typer) {
     }
     for (let k = 0; k < corridors.length; k++) {
         let corr_now = corridors[k]
-        console.log(corr_now)
+        // console.log(corr_now)
         for (let i = 0; i < corr_now.length; i++){
             let new_tile = corr_now[i]
             let new_x = new_tile[0]

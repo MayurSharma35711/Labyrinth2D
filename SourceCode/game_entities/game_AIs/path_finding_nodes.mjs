@@ -21,6 +21,15 @@ function get_sector_indices(numx, numy, sector_size, secx, secy){
     return sector_inds
 }
 
+export function find_sector(sector_dict, x0, y0, xnum, ynum) {
+    let actual_ind = x0 + y0 * xnum
+    for (let l = 0; l < sector_dict.elts.length; l++){
+        if (sector_dict.elts[l][1].includes(actual_ind))
+            return sector_dict.keys[l]
+    }
+    return -1 
+}
+
 
 export function make_maze_dicts(maze, numx, numy, sector_size) {
     // print_walls(maze, numx, numy)
@@ -66,6 +75,7 @@ export function make_maze_dicts(maze, numx, numy, sector_size) {
             }
         }
     }
+    // console.log(path_dict)
     for (let i = 0; i < xsectors; i++) {
         for (let j = 0; j < ysectors; j++) {
             let moreInds2get = []
@@ -85,7 +95,7 @@ export function make_maze_dicts(maze, numx, numy, sector_size) {
             }
         }
     }
-    
+    console.log([sector_dict, path_dict])
 
     return [sector_dict, path_dict]
 }

@@ -1,3 +1,16 @@
+import { get_view_range } from "../graphics/visibility.mjs";
+
+export function inRange(curr_player, target_pos, xrectnum, game_maze, monster_indices)
+{
+    if(!get_view_range(curr_player.x, curr_player.y, xrectnum, game_maze.length/xrectnum, curr_player.range, game_maze).includes(target_pos))
+        return false;
+    if(monster_indices.includes(target_pos))
+    {
+        console.log("HIT");
+        return true;
+    }
+}
+
 export function x_view_range (center_x, center_y, numx, numy, tier) {
 
     let curr_pos = center_y * numx + center_x;
@@ -36,9 +49,11 @@ export function x_view_range (center_x, center_y, numx, numy, tier) {
     }
 
     map_indices.push(curr_pos); // just for coolness and perfect X
-    console.log("left_dist = " + left_dist);
-    console.log("right_dist = " + right_dist);
-    console.log("down_dist = " + down_dist);
-    console.log("up_dist = " + up_dist);
+    // console.log("left_dist = " + left_dist);
+    // console.log("right_dist = " + right_dist);
+    // console.log("down_dist = " + down_dist);
+    // console.log("up_dist = " + up_dist);
     return map_indices;
 }
+
+
