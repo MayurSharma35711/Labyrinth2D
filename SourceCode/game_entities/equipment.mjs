@@ -1,4 +1,4 @@
-await PIXI.Assets.load('../Textures/items/Chests.png');
+await PIXI.Assets.load('/Labyrinth2D/Textures/items/Chests.png');
 await PIXI.Assets.load('../Textures/items/ChestsOpen.png');
 import { vis } from "../vis_updated.mjs";
 class equipment

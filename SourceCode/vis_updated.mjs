@@ -14,10 +14,10 @@ import { genBiomes } from "./bkgnd_objs/mapgenV2.mjs";
 import {key_setup, setPlays} from "./methods/key_bind.mjs"
 import { Wrapper } from "./methods/datatypes.mjs";
 import { init_pause_menu, init_health_bars } from "./methods/displays/side_screen.mjs";
-
+// /Users/mayur/Documents/Github/Textures
 
 // HERE WE LOAD THE TEXTURE REQUIRED FOR THE CODE TO RUN
-await PIXI.Assets.load('../Textures/bkgnd/ShadowLands2.png');
+await PIXI.Assets.load('/Labyrinth2D/Textures/bkgnd/ShadowLands2.png');
 await PIXI.Assets.load('../Textures/bkgnd/Desert2.png');
 await PIXI.Assets.load('../Textures/bkgnd/GrassyPlains.png');
 await PIXI.Assets.load('../Textures/bkgnd/Lava.png');
