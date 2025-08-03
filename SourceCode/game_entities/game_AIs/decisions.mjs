@@ -11,8 +11,24 @@ export const monster_state = Object.freeze({
     seek: 2,
     hunt: 3,
     fight: 4,
-    return: 5
+    return: 5, 
+    flee: 6
 });
+
+function print_state(monster){
+    if (monster.decision_state == 0)
+        console.log("rest")
+    else if (monster.decision_state == 1)
+        console.log("patrol")
+    else if (monster.decision_state == 2)
+        console.log("seek")
+    else if (monster.decision_state == 3)
+        console.log("hunt")
+    else if (monster.decision_state == 4)
+        console.log("fight")
+    else if (monster.decision_state == 5)
+        console.log("return")
+}
 
 function deltaX(x1, y1, x2, y2)
 {
@@ -28,7 +44,7 @@ function distance(x1, y1, x2, y2) {
 // returns if player is in range and if so, gives the distance it is away
 
 export function monster_combat_range(center_x, center_y, numx, numy, tier, game_maze, range_type) {
-    const off_cen_size = Math.max(1, 6 - tier)
+    const off_cen_size = Math.max(1, 7 - tier)
     // console.log(off_cen_size)
     // We now use this to give our side indices
     let map_indices = []
@@ -67,7 +83,7 @@ function follow_path(monster) {
         if (inside_list != -1 && (inside_list < blocked_index || blocked_index == -1) )
             blocked_index = inside_list
     }
-    console.log("travel info")
+    // console.log("travel info")
     if (blocked_index != -1) {
         if (blocked_index != 0) {
             next_ind = blocked_index - 1
@@ -85,6 +101,91 @@ function follow_path(monster) {
     }
     
 }
+
+
+// This function doesn't work at all ;,()
+function dir_blocked(monster, shiftx, shifty){
+    let initx = monster.x
+    let inity = monster.y
+    let init_ind = initx + inity * xrectnum
+    if (shiftx == 1)
+        return game_maze[2 * init_ind + 1].exists
+    if (shiftx == -1)
+        return game_maze[2 * init_ind + 1].exists
+    if (shifty == 1)
+        return game_maze[2 * init_ind + 2*xrectnum].exists
+    if (shifty == -1)
+        return game_maze[2 * init_ind - 2*xrectnum].exists
+}
+
+function go_direction(monster, direction) {
+    let shiftx = 0 
+    let shifty = 0
+    if (direction == 0) // right case
+    {
+        shiftx = 1
+    }
+    else if (direction == 1) // left case
+    {
+        shiftx = -1 
+    }
+    else if (direction == 2) // up case 
+    {
+        shifty = 1
+    }
+    else if (direction == 3) // down case
+    {
+        shifty = -1 
+    }
+
+    if (monster.y + shifty < 0 || monster.y + shifty > yrectnum - 1)
+        return false
+    if (monster.x + shiftx < 0 || monster.x + shiftx > xrectnum - 1)
+        return false
+    console.log(shiftx, shifty)
+    if (dir_blocked(monster, shiftx, shifty)){
+        console.log("here")
+        return false
+    }
+    console.log("wall checked")
+
+    for (let l = 0; l < players.length; l++) {
+        let test_ind = players[l].y * xrectnum + players[l].x
+        if (test_ind == (monster.y + shifty) * xrectnum + (monster.x + shiftx))
+            return false
+    }
+    for (let l = 0; l < monsters.length; l++) {
+        let test_ind = monsters[l].y * xrectnum + monsters[l].x
+        if (test_ind == (monster.y + shifty) * xrectnum + (monster.x + shiftx))
+            return false
+    }
+
+    monster.x = monster.x + shiftx
+    monster.y = monster.y + shifty
+    return true
+}
+
+function get_ordering(xdist, ydist) { // designed to flee, to go towards, put in negative directions
+    let xcaser = 0
+    let ycaser = 2
+    if (xdist < 0)
+        xcaser = 1
+    if (ydist < 0)
+        ycaser = 3
+
+    if (xdist == 0) {
+        xcaser = Math.floor(2* Math.random())
+    }
+    if (ydist == 0) {
+        ycaser = Math.floor(2* Math.random()) + 2
+    }
+    if (Math.abs(xdist) > Math.abs(ydist)) {
+        return [xcaser, ycaser]
+    }
+    return [ycaser, xcaser]
+
+}
+
 
 function check_combat(monster) {
     const init_range_indices = monster_combat_range(monster.x, monster.y, xrectnum, yrectnum, monster.tier, game_maze, true)
@@ -135,20 +236,30 @@ export function hunt_brain(monster) {
     }
     
     let do_combat = check_combat(monster)
-    // console.log(do_combat)
+    // console.log("hi there")
 
     // attack 
     if (do_combat[0]) {
         monster.decision_state = monster_state.fight
         dealDamage(monster, players[do_combat[1]])
     }
+    print_state(monster)
+    console.log(monster)
+    if (monster.decision_state == monster_state.fight) {
+        // not in range, so start seeking
+        if(!do_combat[0]) {
+            monster.decision_state = monster_state.seek
+        }
+    }
     // seek and then attack
-    else {
-        monster.decision_state = monster_state.seek
+    if(monster.decision_state == monster_state.seek) {
+        console.log(monster.cur_path)
         follow_path(monster)
+
         do_combat = check_combat(monster)
         if (do_combat[0]) {
             dealDamage(monster, players[do_combat[1]])
+            monster.decision_state = monster_state.fight
         }
     }
 
@@ -157,18 +268,96 @@ export function hunt_brain(monster) {
     
 }
 
-export function patrol_brain(monster) {
-    // PSEUDO Code
-    // create displacement array (using deltaX) and inRange array 
-    // for players
-        // add displacement and inrange if disp is small (if large, say false)
-        // should get disp array as [[5,10],[3,2]..]
-        // in range array as [False, [True, 3]...]
-    // now create sector_displacement array 
-        // gives element by element floor division by sector-size
-        // then takes maximum of each position index to give number of sectors away
+
+export function hunt_flee_brain(monster) {
+    let mindist = 100
+    let closest_player = 0
+    for (let i = 0; i < players.length; i++) {
+        if (players[i].health <= 0 || !seen_indices.item.includes(play_inds[i]))
+            continue
+        let xi = players[i].x 
+        let yi = players[i].y
+        let testdist = distance(xi, yi, monster.x, monster.y)
+        if (mindist > testdist) {
+            mindist = testdist
+            closest_player = i
+        }
+    }
+    // console.log(closest_player, mindist)
+    if (monster.brain_count % 4 == 0 || monster.cur_path.length < 5) {
+        monster.cur_path = Astar_maze(game_maze, xrectnum, yrectnum, monster.x, monster.y, players[closest_player].x, players[closest_player].y, heur_l2sqr)
+        monster.cur_path = monster.cur_path.slice(1)
+    }
     
-    // now check the last state
+    let do_combat = check_combat(monster)
+    // console.log("hi there")
+
+    // attack 
+    if (do_combat[0] && monster.health > 10) {
+        monster.decision_state = monster_state.fight
+        dealDamage(monster, players[do_combat[1]])
+    }
+    print_state(monster)
+    console.log(monster)
+    if (monster.decision_state == monster_state.fight) {
+        // not in range, so start seeking
+        if(!do_combat[0]) {
+            monster.decision_state = monster_state.seek
+        }
+        if (monster.health < 11) {
+            monster.decision_state = monster_state.flee
+        }
+    }
+    // seek and then attack
+    if(monster.decision_state == monster_state.seek) {
+        // console.log(monster.cur_path)
+        if (monster.health < 11) {
+            monster.decision_state = monster_state.flee
+        }
+        else {
+            follow_path(monster)
+    
+            do_combat = check_combat(monster)
+            if (do_combat[0]) {
+                dealDamage(monster, players[do_combat[1]])
+                monster.decision_state = monster_state.fight
+            }
+        }
+    }
+    // NEED TO FINISH
+    if (monster.decision_state == monster_state.flee) {
+        let count = 0
+        while (count < monster.speed) {
+            const x_dist = monster.x - players[closest_player].x
+            const y_dist = monster.y - players[closest_player].y
+            let order = get_ordering(x_dist, y_dist)
+            console.log(order)
+            let l
+            for (l = 0; l < order.length; l++) {
+                let teststep = go_direction(monster, order[l])
+                console.log(teststep)
+                // console.log(count)
+                console.log(monster)
+                if (teststep) {
+                    count++
+                    break
+                }
+            }
+            if (l == order.length)
+                break
+        }
+        
+        
+    }
+
+
+    monster.brain_count++
+    
+}
+
+
+
+export function patrol_brain(monster) {
     let mindist = 100
     let closest_player = 0
     for (let i = 0; i < players.length; i++) {
@@ -180,43 +369,168 @@ export function patrol_brain(monster) {
             closest_player = i
         }
     }
-    let new_path = []
-    if (mindist < 5) {
-        new_path = Astar_maze(game_maze, xrectnum, yrectnum, monster.x, monster.y, players[closest_player].x, players[closest_player].y, heur_l2sqr)
-    }
+    let new_path = Astar_maze(game_maze, xrectnum, yrectnum, monster.x, monster.y, players[closest_player].x, players[closest_player].y, heur_l2sqr)
+    // console.log("repath")
+    // console.log(new_path)
+    new_path = new_path.slice(1)
+
+    
     let do_combat = check_combat(monster)
 
-
-    if (monster.decision_state == monster_state.guard_patrol) {
-
-    }
-    else if (monster.decision_state == monster_state.seek) {
-
-    }
-    else if (monster.decision_state == monster_state.fight) {
-
-    } 
-    else if (monster.decision_state == monster_state.return) {
-
-    }
-
-    // attack
+    print_state(monster)
+    // console.log(monster.x, monster.y)
+    // fight immediately against nearest player
     if (do_combat[0]) {
+        monster.decision_state = monster_state.fight
         dealDamage(monster, players[do_combat[1]])
     }
-    // seek and attack 
-    else if(new_path.length < 10) {
-        monster.cur_path = new_path.slice(1)
 
-
-        let do_combat = check_combat(monster)
-        if (do_combat[0]) {
-            dealDamage(monster, players[do_combat[1]])
+    if (monster.decision_state == monster_state.fight) {
+        // player not in range
+        console.log("case 1")
+        console.log(monster.x, monster.y)
+        if (!do_combat[0]) {
+            // reseeking case
+            if (new_path.length < 4) {
+                monster.cur_path = new_path
+                monster.decision_state = monster_state.seek
+            // repatrolling case
+            } else if (monster.patrol_path.includes(monster.y * xrectnum + monster.x)) {
+                monster.decision_state = monster_state.guard_patrol
+            // returning case
+            } else {
+                monster.cur_path = Astar_maze(game_maze, xrectnum, yrectnum, monster.x, monster.y, monster.lastpos[0], monster.lastpos[1], heur_l2sqr).slice(1)
+                monster.decision_state = monster_state.return
+            }
         }
     }
-    
 
+    // do patrol 
+    if (monster.decision_state == monster_state.guard_patrol) {
+        // go out and seek the monster
+        // console.log("case 2")
+        // console.log(monster.x + xrectnum * monster.y, monster.cur_path)
+        // console.log('orientation')
+        // console.log(monster.orientation)
+        if (new_path.length < 7) {
+            monster.cur_path = new_path
+            monster.lastpos = [monster.x, monster.y]
+            monster.decision_state = monster_state.seek
+            // follow_path(monster)
+            // do_combat = check_combat(monster)
+            // if (do_combat[0]) { 
+            //     dealDamage(monster, players[do_combat[1]])
+            //     monster.decision_state = monster_state.fight
+            // }
+        }
+        // just continue doing patrol
+        else {
+            follow_path(monster)
+
+            do_combat = check_combat(monster)
+            if (do_combat[0]) {
+                monster.decision_state = monster_state.fight
+                dealDamage(monster, players[do_combat[1]])
+            }
+
+            if (monster.cur_path.length < 1) {
+                monster.orientation = (monster.orientation + 1) % 2
+                if (monster.orientation == 0) {
+                    monster.cur_path = monster.patrol_path.slice(1)
+                    console.log("nonrev")
+                    console.log(monster.patrol_path)
+                }
+                else {
+                    monster.cur_path = monster.patrol_path.toReversed().slice(1)
+                    console.log("rev")
+                    console.log(monster.patrol_path.toReversed())
+                }
+                    
+                // console.log(monster.cur_path, monster.orientation)
+            }
+        }
+    }
+    // seek out FINISH THIS CASE
+    if (monster.decision_state == monster_state.seek) {
+        // seeking out the monster
+        console.log("case 3")
+        console.log(monster.x, monster.y)
+        if(new_path.length < 7) {
+            follow_path(monster)
+            do_combat = check_combat(monster)
+            if (do_combat[0]) { 
+                dealDamage(monster, players[do_combat[1]])
+                monster.decision_state = monster_state.fight
+            }
+        }
+        // returning to the last spot
+        else {
+            new_path = Astar_maze(game_maze, xrectnum, yrectnum, monster.x, monster.y, monster.lastpos[0], monster.lastpos[1], heur_l2sqr).slice(1)
+            monster.decision_state = monster_state.return
+            monster.cur_path = new_path
+            follow_path(monster)
+
+            do_combat = check_combat(monster)
+            if (do_combat[0]) { 
+                dealDamage(monster, players[do_combat[1]])
+                monster.decision_state = monster_state.fight
+            }
+        }
+    }
+    if (monster.decision_state == monster_state.return) {
+        // now there is a player nearby so start seeking 
+        if(new_path.length < 4) {
+            monster.cur_path = new_path
+            follow_path(monster)
+            monster.decision_state = monster_state.seek
+
+            do_combat = check_combat(monster)
+            if (do_combat[0]) {
+                monster.decision_state = monster_state.fight
+                dealDamage(monster, players[do_combat[1]])
+            }
+        }
+        // return and then check if you're on the patrol path or not (and then do damage)
+        else {
+            follow_path(monster)
+            // console.log(monster.x + xrectnum * monster.y, monster.cur_path)
+            // console.log("now returning")
+            let inder = monster.patrol_path.indexOf(monster.y * xrectnum + monster.x)          
+            if(inder != -1) {
+                monster.decision_state = monster_state.guard_patrol
+                
+                if (monster.orientation == 0) {
+                    monster.cur_path = monster.patrol_path.slice(inder + 1)
+                }
+                else {
+                    monster.cur_path = monster.patrol_path.slice(0, inder - 1).toReversed()
+                }
+                
+            }
+
+            do_combat = check_combat(monster)
+            if (do_combat[0]) {
+                monster.decision_state = monster_state.fight
+                dealDamage(monster, players[do_combat[1]])
+            }
+        }
+    }
+
+    // console.log("case 1")
+    // console.log(monster.x, monster.y)
     monster.brain_count++
+
+    // PSEUDO Code
+    // create displacement array (using deltaX) and inRange array 
+    // for players
+        // add displacement and inrange if disp is small (if large, say false)
+        // should get disp array as [[5,10],[3,2]..]
+        // in range array as [False, [True, 3]...]
+    // now create sector_displacement array 
+        // gives element by element floor division by sector-size
+        // then takes maximum of each position index to give number of sectors away
+    
+    // now check the last state
     // if rest, set counter value = counter - 1
         // if rest counter, go to top
 }

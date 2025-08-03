@@ -96,7 +96,7 @@ export let shifty = new Wrapper(0);
 for(let i = 0; i < monster_num;i++)
 {
     // console.log((i % 5) + 1)
-    monsters[i] = new Monster(5, size.item, size.item, xrectnum, yrectnum, "hunt");
+    monsters[i] = new Monster(5, size.item, size.item, xrectnum, yrectnum, "flee");
 }
 for(let i = 0;i < monsters.length;i++)
 {

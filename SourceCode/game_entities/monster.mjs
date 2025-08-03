@@ -1,7 +1,7 @@
 import { Entities } from "./entity_classes.mjs";
 import { find_sector } from "./game_AIs/path_finding_nodes.mjs";
-import { game_maze, maze_dicter } from "../vis_updated.mjs";
-import { Astar_maze } from "./game_AIs/path_finding.mjs";
+import { game_maze, maze_dicter, xrectnum } from "../vis_updated.mjs";
+import { Astar_maze, heur_l2sqr } from "./game_AIs/path_finding.mjs";
 import { monster_state } from "./game_AIs/decisions.mjs";
 import { tot_height, tot_width } from "../vis_updated.mjs";
 
@@ -21,7 +21,7 @@ export class Monster extends Entities
         this.tier = tier
         this.brain_type = brain_type
         if (brain_type == "patrol") {
-            this.decision_state = monster_state.guard_patrol
+            this.decision_state = monster_state.return
             this.init_sector = find_sector(maze_dicter[0], this.x, this.y, num_x, num_y)
             let adj_sectors = []
             for (let l = 0; l < maze_dicter[0].keys.length; l++) {
@@ -49,12 +49,22 @@ export class Monster extends Entities
             this.final_sector = adj_sectors[best_dist_ind]
             this.patrol_path = best_path
             this.orientation = 0
-            this.cur_path = []
+            this.cur_path = Astar_maze(game_maze, num_x, num_y, this.x, this.y, this.patrol_path[0] % num_x, Math.floor(this.patrol_path[0] / num_x), heur_l2sqr).slice(1)
             this.brain_count = 0
+            this.lastpos = [best_path[0] % num_x, Math.floor(best_path[0] / num_x)]
 
         }
         if (brain_type == "hunt") {
-            this.state_type = monster_state.seek
+            this.decision_state = monster_state.seek
+            this.init_sector = find_sector(maze_dicter[0], this.x, this.y, num_x, num_y)
+            this.cur_path = []
+            this.final_sector = false
+            this.patrol_path = false
+            this.orientation = 0
+            this.brain_count = 0
+        }
+        if (brain_type == "flee") {
+            this.decision_state = monster_state.seek
             this.init_sector = find_sector(maze_dicter[0], this.x, this.y, num_x, num_y)
             this.cur_path = []
             this.final_sector = false

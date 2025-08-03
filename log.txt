@@ -466,3 +466,35 @@ TO DO:
 - start working on biome effects
 
 - start working on multiplayers
+
+
+8/2/25 
+- (mayur)
+- patrol AI now works 
+- need to fix the wall-check function and then can do direction based (rather than A* based) movement for monsters
+- this gives a mostly complete working beta for the game 
+	- need to double check how player damage works still 
+
+- once the function above works, the game will have 3+ working AIs
+	- they are the hunting brain, the patrol brain, and a hunt then flee brain
+
+- after that last edit is done
+- tasks to do:
+	- get this stuff onto the github site to show people more easily :) 
+	- screen stuff
+		- some HTML stuff for a main menu, pause, controls, etc
+		- some PIXI for selector screens, inventory, chests, etc
+	
+	- start work on multiplayer 
+		- only do this after you have a site though
+
+	- item and entity stuff
+		- start up armor
+		- start up biome effects
+		- start up weapons
+
+	- map updates
+		- implement areas
+		- implement doors
+		- update rooms
+		- update mazes
