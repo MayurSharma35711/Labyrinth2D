@@ -12,15 +12,15 @@ let xrectnum = 20
 let yrectnum = 20
 let game_map = map_init(xrectnum, yrectnum);
 let game_maze = maze_init2(xrectnum, yrectnum);
-await PIXI.Assets.load('/Labyrinth2D/textures/bkgnd/ShadowLands2.png');
-await PIXI.Assets.load('/Labyrinth2D/textures/bkgnd/Desert2.png');
-await PIXI.Assets.load('/Labyrinth2D/textures/bkgnd/GrassyPlains.png');
-await PIXI.Assets.load('/Labyrinth2D/textures/bkgnd/Lava.png');
-await PIXI.Assets.load('/Labyrinth2D/textures/bkgnd/MuddyRainforest2.png');
-await PIXI.Assets.load('/Labyrinth2D/textures/bkgnd/PoisonOoze.png');
-await PIXI.Assets.load('/Labyrinth2D/textures/bkgnd/RockyArea.png');
-await PIXI.Assets.load('/Labyrinth2D/textures/bkgnd/SnowyIce.png');
-await PIXI.Assets.load('/Labyrinth2D/textures/bkgnd/Waves2.png');
+await PIXI.Assets.load('../Textures/bkgnd/ShadowLands2.png');
+await PIXI.Assets.load('../Textures/bkgnd/Desert2.png');
+await PIXI.Assets.load('../Textures/bkgnd/GrassyPlains.png');
+await PIXI.Assets.load('../Textures/bkgnd/Lava.png');
+await PIXI.Assets.load('../Textures/bkgnd/MuddyRainforest2.png');
+await PIXI.Assets.load('../Textures/bkgnd/PoisonOoze.png');
+await PIXI.Assets.load('../Textures/bkgnd/RockyArea.png');
+await PIXI.Assets.load('../Textures/bkgnd/SnowyIce.png');
+await PIXI.Assets.load('../Textures/bkgnd/Waves2.png');
 print_map(game_map, xrectnum, yrectnum);
 function show_map(map)
 {
@@ -32,31 +32,31 @@ function show_map(map)
             switch(game_map[i * xrectnum + k].biome)
             {
             case 0:
-                sprite = PIXI.Sprite.from('/Labyrinth2D/textures/bkgnd/ShadowLands2.png');
+                sprite = PIXI.Sprite.from('../Textures/bkgnd/ShadowLands2.png');
                 break;
             case 1:
-                sprite = PIXI.Sprite.from('/Labyrinth2D/textures/bkgnd/Desert2.png');
+                sprite = PIXI.Sprite.from('../Textures/bkgnd/Desert2.png');
                 break;
             case 2:
-                sprite = PIXI.Sprite.from('/Labyrinth2D/textures/bkgnd/GrassyPlains.png');
+                sprite = PIXI.Sprite.from('../Textures/bkgnd/GrassyPlains.png');
                 break;
             case 3:
-                sprite = PIXI.Sprite.from('/Labyrinth2D/textures/bkgnd/Lava.png');
+                sprite = PIXI.Sprite.from('../Textures/bkgnd/Lava.png');
                 break;
             case 4:
-                sprite = PIXI.Sprite.from('/Labyrinth2D/textures/bkgnd/MuddyRainforest2.png');
+                sprite = PIXI.Sprite.from('../Textures/bkgnd/MuddyRainforest2.png');
                 break;
             case 5:
-                sprite = PIXI.Sprite.from('/Labyrinth2D/textures/bkgnd/PoisonOoze.png');
+                sprite = PIXI.Sprite.from('../Textures/bkgnd/PoisonOoze.png');
                 break;
             case 6:
-                sprite = PIXI.Sprite.from('/Labyrinth2D/textures/bkgnd/RockyArea.png');
+                sprite = PIXI.Sprite.from('../Textures/bkgnd/RockyArea.png');
                 break;
             case 7:
-                sprite = PIXI.Sprite.from('/Labyrinth2D/textures/bkgnd/SnowyIce.png');
+                sprite = PIXI.Sprite.from('../Textures/bkgnd/SnowyIce.png');
                 break;
             case 8:
-                sprite = PIXI.Sprite.from('/Labyrinth2D/textures/bkgnd/Waves2.png');
+                sprite = PIXI.Sprite.from('../Textures/bkgnd/Waves2.png');
                 break;
             }
             sprite.x = k * size;
@@ -86,31 +86,31 @@ function vis(currx, curry)
         switch(game_map[map_indices[i]].biome)
         {
         case 0:
-            vis_sprites[i] = PIXI.Sprite.from('/Labyrinth2D/textures/bkgnd/ShadowLands2.png');
+            vis_sprites[i] = PIXI.Sprite.from('../Textures/bkgnd/ShadowLands2.png');
             break;
         case 1:
-            vis_sprites[i] = PIXI.Sprite.from('/Labyrinth2D/textures/bkgnd/Desert2.png');
+            vis_sprites[i] = PIXI.Sprite.from('../Textures/bkgnd/Desert2.png');
             break;
         case 2:
-            vis_sprites[i] = PIXI.Sprite.from('/Labyrinth2D/textures/bkgnd/GrassyPlains.png');
+            vis_sprites[i] = PIXI.Sprite.from('../Textures/bkgnd/GrassyPlains.png');
             break;
         case 3:
-            vis_sprites[i] = PIXI.Sprite.from('/Labyrinth2D/textures/bkgnd/Lava.png');
+            vis_sprites[i] = PIXI.Sprite.from('../Textures/bkgnd/Lava.png');
             break;
         case 4:
-            vis_sprites[i] = PIXI.Sprite.from('/Labyrinth2D/textures/bkgnd/MuddyRainforest2.png');
+            vis_sprites[i] = PIXI.Sprite.from('../Textures/bkgnd/MuddyRainforest2.png');
             break;
         case 5:
-            vis_sprites[i] = PIXI.Sprite.from('/Labyrinth2D/textures/bkgnd/PoisonOoze.png');
+            vis_sprites[i] = PIXI.Sprite.from('../Textures/bkgnd/PoisonOoze.png');
             break;
         case 6:
-            vis_sprites[i] = PIXI.Sprite.from('/Labyrinth2D/textures/bkgnd/RockyArea.png');
+            vis_sprites[i] = PIXI.Sprite.from('../Textures/bkgnd/RockyArea.png');
             break;
         case 7:
-            vis_sprites[i] = PIXI.Sprite.from('/Labyrinth2D/textures/bkgnd/SnowyIce.png');
+            vis_sprites[i] = PIXI.Sprite.from('../Textures/bkgnd/SnowyIce.png');
             break;
         case 8:
-            vis_sprites[i] = PIXI.Sprite.from('/Labyrinth2D/textures/bkgnd/Waves2.png');
+            vis_sprites[i] = PIXI.Sprite.from('../Textures/bkgnd/Waves2.png');
             break;
         }
         vis_sprites[i].width = size;

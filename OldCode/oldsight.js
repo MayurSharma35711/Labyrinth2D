@@ -22,7 +22,7 @@ function sight()
     {
         let map_indexer = map_indices[i]
         if(map_indexer < xrectnum) {
-            let upwall = PIXI.Sprite.from('/Labyrinth2D/textures/bkgnd/WallsHorizontal.png');
+            let upwall = PIXI.Sprite.from('../Textures/bkgnd/WallsHorizontal.png');
             upwall.height = 0.3 * size;
             upwall.width = size;
             upwall.x = (map_indexer - currx) * size;
@@ -30,7 +30,7 @@ function sight()
             walls.addChild(upwall)
         }
         if(map_indexer % xrectnum == 0) {
-            let leftwall = PIXI.Sprite.from('/Labyrinth2D/textures/bkgnd/WallsVertical.png');
+            let leftwall = PIXI.Sprite.from('../Textures/bkgnd/WallsVertical.png');
             leftwall.height = size;
             leftwall.width = 0.3 * size;
             leftwall.x = (0 - currx) * size - 0.15*size;

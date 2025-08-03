@@ -23,7 +23,7 @@ export class Tile {
 		// 	case 0:
 		// 		//Set Color To Biome Plains
 		// 		this.color = 0x08b208;
-		// 		this.text = PIXI.loader.shared('/Users/mayur/Documents/Github/Labyrinth2D/Textures/bkgnd/Plains.png');
+		// 		this.text = PIXI.loader.shared('/Users/mayur/Documents/Github../Textures/bkgnd/Plains.png');
 		// 		// var plain_text = 
 		// 		break;
 		// 	// case 1:
@@ -53,12 +53,12 @@ export class Tile {
 		// 	case 1:
 		// 		//Set Color To Biome Volcano
 		// 		this.color = 0xDA306e;
-		// 		this.text = PIXI.loader.shared('/Users/mayur/Documents/Github/Labyrinth2D/Textures/bkgnd/Lava.png');
+		// 		this.text = PIXI.loader.shared('/Users/mayur/Documents/Github../Textures/bkgnd/Lava.png');
 		// 		break;
 		// 	case 2:
 		// 		//Set Color To Rocky / Mountain
 		// 		this.color = 0x666699;
-		// 		this.text = PIXI.loader.shared('/Users/mayur/Documents/Github/Labyrinth2D/Textures/bkgnd/RockyArea.png');
+		// 		this.text = PIXI.loader.shared('/Users/mayur/Documents/Github../Textures/bkgnd/RockyArea.png');
 		// 		break;
 		// 	// case 9:
 		// 	//     //Set Color To Biome Forest
@@ -81,43 +81,43 @@ export class Tile {
 		switch(this.biome)
         {
 		case 1:
-			this.sprite = PIXI.Sprite.from('/Labyrinth2D/Textures/bkgnd/GrassyPlains.png');
+			this.sprite = PIXI.Sprite.from('../Textures/bkgnd/GrassyPlains.png');
 			// console.log("Complete");
 			break;
 		case 5:
-			this.sprite = PIXI.Sprite.from('/Labyrinth2D/Textures/bkgnd/Desert2.png');
+			this.sprite = PIXI.Sprite.from('../Textures/bkgnd/Desert2.png');
 			break;
         case 7:
-            this.sprite = PIXI.Sprite.from('/Labyrinth2D/textures/bkgnd/ShadowLands2.png');
+            this.sprite = PIXI.Sprite.from('../Textures/bkgnd/ShadowLands2.png');
             break;
         case 6:
-            this.sprite = PIXI.Sprite.from('/Labyrinth2D/textures/bkgnd/Lava.png');
+            this.sprite = PIXI.Sprite.from('../Textures/bkgnd/Lava.png');
             break;
         case 4:
-            this.sprite = PIXI.Sprite.from('/Labyrinth2D/textures/bkgnd/MuddyRainforest2.png');
+            this.sprite = PIXI.Sprite.from('../Textures/bkgnd/MuddyRainforest2.png');
             break;
         case 8:
-            this.sprite = PIXI.Sprite.from('/Labyrinth2D/textures/bkgnd/PoisonOoze.png');
+            this.sprite = PIXI.Sprite.from('../Textures/bkgnd/PoisonOoze.png');
             break;
         case 2:
-            this.sprite = PIXI.Sprite.from('/Labyrinth2D/textures/bkgnd/RockyArea.png');
+            this.sprite = PIXI.Sprite.from('../Textures/bkgnd/RockyArea.png');
             break;
         case 3:
-            this.sprite = PIXI.Sprite.from('/Labyrinth2D/textures/bkgnd/SnowyIce.png');
+            this.sprite = PIXI.Sprite.from('../Textures/bkgnd/SnowyIce.png');
             break;
         case 0:
-            this.sprite = PIXI.Sprite.from('/Labyrinth2D/textures/bkgnd/Waves2.png');
+            this.sprite = PIXI.Sprite.from('../Textures/bkgnd/Waves2.png');
             break;
 		case 9:
 			// console.log("roomfloor")
-			this.sprite = PIXI.Sprite.from('/Labyrinth2D/textures/bkgnd/RoomFloor.png')
+			this.sprite = PIXI.Sprite.from('../Textures/bkgnd/RoomFloor.png')
 			break;
 		case 10:
 			// console.log("dungeon")
-			this.sprite = PIXI.Sprite.from('/Labyrinth2D/textures/bkgnd/Dungeon.png')
+			this.sprite = PIXI.Sprite.from('../Textures/bkgnd/Dungeon.png')
 			break;
 		default:
-			this.sprite = PIXI.Sprite.from('/Labyrinth2D/textures/bkgnd/blank.png');
+			this.sprite = PIXI.Sprite.from('../Textures/bkgnd/blank.png');
         }
 		// this.sprite.tint = 0xFFBB66;
 		this.sprite.alpha = opac;
