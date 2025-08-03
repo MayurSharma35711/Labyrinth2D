@@ -1,6 +1,6 @@
 import { walls } from "../vis_updated.mjs";
-await PIXI.Assets.load('../Textures/bkgnd/WallsVertical.png');
-await PIXI.Assets.load('../Textures/bkgnd/WallsHorizontal.png');
+await PIXI.Assets.load('/Labyrinth2D/textures/bkgnd/WallsVertical.png');
+await PIXI.Assets.load('/Labyrinth2D/textures/bkgnd/WallsHorizontal.png');
 import { Stack } from "../methods/datatypes.mjs";
 
 export class TileWall{
@@ -46,7 +46,7 @@ export class TileWall{
                 this.wall_image = new PIXI.Sprite();
                 if(this.isVertical)
                 {
-                    this.wall_image = PIXI.Sprite.from('../Textures/bkgnd/WallsVertical.png');
+                    this.wall_image = PIXI.Sprite.from('/Labyrinth2D/textures/bkgnd/WallsVertical.png');
                     this.wall_image.height = cell_height;
                     this.wall_image.width = 0.3 * cell_width;
                     this.wall_image.x = (this.ind_x - currx) * cell_width  + 0.85*cell_width;
@@ -56,7 +56,7 @@ export class TileWall{
                 }
                 else
                 {
-                    this.wall_image = PIXI.Sprite.from('../Textures/bkgnd/WallsHorizontal.png');
+                    this.wall_image = PIXI.Sprite.from('/Labyrinth2D/textures/bkgnd/WallsHorizontal.png');
                     this.wall_image.height = 0.3 * cell_height;
                     this.wall_image.width = cell_width;
                     this.wall_image.x = (this.ind_x - currx) * cell_width;

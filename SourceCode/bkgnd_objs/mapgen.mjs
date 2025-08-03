@@ -81,43 +81,43 @@ export class Tile {
 		switch(this.biome)
         {
 		case 1:
-			this.sprite = PIXI.Sprite.from('../Textures/bkgnd/GrassyPlains.png');
+			this.sprite = PIXI.Sprite.from('/Labyrinth2D/Textures/bkgnd/GrassyPlains.png');
 			// console.log("Complete");
 			break;
 		case 5:
-			this.sprite = PIXI.Sprite.from('../Textures/bkgnd/Desert2.png');
+			this.sprite = PIXI.Sprite.from('/Labyrinth2D/Textures/bkgnd/Desert2.png');
 			break;
         case 7:
-            this.sprite = PIXI.Sprite.from('../Textures/bkgnd/ShadowLands2.png');
+            this.sprite = PIXI.Sprite.from('/Labyrinth2D/textures/bkgnd/ShadowLands2.png');
             break;
         case 6:
-            this.sprite = PIXI.Sprite.from('../Textures/bkgnd/Lava.png');
+            this.sprite = PIXI.Sprite.from('/Labyrinth2D/textures/bkgnd/Lava.png');
             break;
         case 4:
-            this.sprite = PIXI.Sprite.from('../Textures/bkgnd/MuddyRainforest2.png');
+            this.sprite = PIXI.Sprite.from('/Labyrinth2D/textures/bkgnd/MuddyRainforest2.png');
             break;
         case 8:
-            this.sprite = PIXI.Sprite.from('../Textures/bkgnd/PoisonOoze.png');
+            this.sprite = PIXI.Sprite.from('/Labyrinth2D/textures/bkgnd/PoisonOoze.png');
             break;
         case 2:
-            this.sprite = PIXI.Sprite.from('../Textures/bkgnd/RockyArea.png');
+            this.sprite = PIXI.Sprite.from('/Labyrinth2D/textures/bkgnd/RockyArea.png');
             break;
         case 3:
-            this.sprite = PIXI.Sprite.from('../Textures/bkgnd/SnowyIce.png');
+            this.sprite = PIXI.Sprite.from('/Labyrinth2D/textures/bkgnd/SnowyIce.png');
             break;
         case 0:
-            this.sprite = PIXI.Sprite.from('../Textures/bkgnd/Waves2.png');
+            this.sprite = PIXI.Sprite.from('/Labyrinth2D/textures/bkgnd/Waves2.png');
             break;
 		case 9:
 			// console.log("roomfloor")
-			this.sprite = PIXI.Sprite.from('../Textures/bkgnd/RoomFloor.png')
+			this.sprite = PIXI.Sprite.from('/Labyrinth2D/textures/bkgnd/RoomFloor.png')
 			break;
 		case 10:
 			// console.log("dungeon")
-			this.sprite = PIXI.Sprite.from('../Textures/bkgnd/Dungeon.png')
+			this.sprite = PIXI.Sprite.from('/Labyrinth2D/textures/bkgnd/Dungeon.png')
 			break;
 		default:
-			this.sprite = PIXI.Sprite.from('../Textures/bkgnd/blank.png');
+			this.sprite = PIXI.Sprite.from('/Labyrinth2D/textures/bkgnd/blank.png');
         }
 		// this.sprite.tint = 0xFFBB66;
 		this.sprite.alpha = opac;

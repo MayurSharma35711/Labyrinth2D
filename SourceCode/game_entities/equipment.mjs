@@ -1,5 +1,5 @@
 await PIXI.Assets.load('/Labyrinth2D/Textures/items/Chests.png');
-await PIXI.Assets.load('../Textures/items/ChestsOpen.png');
+await PIXI.Assets.load('/Labyrinth2D/textures/items/ChestsOpen.png');
 import { vis } from "../vis_updated.mjs";
 class equipment
 {
@@ -145,7 +145,7 @@ export class chest
     {
         if(this.opened)
         {
-            this.sprite = PIXI.Sprite.from('../Textures/items/ChestsOpen.png');
+            this.sprite = PIXI.Sprite.from('/Labyrinth2D/textures/items/ChestsOpen.png');
             this.sprite.width = 0.7 * cell_width;
             this.sprite.height = 0.7 * cell_height;
             this.sprite.x = (this.x + 0.15 - currx) * cell_width;
@@ -154,7 +154,7 @@ export class chest
         }
         else
         {
-            this.sprite = PIXI.Sprite.from('../Textures/items/Chests.png');
+            this.sprite = PIXI.Sprite.from('/Labyrinth2D/textures/items/Chests.png');
             this.sprite.width = 0.7 * cell_width;
             this.sprite.height = 0.7 * cell_height;
             this.sprite.x = (this.x + 0.15 - currx) * cell_width;
