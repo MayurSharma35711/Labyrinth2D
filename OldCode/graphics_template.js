@@ -3,8 +3,8 @@ await app.init({ width: 640, height: 360 });
 document.body.appendChild(app.canvas);
 
 // load PNG async
-await PIXI.Assets.load('../Textures/bkgnd/ShadowLands.png');
-let sprite = PIXI.Sprite.from('../Textures/bkgnd/ShadowLands.png');
+await PIXI.Assets.load('../textures/bkgnd/ShadowLands.png');
+let sprite = PIXI.Sprite.from('../textures/bkgnd/ShadowLands.png');
 app.stage.addChild(sprite);
 // Add a variable to count up the seconds our demo has been running
 let elapsed = 0.0;

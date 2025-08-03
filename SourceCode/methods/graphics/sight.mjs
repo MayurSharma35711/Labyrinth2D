@@ -52,7 +52,7 @@ export function sight(game_map, game_maze, xrectnum, yrectnum, players, curr_pla
         let map_indexer = map_indices[i]
         
         if(map_indexer < xrectnum && game_map[map_indexer].getBiome() != -1) {
-            let upwall = PIXI.Sprite.from('../Textures/bkgnd/WallsHorizontal.png');
+            let upwall = PIXI.Sprite.from('../textures/bkgnd/WallsHorizontal.png');
             upwall.height = 0.3 * size;
             upwall.width = size;
             upwall.x = (map_indexer - currx) * size;
@@ -60,7 +60,7 @@ export function sight(game_map, game_maze, xrectnum, yrectnum, players, curr_pla
             walls.addChild(upwall)
         }
         if(map_indexer % xrectnum == 0 && game_map[map_indexer].getBiome() != -1) {
-            let leftwall = PIXI.Sprite.from('../Textures/bkgnd/WallsVertical.png');
+            let leftwall = PIXI.Sprite.from('../textures/bkgnd/WallsVertical.png');
             leftwall.height = size;
             leftwall.width = 0.3 * size;
             leftwall.x = (0 - currx) * size - 0.15*size;

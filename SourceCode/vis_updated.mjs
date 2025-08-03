@@ -14,21 +14,21 @@ import { genBiomes } from "./bkgnd_objs/mapgenV2.mjs";
 import {key_setup, setPlays} from "./methods/key_bind.mjs"
 import { Wrapper } from "./methods/datatypes.mjs";
 import { init_pause_menu, init_health_bars } from "./methods/displays/side_screen.mjs";
-// /Users/mayur/Documents/Github/Textures
+// /Users/mayur/Documents/Github/textures
 
 // HERE WE LOAD THE TEXTURE REQUIRED FOR THE CODE TO RUN
-await PIXI.Assets.load('../Textures/bkgnd/ShadowLands2.png');
-await PIXI.Assets.load('../Textures/bkgnd/Desert2.png');
-await PIXI.Assets.load('../Textures/bkgnd/GrassyPlains.png');
-await PIXI.Assets.load('../Textures/bkgnd/Lava.png');
-await PIXI.Assets.load('../Textures/bkgnd/MuddyRainforest2.png');
-await PIXI.Assets.load('../Textures/bkgnd/PoisonOoze.png');
-await PIXI.Assets.load('../Textures/bkgnd/RockyArea.png');
-await PIXI.Assets.load('../Textures/bkgnd/SnowyIce.png');
-await PIXI.Assets.load('../Textures/bkgnd/Waves2.png');
-await PIXI.Assets.load('../Textures/bkgnd/Dungeon.png');
-await PIXI.Assets.load('../Textures/bkgnd/blank.png');
-await PIXI.Assets.load('../Textures/bkgnd/RoomFloor.png');
+await PIXI.Assets.load('../textures/bkgnd/ShadowLands2.png');
+await PIXI.Assets.load('../textures/bkgnd/Desert2.png');
+await PIXI.Assets.load('../textures/bkgnd/GrassyPlains.png');
+await PIXI.Assets.load('../textures/bkgnd/Lava.png');
+await PIXI.Assets.load('../textures/bkgnd/MuddyRainforest2.png');
+await PIXI.Assets.load('../textures/bkgnd/PoisonOoze.png');
+await PIXI.Assets.load('../textures/bkgnd/RockyArea.png');
+await PIXI.Assets.load('../textures/bkgnd/SnowyIce.png');
+await PIXI.Assets.load('../textures/bkgnd/Waves2.png');
+await PIXI.Assets.load('../textures/bkgnd/Dungeon.png');
+await PIXI.Assets.load('../textures/bkgnd/blank.png');
+await PIXI.Assets.load('../textures/bkgnd/RoomFloor.png');
 
 
 // HERE WE CREATE OUR ACTUAL MAP FOR THE GAME
