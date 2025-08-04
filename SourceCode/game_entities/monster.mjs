@@ -72,6 +72,15 @@ export class Monster extends Entities
             this.orientation = 0
             this.brain_count = 0
         }
+        if (brain_type == "sniff") {
+            this.decision_state = monster_state.sniff
+            this.init_sector = find_sector(maze_dicter[0], this.x, this.y, num_x, num_y)
+            this.cur_path = []
+            this.final_sector = false
+            this.patrol_path = false
+            this.orientation = 0
+            this.brain_count = 0
+        }
         switch(tier)
         {
         case 1:

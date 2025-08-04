@@ -10,7 +10,7 @@ import { full_dungeon } from "./bkgnd_objs/dungeon.mjs";
 
 export function init_bkgnd(xrectnum, yrectnum) {
     console.log("Here"+xrectnum);
-    let game_map = map_init(xrectnum, yrectnum);
+    let game_map = map_init(xrectnum, yrectnum,[1,1,0,0]);
     let game_maze = maze_init2(xrectnum, yrectnum);
     let output = multiRooms(xrectnum, yrectnum, 5, 8, game_maze, game_map, 2);
     game_maze = output[0]

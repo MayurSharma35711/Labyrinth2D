@@ -12,7 +12,8 @@ export const monster_state = Object.freeze({
     hunt: 3,
     fight: 4,
     return: 5, 
-    flee: 6
+    flee: 6,
+    sniff: 7
 });
 
 function print_state(monster){
@@ -108,14 +109,19 @@ function dir_blocked(monster, shiftx, shifty){
     let initx = monster.x
     let inity = monster.y
     let init_ind = initx + inity * xrectnum
-    if (shiftx == 1)
+    if (shiftx == 1) {
         return game_maze[2 * init_ind + 1].exists
-    if (shiftx == -1)
-        return game_maze[2 * init_ind + 1].exists
-    if (shifty == 1)
-        return game_maze[2 * init_ind + 2*xrectnum].exists
-    if (shifty == -1)
+    }
+    if (shiftx == -1) {
+        return game_maze[2 * init_ind - 1].exists
+    }
+    if (shifty == 1) {
+        return game_maze[2 * init_ind].exists
+    }
+    if (shifty == -1) {
         return game_maze[2 * init_ind - 2*xrectnum].exists
+    }
+    return false
 }
 
 function go_direction(monster, direction) {
@@ -147,7 +153,7 @@ function go_direction(monster, direction) {
         console.log("here")
         return false
     }
-    console.log("wall checked")
+    // console.log("wall checked")
 
     for (let l = 0; l < players.length; l++) {
         let test_ind = players[l].y * xrectnum + players[l].x
@@ -293,25 +299,24 @@ export function hunt_flee_brain(monster) {
     // console.log("hi there")
 
     // attack 
-    if (do_combat[0] && monster.health > 10) {
+    if (do_combat[0] && monster.health > 3) {
         monster.decision_state = monster_state.fight
         dealDamage(monster, players[do_combat[1]])
     }
-    print_state(monster)
-    console.log(monster)
+    
     if (monster.decision_state == monster_state.fight) {
         // not in range, so start seeking
         if(!do_combat[0]) {
             monster.decision_state = monster_state.seek
         }
-        if (monster.health < 11) {
+        if (monster.health < 4) {
             monster.decision_state = monster_state.flee
         }
     }
     // seek and then attack
     if(monster.decision_state == monster_state.seek) {
         // console.log(monster.cur_path)
-        if (monster.health < 11) {
+        if (monster.health < 4) {
             monster.decision_state = monster_state.flee
         }
         else {
@@ -324,20 +329,15 @@ export function hunt_flee_brain(monster) {
             }
         }
     }
-    // NEED TO FINISH
     if (monster.decision_state == monster_state.flee) {
         let count = 0
         while (count < monster.speed) {
             const x_dist = monster.x - players[closest_player].x
             const y_dist = monster.y - players[closest_player].y
             let order = get_ordering(x_dist, y_dist)
-            console.log(order)
             let l
             for (l = 0; l < order.length; l++) {
                 let teststep = go_direction(monster, order[l])
-                console.log(teststep)
-                // console.log(count)
-                console.log(monster)
                 if (teststep) {
                     count++
                     break
@@ -356,6 +356,69 @@ export function hunt_flee_brain(monster) {
 }
 
 
+export function sniff_brain(monster) {
+    let mindist = 100
+    let closest_player = 0
+    for (let i = 0; i < players.length; i++) {
+        if (players[i].health <= 0 || !seen_indices.item.includes(play_inds[i]))
+            continue
+        let xi = players[i].x 
+        let yi = players[i].y
+        let testdist = distance(xi, yi, monster.x, monster.y)
+        if (mindist > testdist) {
+            mindist = testdist
+            closest_player = i
+        }
+    }
+    // console.log(closest_player, mindist)
+    if (monster.brain_count % 4 == 0 || monster.cur_path.length < 5) {
+        monster.cur_path = Astar_maze(game_maze, xrectnum, yrectnum, monster.x, monster.y, players[closest_player].x, players[closest_player].y, heur_l2sqr)
+        monster.cur_path = monster.cur_path.slice(1)
+    }
+    
+    let do_combat = check_combat(monster)
+    // console.log("hi there")
+
+    // attack 
+    if (do_combat[0] && monster.health > 3) {
+        monster.decision_state = monster_state.fight
+        dealDamage(monster, players[do_combat[1]])
+    }
+    
+    if (monster.decision_state == monster_state.fight) {
+        // not in range, so start seeking
+        if(!do_combat[0]) {
+            monster.decision_state = monster_state.sniff
+        }
+        if (monster.health < 4) {
+            monster.decision_state = monster_state.flee
+        }
+    }
+    if (monster.decision_state == monster_state.sniff) {
+        let count = 0
+        while (count < monster.speed) {
+            const x_dist = -(monster.x - players[closest_player].x)
+            const y_dist = -(monster.y - players[closest_player].y)
+            let order = get_ordering(x_dist, y_dist)
+            let l
+            for (l = 0; l < order.length; l++) {
+                let teststep = go_direction(monster, order[l])
+                if (teststep) {
+                    count++
+                    break
+                }
+            }
+            if (l == order.length)
+                break
+        }
+        
+        
+    }
+
+
+    monster.brain_count++
+    
+}
 
 export function patrol_brain(monster) {
     let mindist = 100

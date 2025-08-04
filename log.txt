@@ -498,3 +498,35 @@ TO DO:
 		- implement doors
 		- update rooms
 		- update mazes
+
+8/3/25 
+- (mayur)
+- have working 'sniff', 'patrol', 'flee', and 'hunt' AIs
+	- sniff just goes in the _direction_ of the closest player
+		- it can get stuck behind walls and stuff like that
+	- patrol walks between a pre-determined path
+		- if a player gets close, the monster goes towards them 
+		- if a player runs away, the monster goes back to its patrol path
+	- hunt uses A* to go towards the nearest player 
+	- flee is like hunt until its health gets low and it uses some of sniff to run away
+
+- still have to do all of these things mentioned yesterday
+- tasks to do:
+	- get this stuff onto the github site to show people more easily :) 
+	- screen stuff
+		- some HTML stuff for a main menu, pause, controls, etc
+		- some PIXI for selector screens, inventory, chests, etc
+	
+	- start work on multiplayer 
+		- only do this after you have a site though
+
+	- item and entity stuff
+		- start up armor
+		- start up biome effects
+		- start up weapons
+
+	- map updates
+		- implement areas
+		- implement doors
+		- update rooms
+		- update mazes
