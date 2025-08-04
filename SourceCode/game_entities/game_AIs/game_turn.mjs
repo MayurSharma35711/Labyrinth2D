@@ -1,5 +1,5 @@
 
-import { monsters } from "../../vis_updated.mjs"
+import { monsters, monster_indices } from "../../vis_updated.mjs"
 import { hunt_brain, hunt_flee_brain, patrol_brain, sniff_brain } from "./decisions.mjs"
 
 export function take_game_turn(){
@@ -22,5 +22,6 @@ export function take_game_turn(){
         else {
             console.log('unknown type')
         }
+        monster_indices[k] = monsters[i].y * xrectnum + monsters[i].x;
     }
 }

@@ -165,7 +165,6 @@ curry.item = Math.floor( (ymax + ymin)/2 )
 act_currx.item = currx.item
 act_curry.item = curry.item
 
-sight(game_map, game_maze, xrectnum, yrectnum, players, curr_player.item, monsters, ptr.item, size.item, currx.item, curry.item, chest_indices, chests, monster_indices, app);
 
 for (let t = 0; t < players.length; t++) {
     players[t].drawMe(size.item, size.item, currx.item, curry.item)
@@ -173,11 +172,13 @@ for (let t = 0; t < players.length; t++) {
     app.stage.addChild(players[t].rect)
 }
 
-for (let t = 0; t < monsters.length; t++) {
-    monsters[t].drawMe(size.item, size.item, currx.item, curry.item)
-    // // console.log(players[t].x, players[t].y)
-    app.stage.addChild(monsters[t].rect)
-}
+// for (let t = 0; t < monsters.length; t++) {
+//     monsters[t].drawMe(size.item, size.item, currx.item, curry.item)
+//     // // console.log(players[t].x, players[t].y)
+//     app.stage.addChild(monsters[t].rect)
+// }
+
+sight(game_map, game_maze, xrectnum, yrectnum, players, curr_player.item, monsters, ptr.item, size.item, currx.item, curry.item, chest_indices, chests, monster_indices, app);
 
 
 app.stage.addChild(tot_player_health[0])

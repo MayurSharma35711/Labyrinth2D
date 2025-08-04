@@ -536,6 +536,13 @@ TO DO:
 	- gave me a better grasp of how the characters will work 
 	- I will probably help with doing some of the artwork for either characters or monsters
 	- also gave me a vision for our current priorities
+
+- got everything onto a github site 
+	- https://mayursharma35711.github.io/Labyrinth2D/
+	- only thing that needs to be changed to make this run w/ npc is the following
+	- replace ../textures with https://mayursharma35711.github.io/Labyrinth2D/textures
+	- then everything will work :) 
+
 - Current priorities
 	- item and entity stuff
 		- start up armor
@@ -551,7 +558,10 @@ TO DO:
 	- screen stuff
 		- some HTML stuff for a main menu, pause, controls, etc
 		- some PIXI for selector screens, inventory, chests, etc
-	
-	- maybe try to get everything onto a site to show people
+
 
 	- multiplayer is a later concern
+	- there is a small bug in the position of the monster it looks like
+		- it will show up randomly in the beginning of the game 
+		- may or may not show up properly within sight function
+		- this might be affecting whether or not it takes damage correctly
