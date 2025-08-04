@@ -1,5 +1,5 @@
 
-import { monsters, monster_indices } from "../../vis_updated.mjs"
+import { monsters, monster_indices, xrectnum } from "../../vis_updated.mjs"
 import { hunt_brain, hunt_flee_brain, patrol_brain, sniff_brain } from "./decisions.mjs"
 
 export function take_game_turn(){
