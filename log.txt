@@ -530,3 +530,28 @@ TO DO:
 		- implement doors
 		- update rooms
 		- update mazes
+
+8/4/2025
+- spoke with Nikki about the game 
+	- gave me a better grasp of how the characters will work 
+	- I will probably help with doing some of the artwork for either characters or monsters
+	- also gave me a vision for our current priorities
+- Current priorities
+	- item and entity stuff
+		- start up armor
+		- start up biome effects
+		- start up weapons
+
+	- map updates
+		- implement areas
+		- implement doors
+		- update rooms
+		- update mazes
+	
+	- screen stuff
+		- some HTML stuff for a main menu, pause, controls, etc
+		- some PIXI for selector screens, inventory, chests, etc
+	
+	- maybe try to get everything onto a site to show people
+
+	- multiplayer is a later concern
