@@ -154,7 +154,7 @@ export class chest
         }
         else
         {
-            this.sprite = PIXI.Sprite.from('../textures/items/Chests.png');
+            this.sprite = PIXI.Sprite.from('..textures/items/Chests.png');
             this.sprite.width = 0.7 * cell_width;
             this.sprite.height = 0.7 * cell_height;
             this.sprite.x = (this.x + 0.15 - currx) * cell_width;
