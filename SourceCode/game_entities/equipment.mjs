@@ -1,6 +1,8 @@
 import { vis } from "../vis_updated.mjs";
-await PIXI.Assets.load('../textures/items/Chests.png');
+await PIXI.Assets.load('https://mayursharma35711.github.io/Labyrinth2D/textures/items/Chests.png');
 await PIXI.Assets.load('../textures/items/ChestsOpen.png');
+
+// SourceCode/game_entities/monster.mjs
 class equipment
 {
     constructor()
