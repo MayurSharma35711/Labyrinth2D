@@ -23,5 +23,6 @@ export function take_game_turn(){
             console.log('unknown type')
         }
         monster_indices[k] = monsters[i].y * xrectnum + monsters[i].x;
+        console.log(monster_indices[k])
     }
 }
