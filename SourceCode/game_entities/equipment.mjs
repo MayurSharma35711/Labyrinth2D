@@ -147,7 +147,7 @@ export class chest
     {
         if(this.opened)
         {
-            this.sprite = PIXI.Sprite.from('../textures/items/ChestsOpen.png');
+            this.sprite = PIXI.Sprite.from('https://mayursharma35711.github.io/Labyrinth2D/textures/items/ChestsOpen.png');
             this.sprite.width = 0.7 * cell_width;
             this.sprite.height = 0.7 * cell_height;
             this.sprite.x = (this.x + 0.15 - currx) * cell_width;
@@ -156,7 +156,7 @@ export class chest
         }
         else
         {
-            this.sprite = PIXI.Sprite.from('../textures/items/Chests.png');
+            this.sprite = PIXI.Sprite.from('https://mayursharma35711.github.io/Labyrinth2D/textures/items/Chests.png');
             this.sprite.width = 0.7 * cell_width;
             this.sprite.height = 0.7 * cell_height;
             this.sprite.x = (this.x + 0.15 - currx) * cell_width;

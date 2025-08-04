@@ -81,43 +81,43 @@ export class Tile {
 		switch(this.biome)
         {
 		case 1:
-			this.sprite = PIXI.Sprite.from('../textures/bkgnd/GrassyPlains.png');
+			this.sprite = PIXI.Sprite.from('https://mayursharma35711.github.io/Labyrinth2D/textures/bkgnd/GrassyPlains.png');
 			// console.log("Complete");
 			break;
 		case 5:
-			this.sprite = PIXI.Sprite.from('../textures/bkgnd/Desert2.png');
+			this.sprite = PIXI.Sprite.from('https://mayursharma35711.github.io/Labyrinth2D/textures/bkgnd/Desert2.png');
 			break;
         case 7:
-            this.sprite = PIXI.Sprite.from('../textures/bkgnd/ShadowLands2.png');
+            this.sprite = PIXI.Sprite.from('https://mayursharma35711.github.io/Labyrinth2D/textures/bkgnd/ShadowLands2.png');
             break;
         case 6:
-            this.sprite = PIXI.Sprite.from('../textures/bkgnd/Lava.png');
+            this.sprite = PIXI.Sprite.from('https://mayursharma35711.github.io/Labyrinth2D/textures/bkgnd/Lava.png');
             break;
         case 4:
-            this.sprite = PIXI.Sprite.from('../textures/bkgnd/MuddyRainforest2.png');
+            this.sprite = PIXI.Sprite.from('https://mayursharma35711.github.io/Labyrinth2D/textures/bkgnd/MuddyRainforest2.png');
             break;
         case 8:
-            this.sprite = PIXI.Sprite.from('../textures/bkgnd/PoisonOoze.png');
+            this.sprite = PIXI.Sprite.from('https://mayursharma35711.github.io/Labyrinth2D/textures/bkgnd/PoisonOoze.png');
             break;
         case 2:
-            this.sprite = PIXI.Sprite.from('../textures/bkgnd/RockyArea.png');
+            this.sprite = PIXI.Sprite.from('https://mayursharma35711.github.io/Labyrinth2D/textures/bkgnd/RockyArea.png');
             break;
         case 3:
-            this.sprite = PIXI.Sprite.from('../textures/bkgnd/SnowyIce.png');
+            this.sprite = PIXI.Sprite.from('https://mayursharma35711.github.io/Labyrinth2D/textures/bkgnd/SnowyIce.png');
             break;
         case 0:
-            this.sprite = PIXI.Sprite.from('../textures/bkgnd/Waves2.png');
+            this.sprite = PIXI.Sprite.from('https://mayursharma35711.github.io/Labyrinth2D/textures/bkgnd/Waves2.png');
             break;
 		case 9:
 			// console.log("roomfloor")
-			this.sprite = PIXI.Sprite.from('../textures/bkgnd/RoomFloor.png')
+			this.sprite = PIXI.Sprite.from('https://mayursharma35711.github.io/Labyrinth2D/textures/bkgnd/RoomFloor.png')
 			break;
 		case 10:
 			// console.log("dungeon")
-			this.sprite = PIXI.Sprite.from('../textures/bkgnd/Dungeon.png')
+			this.sprite = PIXI.Sprite.from('https://mayursharma35711.github.io/Labyrinth2D/textures/bkgnd/Dungeon.png')
 			break;
 		default:
-			this.sprite = PIXI.Sprite.from('../textures/bkgnd/blank.png');
+			this.sprite = PIXI.Sprite.from('https://mayursharma35711.github.io/Labyrinth2D/textures/bkgnd/blank.png');
         }
 		// this.sprite.tint = 0xFFBB66;
 		this.sprite.alpha = opac;
