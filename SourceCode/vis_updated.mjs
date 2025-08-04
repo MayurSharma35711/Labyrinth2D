@@ -17,18 +17,18 @@ import { init_pause_menu, init_health_bars } from "./methods/displays/side_scree
 // /Users/mayur/Documents/Github/textures
 
 // HERE WE LOAD THE TEXTURE REQUIRED FOR THE CODE TO RUN
-await PIXI.Assets.load('../textures/bkgnd/ShadowLands2.png');
-await PIXI.Assets.load('../textures/bkgnd/Desert2.png');
-await PIXI.Assets.load('../textures/bkgnd/GrassyPlains.png');
-await PIXI.Assets.load('../textures/bkgnd/Lava.png');
-await PIXI.Assets.load('../textures/bkgnd/MuddyRainforest2.png');
-await PIXI.Assets.load('../textures/bkgnd/PoisonOoze.png');
-await PIXI.Assets.load('../textures/bkgnd/RockyArea.png');
-await PIXI.Assets.load('../textures/bkgnd/SnowyIce.png');
-await PIXI.Assets.load('../textures/bkgnd/Waves2.png');
-await PIXI.Assets.load('../textures/bkgnd/Dungeon.png');
-await PIXI.Assets.load('../textures/bkgnd/blank.png');
-await PIXI.Assets.load('../textures/bkgnd/RoomFloor.png');
+await PIXI.Assets.load('https://mayursharma35711.github.io/Labyrinth2D/textures/bkgnd/ShadowLands2.png');
+await PIXI.Assets.load('https://mayursharma35711.github.io/Labyrinth2D/textures/bkgnd/Desert2.png');
+await PIXI.Assets.load('https://mayursharma35711.github.io/Labyrinth2D/textures/bkgnd/GrassyPlains.png');
+await PIXI.Assets.load('https://mayursharma35711.github.io/Labyrinth2D/textures/bkgnd/Lava.png');
+await PIXI.Assets.load('https://mayursharma35711.github.io/Labyrinth2D/textures/bkgnd/MuddyRainforest2.png');
+await PIXI.Assets.load('https://mayursharma35711.github.io/Labyrinth2D/textures/bkgnd/PoisonOoze.png');
+await PIXI.Assets.load('https://mayursharma35711.github.io/Labyrinth2D/textures/bkgnd/RockyArea.png');
+await PIXI.Assets.load('https://mayursharma35711.github.io/Labyrinth2D/textures/bkgnd/SnowyIce.png');
+await PIXI.Assets.load('https://mayursharma35711.github.io/Labyrinth2D/textures/bkgnd/Waves2.png');
+await PIXI.Assets.load('https://mayursharma35711.github.io/Labyrinth2D/textures/bkgnd/Dungeon.png');
+await PIXI.Assets.load('https://mayursharma35711.github.io/Labyrinth2D/textures/bkgnd/blank.png');
+await PIXI.Assets.load('https://mayursharma35711.github.io/Labyrinth2D/textures/bkgnd/RoomFloor.png');
 
 
 // HERE WE CREATE OUR ACTUAL MAP FOR THE GAME

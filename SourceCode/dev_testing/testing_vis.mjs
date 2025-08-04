@@ -12,15 +12,15 @@ let xrectnum = 60;
 let yrectnum = 60;
 let game_map = map_init(xrectnum, yrectnum);
 let game_maze = maze_init2(xrectnum, yrectnum);
-await PIXI.Assets.load('../textures/bkgnd/ShadowLands2.png');
-await PIXI.Assets.load('../textures/bkgnd/Desert2.png');
-await PIXI.Assets.load('../textures/bkgnd/GrassyPlains.png');
-await PIXI.Assets.load('../textures/bkgnd/Lava.png');
-await PIXI.Assets.load('../textures/bkgnd/MuddyRainforest2.png');
-await PIXI.Assets.load('../textures/bkgnd/PoisonOoze.png');
-await PIXI.Assets.load('../textures/bkgnd/RockyArea.png');
-await PIXI.Assets.load('../textures/bkgnd/SnowyIce.png');
-await PIXI.Assets.load('../textures/bkgnd/Waves2.png');
+await PIXI.Assets.load('https://mayursharma35711.github.io/Labyrinth2D/textures/bkgnd/ShadowLands2.png');
+await PIXI.Assets.load('https://mayursharma35711.github.io/Labyrinth2D/textures/bkgnd/Desert2.png');
+await PIXI.Assets.load('https://mayursharma35711.github.io/Labyrinth2D/textures/bkgnd/GrassyPlains.png');
+await PIXI.Assets.load('https://mayursharma35711.github.io/Labyrinth2D/textures/bkgnd/Lava.png');
+await PIXI.Assets.load('https://mayursharma35711.github.io/Labyrinth2D/textures/bkgnd/MuddyRainforest2.png');
+await PIXI.Assets.load('https://mayursharma35711.github.io/Labyrinth2D/textures/bkgnd/PoisonOoze.png');
+await PIXI.Assets.load('https://mayursharma35711.github.io/Labyrinth2D/textures/bkgnd/RockyArea.png');
+await PIXI.Assets.load('https://mayursharma35711.github.io/Labyrinth2D/textures/bkgnd/SnowyIce.png');
+await PIXI.Assets.load('https://mayursharma35711.github.io/Labyrinth2D/textures/bkgnd/Waves2.png');
 print_map(game_map, xrectnum, yrectnum);
 function show_map(map)
 {

@@ -1,6 +1,6 @@
 import { walls } from "../vis_updated.mjs";
 await PIXI.Assets.load('https://mayursharma35711.github.io/Labyrinth2D/textures/bkgnd/WallsVertical.png');
-await PIXI.Assets.load('../textures/bkgnd/WallsHorizontal.png');
+await PIXI.Assets.load('https://mayursharma35711.github.io/Labyrinth2D/textures/bkgnd/WallsHorizontal.png');
 import { Stack } from "../methods/datatypes.mjs";
 
 export class TileWall{
