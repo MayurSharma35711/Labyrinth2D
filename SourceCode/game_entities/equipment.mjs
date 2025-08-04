@@ -1,4 +1,4 @@
-await PIXI.Assets.load('..textures/items/Chests.png');
+await PIXI.Assets.load('.../textures/items/Chests.png');
 await PIXI.Assets.load('../textures/items/ChestsOpen.png');
 import { vis } from "../vis_updated.mjs";
 class equipment
@@ -154,7 +154,7 @@ export class chest
         }
         else
         {
-            this.sprite = PIXI.Sprite.from('..textures/items/Chests.png');
+            this.sprite = PIXI.Sprite.from('.../textures/items/Chests.png');
             this.sprite.width = 0.7 * cell_width;
             this.sprite.height = 0.7 * cell_height;
             this.sprite.x = (this.x + 0.15 - currx) * cell_width;
