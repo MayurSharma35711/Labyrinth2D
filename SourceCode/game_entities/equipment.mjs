@@ -24,7 +24,7 @@ class pistol extends equipment
     {
         super();
         super.strength_boost = 2;
-        super.range_boost = 2;
+        super.range_boost = 2; 
         super.setName("pistol");
     }
 }
