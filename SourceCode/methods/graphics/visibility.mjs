@@ -191,6 +191,44 @@ export function total_visible_indices (players, numx, numy) {
 }
 
 
+export function test_visible_indices (poses, tiers, numx, numy) {
+    // give in captain player first
+    let players_indices = [];
+    for (let k = 0; k < poses.length; k++){
+        let new_inds = get_view_sqr(poses[k][0],poses[k][1],numx,numy,tiers[k])
+        // console.log(new_inds)
+        players_indices.push(new Set(new_inds))
+    }
+    let keep_indices = new Set(players_indices[0])
+    // let dist = new Array(players.length - 1);
+    let connected = new Array(poses.length - 1);
+    for(let i = 0;i < connected.length;i++)
+    {
+        connected[i] = false;
+    }
+    for (let k = 1; k < poses.length; k++){
+        if ((keep_indices.intersection(players_indices[k])).size > 0) {
+            keep_indices = keep_indices.union(players_indices[k])
+            connected[k - 1] = true;
+        }
+    }
+    for (let k = 1; k < poses.length; k++){
+        if ((keep_indices.intersection(players_indices[k])).size > 0 && !connected[k - 1]) {
+            keep_indices = keep_indices.union(players_indices[k])
+            connected[k - 1] = true;
+        }
+    }
+    for (let k = 1; k < poses.length; k++){
+        if ((keep_indices.intersection(players_indices[k])).size > 0 && !connected[k - 1]) {
+            keep_indices = keep_indices.union(players_indices[k])
+            connected[k - 1] = true;
+        }
+    }
+    return Array.from(keep_indices)
+}
+
+
+
 
 // let game_map = map_init(xrectnum,yrectnum);
 // let game_maze = maze_init2(xrectnum, yrectnum);

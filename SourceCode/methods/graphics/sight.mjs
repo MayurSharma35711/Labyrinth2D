@@ -1,6 +1,6 @@
 import { vis } from "../../vis_updated.mjs";
 import { walls } from "../../vis_updated.mjs";
-import { total_visible_indices, get_view_range, get_view_sqr } from "./visibility.mjs";
+import { total_visible_indices, test_visible_indices, get_view_range, get_view_sqr } from "./visibility.mjs";
 // Sight uses visiblity code to show the map tiles and maze tiles that are visible
 export function sight(game_map, game_maze, xrectnum, yrectnum, players, curr_player, monsters, ptr, size, currx, curry, chest_indices, chests, monster_indices, app)
 {
@@ -39,90 +39,133 @@ export function sight(game_map, game_maze, xrectnum, yrectnum, players, curr_pla
             opac_arr[k] = 0.4
     }
 
-    // only overlapping with 1 player case
-    let closest_player_inds = []
-    let closest_player_overlap_inds = []
-    for (let k = 0; k < players.length; k++) {
-        let player_view = get_view_sqr(players[k].x, players[k].y, xrectnum, yrectnum, players[k].vis_tier)
-        let closest_player = 0
-        let closest_player_overlap = []
-        for (let j = 0; j < players.length; j++) {
-            if (j == k)
-                continue
-            let test_player_view = get_view_sqr(players[j].x, players[j].y, xrectnum, yrectnum, players[j].vis_tier)
-            const intersection = test_player_view.filter(item => player_view.includes(item));
-            // if (k== 3) {
+    for(let j = 0; j < players.length; j++)
+        players[j].bkg_rect.visible = false
 
-            //     console.log(j,intersection)
-            // }
-            
-            if (intersection.length != 0 && closest_player_overlap.length != 0) {
-                closest_player = -1
+    for(let l = 0; l < players.length; l++) {
+        let adj_squares = []
+        let x = players[l].x
+        let y = players[l].y 
+        if (x > 0)
+            adj_squares.push([x - 1, y])
+        if (x < xrectnum -1 )
+            adj_squares.push([x + 1, y])
+        if (y > 0)
+            adj_squares.push([x, (y - 1)])
+        if (y < yrectnum - 1)
+            adj_squares.push([x, (y + 1)])
+        for (let k = 0; k < adj_squares.length; k++) {
+            let poses = []
+            let tiers = []
+            for(let i = 0; i < players.length; i++) {
+                if (i == l) {
+                    poses.push(adj_squares[k])
+                } else {
+                    poses.push([players[i].x, players[i].y])
+                }
+                tiers.push(players[i].vis_tier)
             }
-            else if (closest_player_overlap.length == 0) {
-                closest_player_overlap = intersection
-                closest_player = j
-                // console.log("HERE")
-            }
-        }
-        closest_player_inds.push(closest_player)
-        closest_player_overlap_inds.push(closest_player_overlap)
-    } 
-    console.log(closest_player_inds)
-
-    // original warning system
-    for (let k = 0; k < players.length; k++) {
-        let other_players = []
-        for (let j = 0; j < players.length; j++) {
-            if (j == k)
-                continue
-            other_players.push(players[j])
-        }
-        let player_view = get_view_sqr(players[k].x, players[k].y, xrectnum, yrectnum, players[k].vis_tier)
-        const other_inds = total_visible_indices(other_players, xrectnum, yrectnum)
-
-        const intersection = other_inds.filter(item => player_view.includes(item));
-
-        players[k].bkg_rect.visible = false
-        let x_case = false
-        let y_case = false
-        if (intersection.length < 4 && intersection.length > 0) {
-            players[k].bkg_rect.visible = true
-        }
-        for (let l = 0; l < intersection.length; l++) {
-            if (x_case && y_case)
-                break
-            for (let p = 0; p < intersection.length; p++) {
-                if (x_case && y_case)
-                    break
-                if (intersection[l] % xrectnum == intersection[k] % xrectnum)
-                    x_case = true
-                else if(Math.floor(intersection[l] / xrectnum) == Math.floor(intersection[k] / xrectnum))
-                    y_case = true
-            }
-            
-        }
-        // console.log(k, x_case, y_case, intersection)
-        if (intersection.length > 0 && (!x_case || !y_case))
-            players[k].bkg_rect.visible = true
-    }
-    console.log(players[3].bkg_rect.visible)
-    let count = 1
-    let players_checked = []
-    for (let j = 0; j < count; j++) {
-        for (let l = 0; l < players.length; l++) {
-            if(players[l].bkg_rect.visible && !players_checked.includes(l)) {
-                players_checked.push(l)
-                for(let i = 1; i < players.length; i++) {
-                    if (closest_player_inds[i] == l) {
-                        count = count + 1
-                        players[i].bkg_rect.visible = true
-                    }
+            let new_indices = test_visible_indices(poses, tiers, xrectnum, yrectnum)
+            for(let i = 1; i < players.length; i++) {
+                if (!map_indices.includes(players[i].x + players[i].y * xrectnum))
+                    continue
+                let testpos;
+                if (i == l) {
+                    testpos = adj_squares[k][0] + xrectnum * adj_squares[k][1]
+                } else {
+                    testpos = players[i].x + players[i].y * xrectnum
+                }
+                if(!new_indices.includes(testpos)) {
+                    players[i].bkg_rect.visible = true
                 }
             }
         }
     }
+    // THIS IS THE ORIGINAL SIGHT WARNING CODE!!
+    // only overlapping with 1 player case
+    // let closest_player_inds = []
+    // let closest_player_overlap_inds = []
+    // for (let k = 0; k < players.length; k++) {
+    //     let player_view = get_view_sqr(players[k].x, players[k].y, xrectnum, yrectnum, players[k].vis_tier)
+    //     let closest_player = 0
+    //     let closest_player_overlap = []
+    //     for (let j = 0; j < players.length; j++) {
+    //         if (j == k)
+    //             continue
+    //         let test_player_view = get_view_sqr(players[j].x, players[j].y, xrectnum, yrectnum, players[j].vis_tier)
+    //         const intersection = test_player_view.filter(item => player_view.includes(item));
+    //         // if (k== 3) {
 
+    //         //     console.log(j,intersection)
+    //         // }
+            
+    //         if (intersection.length != 0 && closest_player_overlap.length != 0) {
+    //             closest_player = -1
+    //         }
+    //         else if (closest_player_overlap.length == 0) {
+    //             closest_player_overlap = intersection
+    //             closest_player = j
+    //             // console.log("HERE")
+    //         }
+    //     }
+    //     closest_player_inds.push(closest_player)
+    //     closest_player_overlap_inds.push(closest_player_overlap)
+    // } 
+    // console.log(closest_player_inds)
+
+    // // original warning system
+    // for (let k = 0; k < players.length; k++) {
+    //     let other_players = []
+    //     for (let j = 0; j < players.length; j++) {
+    //         if (j == k)
+    //             continue
+    //         other_players.push(players[j])
+    //     }
+    //     let player_view = get_view_sqr(players[k].x, players[k].y, xrectnum, yrectnum, players[k].vis_tier)
+    //     const other_inds = total_visible_indices(other_players, xrectnum, yrectnum)
+
+    //     const intersection = other_inds.filter(item => player_view.includes(item));
+
+    //     players[k].bkg_rect.visible = false
+    //     let x_case = false
+    //     let y_case = false
+    //     if (intersection.length < 4 && intersection.length > 0) {
+    //         players[k].bkg_rect.visible = true
+    //     }
+    //     for (let l = 0; l < intersection.length; l++) {
+    //         if (x_case && y_case)
+    //             break
+    //         for (let p = 0; p < intersection.length; p++) {
+    //             if (x_case && y_case)
+    //                 break
+    //             if (intersection[l] % xrectnum == intersection[k] % xrectnum)
+    //                 x_case = true
+    //             else if(Math.floor(intersection[l] / xrectnum) == Math.floor(intersection[k] / xrectnum))
+    //                 y_case = true
+    //         }
+            
+    //     }
+    //     // console.log(k, x_case, y_case, intersection)
+    //     if (intersection.length > 0 && (!x_case || !y_case))
+    //         players[k].bkg_rect.visible = true
+    // }
+    // // console.log(players[3].bkg_rect.visible)
+    // let count = 1
+    // let players_checked = []
+    // for (let j = 0; j < count; j++) {
+    //     for (let l = 0; l < players.length; l++) {
+    //         if(players[l].bkg_rect.visible && !players_checked.includes(l)) {
+    //             players_checked.push(l)
+    //             for(let i = 1; i < players.length; i++) {
+    //                 if (closest_player_inds[i] == l) {
+    //                     count = count + 1
+    //                     players[i].bkg_rect.visible = true
+    //                 }
+    //             }
+    //         }
+    //     }
+    // }
+    // ORIGINAL WARNING CODE ENDING
     
 
     for(let i = 0; i < map_indices.length;i++)
