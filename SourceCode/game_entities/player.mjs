@@ -1,5 +1,5 @@
 import { Entities } from "./entity_classes.mjs";
-import { tot_height, tot_width } from "../vis_updated.mjs";
+import { size, tot_height, tot_width } from "../vis_updated.mjs";
 export class Player extends Entities
 {
     constructor( player_ind, sizex, sizey, vis_tier, name)
@@ -39,6 +39,12 @@ export class Player extends Entities
             this.rect.fill(0x0000FF);
         else if (this.player_ind == 3)
             this.rect.fill(0xFF00FF);
+
+        this.bkg_rect = new PIXI.Graphics();
+        this.bkg_rect.rect(-sizex/20, -sizey/20, sizex / 2 + sizex/10, sizey/2+ sizey/10)
+        this.bkg_rect.fill(0xFFFF00)
+        this.bkg_rect.visible = false
+
         this.in_combat = false;
         this.turn_end = false;
         // // alert("6");
@@ -55,6 +61,8 @@ export class Player extends Entities
     drawMe (sizex,sizey, currx, curry) {
         this.rect.x = (this.x - currx + 0.25) * sizex + Math.floor(tot_width / 2)
         this.rect.y = (this.y - curry + 0.25) * sizey + Math.floor(tot_height / 2)
+        this.bkg_rect.x = this.rect.x
+        this.bkg_rect.y = this.rect.y
         if (this.health <= 0) {
             console.log('here')
             if (this.player_ind == 0)
@@ -70,6 +78,8 @@ export class Player extends Entities
         // this.rect.setStrokeStyle(10, 0x8888FF);
     }
     resize(sizex, sizey) {
+        this.bkg_rect.width = sizex / 2 + sizex/10
+        this.bkg_rect.height = sizey / 2 + sizey/10
         this.rect.width = sizex / 2
         this.rect.height = sizey / 2
     }

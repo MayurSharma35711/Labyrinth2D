@@ -567,3 +567,8 @@ TO DO:
 		- this might be affecting whether or not it takes damage correctly
 	
 	- just need to work on room stuff right now to get a playing demo I think
+	- things to add after talking to Nikki
+		- have it flash on screen if a character is about to leave the seen_indices area
+			- this is not super hard, get the 4 adjacent squares and check if they're in seen_indices
+			- then have an oscillating colored square show up around the square if it does
+		- add in a controls page in the pause menu or have something like that somewhere

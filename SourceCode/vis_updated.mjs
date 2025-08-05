@@ -176,6 +176,7 @@ act_curry.item = curry.item
 for (let t = 0; t < players.length; t++) {
     players[t].drawMe(size.item, size.item, currx.item, curry.item)
     // // console.log(players[t].x, players[t].y)
+    app.stage.addChild(players[t].bkg_rect)
     app.stage.addChild(players[t].rect)
 }
 
