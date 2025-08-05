@@ -561,7 +561,9 @@ TO DO:
 
 
 	- multiplayer is a later concern
-	- there is a small bug in the position of the monster it looks like
+	- (FINISHED) there is a small bug in the position of the monster it looks like
 		- it will show up randomly in the beginning of the game 
 		- may or may not show up properly within sight function
 		- this might be affecting whether or not it takes damage correctly
+	
+	- just need to work on room stuff right now to get a playing demo I think

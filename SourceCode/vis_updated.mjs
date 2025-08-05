@@ -50,7 +50,7 @@ export let game_maze = output[1];
 let rooms = output[2];
 export let chests = output[3];
 export let ptr = new Wrapper(0);
-let monster_num = 1;
+let monster_num = 10;
 // print_walls(game_maze, xrectnum, yrectnum)
 
 game_maze[0].exists = false;
@@ -93,11 +93,18 @@ export let act_curry = new Wrapper(0);
 export let shiftx = new Wrapper(0);
 export let shifty = new Wrapper(0);
 
-for(let i = 0; i < monster_num;i++)
+for(let i = 0; i < 5;i++)
 {
     // console.log((i % 5) + 1)
-    monsters[i] = new Monster(5, size.item, size.item, xrectnum, yrectnum, "sniff");
+    monsters[i] = new Monster(5, size.item, size.item, xrectnum, yrectnum, "patrol");
 }
+
+for(let i = 5 ; i < monster_num;i++)
+    {
+        // console.log((i % 5) + 1)
+        monsters[i] = new Monster(4, size.item, size.item, xrectnum, yrectnum, "hunt");
+    }
+
 for(let i = 0;i < monsters.length;i++)
 {
     monster_indices[i] = monsters[i].y * xrectnum + monsters[i].x;
