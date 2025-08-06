@@ -24,7 +24,7 @@ function takeDamage(target, damage)
 }
 export function dealDamage(attacker, target)
 {
-    console.log(target);
+    // console.log(target);
     // attacker.health += 0.2 * attacker.strength;
     takeDamage(target, attacker.strength);
 }

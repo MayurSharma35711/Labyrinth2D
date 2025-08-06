@@ -48,7 +48,7 @@ export function sight(game_map, game_maze, xrectnum, yrectnum, players, curr_pla
         let y = players[l].y 
         if (x > 0)
             adj_squares.push([x - 1, y])
-        if (x < xrectnum -1 )
+        if (x < xrectnum - 1)
             adj_squares.push([x + 1, y])
         if (y > 0)
             adj_squares.push([x, (y - 1)])

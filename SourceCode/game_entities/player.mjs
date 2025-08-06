@@ -59,21 +59,30 @@ export class Player extends Entities
         // this.drawMe(cell_sizex, cell_sizey)
     }
     drawMe (sizex,sizey, currx, curry) {
+        
+        if (this.health <= 0) {
+            // console.log('here')
+            // console.log(this.rect.color())
+            
+            if (this.player_ind == 0) {
+                this.rect.tint = 0x770000;
+            }
+            else if (this.player_ind == 1) {
+                console.log('hi')
+                this.rect.tint = 0x007700;
+            }
+            else if (this.player_ind == 2) {
+                this.rect.tint= 0x000077;
+            }
+            else if (this.player_ind == 3) {
+                console.log("here")
+                this.rect.tint = 0x770077;
+            }
+        }
         this.rect.x = (this.x - currx + 0.25) * sizex + Math.floor(tot_width / 2)
         this.rect.y = (this.y - curry + 0.25) * sizey + Math.floor(tot_height / 2)
         this.bkg_rect.x = this.rect.x
         this.bkg_rect.y = this.rect.y
-        if (this.health <= 0) {
-            console.log('here')
-            if (this.player_ind == 0)
-                this.rect.fill(0x770000);
-            else if (this.player_ind == 1)
-                this.rect.fill(0x007700);
-            else if (this.player_ind == 2)
-                this.rect.fill(0x000077);
-            else if (this.player_ind == 3)
-                this.rect.fill(0x770077);
-        }
         // console.log(this.rect.x, this.rect.y)
         // this.rect.setStrokeStyle(10, 0x8888FF);
     }

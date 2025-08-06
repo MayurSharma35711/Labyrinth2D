@@ -148,9 +148,9 @@ function go_direction(monster, direction) {
         return false
     if (monster.x + shiftx < 0 || monster.x + shiftx > xrectnum - 1)
         return false
-    console.log(shiftx, shifty)
+    // console.log(shiftx, shifty)
     if (dir_blocked(monster, shiftx, shifty)){
-        console.log("here")
+        // console.log("here")
         return false
     }
     // console.log("wall checked")
@@ -249,8 +249,8 @@ export function hunt_brain(monster) {
         monster.decision_state = monster_state.fight
         dealDamage(monster, players[do_combat[1]])
     }
-    print_state(monster)
-    console.log(monster)
+    // print_state(monster)
+    // console.log(monster)
     if (monster.decision_state == monster_state.fight) {
         // not in range, so start seeking
         if(!do_combat[0]) {
@@ -259,7 +259,7 @@ export function hunt_brain(monster) {
     }
     // seek and then attack
     if(monster.decision_state == monster_state.seek) {
-        console.log(monster.cur_path)
+        // console.log(monster.cur_path)
         follow_path(monster)
 
         do_combat = check_combat(monster)
@@ -435,12 +435,13 @@ export function patrol_brain(monster) {
     let new_path = Astar_maze(game_maze, xrectnum, yrectnum, monster.x, monster.y, players[closest_player].x, players[closest_player].y, heur_l2sqr)
     // console.log("repath")
     // console.log(new_path)
-    new_path = new_path.slice(1)
+    if (new_path.length > 0)
+        new_path = new_path.slice(1)
 
     
     let do_combat = check_combat(monster)
 
-    print_state(monster)
+    // print_state(monster)
     // console.log(monster.x, monster.y)
     // fight immediately against nearest player
     if (do_combat[0]) {
@@ -500,12 +501,12 @@ export function patrol_brain(monster) {
                 monster.orientation = (monster.orientation + 1) % 2
                 if (monster.orientation == 0) {
                     monster.cur_path = monster.patrol_path.slice(1)
-                    console.log("nonrev")
+                    // console.log("nonrev")
                     console.log(monster.patrol_path)
                 }
                 else {
                     monster.cur_path = monster.patrol_path.toReversed().slice(1)
-                    console.log("rev")
+                    // console.log("rev")
                     console.log(monster.patrol_path.toReversed())
                 }
                     
@@ -516,8 +517,8 @@ export function patrol_brain(monster) {
     // seek out FINISH THIS CASE
     if (monster.decision_state == monster_state.seek) {
         // seeking out the monster
-        console.log("case 3")
-        console.log(monster.x, monster.y)
+        // console.log("case 3")
+        // console.log(monster.x, monster.y)
         if(new_path.length < 7) {
             follow_path(monster)
             do_combat = check_combat(monster)

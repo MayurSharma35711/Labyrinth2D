@@ -57,6 +57,7 @@ game_maze[0].exists = false;
 game_maze[1].exists = false;
 game_maze[2].exists = false;
 game_maze[2 * xrectnum + 1].exists = false;
+
 export const maze_dicter = make_maze_dicts(game_maze, xrectnum, yrectnum, 5)
 // (above 4 lineS are needed for a MAZE)
 
@@ -93,17 +94,11 @@ export let act_curry = new Wrapper(0);
 export let shiftx = new Wrapper(0);
 export let shifty = new Wrapper(0);
 
-for(let i = 0; i < 5;i++)
+for(let i = 0; i < monsters.length;i++)
 {
     // console.log((i % 5) + 1)
     monsters[i] = new Monster(5, size.item, size.item, xrectnum, yrectnum, "patrol");
 }
-
-for(let i = 5 ; i < monster_num;i++)
-    {
-        // console.log((i % 5) + 1)
-        monsters[i] = new Monster(4, size.item, size.item, xrectnum, yrectnum, "hunt");
-    }
 
 for(let i = 0;i < monsters.length;i++)
 {

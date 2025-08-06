@@ -572,3 +572,23 @@ TO DO:
 			- this is not super hard, get the 4 adjacent squares and check if they're in seen_indices
 			- then have an oscillating colored square show up around the square if it does
 		- add in a controls page in the pause menu or have something like that somewhere
+
+8/5/25
+- (FINISH) need to fix warning system still 
+- screen stuff (put in a controls list)
+- map updates
+	- implement areas
+	- implement doors
+	- update rooms
+	- update mazes
+- maybe do some drawing too
+
+8/6/25
+- warning system works now
+- rooms have been updated to be customizable
+- need to implement areas
+- need to implement doors
+- need to update path finding and the maze so they are solvable without going into rooms!
+
+- need to implement more weapons
+- need to implement armor

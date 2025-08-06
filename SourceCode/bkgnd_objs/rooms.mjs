@@ -27,8 +27,46 @@ function room_gen(startx, starty, xnum, ynum, xsize, ysize, maze, map, new_biome
     {
         // this case needs to be improved
         // console.log(starty, startx)
-        maze[2 * (Math.min(Math.min((starty + i), ynum - 1) * xnum + startx) - 1, 0)].exists = true;
+        maze[2 * (Math.min(Math.min((starty + i), ynum - 1) * xnum + startx)) - 1].exists = true;
         maze[2 * (Math.min((starty + i), ynum - 1) * xnum + Math.min(startx + xsize - 1,xnum - 1)) + 1].exists = true;
+    }
+    
+    return [maze, map];
+}
+
+
+// roominfo gives [xstart, ystart, xlen, ylen, room_biome, doors]
+export function precise_rooms(xnum, ynum, room_infos, maze, map) {
+    let out;
+    for (let k = 0; k < room_infos.length; k++) {
+        out = room_gen(room_infos[k][0], room_infos[k][1], xnum, ynum, room_infos[k][2], room_infos[k][3], maze, map, room_infos[k][4]);
+        maze = out[0]
+        map = out[1]
+    }
+    let door_inds = []
+    for (let k = 0; k < room_infos.length; k++) {
+        for (let l = 0; l < room_infos[k][5].length; l++) {
+            let startx = room_infos[k][0]
+            let starty = room_infos[k][1]
+            let xsize = room_infos[k][2]
+            let ysize = room_infos[k][3]
+            room_infos[k][5][l][0] + room_infos[k][5][l][1] * xnum
+            if (room_infos[k][5][l][0] == startx)
+                door_inds.push(2 * (room_infos[k][5][l][0] + room_infos[k][5][l][1] * xnum) - 1)
+            if (room_infos[k][5][l][0] == startx + xsize)
+                door_inds.push(2 * (room_infos[k][5][l][0] + room_infos[k][5][l][1] * xnum) - 1)
+            if (room_infos[k][5][l][1] == starty){
+                door_inds.push(2 * (room_infos[k][5][l][0] + (room_infos[k][5][l][1] - 1) * xnum))
+            }
+            if (room_infos[k][5][l][1] == starty + ysize)
+                door_inds.push(2 * (room_infos[k][5][l][0] + (room_infos[k][5][l][1]) * xnum))
+            
+        }
+    }
+    for (let l = 0; l < door_inds.length; l++) {
+        // console.log(door_inds)
+        maze[door_inds[l]].exists = false
+
     }
     return [maze, map];
 }
@@ -117,31 +155,33 @@ function rand_inds(arr)
     return retArr;
 }
 
-
-
-function delWall(map_ind1, map_ind2, maze, width)
+function delWall(map_ind1, map_ind2, maze, width, room_wall_inds)
 {
     // console.log(map_ind1, map_ind2)
     switch(map_ind1 - map_ind2)
     {
     case 1:
-        maze[2 * map_ind1 - 1].exists = false;
+        if (!room_wall_inds.includes(2 * map_ind1 - 1))
+            maze[2 * map_ind1 - 1].exists = false;
         break;
     case -1:
-        maze[2 * map_ind1 + 1].exists = false;
+        if (!room_wall_inds.includes(2 * map_ind1 + 1))
+            maze[2 * map_ind1 + 1].exists = false;
         break;
     case width:
-        maze[2 * (map_ind1 - width)].exists = false;
+        if (!room_wall_inds.includes(2 * (map_ind1 - width)))
+            maze[2 * (map_ind1 - width)].exists = false;
         break;
     case -width:
-        maze[2 * map_ind1].exists = false;
+        if (!room_wall_inds.includes(2 * map_ind1))
+            maze[2 * map_ind1].exists = false;
         break;
     }
 }
 
 
 
-export function maze_check(maze, width, height){
+export function maze_check(maze, width, height, room_infos){
     // print_walls(maze, width, height)
     const area = width*height;
     let regions = []
@@ -155,6 +195,36 @@ export function maze_check(maze, width, height){
             curr_cell_visited[Math.floor(1/2)] = false;
         }
     }
+
+    let room_wall_inds = []
+    let door_inds = []
+    // roominfo gives [xstart, ystart, xlen, ylen, room_biome, doors]
+    for (let k = 0; k < room_infos.length; k++) {
+        let startx = room_infos[k][0]
+        let starty = room_infos[k][1]
+        let xsize = room_infos[k][2]
+        let ysize = room_infos[k][3]
+        let ind1 
+        let ind2
+        for(let i = 0;i < xsize;i++)
+        {
+            ind1 = 2 * (Math.max(starty * width - width, 0) + Math.min(i + startx, width - 1))
+            ind2 = 2 * (Math.min((starty + ysize - 1), height -1) * width + Math.min(i + startx,width - 1))
+            room_wall_inds.push(ind1)
+            room_wall_inds.push(ind2)
+        }
+        for(let i = 0;i < ysize;i++)
+        { 
+            ind1 = 2 * (Math.min(Math.min((starty + i), height - 1) * width + startx)) - 1
+            ind2 = 2 * (Math.min((starty + i), height - 1) * width + Math.min(startx + xsize - 1,width - 1)) + 1
+            room_wall_inds.push(ind1)
+            room_wall_inds.push(ind2)
+        }
+    }
+    
+    // console.log(door_inds)
+    // console.log(room_wall_inds.sort())
+
 
 
     let visited_cells = new Stack()
@@ -214,7 +284,7 @@ export function maze_check(maze, width, height){
                 }
             }
             // console.log(cell_val,nbr_vals[t])
-            delWall(cell_val, nbr_vals[t], maze, width);
+            delWall(cell_val, nbr_vals[t], maze, width, room_wall_inds);
             // if (cell_visited[curr_cell - 1] && curr_cell % width != 0) {
             //     maze[2*curr_cell - 1].exists = false
             // } else if(curr_cell/width >= 1){
