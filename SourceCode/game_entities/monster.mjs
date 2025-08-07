@@ -1,5 +1,5 @@
 import { Entities } from "./entity_classes.mjs";
-import { find_sector } from "./game_AIs/path_finding_nodes.mjs";
+import { find_sector, get_sector_indices } from "./game_AIs/path_finding_nodes.mjs";
 import { game_maze, maze_dicter, xrectnum } from "../vis_updated.mjs";
 import { Astar_maze, heur_l2sqr } from "./game_AIs/path_finding.mjs";
 import { monster_state } from "./game_AIs/decisions.mjs";
@@ -9,14 +9,22 @@ import { tot_height, tot_width } from "../vis_updated.mjs";
 export class Monster extends Entities
 {
     brain_type;
-    constructor(tier, sizex, sizey, num_x, num_y, brain_type)
+    constructor(tier, sizex, sizey, num_x, num_y, brain_type, map, sector_size)
     { 
         super();
         super.setSpeed((6 - tier));
         super.setStrength(6 - tier);
         super.setRange(Math.floor(0.5 * (6 - tier)));
         super.setProt((6 - tier), (2 * (6 - tier)));
-        super.setpos(Math.floor(Math.random() * num_x), Math.floor(Math.random() * num_y));
+        let x = Math.floor(Math.random() * num_x)
+        let y = Math.floor(Math.random() * num_y)
+        let ind = x + num_x * y
+        while(map[ind].getBiome() == 9 || map[ind].getBiome() == 10) {
+            x = Math.floor(Math.random() * num_x)
+            y = Math.floor(Math.random() * num_y)
+            ind = x + num_x * y
+        }
+        super.setpos(x, y);
         super.setHealth((9 - tier) * 2);
         this.tier = tier
         this.brain_type = brain_type
@@ -26,12 +34,19 @@ export class Monster extends Entities
             let adj_sectors = []
             for (let l = 0; l < maze_dicter[0].keys.length; l++) {
                 // console.log(maze_dicter[0].keys[l])
-                if (this.init_sector[0] == maze_dicter[0].keys[l][0] && ((this.init_sector[1] == maze_dicter[0].keys[l][1] - 1) || (this.init_sector[1] == maze_dicter[0].keys[l][1] + 1)))
+                let sector_new = get_sector_indices(num_x, num_y, sector_size, maze_dicter[0].keys[l][0],maze_dicter[0].keys[l][1])
+                let new_center = sector_new[~~(sector_new.length / 2)]
+                // console.log(sector_new)
+                if(map[new_center].getBiome() == 9 || map[new_center].getBiome() == 10) {
+                    // console.log("here")
+                    continue
+                }
+                else if (this.init_sector[0] == maze_dicter[0].keys[l][0] && ((this.init_sector[1] == maze_dicter[0].keys[l][1] - 1) || (this.init_sector[1] == maze_dicter[0].keys[l][1] + 1))) 
                     adj_sectors.push(maze_dicter[0].keys[l])
-                if (this.init_sector[1] == maze_dicter[0].keys[l][1] && ((this.init_sector[0] == maze_dicter[0].keys[l][0] - 1) || (this.init_sector[0] == maze_dicter[0].keys[l][0] + 1)))
+                else if (this.init_sector[1] == maze_dicter[0].keys[l][1] && ((this.init_sector[0] == maze_dicter[0].keys[l][0] - 1) || (this.init_sector[0] == maze_dicter[0].keys[l][0] + 1)))
                     adj_sectors.push(maze_dicter[0].keys[l])
             } 
-            // console.log(adj_sectors)
+            // console.log(this.init_sector, adj_sectors)
             let best_dist_ind = 0 
             let best_dist = 100
             let best_path = []
@@ -45,11 +60,10 @@ export class Monster extends Entities
                     best_path = pather
                 }
             }
-
             this.final_sector = adj_sectors[best_dist_ind]
             this.patrol_path = best_path
             this.orientation = 0
-            this.cur_path = Astar_maze(game_maze, num_x, num_y, this.x, this.y, this.patrol_path[0] % num_x, Math.floor(this.patrol_path[0] / num_x), heur_l2sqr).slice(1)
+            this.cur_path = Astar_maze(game_maze, num_x, num_y, this.x, this.y, this.patrol_path[0] % num_x, Math.floor(this.patrol_path[0] / num_x), heur_l2sqr, map).slice(1)
             this.brain_count = 0
             this.lastpos = [best_path[0] % num_x, Math.floor(best_path[0] / num_x)]
 
@@ -57,7 +71,9 @@ export class Monster extends Entities
         if (brain_type == "hunt") {
             this.decision_state = monster_state.seek
             this.init_sector = find_sector(maze_dicter[0], this.x, this.y, num_x, num_y)
-            this.cur_path = []
+            let new_path = Astar_maze(game_maze, num_x, num_y, this.x, this.y, 0,0,heur_l2sqr, map)
+            if (new_path != false)
+                this.cur_path = new_path.slice(1)
             this.final_sector = false
             this.patrol_path = false
             this.orientation = 0
@@ -103,7 +119,7 @@ export class Monster extends Entities
             // // alert(color)
             break;
         case 5:
-            this.color = 0xFFCC00
+            this.color = 0xAA00FF
             // // alert(6);
             // // alert(color)
             break;

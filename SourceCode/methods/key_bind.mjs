@@ -1,4 +1,4 @@
-import { total_visible_indices, get_view_sqr, get_view_range } from "../methods/graphics/visibility.mjs";
+import { total_visible_indices, get_view_sqr, get_view_range, adj_poses } from "../methods/graphics/visibility.mjs";
 import {game_map, game_maze, xrectnum, yrectnum, players, play_inds, curr_player, monsters, pause, menu_container, ptr, size, currx, curry, act_currx, act_curry, shiftx, shifty, chest_indices, chests, monster_indices, app, seen_indices} from "../vis_updated.mjs"
 import { sight } from "./graphics/sight.mjs";
 import { x_view_range } from "./combat/inRangeFuncs.mjs";
@@ -49,6 +49,30 @@ function checkPlayer(map_ind)
         }
     }
     return false;
+}
+
+function checkDoor(player, maze, xrectnum, yrectnum) {
+    let x = player.item.x 
+    let y = player.item.y
+
+    let check_inds = []
+
+    if(x > 0) 
+        check_inds.push(2 * (x + y * xrectnum) - 1)
+    if(x < xrectnum - 1)
+        check_inds.push(2 * (x + y * xrectnum) + 1)
+    if(y > 0)
+        check_inds.push(2 * (x + (y - 1) * xrectnum))
+    if(y < yrectnum)
+        check_inds.push(2 * (x + y * xrectnum))
+
+    for(let l = 0; l < check_inds.length; l++) {
+        console.log(check_inds)
+        if (maze[check_inds[l]].setDoor)
+            return [true, check_inds[l]]
+    }
+    return [false]
+
 }
 
 function checkMonster(map_ind)
@@ -129,6 +153,13 @@ function keyStart(e)
         // alert("Good");
         chests[chest_indices.indexOf(curr_player.item.y * xrectnum + curr_player.item.x)].Open();
         chests[chest_indices.indexOf(curr_player.item.y * xrectnum + curr_player.item.x)].listItems();
+    }
+    else if(!pause.item && key == key_open) {
+        let caser = checkDoor(curr_player, game_maze, xrectnum, yrectnum)
+        if (caser[0]) {
+            game_maze[caser[1]].setDoor = false
+            game_maze[caser[1]].wall_image.visible = false
+        }
     }
     else if (!pause.item && key == keyone) {
         curr_player.item.in_combat = false;

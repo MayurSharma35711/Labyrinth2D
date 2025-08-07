@@ -3,7 +3,7 @@ import { Dictionary } from "../../methods/datatypes.mjs"
 import { Astar_maze } from "./path_finding.mjs"
 import { heur_l2sqr, dijkstra, heur_l1 } from "./path_finding.mjs"
 
-function get_sector_indices(numx, numy, sector_size, secx, secy){
+export function get_sector_indices(numx, numy, sector_size, secx, secy){
     let sector_inds = []
     const base_ind = (secx * sector_size + secy * sector_size * numx)
     for(let i = 0; i < sector_size; i++) {
@@ -31,7 +31,7 @@ export function find_sector(sector_dict, x0, y0, xnum, ynum) {
 }
 
 
-export function make_maze_dicts(maze, numx, numy, sector_size) {
+export function make_maze_dicts(maze, numx, numy, sector_size, map) {
     // print_walls(maze, numx, numy)
     let xsectors = Math.ceil(numx / sector_size)
     let ysectors = Math.ceil(numy / sector_size)
@@ -52,6 +52,10 @@ export function make_maze_dicts(maze, numx, numy, sector_size) {
             
             sector_dict.add( [i,j], [centerind, sector] )
 
+
+            if(map[centerind].getBiome() == 9 || map[centerind].getBiome() == 10)
+                continue
+
             let inds2get = []
  
             if (i + 1 < xsectors)
@@ -66,10 +70,12 @@ export function make_maze_dicts(maze, numx, numy, sector_size) {
             for(let k = 0; k < inds2get.length; k++){
                 let sector_new = get_sector_indices(numx, numy, sector_size, inds2get[k][0], inds2get[k][1])
                 let new_center = sector_new[~~(sector_new.length / 2)]
+                if(map[new_center].getBiome() == 9 || map[new_center].getBiome() == 10)
+                    continue
                 let x1 = new_center % numx
                 let y1 = ~~(new_center / numx)
                 // let path = Astar_maze(maze, numx, numy, x0, y0, x1, y1, dijkstra)
-                let path = Astar_maze(maze, numx, numy, x0, y0, x1, y1, heur_l2sqr)
+                let path = Astar_maze(maze, numx, numy, x0, y0, x1, y1, heur_l2sqr, map)
                 // console.log(path)
                 path_dict.add( [[i,j],[inds2get[k][0], inds2get[k][1]]]  , path)
             }
@@ -90,8 +96,10 @@ export function make_maze_dicts(maze, numx, numy, sector_size) {
             for(let k = 0; k < moreInds2get.length; k++) {
                 // console.log([[moreInds2get[k][0],moreInds2get[k][1]],[i,j]])
                 let rev_path = path_dict.getElt([ [moreInds2get[k][0],moreInds2get[k][1]], [i,j] ])
-                let new_path = rev_path.slice().reverse()
-                path_dict.add([[moreInds2get[k][0],moreInds2get[k][1]],[i,j]], new_path )
+                if(rev_path != false) {
+                    let new_path = rev_path.slice().reverse()
+                    path_dict.add([[moreInds2get[k][0],moreInds2get[k][1]],[i,j]], new_path )
+                }
             }
         }
     }

@@ -592,3 +592,18 @@ TO DO:
 
 - need to implement more weapons
 - need to implement armor
+
+- there's a bug in room and maze configs
+	- there are areas which aren't able to be reached. it needs to be fixed somehow
+
+- Current progress after today
+	- warning system works
+	- rooms are fully customizable and have doors which need to be opened by hitting e
+	- path finding and the maze work without having to go through rooms
+	- also have it so that monsters should be 'mostly' able to see that they are in each other's way
+
+- things to work on next
+	- implementing areas with doors so that you move between locations
+	- implement armor
+	- implement weapons
+	- implement screen

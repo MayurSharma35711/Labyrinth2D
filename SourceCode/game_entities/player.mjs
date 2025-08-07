@@ -68,14 +68,14 @@ export class Player extends Entities
                 this.rect.tint = 0x770000;
             }
             else if (this.player_ind == 1) {
-                console.log('hi')
+                // console.log('hi')
                 this.rect.tint = 0x007700;
             }
             else if (this.player_ind == 2) {
                 this.rect.tint= 0x000077;
             }
             else if (this.player_ind == 3) {
-                console.log("here")
+                // console.log("here")
                 this.rect.tint = 0x770077;
             }
         }

@@ -1,6 +1,8 @@
 import { walls } from "../vis_updated.mjs";
 await PIXI.Assets.load('https://mayursharma35711.github.io/Labyrinth2D/textures/bkgnd/WallsVertical.png');
 await PIXI.Assets.load('https://mayursharma35711.github.io/Labyrinth2D/textures/bkgnd/WallsHorizontal.png');
+await PIXI.Assets.load('https://mayursharma35711.github.io/Labyrinth2D/textures/bkgnd/horiz_door.png');
+await PIXI.Assets.load('https://mayursharma35711.github.io/Labyrinth2D/textures/bkgnd/vert_door.png');
 import { Stack } from "../methods/datatypes.mjs";
 
 export class TileWall{
@@ -40,36 +42,57 @@ export class TileWall{
             this.borderColor = 0x000000
     }
     drawMe(cell_width, cell_height, currx, curry, opac){
-        if (this.exists){
-            if(this.exists)
+        if (this.setDoor) {
+            this.wall_image = new PIXI.Sprite();
+            if(this.isVertical)
             {
-                this.wall_image = new PIXI.Sprite();
-                if(this.isVertical)
-                {
-                    this.wall_image = PIXI.Sprite.from('https://mayursharma35711.github.io/Labyrinth2D/textures/bkgnd/WallsVertical.png');
-                    this.wall_image.height = cell_height;
-                    this.wall_image.width = 0.3 * cell_width;
-                    this.wall_image.x = (this.ind_x - currx) * cell_width  + 0.85*cell_width;
-                    this.wall_image.y = (this.ind_y - curry) * cell_height;
-                    this.wall_image.borderColor = 0xFFFFFF
-                    this.wall_image.alpha = opac
-                }
-                else
-                {
-                    this.wall_image = PIXI.Sprite.from('https://mayursharma35711.github.io/Labyrinth2D/textures/bkgnd/WallsHorizontal.png');
-                    this.wall_image.height = 0.3 * cell_height;
-                    this.wall_image.width = cell_width;
-                    this.wall_image.x = (this.ind_x - currx) * cell_width;
-                    this.wall_image.y = (this.ind_y - curry) * cell_height + 0.85*cell_height;
-                    this.wall_image.borderColor = 0xFFFFFF
-                    this.wall_image.alpha = opac
-                }
-                walls.addChild(this.wall_image);
+                this.wall_image = PIXI.Sprite.from('https://mayursharma35711.github.io/Labyrinth2D/textures/bkgnd/vert_door.png');
+                this.wall_image.height = cell_height;
+                this.wall_image.width = 0.3 * cell_width;
+                this.wall_image.x = (this.ind_x - currx) * cell_width  + 0.85*cell_width;
+                this.wall_image.y = (this.ind_y - curry) * cell_height;
+                this.wall_image.borderColor = 0xFFFFFF
+                this.wall_image.alpha = opac
             }
+            else
+            {
+                this.wall_image = PIXI.Sprite.from('https://mayursharma35711.github.io/Labyrinth2D/textures/bkgnd/horiz_door.png');
+                this.wall_image.height = 0.3 * cell_height;
+                this.wall_image.width = cell_width;
+                this.wall_image.x = (this.ind_x - currx) * cell_width;
+                this.wall_image.y = (this.ind_y - curry) * cell_height + 0.85*cell_height;
+                this.wall_image.borderColor = 0xFFFFFF
+                this.wall_image.alpha = opac
+            }
+            walls.addChild(this.wall_image);
+        }
+        else if (this.exists){
+            this.wall_image = new PIXI.Sprite();
+            if(this.isVertical)
+            {
+                this.wall_image = PIXI.Sprite.from('https://mayursharma35711.github.io/Labyrinth2D/textures/bkgnd/WallsVertical.png');
+                this.wall_image.height = cell_height;
+                this.wall_image.width = 0.3 * cell_width;
+                this.wall_image.x = (this.ind_x - currx) * cell_width  + 0.85*cell_width;
+                this.wall_image.y = (this.ind_y - curry) * cell_height;
+                this.wall_image.borderColor = 0xFFFFFF
+                this.wall_image.alpha = opac
+            }
+            else
+            {
+                this.wall_image = PIXI.Sprite.from('https://mayursharma35711.github.io/Labyrinth2D/textures/bkgnd/WallsHorizontal.png');
+                this.wall_image.height = 0.3 * cell_height;
+                this.wall_image.width = cell_width;
+                this.wall_image.x = (this.ind_x - currx) * cell_width;
+                this.wall_image.y = (this.ind_y - curry) * cell_height + 0.85*cell_height;
+                this.wall_image.borderColor = 0xFFFFFF
+                this.wall_image.alpha = opac
+            }
+            walls.addChild(this.wall_image);
         }
 	}
     getWall() {
-        return this.exists
+        return this.exists || this.setDoor
     }
 }
 

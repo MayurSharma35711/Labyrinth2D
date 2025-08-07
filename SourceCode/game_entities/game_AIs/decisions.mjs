@@ -237,8 +237,9 @@ export function hunt_brain(monster) {
     }
     // console.log(closest_player, mindist)
     if (monster.brain_count % 4 == 0 || monster.cur_path.length < 5) {
-        monster.cur_path = Astar_maze(game_maze, xrectnum, yrectnum, monster.x, monster.y, players[closest_player].x, players[closest_player].y, heur_l2sqr)
-        monster.cur_path = monster.cur_path.slice(1)
+        let test_new_path = Astar_maze(game_maze, xrectnum, yrectnum, monster.x, monster.y, players[closest_player].x, players[closest_player].y, heur_l2sqr, game_map, players.concat(monsters))
+        if(test_new_path != false)
+            monster.cur_path = test_new_path.slice(1)
     }
     
     let do_combat = check_combat(monster)
@@ -249,7 +250,7 @@ export function hunt_brain(monster) {
         monster.decision_state = monster_state.fight
         dealDamage(monster, players[do_combat[1]])
     }
-    // print_state(monster)
+    print_state(monster)
     // console.log(monster)
     if (monster.decision_state == monster_state.fight) {
         // not in range, so start seeking
@@ -259,7 +260,6 @@ export function hunt_brain(monster) {
     }
     // seek and then attack
     if(monster.decision_state == monster_state.seek) {
-        // console.log(monster.cur_path)
         follow_path(monster)
 
         do_combat = check_combat(monster)
@@ -291,8 +291,9 @@ export function hunt_flee_brain(monster) {
     }
     // console.log(closest_player, mindist)
     if (monster.brain_count % 4 == 0 || monster.cur_path.length < 5) {
-        monster.cur_path = Astar_maze(game_maze, xrectnum, yrectnum, monster.x, monster.y, players[closest_player].x, players[closest_player].y, heur_l2sqr)
-        monster.cur_path = monster.cur_path.slice(1)
+        let test_new_path = Astar_maze(game_maze, xrectnum, yrectnum, monster.x, monster.y, players[closest_player].x, players[closest_player].y, heur_l2sqr, game_map)
+        if (test_new_path != false)
+            monster.cur_path = test_new_path.slice(1)
     }
     
     let do_combat = check_combat(monster)
@@ -372,8 +373,9 @@ export function sniff_brain(monster) {
     }
     // console.log(closest_player, mindist)
     if (monster.brain_count % 4 == 0 || monster.cur_path.length < 5) {
-        monster.cur_path = Astar_maze(game_maze, xrectnum, yrectnum, monster.x, monster.y, players[closest_player].x, players[closest_player].y, heur_l2sqr)
-        monster.cur_path = monster.cur_path.slice(1)
+        let test_new_path = Astar_maze(game_maze, xrectnum, yrectnum, monster.x, monster.y, players[closest_player].x, players[closest_player].y, heur_l2sqr, game_map)
+        if (test_new_path != false)
+            monster.cur_path = test_new_path.slice(1)
     }
     
     let do_combat = check_combat(monster)
@@ -432,10 +434,10 @@ export function patrol_brain(monster) {
             closest_player = i
         }
     }
-    let new_path = Astar_maze(game_maze, xrectnum, yrectnum, monster.x, monster.y, players[closest_player].x, players[closest_player].y, heur_l2sqr)
+    let new_path = Astar_maze(game_maze, xrectnum, yrectnum, monster.x, monster.y, players[closest_player].x, players[closest_player].y, heur_l2sqr, game_map)
     // console.log("repath")
     // console.log(new_path)
-    if (new_path.length > 0)
+    if (new_path != false && new_path.length > 0)
         new_path = new_path.slice(1)
 
     
@@ -463,7 +465,9 @@ export function patrol_brain(monster) {
                 monster.decision_state = monster_state.guard_patrol
             // returning case
             } else {
-                monster.cur_path = Astar_maze(game_maze, xrectnum, yrectnum, monster.x, monster.y, monster.lastpos[0], monster.lastpos[1], heur_l2sqr).slice(1)
+                let test_new_path= Astar_maze(game_maze, xrectnum, yrectnum, monster.x, monster.y, monster.lastpos[0], monster.lastpos[1], heur_l2sqr, game_map)
+                if (test_new_path != false)
+                    monster.cur_path = test_new_path.slice(1)
                 monster.decision_state = monster_state.return
             }
         }
@@ -490,6 +494,7 @@ export function patrol_brain(monster) {
         // just continue doing patrol
         else {
             follow_path(monster)
+            // monster.last_brain_check = monster.brain_count
 
             do_combat = check_combat(monster)
             if (do_combat[0]) {
@@ -502,12 +507,12 @@ export function patrol_brain(monster) {
                 if (monster.orientation == 0) {
                     monster.cur_path = monster.patrol_path.slice(1)
                     // console.log("nonrev")
-                    console.log(monster.patrol_path)
+                    // console.log(monster.patrol_path)
                 }
                 else {
                     monster.cur_path = monster.patrol_path.toReversed().slice(1)
                     // console.log("rev")
-                    console.log(monster.patrol_path.toReversed())
+                    // console.log(monster.patrol_path.toReversed())
                 }
                     
                 // console.log(monster.cur_path, monster.orientation)
@@ -529,10 +534,12 @@ export function patrol_brain(monster) {
         }
         // returning to the last spot
         else {
-            new_path = Astar_maze(game_maze, xrectnum, yrectnum, monster.x, monster.y, monster.lastpos[0], monster.lastpos[1], heur_l2sqr).slice(1)
+            new_path = Astar_maze(game_maze, xrectnum, yrectnum, monster.x, monster.y, monster.lastpos[0], monster.lastpos[1], heur_l2sqr, game_map)
             monster.decision_state = monster_state.return
-            monster.cur_path = new_path
-            follow_path(monster)
+            if(new_path != false) {
+                monster.cur_path = new_path
+                follow_path(monster)
+            }
 
             do_combat = check_combat(monster)
             if (do_combat[0]) { 

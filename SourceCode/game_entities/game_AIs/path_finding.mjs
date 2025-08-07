@@ -1,7 +1,7 @@
 import { Priority_Queue } from "../../methods/datatypes.mjs"
 import { maze_init2, print_walls } from "../../bkgnd_objs/mazegen.mjs";
 import { maze_check } from "../../bkgnd_objs/rooms.mjs";
-
+import { rand_inds } from "../../bkgnd_objs/rooms.mjs";
 
 // -------------------------- Classes Used ------------------------------------------
 
@@ -62,7 +62,15 @@ function remake_path(prior_list, curr_node){
     return full_path
 }
 
-export function Astar_maze(maze, numx, numy, x0, y0, xfin, yfin, heur) {
+function test_entities(entities, index, numx) {
+    for (let l = 0; l < entities.length; l++) {
+        if(entities[l].x + entities[l].y * numx == index)
+            return false
+    }
+    return true
+}
+
+export function Astar_maze(maze, numx, numy, x0, y0, xfin, yfin, heur, map, entities = []) {
     // print_walls(maze, numx, numy)
     let open_points = new Priority_Queue()
     let visited_nodes = Array(maze.length/2).fill(-1)
@@ -88,15 +96,17 @@ export function Astar_maze(maze, numx, numy, x0, y0, xfin, yfin, heur) {
         
         let nbrs = []
 
-        if (y_comp < numy - 1 && maze[2*current].getWall() == false){
+        if (y_comp < numy - 1 && maze[2*current].getWall() == false && test_entities(entities, current + numx, numx)){
             nbrs.push(current + numx)
         }
-        if (x_comp < numx - 1 && maze[2*current+1].getWall() == false)
+        if (x_comp < numx - 1 && maze[2*current+1].getWall() == false && test_entities(entities, current + 1, numx))
             nbrs.push(current + 1)
-        if (x_comp > 0 && maze[2*current-1].getWall() == false)
+        if (x_comp > 0 && maze[2*current-1].getWall() == false && test_entities(entities, current - 1, numx))
             nbrs.push(current - 1)
-        if (y_comp > 0 && maze[2*current-2*numx].getWall() == false)
+        if (y_comp > 0 && maze[2*current-2*numx].getWall() == false && test_entities(entities, current - numx, numx))
             nbrs.push(current - numx)
+
+        // nbrs = rand_inds(nbrs)
 
         // console.log(nbrs)
         // console.log(x0, y0, xfin, yfin, best_scores)
@@ -108,14 +118,18 @@ export function Astar_maze(maze, numx, numy, x0, y0, xfin, yfin, heur) {
                 visited_nodes[nbrs[i]] = current
                 best_scores[nbrs[i]] = tent_score
                 guess_scores[nbrs[i]] = tent_score + heur(nbr_x, nbr_y, xfin, yfin)
-                if (!open_points.contains_elt(nbrs[i]))
-                    open_points.insert(nbrs[i], guess_scores[nbrs[i]])
+                if (!open_points.contains_elt(nbrs[i])){
+                    if(map[nbrs[i]].getBiome() != 9 && map[nbrs[i]].getBiome() != 10) {
+                        
+                        open_points.insert(nbrs[i], guess_scores[nbrs[i]])
+                    }
+                }
             }
         }
         // for(let k = 0; k < open_points.elts.length; k++)
         //     console.log(open_points.elts[k])
     }
-    console.log("failed")
+    // console.log("failed", x0, y0, xfin, yfin)
     return false
 }
 

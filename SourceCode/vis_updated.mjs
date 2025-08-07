@@ -50,7 +50,8 @@ export let game_maze = output[1];
 let rooms = output[2];
 export let chests = output[3];
 export let ptr = new Wrapper(0);
-let monster_num = 10;
+let monster_num = 5;
+let sect_size = 5
 // print_walls(game_maze, xrectnum, yrectnum)
 
 game_maze[0].exists = false;
@@ -58,7 +59,7 @@ game_maze[1].exists = false;
 game_maze[2].exists = false;
 game_maze[2 * xrectnum + 1].exists = false;
 
-export const maze_dicter = make_maze_dicts(game_maze, xrectnum, yrectnum, 5)
+export const maze_dicter =  make_maze_dicts(game_maze, xrectnum, yrectnum, sect_size, game_map)
 // (above 4 lineS are needed for a MAZE)
 
 
@@ -97,14 +98,14 @@ export let shifty = new Wrapper(0);
 for(let i = 0; i < monsters.length;i++)
 {
     // console.log((i % 5) + 1)
-    monsters[i] = new Monster(5, size.item, size.item, xrectnum, yrectnum, "patrol");
+    monsters[i] = new Monster(5, size.item, size.item, xrectnum, yrectnum, "hunt", game_map, sect_size);
 }
 
 for(let i = 0;i < monsters.length;i++)
 {
     monster_indices[i] = monsters[i].y * xrectnum + monsters[i].x;
 }
-players[0] = new Player(0, size.item, size.item, 3, 'vivek');
+players[0] = new Player(0, size.item, size.item, 40, 'vivek');
 players[1] = new Player(1, size.item, size.item, 1, 'jane');
 // players[1].y = 8;
 players[2] = new Player(2, size.item, size.item, 4, 'nikki');

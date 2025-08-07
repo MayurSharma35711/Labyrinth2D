@@ -65,8 +65,7 @@ export function precise_rooms(xnum, ynum, room_infos, maze, map) {
     }
     for (let l = 0; l < door_inds.length; l++) {
         // console.log(door_inds)
-        maze[door_inds[l]].exists = false
-
+        maze[door_inds[l]].isDoor()
     }
     return [maze, map];
 }
@@ -135,7 +134,7 @@ export function multiRooms(xnum, ynum, minsize, maxsize, maze, map, room_num)
     return [maze, map, room_dets];
 }
 
-function rand_inds(arr)
+export function rand_inds(arr)
 {
     let retArr = [];
     let newArr = [];
@@ -161,27 +160,35 @@ function delWall(map_ind1, map_ind2, maze, width, room_wall_inds)
     switch(map_ind1 - map_ind2)
     {
     case 1:
-        if (!room_wall_inds.includes(2 * map_ind1 - 1))
+        if (!room_wall_inds.includes(2 * map_ind1 - 1)){
+            // console.log("1")
             maze[2 * map_ind1 - 1].exists = false;
+        }
         break;
     case -1:
-        if (!room_wall_inds.includes(2 * map_ind1 + 1))
+        if (!room_wall_inds.includes(2 * map_ind1 + 1)) {
+            // console.log("-1")
             maze[2 * map_ind1 + 1].exists = false;
+        }
         break;
     case width:
-        if (!room_wall_inds.includes(2 * (map_ind1 - width)))
+        if (!room_wall_inds.includes(2 * (map_ind1 - width))) {
+            // console.log("100")
             maze[2 * (map_ind1 - width)].exists = false;
+        }
         break;
     case -width:
-        if (!room_wall_inds.includes(2 * map_ind1))
+        if (!room_wall_inds.includes(2 * map_ind1)) {
+            // console.log("-100")
             maze[2 * map_ind1].exists = false;
+        }
         break;
     }
 }
 
 
 
-export function maze_check(maze, width, height, room_infos){
+export function maze_check(maze, width, height, room_infos, map){
     // print_walls(maze, width, height)
     const area = width*height;
     let regions = []
@@ -191,13 +198,13 @@ export function maze_check(maze, width, height, room_infos){
         // walls[l] = true;
         if (l % 2 == 0)
         {
+            
             cell_visited[Math.floor(l/2)] = false
-            curr_cell_visited[Math.floor(1/2)] = false;
+            curr_cell_visited[0] = false;
         }
     }
 
     let room_wall_inds = []
-    let door_inds = []
     // roominfo gives [xstart, ystart, xlen, ylen, room_biome, doors]
     for (let k = 0; k < room_infos.length; k++) {
         let startx = room_infos[k][0]
@@ -246,8 +253,9 @@ export function maze_check(maze, width, height, room_infos){
             let act_cell_vis = []
             for(let i = 0;i < cell_visited.length;i++)
             {
-                if(cell_visited[i])
+                if(cell_visited[i] && (map[i].getBiome() != 9 && map[i].getBiome() != 10)) {
                     act_cell_vis.push(i)
+                }
             }
             let shuffle_inds = rand_inds(act_cell_vis)
             // console.log(shuffle_inds+"------------");
@@ -257,6 +265,9 @@ export function maze_check(maze, width, height, room_infos){
             let ind = 0;
             let out = false;
 
+            // console.log("hiiii")
+            // console.log(act_cell_vis.length)
+            // console.log(cell_visited.filter(item => item == true).length)
 
             for(let k=0; k < shuffle_inds.length; k++) {
                 out = false;
@@ -342,5 +353,6 @@ export function maze_check(maze, width, height, room_infos){
             regions[regions.length - 1].push(i);
     }
     // print_walls(maze, width, height)
+    // console.log(cell_visited)
     return [regions, maze];
 }

@@ -1,6 +1,6 @@
 import { vis } from "../../vis_updated.mjs";
 import { walls } from "../../vis_updated.mjs";
-import { total_visible_indices, test_visible_indices, get_view_range, get_view_sqr } from "./visibility.mjs";
+import { total_visible_indices, test_visible_indices, get_view_range, get_view_sqr, adj_poses } from "./visibility.mjs";
 // Sight uses visiblity code to show the map tiles and maze tiles that are visible
 export function sight(game_map, game_maze, xrectnum, yrectnum, players, curr_player, monsters, ptr, size, currx, curry, chest_indices, chests, monster_indices, app)
 {
@@ -43,17 +43,11 @@ export function sight(game_map, game_maze, xrectnum, yrectnum, players, curr_pla
         players[j].bkg_rect.visible = false
 
     for(let l = 0; l < players.length; l++) {
-        let adj_squares = []
         let x = players[l].x
         let y = players[l].y 
-        if (x > 0)
-            adj_squares.push([x - 1, y])
-        if (x < xrectnum - 1)
-            adj_squares.push([x + 1, y])
-        if (y > 0)
-            adj_squares.push([x, (y - 1)])
-        if (y < yrectnum - 1)
-            adj_squares.push([x, (y + 1)])
+        let adj_squares = adj_poses(x, y, xrectnum, yrectnum)
+
+        
         for (let k = 0; k < adj_squares.length; k++) {
             let poses = []
             let tiers = []

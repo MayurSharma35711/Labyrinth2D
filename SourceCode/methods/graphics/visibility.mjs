@@ -7,6 +7,21 @@
 import { x_view_range } from "../combat/inRangeFuncs.mjs";
 
 // can us get view square for AOE damage
+
+export function adj_poses(x, y, xrectnum, yrectnum) {
+    let adj_squares = []
+    if (x > 0)
+        adj_squares.push([x - 1, y])
+    if (x < xrectnum - 1)
+        adj_squares.push([x + 1, y])
+    if (y > 0)
+        adj_squares.push([x, (y - 1)])
+    if (y < yrectnum - 1)
+        adj_squares.push([x, (y + 1)])
+    return adj_squares
+}
+
+
 export function get_view_sqr (center_x, center_y, numx, numy, tier) {
     // These give the shape of the visibility square
     let cutoff;
