@@ -125,7 +125,7 @@ players[3].y = 1;
 players[0].speed = 2*players[0].vis_tier;
 players[1].speed = 2*players[1].vis_tier;
 players[2].speed = 2*players[2].vis_tier;
-players[3].speed = 2*players[3].vis_tier0;
+players[3].speed = 2*players[3].vis_tier;
 
 export const tot_player_health = init_health_bars(app, players)
 
