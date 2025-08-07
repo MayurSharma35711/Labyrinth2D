@@ -607,3 +607,4 @@ TO DO:
 	- implement armor
 	- implement weapons
 	- implement screen
+	- I'm going to leave this part for vivek mostly now haha 
