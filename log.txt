@@ -608,3 +608,12 @@ TO DO:
 	- implement weapons
 	- implement screen
 	- I'm going to leave this part for vivek mostly now haha 
+
+8/7/25
+- Next things to do 
+	- implementing areas with doors so that you move between locations
+	- implement armor
+	- implement weapons
+	- implement screen
+	- there might be a bug when players go into a region that monsters can't access
+		- they should have an idle thing that they should know to do
