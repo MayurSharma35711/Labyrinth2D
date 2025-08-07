@@ -105,7 +105,7 @@ for(let i = 0;i < monsters.length;i++)
 {
     monster_indices[i] = monsters[i].y * xrectnum + monsters[i].x;
 }
-players[0] = new Player(0, size.item, size.item, 40, 'vivek');
+players[0] = new Player(0, size.item, size.item, 3, 'vivek');
 players[1] = new Player(1, size.item, size.item, 1, 'jane');
 // players[1].y = 8;
 players[2] = new Player(2, size.item, size.item, 4, 'nikki');
@@ -122,10 +122,10 @@ players[2].y = 1;
 players[3].x = 1;
 players[3].y = 1;
 
-players[0].speed = 100;
-players[1].speed = 100;
-players[2].speed = 100;
-players[3].speed = 100;
+players[0].speed = 2*players[0].vis_tier;
+players[1].speed = 2*players[1].vis_tier;
+players[2].speed = 2*players[2].vis_tier;
+players[3].speed = 2*players[3].vis_tier0;
 
 export const tot_player_health = init_health_bars(app, players)
 
