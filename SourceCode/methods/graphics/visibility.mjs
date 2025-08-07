@@ -76,18 +76,18 @@ export function blocked(pt1, pt2, xrectnum, game_maze) // pt1 is curr pos, pt2 i
         pos = pt1 - xrectnum;
         while(pos != pt2)
         {
-            if(game_maze[2 * pos].exists)
+            if(game_maze[2 * pos].getWall())
                 return false;
             pos -= xrectnum
         }
-        if(game_maze[2 * pt2].exists)
+        if(game_maze[2 * pt2].getWall())
             return false;
         break;
     case 1:
         pos = pt1;
         while(pos != pt2)
         {
-            if(game_maze[2 * pos].exists)
+            if(game_maze[2 * pos].getWall())
                 return false;
             pos += xrectnum
         }
@@ -96,7 +96,7 @@ export function blocked(pt1, pt2, xrectnum, game_maze) // pt1 is curr pos, pt2 i
         pos = pt1;
         while(pos != pt2)
         {
-            if(game_maze[2 * pos + 1].exists)
+            if(game_maze[2 * pos + 1].getWall())
                 return false;
             pos++;
         }
@@ -107,7 +107,7 @@ export function blocked(pt1, pt2, xrectnum, game_maze) // pt1 is curr pos, pt2 i
         {
             if(2 * pos - 1 > 0)
             {
-                if(game_maze[2 * pos - 1].exists)
+                if(game_maze[2 * pos - 1].getWall())
                     return false;
                 pos--;
             }
