@@ -122,10 +122,10 @@ players[2].y = 1;
 players[3].x = 1;
 players[3].y = 1;
 
-players[0].speed = 2*players[0].vis_tier;
-players[1].speed = 2*players[1].vis_tier;
-players[2].speed = 2*players[2].vis_tier;
-players[3].speed = 2*players[3].vis_tier;
+players[0].speed = Math.max(2*players[0].vis_tier, 5);
+players[1].speed = Math.max(2*players[1].vis_tier, 5);
+players[2].speed = Math.max(2*players[2].vis_tier, 5);
+players[3].speed = Math.max(2*players[3].vis_tier, 5);
 
 export const tot_player_health = init_health_bars(app, players)
 
