@@ -196,6 +196,6 @@ export function full_dungeon(sizex, sizey, typer) {
     }
 
     // still need to do the walls for the dungeon here
-
+    // dung_walls[0].isDoor()
     return [dung_map, dung_walls]
 }

@@ -19,7 +19,7 @@ export class Monster extends Entities
         let x = Math.floor(Math.random() * num_x)
         let y = Math.floor(Math.random() * num_y)
         let ind = x + num_x * y
-        while(map[ind].getBiome() == 9 || map[ind].getBiome() == 10) {
+        while(map[ind].getBiome() == 9 || map[ind].getBiome() == -1) {
             x = Math.floor(Math.random() * num_x)
             y = Math.floor(Math.random() * num_y)
             ind = x + num_x * y

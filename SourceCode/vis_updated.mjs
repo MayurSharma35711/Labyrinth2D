@@ -50,7 +50,7 @@ export let game_maze = output[1];
 let rooms = output[2];
 export let chests = output[3];
 export let ptr = new Wrapper(0);
-let monster_num = 5;
+let monster_num = 1;
 let sect_size = 5
 // print_walls(game_maze, xrectnum, yrectnum)
 
@@ -105,7 +105,7 @@ for(let i = 0;i < monsters.length;i++)
 {
     monster_indices[i] = monsters[i].y * xrectnum + monsters[i].x;
 }
-players[0] = new Player(0, size.item, size.item, 3, 'vivek');
+players[0] = new Player(0, size.item, size.item, 40, 'vivek');
 players[1] = new Player(1, size.item, size.item, 1, 'jane');
 // players[1].y = 8;
 players[2] = new Player(2, size.item, size.item, 4, 'nikki');
@@ -122,10 +122,11 @@ players[2].y = 1;
 players[3].x = 1;
 players[3].y = 1;
 
-players[0].speed = Math.max(2*players[0].vis_tier, 5);
-players[1].speed = Math.max(2*players[1].vis_tier, 5);
-players[2].speed = Math.max(2*players[2].vis_tier, 5);
-players[3].speed = Math.max(2*players[3].vis_tier, 5);
+const min_speed_val = 1000;
+players[0].speed = Math.max(2*players[0].vis_tier, min_speed_val);
+players[1].speed = Math.max(2*players[1].vis_tier, min_speed_val);
+players[2].speed = Math.max(2*players[2].vis_tier, min_speed_val);
+players[3].speed = Math.max(2*players[3].vis_tier, min_speed_val);
 
 export const tot_player_health = init_health_bars(app, players)
 
