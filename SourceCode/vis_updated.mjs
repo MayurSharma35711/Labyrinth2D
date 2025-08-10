@@ -128,7 +128,7 @@ players[2].y = 1;
 players[3].x = 1;
 players[3].y = 1;
 
-const min_speed_val = 1000;
+const min_speed_val = 8;
 players[0].speed = Math.max(2*players[0].vis_tier, min_speed_val);
 players[1].speed = Math.max(2*players[1].vis_tier, min_speed_val);
 players[2].speed = Math.max(2*players[2].vis_tier, min_speed_val);
