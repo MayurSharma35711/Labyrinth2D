@@ -95,13 +95,7 @@ export let act_curry = new Wrapper(0);
 export let shiftx = new Wrapper(0);
 export let shifty = new Wrapper(0);
 
-for(let i = 0; i < 5;i++)
-{
-    // console.log((i % 5) + 1)
-    monsters[i] = new Monster(5, size.item, size.item, xrectnum, yrectnum, "hunt", game_map, sect_size);
-}
-
-for(let i = 5; i < 10;i++)
+for(let i = 0; i < monsters.length;i++)
 {
     // console.log((i % 5) + 1)
     monsters[i] = new Monster(4, size.item, size.item, xrectnum, yrectnum, "patrol", game_map, sect_size);
