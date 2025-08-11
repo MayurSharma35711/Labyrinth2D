@@ -4,6 +4,7 @@ import { game_maze, maze_dicter, xrectnum } from "../vis_updated.mjs";
 import { Astar_maze, heur_l2sqr } from "./game_AIs/path_finding.mjs";
 import { monster_state } from "./game_AIs/decisions.mjs";
 import { tot_height, tot_width } from "../vis_updated.mjs";
+import { print_walls } from "../bkgnd_objs/mazegen.mjs";
 
 // shoudl have isOccupied condition for tile, so that if monsters or players are on tile, you can't move onto it
 export class Monster extends Entities
@@ -19,7 +20,7 @@ export class Monster extends Entities
         let x = Math.floor(Math.random() * num_x)
         let y = Math.floor(Math.random() * num_y)
         let ind = x + num_x * y
-        while(map[ind].getBiome() == 9 || map[ind].getBiome() == -1) {
+        while(map[ind].getBiome() == 9 || map[ind].getBiome() == -1 || map[ind].getBiome() == 10) {
             x = Math.floor(Math.random() * num_x)
             y = Math.floor(Math.random() * num_y)
             ind = x + num_x * y
@@ -63,6 +64,10 @@ export class Monster extends Entities
             this.final_sector = adj_sectors[best_dist_ind]
             this.patrol_path = best_path
             this.orientation = 0
+            // print_walls(game_maze, num_x, num_y)
+            // console.log(map[this.x + this.y * num_x].getBiome())
+            // console.log(this.x, this.y, this.patrol_path[0] % num_x, Math.floor(this.patrol_path[0] / num_x))
+            // console.log(Astar_maze(game_maze, num_x, num_y, this.x, this.y, this.patrol_path[0] % num_x, Math.floor(this.patrol_path[0] / num_x), heur_l2sqr, map))
             this.cur_path = Astar_maze(game_maze, num_x, num_y, this.x, this.y, this.patrol_path[0] % num_x, Math.floor(this.patrol_path[0] / num_x), heur_l2sqr, map).slice(1)
             this.brain_count = 0
             this.lastpos = [best_path[0] % num_x, Math.floor(best_path[0] / num_x)]
