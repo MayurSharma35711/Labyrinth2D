@@ -631,5 +631,6 @@ TO DO:
 		- different effects
 		- moving enemies around, things like that
 	- need to create main menu, inventory, and some other screens 
+- i made a (very simple) main menu too
 - vivek's Jobs
-	- he needs to get the areas stuff working 
+	- he needs to get the areas stuff working  
