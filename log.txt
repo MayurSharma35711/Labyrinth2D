@@ -617,3 +617,16 @@ TO DO:
 	- implement screen
 	- there might be a bug when players go into a region that monsters can't access
 		- they should have an idle thing that they should know to do
+
+8/12/25
+- (mayur)
+- gave vivek a list of things to do 
+- added new sprites
+- now have pop up screens for when chests are opened 
+
+- still to do 
+	- implement armors
+	- implement weapons
+	- need to create main menu, inventory, and some other screens 
+- vivek's Jobs
+	- he needs to get the areas stuff working 
