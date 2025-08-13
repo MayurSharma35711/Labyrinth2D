@@ -40,7 +40,7 @@ export function make_pop_up_menu(sizex, sizey, text){
 
     const text_inside = new PIXI.Text(text, {
         fontFamily: 'Arial',
-        fontSize: 15,
+        fontSize: 20,
         fill: 0xffffff,
     });
 
