@@ -627,6 +627,9 @@ TO DO:
 - still to do 
 	- implement armors
 	- implement weapons
+		- different kinds of ranges
+		- different effects
+		- moving enemies around, things like that
 	- need to create main menu, inventory, and some other screens 
 - vivek's Jobs
 	- he needs to get the areas stuff working 
