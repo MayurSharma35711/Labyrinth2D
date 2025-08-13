@@ -6,7 +6,7 @@ export class Other extends Entities
         super()
         this.type = type
         this.label = label
-        super.setHealth(3);
+        super.setHealth(3); 
         super.setSpeed(0);
     }
 }

@@ -1,0 +1,195 @@
+<html lang="en-US">
+	<head>
+		<style>
+			body{ margin: 0; }
+		</style>
+		<title>Labyrinth2D</title>
+		<!-- <script id=graphics src="jslib/pixi.js"></script> -->
+		<script src="https://pixijs.download/release/pixi.js"></script>
+        <!-- <SCRIPT TYPE="text/javascript" SRC="//cdn.jsdelivr.net/npm/pixi.js@5.2.1/dist/pixi.min.js"></SCRIPT> -->
+		<!-- <SCRIPT TYPE="text/javascript" SRC="//cdn.jsdelivr.net/npm/pixi.js-legacy@5.2.1/dist/pixi-legacy.min.js"></SCRIPT> -->
+		<!-- <style>
+			#blocker {
+				z-index: 0;
+				position: absolute;
+				width: 100%;
+				height: 100%;
+				background-color: rgba(0,0,0,0.5);
+
+				display: flex;
+				align-items: center;
+  				justify-content: center;
+
+				user-select: none;
+			}
+			#mainMenu {
+				position: absolute;
+				z-index: 1;
+
+				pointer-events: auto;
+				width: 400px;
+				height: 400px;
+
+				border-radius: 6px;
+
+				background-color: rgba(200,255,200,0.5);
+			}
+			#login {
+				width: 100%;
+				height: 100%;
+
+				display: -webkit-box;
+				display: -moz-box;
+				display: box;
+
+				-webkit-box-orient: horizontal;
+				-moz-box-orient: horizontal;
+				box-orient: horizontal;
+
+				-webkit-box-pack: center;
+				-moz-box-pack: center;
+				box-pack: center;
+
+				-webkit-box-align: center;
+				-moz-box-align: center;
+				box-align: center;
+
+				color: #ffffff;
+				text-align: center;
+				font-family: Arial;
+				font-size: 28px;
+				line-height: 48px;
+			}
+			#playBtn {
+				width: 150px;
+				height: 30px;
+			}
+			#pauseMenu {
+				position: absolute;
+				z-index: 2;
+
+				width: 400px;
+				height: 400px;
+
+				border-radius: 6px;
+
+				background-color: rgba(200,255,200,0.5);
+
+				pointer-events: none;
+				opacity: 0;
+			}
+			#pauseComponents {
+				position: absolute;
+				z-index: 3;
+				width: 100%;
+				height: 100%;
+
+				display: -webkit-box;
+				display: -moz-box;
+				display: box;
+
+				-webkit-box-orient: horizontal;
+				-moz-box-orient: horizontal;
+				box-orient: horizontal;
+
+				-webkit-box-pack: center;
+				-moz-box-pack: center;
+				box-pack: center;
+
+				-webkit-box-align: center;
+				-moz-box-align: center;
+				box-align: center;
+
+				color: #ffffff;
+				text-align: center;
+				font-family: Arial;
+				font-size: 28px;
+				line-height: 48px;
+			}
+			.pauseMenuBtn {
+				width: 300px;
+				height: 30px;
+			}
+			#optionsComponents {
+				position: absolute;
+				z-index: 4;
+				width: 100%;
+				height: 100%;
+
+				display: -webkit-box;
+				display: -moz-box;
+				display: box;
+
+				-webkit-box-orient: horizontal;
+				-moz-box-orient: horizontal;
+				box-orient: horizontal;
+
+				-webkit-box-pack: center;
+				-moz-box-pack: center;
+				box-pack: center;
+
+				-webkit-box-align: center;
+				-moz-box-align: center;
+				box-align: center;
+
+				color: #ffffff;
+				text-align: center;
+				font-family: Arial;
+				font-size: 28px;
+				line-height: 48px;
+
+				pointer-events: none;
+				opacity: 0;
+			}
+			/* #mouseSensitivityRange {
+
+			} */
+		</style> -->
+	</head>
+	<body >
+	<!-- <body style="background-color:black" oncontextmenu="return false;"> -->
+		<!-- <div id="blocker">
+			<div id="mainMenu">
+				<div id="login">
+					<span style="font-size:48px">Gravity Mine</span>
+					<br>
+					<br>
+					<label for="roomIDInput">Room ID:</label><br>
+					<input type="text" id="roomIDInput" name="roomID" required maxlength="5" placeholder="Leave empty for random"><br>
+					<label for="usernameInput">Username:</label><br>
+					<input type="text" id="usernameInput" name="username" required maxlength="15" placeholder="Max 15 characters"><br><br>
+					<button type="button" id="playBtn">Play</button>
+				</div>
+			</div>
+			<div id="pauseMenu">
+				<div id="pauseComponents">
+					<span style="font-size:72px">Paused</span>
+					<br><br>
+					<button type="button" id="continueBtn" class="pauseMenuBtn">Continue</button>
+					<br><br>
+					<button type="button" id="optionsBtn" class="pauseMenuBtn">Options</button>
+					<br><br>
+					<button type="button" id="leaveBtn" class="pauseMenuBtn">Leave</button>
+				</div>
+				<div id="optionsComponents">
+					<span style="font-size:72px">Options</span>
+					<br><br>Mouse Sensitivity:
+					<input type="range" id="mouseSensitivityRange" min="0.01" max="10" step="0.01" value="2.00">
+					<input type="number" id="mouseSensitivityOutput" min="0.01" max="10" step="0.01" value="2.00">
+					<br><br>
+					<button type="button" id="optionsBackBtn" class="pauseMenuBtn">Back</button>
+				</div>
+			</div>
+		</div> -->
+		<!-- <script src="OldCode/game.js"></script> -->
+
+
+		<!--<script src="new_game.js"></script>-->
+
+		<!-- <script type="module" script src="Dependency_Test.mjs"></script> -->
+		<!-- <script type="module" script src="SourceCode/graphics_updated.mjs"></script> -->
+		 
+		<script type="module" script src="SourceCode/vis_updated.mjs"></script>
+		<!-- <script type="module" script src="SourceCode/methods/path_finding.mjs"></script> -->
+	</body>
+</html>
