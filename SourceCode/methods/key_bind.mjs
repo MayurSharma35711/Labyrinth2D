@@ -1,5 +1,5 @@
 import { total_visible_indices, get_view_sqr, get_view_range, adj_poses } from "../methods/graphics/visibility.mjs";
-import {game_map, game_maze, xrectnum, yrectnum, players, play_inds, curr_player, monsters, pause, menu_container, ptr, size, currx, curry, act_currx, act_curry, shiftx, shifty, chest_indices, chests, monster_indices, app, seen_indices} from "../vis_updated.mjs"
+import {game_map, game_maze, xrectnum, yrectnum, players, play_inds, curr_player, monsters, pause, menu_container, ptr, size, currx, curry, act_currx, act_curry, shiftx, shifty, chest_indices, chests, monster_indices, app, seen_indices, pop_up, pop_up_bubble} from "../vis_updated.mjs"
 import { sight } from "./graphics/sight.mjs";
 import { x_view_range } from "./combat/inRangeFuncs.mjs";
 import { inRange } from "./combat/inRangeFuncs.mjs";
@@ -123,6 +123,12 @@ function keyStart(e)
 {
     // // console.log(shiftx.item, shifty.item, currx.item, curry.item)
     key = e.keyCode;
+    if (pop_up.item) {
+        app.stage.removeChild(pop_up_bubble.item)
+        pop_up_bubble.item = false
+        pop_up.item = false
+        return null
+    }
     if (!pause.item && key == key_r) {
         if (size.item > 20)
             size.item = Math.floor(size.item / 1.2)
@@ -152,7 +158,7 @@ function keyStart(e)
     {
         // alert("Good");
         chests[chest_indices.indexOf(curr_player.item.y * xrectnum + curr_player.item.x)].Open();
-        chests[chest_indices.indexOf(curr_player.item.y * xrectnum + curr_player.item.x)].listItems();
+        pop_up_bubble.item = chests[chest_indices.indexOf(curr_player.item.y * xrectnum + curr_player.item.x)].listItems();
     }
     else if(!pause.item && key == key_open) {
         let caser = checkDoor(curr_player, game_maze, xrectnum, yrectnum)
@@ -410,4 +416,7 @@ function keyStart(e)
     // // console.log(game_map[ptr.item].biome);
     setPlays();
     update_health_bars();
+    if (pop_up.item) {
+        app.stage.addChild(pop_up_bubble.item)
+    }
 }

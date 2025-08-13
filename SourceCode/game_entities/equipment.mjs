@@ -1,4 +1,5 @@
 import { vis } from "../vis_updated.mjs";
+import { make_pop_up_menu } from "../methods/displays/pop_up.mjs";
 await PIXI.Assets.load('https://mayursharma35711.github.io/Labyrinth2D/textures/items/Chests.png');
 await PIXI.Assets.load('https://mayursharma35711.github.io/Labyrinth2D/textures/items/ChestsOpen.png');
 
@@ -170,10 +171,14 @@ export class chest
     }
     listItems()
     {
+        let new_text = ""
         for(let i = 0;i < this.item_num;i++)
         {
-            alert(this.items[i].name);
+            // this needs to be replaced with new pop-ups
+            new_text = new_text + this.items[i].name + "\n"
+            // alert();
         }
+        return make_pop_up_menu(200, 200, new_text)
     }
 }
 export function chest_gen(chest_num, maze, width, height)

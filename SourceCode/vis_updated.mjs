@@ -41,6 +41,8 @@ document.body.appendChild(app.canvas);
 
 export const menu_container = init_pause_menu(app)
 export const pause = new Wrapper(false)
+export const pop_up = new Wrapper(false)
+export const pop_up_bubble = new Wrapper(false)
 
 export let xrectnum = 20;
 export let yrectnum = 20;
