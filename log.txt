@@ -632,5 +632,7 @@ TO DO:
 		- moving enemies around, things like that
 	- need to create main menu, inventory, and some other screens 
 - i made a (very simple) main menu too
+	- it would make sense to have everything up until the load game in 1 html file 
+	- the inventory screen, info screen, etc. should all go in the main file as PIXI graphics
 - vivek's Jobs
 	- he needs to get the areas stuff working  
