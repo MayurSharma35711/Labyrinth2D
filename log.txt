@@ -664,10 +664,33 @@ TO DO:
 
 	- need to make an inventory + crafting screen
 		- maybe need to fix the key bindings, since i would be the best for this 
-		- o is probably a better combat button than n is 
+		- o is probably a better combat button than n is  
 
 	- need to discuss armor and weapon implementations 
 		- the items listed in a chest should be clickable, so you can decide what to keep and what to leave
 
 	- it would also be pretty fun to start getting particle effects on the tiles 
 		- this could make the game laggy though, we'll see
+
+- discussion w nikki (still need to confirm w vivek)
+- All characters have basic, special, and then specific items give an ultimate (typically per element)
+	- Warriors level up w experience and gain new moves (but the move power is constant for the weapon regardless of level)
+	- Mages get new moves w tomes / artifacts, but their power increases w level
+	- Alchemist and bard (still need to flesh out moveset) will have their basic be based on level like fighters and will have their special based on items like mages 
+
+- Moveset for weapons changes w level and w weapon type
+- While there are fewer mages, the alchemist and bard have similar effects to them and the mages become very powerful later
+
+- In act 1, there should be at most ~2-3 monsters to interact with, in act 2 it should be 3-4, and we can see about act 3 
+
+- There will also be a simple crafting system, each subclass / class can craft a specific thing w the alchemist having the most range
+- You should be able to throw / use potions during a turn
+- You have a finite inventory size that increases as you level up and which opens whenever u check a chest
+- Monsters can drop items that you can use to craft
+- When a player dies, you lose their visibility and they stop being able to move; when you get to a village they will be healed; in terms of mechanics this means that if player 1 dies, you start over from your last save
+- If player 2-4 die, then the above happens (this should be okay to code) 
+- Essentially there are 8 characters to fit 3 slots (and player 1 is always the main character) 
+
+8/14/25
+- (mayur)
+	- have character's dying working the way you expect (need to create a game over screen for player 1 dying)
