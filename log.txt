@@ -693,4 +693,5 @@ TO DO:
 
 8/14/25
 - (mayur)
-	- have character's dying working the way you expect (need to create a game over screen for player 1 dying)
+- have character's dying working the way you expect (need to create a game over screen for player 1 dying)
+- there looks to be some bug in the monster AI, could be good to test it out, seems like monsters are vanishing

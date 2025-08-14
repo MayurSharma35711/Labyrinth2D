@@ -169,22 +169,22 @@ function keyStart(e)
                 game_maze[caser[1]].wall_image.visible = false
             }
         }
-        else if (key == keyone) {
+        else if (key == keyone && players[0].health > 0) {
             curr_player.item.in_combat = false;
             curr_player.item = players[0]
             ptr.item = curr_player.item.y * xrectnum + curr_player.item.x;
         }
-        else if(key == keytwo) {
+        else if(key == keytwo && players[1].health > 0) {
             curr_player.item.in_combat = false;
             curr_player.item = players[1]
             ptr.item = curr_player.item.y * xrectnum + curr_player.item.x;
         }
-        else if(key == keythree) {
+        else if(key == keythree && players[2].health > 0) {
             curr_player.item.in_combat = false;
             curr_player.item = players[2]
             ptr.item = curr_player.item.y * xrectnum + curr_player.item.x;
         }
-        else if(key == keyfour) {
+        else if(key == keyfour && players[3].health > 0) {
             curr_player.item.in_combat = false;
             curr_player.item = players[3]
             ptr.item = curr_player.item.y * xrectnum + curr_player.item.x;
