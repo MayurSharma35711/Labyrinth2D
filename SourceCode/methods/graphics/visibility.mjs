@@ -173,10 +173,15 @@ export function total_visible_indices (players, numx, numy) {
     // give in captain player first
     let players_indices = [];
     for (let k = 0; k < players.length; k++){
-        let new_inds = get_view_sqr(players[k].x,players[k].y,numx,numy,players[k].vis_tier)
+        let new_inds
+        if (players[k].health <= 0 && k > 0)
+            new_inds = [players[k].x + players[k].y * numx]
+        else
+            new_inds = get_view_sqr(players[k].x,players[k].y,numx,numy,players[k].vis_tier)
         // console.log(new_inds)
         players_indices.push(new Set(new_inds))
     }
+    // console.log(players_indices)
     let keep_indices = new Set(players_indices[0])
     // let dist = new Array(players.length - 1);
     let connected = new Array(players.length - 1);

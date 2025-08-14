@@ -114,6 +114,7 @@ let key_p = 80;
 let key_n = 78;
 let key_v = 86;
 let key_esc = 27;
+let key_y = 89;
 // let pause.item = false;
 
 
@@ -129,241 +130,252 @@ function keyStart(e)
         pop_up.item = false
         return null
     }
-    if (!pause.item && key == key_r) {
-        if (size.item > 20)
-            size.item = Math.floor(size.item / 1.2)
-        else
-            size.item = 140
-        // // console.log(size.item)
-        for (let t = 0; t < players.length; t++) {
-            players[t].resize(size.item, size.item)
+    if (!pause.item) {
+        if (key == key_r) {
+            if (size.item > 20)
+                size.item = Math.floor(size.item / 1.2)
+            else
+                size.item = 140
+            // // console.log(size.item)
+            for (let t = 0; t < players.length; t++) {
+                players[t].resize(size.item, size.item)
+            }
+            for (let t = 0; t < monsters.length; t++) {
+                monsters[t].resize(size.item, size.item)
+            }
         }
-        for (let t = 0; t < monsters.length; t++) {
-            monsters[t].resize(size.item, size.item)
+        else if(key == key_i)
+            shifty.item = Math.max(shifty.item - 1, -act_curry.item +1 )
+        else if(key == key_j)
+            shiftx.item = Math.max(shiftx.item - 1, -act_currx.item + 1)
+        else if(key == key_k)
+            shifty.item = Math.min(shifty.item + 1, yrectnum - act_curry.item - 2)
+        else if(key == key_l)
+            shiftx.item = Math.min(shiftx.item + 1, xrectnum - act_currx.item - 2)
+        else if(key == key_h) {
+            shifty.item = 0 
+            shiftx.item = 0
         }
-    }
-    else if(!pause.item && key == key_i)
-        shifty.item = Math.max(shifty.item - 1, -act_curry.item +1 )
-    else if(!pause.item && key == key_j)
-        shiftx.item = Math.max(shiftx.item - 1, -act_currx.item + 1)
-    else if(!pause.item && key == key_k)
-        shifty.item = Math.min(shifty.item + 1, yrectnum - act_curry.item - 2)
-    else if(!pause.item && key == key_l)
-        shiftx.item = Math.min(shiftx.item + 1, xrectnum - act_currx.item - 2)
-    else if(!pause.item && key == key_h) {
-        shifty.item = 0 
-        shiftx.item = 0
-    }
-    else if(!pause.item && key == key_open && (chest_indices.includes(curr_player.item.y * xrectnum + curr_player.item.x) && !chests[chest_indices.indexOf(curr_player.item.y * xrectnum + curr_player.item.x)].opened))
-    {
-        // alert("Good");
-        chests[chest_indices.indexOf(curr_player.item.y * xrectnum + curr_player.item.x)].Open();
-        pop_up_bubble.item = chests[chest_indices.indexOf(curr_player.item.y * xrectnum + curr_player.item.x)].listItems();
-    }
-    else if(!pause.item && key == key_open) {
-        let caser = checkDoor(curr_player, game_maze, xrectnum, yrectnum)
-        if (caser[0]) {
-            game_maze[caser[1]].setDoor = false
-            game_maze[caser[1]].wall_image.visible = false
-        }
-    }
-    else if (!pause.item && key == keyone) {
-        curr_player.item.in_combat = false;
-        curr_player.item = players[0]
-        ptr.item = curr_player.item.y * xrectnum + curr_player.item.x;
-    }
-    else if(!pause.item && key == keytwo) {
-        curr_player.item.in_combat = false;
-        curr_player.item = players[1]
-        ptr.item = curr_player.item.y * xrectnum + curr_player.item.x;
-    }
-    else if(!pause.item && key == keythree) {
-        curr_player.item.in_combat = false;
-        curr_player.item = players[2]
-        ptr.item = curr_player.item.y * xrectnum + curr_player.item.x;
-    }
-    else if(!pause.item && key == keyfour) {
-        curr_player.item.in_combat = false;
-        curr_player.item = players[3]
-        ptr.item = curr_player.item.y * xrectnum + curr_player.item.x;
-    }
-    else if(!pause.item && key == key_v && curr_player.item.range_type == "xrange" && curr_player.item.in_combat)
-    {
-        curr_player.item.in_combat = false;
-        console.log("HEREHRHERHERHEHR");
-    }
-    else if(!pause.item && key == key_n && !curr_player.item.turn_end)
-    {
-        if(curr_player.item.in_combat && curr_player.item.range_type == "xrange")
+        else if(key == key_open && (chest_indices.includes(curr_player.item.y * xrectnum + curr_player.item.x) && !chests[chest_indices.indexOf(curr_player.item.y * xrectnum + curr_player.item.x)].opened))
         {
-            let x_indices = x_view_range(curr_player.item.x, curr_player.item.y, xrectnum, yrectnum, curr_player.item.range);
-            let hit_indices = [];
-            let hit = false;
-            for(let i = 0;i < x_indices.length;i++)
-            {
-                if(monster_indices.includes(x_indices[i]))
-                {
-                    hit_indices.push(x_indices[i]);
-                    hit = true;
-                }
+            // alert("Good");
+            chests[chest_indices.indexOf(curr_player.item.y * xrectnum + curr_player.item.x)].Open();
+            pop_up_bubble.item = chests[chest_indices.indexOf(curr_player.item.y * xrectnum + curr_player.item.x)].listItems();
+        }
+        else if(key == key_open) {
+            let caser = checkDoor(curr_player, game_maze, xrectnum, yrectnum)
+            if (caser[0]) {
+                game_maze[caser[1]].setDoor = false
+                game_maze[caser[1]].wall_image.visible = false
             }
-            console.log("-------------------");
-            console.log(hit_indices.length);
-            console.log("######################");
-            for(let i = 0;i < hit_indices.length; i++)
-            {
-                console.log("VEIRGB IERGVIE EIRVEIRV")
-                console.log('------222222222---------2222222----------')
-                console.log(monsters[monster_indices.indexOf(hit_indices[i])])
-                dealDamage(curr_player.item, monsters[monster_indices.indexOf(hit_indices[i])]);
-                if(monsters[monster_indices.indexOf(hit_indices[i])].health <= 0)
-                {
-                    app.stage.removeChild(monsters[monster_indices.indexOf(hit_indices[i])].rect);
-                    monsters.splice(monster_indices.indexOf(hit_indices[i]), 1);
-                    monster_indices.splice(monster_indices.indexOf(hit_indices[i]), 1);
-                }
-            }
-            
-            if(hit)
-            {
-                console.log("HITITITITITITITIT");
-                curr_player.item.turn_end = true;
-            }
+        }
+        else if (key == keyone) {
             curr_player.item.in_combat = false;
+            curr_player.item = players[0]
+            ptr.item = curr_player.item.y * xrectnum + curr_player.item.x;
         }
-        else if(curr_player.item.in_combat && curr_player.item.range_type == "regular") // Add getValid to check if a sqr is valid for attack
+        else if(key == keytwo) {
+            curr_player.item.in_combat = false;
+            curr_player.item = players[1]
+            ptr.item = curr_player.item.y * xrectnum + curr_player.item.x;
+        }
+        else if(key == keythree) {
+            curr_player.item.in_combat = false;
+            curr_player.item = players[2]
+            ptr.item = curr_player.item.y * xrectnum + curr_player.item.x;
+        }
+        else if(key == keyfour) {
+            curr_player.item.in_combat = false;
+            curr_player.item = players[3]
+            ptr.item = curr_player.item.y * xrectnum + curr_player.item.x;
+        }
+        else if(key == key_v && curr_player.item.range_type == "xrange" && curr_player.item.in_combat)
         {
-            // Add dealDamage stuff
-            
-            // Add that if you missed then end combat early
-            let hit = inRange(curr_player.item, ptr.item, xrectnum, game_maze, monster_indices);
-            if(hit && monster_indices.includes(ptr.item))
+            curr_player.item.in_combat = false;
+            console.log("HEREHRHERHERHEHR");
+        }
+        else if(key == key_n && !curr_player.item.turn_end)
+        {
+            // just need to concatenate other entities here and can do damage to anything then
+            let entities = players.concat(monsters)
+            let entities_inds = play_inds.concat(monster_indices)
+            if(curr_player.item.in_combat && curr_player.item.range_type == "xrange")
             {
-                dealDamage(curr_player.item, monsters[monster_indices.indexOf(ptr.item)]);
-                if(monsters[monster_indices.indexOf(ptr.item)].health <= 0)
+                let x_indices = x_view_range(curr_player.item.x, curr_player.item.y, xrectnum, yrectnum, curr_player.item.range);
+                let hit_indices = [];
+                let hit = false;
+                
+                for(let i = 0;i < x_indices.length;i++)
                 {
-                    app.stage.removeChild(monsters[monster_indices.indexOf(ptr.item)].rect);
-                    monsters.splice(monster_indices.indexOf(ptr.item), 1);
-                    monster_indices.splice(monster_indices.indexOf(ptr.item), 1);
+                    if (x_indices[i] == curr_player.item.x + curr_player.item.y * xrectnum)
+                        continue
+                    if(entities_inds.includes(x_indices[i]))
+                    {
+                        hit_indices.push(x_indices[i]);
+                        hit = true;
+                    }
                 }
-                curr_player.item.turn_end = true;
+                console.log("-------------------");
+                console.log(hit_indices.length);
+                console.log("######################");
+                for(let i = 0;i < hit_indices.length; i++)
+                {
+                    console.log("VEIRGB IERGVIE EIRVEIRV")
+                    console.log('------222222222---------2222222----------')
+                    console.log(entities[entities_inds.indexOf(hit_indices[i])])
+                    dealDamage(curr_player.item, entities[entities_inds.indexOf(hit_indices[i])]);
+                    // if(monsters[monster_indices.indexOf(hit_indices[i])].health <= 0)
+                    // {
+                    //     app.stage.removeChild(monsters[monster_indices.indexOf(hit_indices[i])].rect);
+                    //     monsters.splice(monster_indices.indexOf(hit_indices[i]), 1);
+                    //     monster_indices.splice(monster_indices.indexOf(hit_indices[i]), 1);
+                    // }
+                }
+                
+                if(hit)
+                {
+                    console.log("HITITITITITITITIT");
+                    curr_player.item.turn_end = true;
+                }
                 curr_player.item.in_combat = false;
             }
-            if(!hit) //This will also just run through the entire function so even if it hits the rigth functino will be carried out
+            else if(curr_player.item.in_combat && curr_player.item.range_type == "regular") // Add getValid to check if a sqr is valid for attack
             {
-                curr_player.item.in_combat = false;
+                // Add dealDamage stuff
+                
+                // Add that if you missed then end combat early
+                let hit = inRange(curr_player.item, ptr.item, xrectnum, game_maze, entities_inds);
+                if(hit && entities_inds.includes(ptr.item) && (ptr.item != curr_player.item.x + curr_player.item.y * xrectnum))
+                {
+                    dealDamage(curr_player.item, entities[entities_inds.indexOf(ptr.item)]);
+                    // if(entities[entities_inds.indexOf(ptr.item)].health <= 0)
+                    // {
+                    //     app.stage.removeChild(monsters[entities_inds.indexOf(ptr.item)].rect);
+                    //     monsters.splice(entities_inds.indexOf(ptr.item), 1);
+                    //     entities_inds.splice(entities_inds.indexOf(ptr.item), 1);
+                    // }
+                    curr_player.item.turn_end = true;
+                    curr_player.item.in_combat = false;
+                }
+                if(!hit) //This will also just run through the entire function so even if it hits the rigth functino will be carried out
+                {
+                    curr_player.item.in_combat = false;
+                    ptr.item = curr_player.item.y * xrectnum + curr_player.item.x;
+                }
+            }
+            else
+            {
+                curr_player.item.in_combat = true;
                 ptr.item = curr_player.item.y * xrectnum + curr_player.item.x;
             }
         }
-        else
+        else if((key == up || key == key_w) && curr_player.item.in_combat && curr_player.item.range_type == "regular")
         {
-            curr_player.item.in_combat = true;
-            ptr.item = curr_player.item.y * xrectnum + curr_player.item.x;
+            if(get_view_range(curr_player.item.x, curr_player.item.y, xrectnum, yrectnum, curr_player.item.range, game_maze, curr_player.item, game_maze).includes(ptr.item - xrectnum))
+            {
+                ptr.item = ptr.item - xrectnum;
+            }
         }
-    }
-    else if(!pause.item && key == up && curr_player.item.in_combat && curr_player.item.range_type == "regular")
-    {
-        if(get_view_range(curr_player.item.x, curr_player.item.y, xrectnum, yrectnum, curr_player.item.range, game_maze, curr_player.item, game_maze).includes(ptr.item - xrectnum))
+        else if((key == down || key == key_s) && curr_player.item.in_combat && curr_player.item.range_type == "regular")
         {
-            ptr.item = ptr.item - xrectnum;
+            if(get_view_range(curr_player.item.x, curr_player.item.y, xrectnum, yrectnum, curr_player.item.range, game_maze, curr_player.item, game_maze).includes(ptr.item + xrectnum))
+            {
+                ptr.item = ptr.item + xrectnum;
+            }
         }
-    }
-    else if(!pause.item && key == down && curr_player.item.in_combat && curr_player.item.range_type == "regular")
-    {
-        if(get_view_range(curr_player.item.x, curr_player.item.y, xrectnum, yrectnum, curr_player.item.range, game_maze, curr_player.item, game_maze).includes(ptr.item + xrectnum))
+        else if((key == left || key == key_a) && curr_player.item.in_combat && curr_player.item.range_type == "regular")
         {
-            ptr.item = ptr.item + xrectnum;
+            if(get_view_range(curr_player.item.x, curr_player.item.y, xrectnum, yrectnum, curr_player.item.range, game_maze, curr_player.item, game_maze).includes(ptr.item - 1))
+            {
+                ptr.item--;
+            }
         }
-    }
-    else if(!pause.item && key == left && curr_player.item.in_combat && curr_player.item.range_type == "regular")
-    {
-        if(get_view_range(curr_player.item.x, curr_player.item.y, xrectnum, yrectnum, curr_player.item.range, game_maze, curr_player.item, game_maze).includes(ptr.item - 1))
+        else if((key == right || key == key_d) && curr_player.item.in_combat && curr_player.item.range_type == "regular")
         {
-            ptr.item--;
+            if(get_view_range(curr_player.item.x, curr_player.item.y, xrectnum, yrectnum, curr_player.item.range, game_maze, curr_player.item, game_maze).includes(ptr.item + 1))
+            {
+                ptr.item++;
+            }
         }
-    }
-    else if(!pause.item && key == right && curr_player.item.in_combat && curr_player.item.range_type == "regular")
-    {
-        if(get_view_range(curr_player.item.x, curr_player.item.y, xrectnum, yrectnum, curr_player.item.range, game_maze, curr_player.item, game_maze).includes(ptr.item + 1))
+        else if(key == key_p) //Turn over
         {
-            ptr.item++;
-        }
-    }
-    else if(!pause.item && key == key_p) //Turn over
-    {
-        // console.log("Turn over");
-        // console.log(players[0].blks_moved);
-        for(let n = 0;n < 4;n++)
-        {
-            players[n].blks_moved = 0;
-            players[n].turn_end = false;
-        }
-        curr_player.item.in_combat = false;
-        for (let l = 0; l < players.length; l++){
-            if(!seen_indices.item.includes(play_inds[l]))
-                players[l].health -= 0.5
-        }
-        take_game_turn()
+            // console.log("Turn over");
+            // console.log(players[0].blks_moved);
+            for(let n = 0;n < 4;n++)
+            {
+                players[n].blks_moved = 0;
+                players[n].turn_end = false;
+            }
+            curr_player.item.in_combat = false;
+            for (let l = 0; l < players.length; l++){
+                if(!seen_indices.item.includes(play_inds[l]))
+                    players[l].health -= 0.5
+            }
+            take_game_turn()
 
-        // return;
-    }
-    else if(!pause.item && !curr_player.item.in_combat && curr_player.item.health > 0 && seen_indices.item.includes(curr_player.item.x + curr_player.item.y*xrectnum) && curr_player.item.x - 1 >= 0 && (key == left || key == key_a) && !game_maze[curr_player.item.y * 2 * xrectnum + curr_player.item.x * 2 - 1].getWall() && curr_player.item.blks_moved != curr_player.item.speed && !checkPlayer(curr_player.item.y * xrectnum + curr_player.item.x - 1) && !curr_player.item.turn_end && !checkMonster(curr_player.item.y * xrectnum + curr_player.item.x - 1))
-    {
-        curr_player.item.x--;
-        curr_player.item.blks_moved++;
-        shifty.item = Math.max(shifty.item, -curry.item)
-        shiftx.item = Math.max(shiftx.item, -currx.item)
-        shifty.item = Math.min(shifty.item, yrectnum - curry.item - 2)
-        shiftx.item = Math.min(shiftx.item, xrectnum - curry.item - 2)
-        ptr.item = curr_player.item.y * xrectnum + curr_player.item.x;
-        // // console.log(ptr.item);
-    }
-    else if(!pause.item && !curr_player.item.in_combat && curr_player.item.health > 0 && seen_indices.item.includes(curr_player.item.x + curr_player.item.y*xrectnum) && curr_player.item.y - 1 >= 0 && (key == up || key == key_w) && !game_maze[(curr_player.item.y - 1) * 2 * xrectnum + curr_player.item.x * 2].getWall() && curr_player.item.blks_moved != curr_player.item.speed && !checkPlayer(curr_player.item.y * xrectnum + curr_player.item.x - xrectnum) && !curr_player.item.turn_end && !checkMonster((curr_player.item.y * xrectnum + curr_player.item.x - xrectnum)))
-    {
-        curr_player.item.y--;
-        curr_player.item.blks_moved++;
-        shifty.item = Math.max(shifty.item, -curry.item)
-        shiftx.item = Math.max(shiftx.item, -currx.item)
-        shifty.item = Math.min(shifty.item, yrectnum - curry.item - 2)
-        shiftx.item = Math.min(shiftx.item, xrectnum - curry.item - 2)
-        ptr.item = curr_player.item.y * xrectnum + curr_player.item.x;
-        // // console.log(ptr.item);
-    }
-    else if(!pause.item && !curr_player.item.in_combat && curr_player.item.health > 0 && seen_indices.item.includes(curr_player.item.x + curr_player.item.y*xrectnum) && curr_player.item.x + 1 < xrectnum && (key == right || key == key_d) && !game_maze[curr_player.item.y * 2 * xrectnum + curr_player.item.x * 2 + 1].getWall() && curr_player.item.blks_moved != curr_player.item.speed && !checkPlayer(curr_player.item.y * xrectnum + curr_player.item.x + 1) && !curr_player.item.turn_end && !checkMonster((curr_player.item.y * xrectnum + curr_player.item.x + 1)))
-    {
-        curr_player.item.x++;
-        curr_player.item.blks_moved++;
-        shifty.item = Math.max(shifty.item, -curry.item)
-        shiftx.item = Math.max(shiftx.item, -currx.item)
-        shifty.item = Math.min(shifty.item, yrectnum - curry.item - 2)
-        shiftx.item = Math.min(shiftx.item, xrectnum - curry.item - 2)
-        ptr.item = curr_player.item.y * xrectnum + curr_player.item.x;
-        // // console.log(ptr.item);
-    }
-    else if(!pause.item && !curr_player.item.in_combat && curr_player.item.health > 0 && seen_indices.item.includes(curr_player.item.x + curr_player.item.y*xrectnum) && curry.item + 1 < yrectnum && (key == down || key == key_s) && !game_maze[(curr_player.item.y) * 2 * xrectnum + curr_player.item.x * 2].getWall() && curr_player.item.blks_moved != curr_player.item.speed && !checkPlayer(curr_player.item.y * xrectnum + curr_player.item.x + xrectnum) && !curr_player.item.turn_end && !checkMonster((curr_player.item.y * xrectnum + curr_player.item.x + xrectnum)))
-    {
-        curr_player.item.y++;
-        curr_player.item.blks_moved++;
-        shifty.item = Math.max(shifty.item, -curry.item)
-        shiftx.item = Math.max(shiftx.item, -currx.item)
-        shifty.item = Math.min(shifty.item, yrectnum - curry.item - 2)
-        shiftx.item = Math.min(shiftx.item, xrectnum - curry.item - 2)
-        ptr.item = curr_player.item.y * xrectnum + curr_player.item.x;
-        // // console.log(ptr.item);
-    }
-    else if(key == key_esc && !pause.item)
-    {
-        //display screens
-        pause.item = true;
-        menu_container.visible = true
-        console.log("GAME IS pause.itemD");
+            // return;
+        }
+        else if(!curr_player.item.in_combat && curr_player.item.health > 0 && seen_indices.item.includes(curr_player.item.x + curr_player.item.y*xrectnum) && curr_player.item.x - 1 >= 0 && (key == left || key == key_a) && !game_maze[curr_player.item.y * 2 * xrectnum + curr_player.item.x * 2 - 1].getWall() && curr_player.item.blks_moved != curr_player.item.speed && !checkPlayer(curr_player.item.y * xrectnum + curr_player.item.x - 1) && !curr_player.item.turn_end && !checkMonster(curr_player.item.y * xrectnum + curr_player.item.x - 1))
+        {
+            curr_player.item.x--;
+            curr_player.item.blks_moved++;
+            shifty.item = Math.max(shifty.item, -curry.item)
+            shiftx.item = Math.max(shiftx.item, -currx.item)
+            shifty.item = Math.min(shifty.item, yrectnum - curry.item - 2)
+            shiftx.item = Math.min(shiftx.item, xrectnum - curry.item - 2)
+            ptr.item = curr_player.item.y * xrectnum + curr_player.item.x;
+            // // console.log(ptr.item);
+        }
+        else if(!curr_player.item.in_combat && curr_player.item.health > 0 && seen_indices.item.includes(curr_player.item.x + curr_player.item.y*xrectnum) && curr_player.item.y - 1 >= 0 && (key == up || key == key_w) && !game_maze[(curr_player.item.y - 1) * 2 * xrectnum + curr_player.item.x * 2].getWall() && curr_player.item.blks_moved != curr_player.item.speed && !checkPlayer(curr_player.item.y * xrectnum + curr_player.item.x - xrectnum) && !curr_player.item.turn_end && !checkMonster((curr_player.item.y * xrectnum + curr_player.item.x - xrectnum)))
+        {
+            curr_player.item.y--;
+            curr_player.item.blks_moved++;
+            shifty.item = Math.max(shifty.item, -curry.item)
+            shiftx.item = Math.max(shiftx.item, -currx.item)
+            shifty.item = Math.min(shifty.item, yrectnum - curry.item - 2)
+            shiftx.item = Math.min(shiftx.item, xrectnum - curry.item - 2)
+            ptr.item = curr_player.item.y * xrectnum + curr_player.item.x;
+            // // console.log(ptr.item);
+        }
+        else if(!curr_player.item.in_combat && curr_player.item.health > 0 && seen_indices.item.includes(curr_player.item.x + curr_player.item.y*xrectnum) && curr_player.item.x + 1 < xrectnum && (key == right || key == key_d) && !game_maze[curr_player.item.y * 2 * xrectnum + curr_player.item.x * 2 + 1].getWall() && curr_player.item.blks_moved != curr_player.item.speed && !checkPlayer(curr_player.item.y * xrectnum + curr_player.item.x + 1) && !curr_player.item.turn_end && !checkMonster((curr_player.item.y * xrectnum + curr_player.item.x + 1)))
+        {
+            curr_player.item.x++;
+            curr_player.item.blks_moved++;
+            shifty.item = Math.max(shifty.item, -curry.item)
+            shiftx.item = Math.max(shiftx.item, -currx.item)
+            shifty.item = Math.min(shifty.item, yrectnum - curry.item - 2)
+            shiftx.item = Math.min(shiftx.item, xrectnum - curry.item - 2)
+            ptr.item = curr_player.item.y * xrectnum + curr_player.item.x;
+            // // console.log(ptr.item);
+        }
+        else if(!curr_player.item.in_combat && curr_player.item.health > 0 && seen_indices.item.includes(curr_player.item.x + curr_player.item.y*xrectnum) && curry.item + 1 < yrectnum && (key == down || key == key_s) && !game_maze[(curr_player.item.y) * 2 * xrectnum + curr_player.item.x * 2].getWall() && curr_player.item.blks_moved != curr_player.item.speed && !checkPlayer(curr_player.item.y * xrectnum + curr_player.item.x + xrectnum) && !curr_player.item.turn_end && !checkMonster((curr_player.item.y * xrectnum + curr_player.item.x + xrectnum)))
+        {
+            curr_player.item.y++;
+            curr_player.item.blks_moved++;
+            shifty.item = Math.max(shifty.item, -curry.item)
+            shiftx.item = Math.max(shiftx.item, -currx.item)
+            shifty.item = Math.min(shifty.item, yrectnum - curry.item - 2)
+            shiftx.item = Math.min(shiftx.item, xrectnum - curry.item - 2)
+            ptr.item = curr_player.item.y * xrectnum + curr_player.item.x;
+            // // console.log(ptr.item);
+        }
+        else if(key == key_esc)
+        {
+            //display screens
+            pause.item = true;
+            menu_container.visible = true
+            console.log("GAME IS pause.itemD");
+        }
+        // else if(key == key_y) {
+        //     inventory_case.item = true
+        // }
     }
     else if(key == key_esc && pause.item)
     {
         //escape display
         pause.item = false;
         menu_container.visible = false
-        console.log("GAME IS UNpause.itemD");
+        // console.log("GAME IS UNpause.itemD");
     }
     else
         return null
@@ -416,6 +428,10 @@ function keyStart(e)
     // // console.log(game_map[ptr.item].biome);
     setPlays();
     update_health_bars();
+    if (pause.item) {
+        app.stage.removeChild(menu_container)
+        app.stage.addChild(menu_container)
+    }
     if (pop_up.item) {
         app.stage.addChild(pop_up_bubble.item)
     }

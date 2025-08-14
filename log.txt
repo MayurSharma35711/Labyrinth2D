@@ -636,3 +636,38 @@ TO DO:
 	- the inventory screen, info screen, etc. should all go in the main file as PIXI graphics
 - vivek's Jobs
 	- he needs to get the areas stuff working  
+
+8/13/25
+- (mayur)
+- current key bindings
+	- 1 2 3 4 swap between players
+	- wasd, arrows give movement or combat screen
+	- n starts and ends combat screen (normally)
+	- v starts and ends combat for x combat region
+	- p ends turn 
+	- ijkl do camera movement, h does camera centering
+	- r resizes game 
+	- e allows for chest, door interaction
+	- escape is to pause the game
+
+- MAYUR things to do 
+	- some combat stuff will have to be implemented by mouse 
+	- 'selecting' things or getting info should also be done by mouse
+	- i don't really like the way 'v' is being used 
+		- wasd, arrows, ijklh, r, p, combat button, e, esc, and an inventory button is enough buttons
+
+	- need to implement a selection / info screen 
+		- click on a tile, it gives info about the tile right below the tile
+			- click any button and it disappears 
+			- so it is similar to a pop-up but with more dictated location
+		- do something similar for monsters
+
+	- need to make an inventory + crafting screen
+		- maybe need to fix the key bindings, since i would be the best for this 
+		- o is probably a better combat button than n is 
+
+	- need to discuss armor and weapon implementations 
+		- the items listed in a chest should be clickable, so you can decide what to keep and what to leave
+
+	- it would also be pretty fun to start getting particle effects on the tiles 
+		- this could make the game laggy though, we'll see
