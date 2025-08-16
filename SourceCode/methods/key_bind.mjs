@@ -1,5 +1,5 @@
 import { total_visible_indices, get_view_sqr, get_view_range, adj_poses } from "../methods/graphics/visibility.mjs";
-import {game_map, game_maze, xrectnum, yrectnum, players, play_inds, curr_player, monsters, pause, menu_container, ptr, size, currx, curry, act_currx, act_curry, shiftx, shifty, chest_indices, chests, monster_indices, app, seen_indices, pop_up, pop_up_bubble} from "../vis_updated.mjs"
+import {game_map, game_maze, xrectnum, yrectnum, players, play_inds, curr_player, monsters, pause, menu_container, ptr, size, currx, curry, act_currx, act_curry, shiftx, shifty, chest_indices, chests, monster_indices, app, seen_indices, pop_up, pop_up_bubble, monster_spawn_indices, monster_spawns} from "../vis_updated.mjs"
 import { sight } from "./graphics/sight.mjs";
 import { x_view_range } from "./combat/inRangeFuncs.mjs";
 import { inRange } from "./combat/inRangeFuncs.mjs";
@@ -143,7 +143,10 @@ function keyStart(e)
             for (let t = 0; t < monsters.length; t++) {
                 monsters[t].resize(size.item, size.item)
             }
-            console.log(size.item)
+            for (let t = 0; t < monster_spawns.length; t++) {
+                monster_spawns[t].resize(size.item, size.item)
+            }
+            // console.log(size.item)
         }
         else if(key == key_i)
             shifty.item = Math.max(shifty.item - 1, -act_curry.item +1 )
@@ -410,7 +413,7 @@ function keyStart(e)
 // // console.log(currx.item,curry.item)
     // // console.log(currx.item, curry.item)
     
-    sight(game_map, game_maze, xrectnum, yrectnum, players, curr_player.item, monsters, ptr.item, size.item, currx.item, curry.item, chest_indices, chests, monster_indices, app);
+    sight(game_map, game_maze, xrectnum, yrectnum, players, curr_player.item, monsters, ptr.item, size.item, currx.item, curry.item, chest_indices, chests, monster_indices, monster_spawns, monster_spawn_indices, app);
     
     for (let t = 0; t < players.length; t++) {
         players[t].drawMe(size.item, size.item, currx.item, curry.item)

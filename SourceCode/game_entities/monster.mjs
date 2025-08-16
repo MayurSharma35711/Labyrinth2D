@@ -10,21 +10,13 @@ import { print_walls } from "../bkgnd_objs/mazegen.mjs";
 export class Monster extends Entities
 {
     brain_type;
-    constructor(tier, sizex, sizey, num_x, num_y, brain_type, map, sector_size)
+    constructor(tier, sizex, sizey, num_x, num_y, brain_type, map, sector_size, x, y)
     { 
         super();
         super.setSpeed((6 - tier));
         super.setStrength(6 - tier);
         super.setRange(Math.floor(0.5 * (6 - tier)));
         super.setProt((6 - tier), (2 * (6 - tier)));
-        let x = Math.floor(Math.random() * num_x)
-        let y = Math.floor(Math.random() * num_y)
-        let ind = x + num_x * y
-        while(map[ind].getBiome() == 9 || map[ind].getBiome() == -1 || map[ind].getBiome() == 10) {
-            x = Math.floor(Math.random() * num_x)
-            y = Math.floor(Math.random() * num_y)
-            ind = x + num_x * y
-        }
         super.setpos(x, y);
         super.setHealth((9 - tier) * 2);
         this.tier = tier

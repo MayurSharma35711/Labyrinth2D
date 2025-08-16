@@ -1,6 +1,10 @@
 
-import { monsters, monster_indices, xrectnum } from "../../vis_updated.mjs"
+import { monsters, monster_indices, monster_spawns, xrectnum, size, yrectnum, sect_size, game_map, play_inds, monster_spawn_indices } from "../../vis_updated.mjs"
+import { Monster } from "../monster.mjs"
 import { hunt_brain, hunt_flee_brain, patrol_brain, sniff_brain } from "./decisions.mjs"
+import { adj_poses } from "../../methods/graphics/visibility.mjs"
+import { spawn_mon } from "../others.mjs"
+
 
 export function take_game_turn(){
     console.log("game_turn")
@@ -22,7 +26,11 @@ export function take_game_turn(){
         else {
             console.log('unknown type')
         }
+        console.log("_____", k)
         monster_indices[k] = monsters[k].y * xrectnum + monsters[k].x;
-        console.log(monster_indices[k])
+        console.log(monster_indices[k], monsters[k].decision_state)
+    }
+    for (let k = 0; k < monster_spawns.length; k++) {
+        spawn_mon(monster_spawns[k])
     }
 }

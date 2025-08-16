@@ -14,6 +14,7 @@ import { genBiomes } from "./bkgnd_objs/mapgenV2.mjs";
 import {key_setup, setPlays} from "./methods/key_bind.mjs"
 import { Wrapper } from "./methods/datatypes.mjs";
 import { init_pause_menu, init_health_bars } from "./methods/displays/side_screen.mjs";
+import { MonsterSpawner } from "./game_entities/others.mjs";
 // /Users/mayur/Documents/Github/textures
 
 // // HERE WE LOAD THE TEXTURE REQUIRED FOR THE CODE TO RUN
@@ -53,7 +54,8 @@ let rooms = output[2];
 export let chests = output[3];
 export let ptr = new Wrapper(0);
 let monster_num = 4;
-let sect_size = 5
+let monster_spawn_num = 3;
+export const sect_size = 5
 // print_walls(game_maze, xrectnum, yrectnum)
 
 game_maze[0].exists = false;
@@ -90,6 +92,8 @@ let tier = 4;
 export let players = new Array(4);
 export let monsters = new Array(monster_num);
 export let monster_indices = new Array(monsters.length);
+export let monster_spawns = new Array(monster_spawn_num);
+export let monster_spawn_indices = new Array(monsters.length);
 export let currx = new Wrapper(0);
 export let curry = new Wrapper(0);
 export let act_currx = new Wrapper(0);
@@ -100,14 +104,35 @@ export let shifty = new Wrapper(0);
 for(let i = 0; i < monsters.length;i++)
 {
     // console.log((i % 5) + 1)
-    monsters[i] = new Monster(4, size.item, size.item, xrectnum, yrectnum, "patrol", game_map, sect_size);
+
+    let x = Math.floor(Math.random() * xrectnum)
+    let y = Math.floor(Math.random() * yrectnum)
+    let ind = x + xrectnum * y
+    while(game_map[ind].getBiome() == 9 || game_map[ind].getBiome() == -1 || game_map[ind].getBiome() == 10) {
+        x = Math.floor(Math.random() * xrectnum)
+        y = Math.floor(Math.random() * yrectnum)
+        ind = x + xrectnum * y
+    }
+    monsters[i] = new Monster(4, size.item, size.item, xrectnum, yrectnum, "patrol", game_map, sect_size, x, y);
 }
 
 for(let i = 0;i < monsters.length;i++)
 {
     monster_indices[i] = monsters[i].y * xrectnum + monsters[i].x;
 }
-players[0] = new Player(0, size.item, size.item, 3, 'vivek');
+
+for(let i = 0; i < monster_spawns.length;i++)
+{
+    // console.log((i % 5) + 1)
+    monster_spawns[i] = new MonsterSpawner(5, size.item, size.item, xrectnum, yrectnum, game_map, "spawn", "flee", 4)
+}
+
+for(let i = 0;i < monster_spawns.length;i++)
+{
+    monster_spawn_indices[i] = monster_spawns[i].y * xrectnum + monster_spawns[i].x;
+}
+
+players[0] = new Player(0, size.item, size.item, 40, 'vivek');
 players[1] = new Player(1, size.item, size.item, 1, 'jane');
 // players[1].y = 8;
 players[2] = new Player(2, size.item, size.item, 4, 'nikki');
@@ -185,11 +210,10 @@ for (let t = 0; t < players.length; t++) {
 //     // // console.log(players[t].x, players[t].y)
 //     app.stage.addChild(monsters[t].rect)
 // }
-
-sight(game_map, game_maze, xrectnum, yrectnum, players, curr_player.item, monsters, ptr.item, size.item, currx.item, curry.item, chest_indices, chests, monster_indices, app);
+console.log(monster_spawn_indices)
+sight(game_map, game_maze, xrectnum, yrectnum, players, curr_player.item, monsters, ptr.item, size.item, currx.item, curry.item, chest_indices, chests, monster_indices, monster_spawns, monster_spawn_indices, app);
 
 
 app.stage.addChild(tot_player_health[0])
 app.stage.addChild(menu_container)
 menu_container.visible = pause.item
-console.log(monsters)

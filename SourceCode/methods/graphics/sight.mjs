@@ -2,7 +2,7 @@ import { vis } from "../../vis_updated.mjs";
 import { walls } from "../../vis_updated.mjs";
 import { total_visible_indices, test_visible_indices, get_view_range, get_view_sqr, adj_poses } from "./visibility.mjs";
 // Sight uses visiblity code to show the map tiles and maze tiles that are visible
-export function sight(game_map, game_maze, xrectnum, yrectnum, players, curr_player, monsters, ptr, size, currx, curry, chest_indices, chests, monster_indices, app)
+export function sight(game_map, game_maze, xrectnum, yrectnum, players, curr_player, monsters, ptr, size, currx, curry, chest_indices, chests, monster_indices, entities, ent_inds, app)
 {
     while(vis.children[0])
     {
@@ -136,6 +136,38 @@ export function sight(game_map, game_maze, xrectnum, yrectnum, players, curr_pla
             // console.log(chests[i].y);
         }
     }
+
+
+    for(let i = 0;i < entities.length;i++)
+    {
+        app.stage.removeChild(entities[i].sprite);
+        if(entities[i].health <= 0)
+        {
+            delete entities[i];
+            delete ent_inds[i];
+        }
+        if(ent_inds[i] != undefined && map_indices.includes(ent_inds[i]))
+        {
+            // console.log(monster_indices[i], i)
+            entities[i].drawMe(size, size, currx, curry);
+            // console.log(entities[i].sprite)
+            // console.log(entities[i])
+            app.stage.addChild(entities[i].sprite);
+            // console.log("HERE");
+            // console.log(chests[i].x);
+            // console.log(chests[i].y);
+        }
+    }
+    for(let i = 0;i < entities.length;i++)
+    {
+        if(ent_inds[i] == undefined)
+        {
+            entities.splice(i, 1);
+            ent_inds.splice(i, 1);
+        }
+    }
+
+
     for(let i = 0;i < monsters.length;i++)
     {
         app.stage.removeChild(monsters[i].rect);
@@ -162,6 +194,7 @@ export function sight(game_map, game_maze, xrectnum, yrectnum, players, curr_pla
             monster_indices.splice(i, 1);
         }
     }
+
     if(curr_player.in_combat)
     {
         // console.log(game_map[range[0]].sprite.saturation)

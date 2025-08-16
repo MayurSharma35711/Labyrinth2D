@@ -76,6 +76,12 @@ export function init_pause_menu(app){
     return menuContainer
 }
 
+export function player_card(app, player) {
+    const player_card = new PIXI.Container()
+    let index = player.player_ind
+    
+}
+
 
 export function init_health_bars(app, players){
     const health_bars = new PIXI.Container();
