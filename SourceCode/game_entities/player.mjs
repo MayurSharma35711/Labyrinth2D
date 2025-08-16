@@ -46,8 +46,8 @@ export class Player extends Entities
         else if (this.player_ind == 3)
             this.sprite = PIXI.Sprite.from('https://mayursharma35711.github.io/Labyrinth2D/textures/sprites/caricature.png');
         
-        this.sprite.width = sizex/2
-        this.sprite.height = sizey/2
+        this.sprite.width = sizex * 3 / 4  
+        this.sprite.height = sizey * 3 / 4
 
         this.rect = new PIXI.Graphics();
         this.rect.rect(0, 0, sizex/2, sizey/2);
@@ -105,8 +105,8 @@ export class Player extends Entities
         }
         this.rect.x = (this.x - currx + 0.25) * sizex + Math.floor(tot_width / 2)
         this.rect.y = (this.y - curry + 0.25) * sizey + Math.floor(tot_height / 2)
-        this.sprite.x = (this.x - currx + 0.25) * sizex + Math.floor(tot_width / 2)
-        this.sprite.y = (this.y - curry + 0.25) * sizey + Math.floor(tot_height / 2)
+        this.sprite.x = (this.x - currx + 1 / 8) * sizex + Math.floor(tot_width / 2)
+        this.sprite.y = (this.y - curry + 1 / 8) * sizey + Math.floor(tot_height / 2)
         this.bkg_rect.x = this.rect.x
         this.bkg_rect.y = this.rect.y
         // console.log(this.rect.x, this.rect.y)
@@ -117,8 +117,8 @@ export class Player extends Entities
         this.bkg_rect.height = sizey / 2 + sizey/10
         this.rect.width = sizex / 2
         this.rect.height = sizey / 2
-        this.sprite.width = sizex / 2
-        this.sprite.height = sizey / 2
+        this.sprite.width = sizex * 3 / 4
+        this.sprite.height = sizey * 3 / 4
     }
     // moveMe(cell_sizex, cell_sizey, ax, ay)
     // {

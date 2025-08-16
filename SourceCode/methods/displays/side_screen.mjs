@@ -133,5 +133,6 @@ export function update_health_bars(){
         indiv_health[k].width = Math.max(0, (app.screen.width / 8 - app.screen.width / 100) * players[k].health / 10)
         indiv_health[k].x = indiv_health[k].x - (init_width - indiv_health[k].width) / 2
     }
-
+    app.stage.removeChild(tot_player_health[0])
+    app.stage.addChild(tot_player_health[0])
 }

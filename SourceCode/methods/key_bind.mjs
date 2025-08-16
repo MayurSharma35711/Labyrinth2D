@@ -143,6 +143,7 @@ function keyStart(e)
             for (let t = 0; t < monsters.length; t++) {
                 monsters[t].resize(size.item, size.item)
             }
+            console.log(size.item)
         }
         else if(key == key_i)
             shifty.item = Math.max(shifty.item - 1, -act_curry.item +1 )

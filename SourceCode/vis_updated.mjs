@@ -33,7 +33,7 @@ import { init_pause_menu, init_health_bars } from "./methods/displays/side_scree
 
 // HERE WE CREATE OUR ACTUAL MAP FOR THE GAME
 export const app = new PIXI.Application();
-export let size = new Wrapper(40);
+export let size = new Wrapper(80);
 export const tot_width = window.innerWidth
 export const tot_height = window.innerHeight
 await app.init({ width: tot_width, height: tot_height });
@@ -176,7 +176,7 @@ for (let t = 0; t < players.length; t++) {
     players[t].drawMe(size.item, size.item, currx.item, curry.item)
     // // console.log(players[t].x, players[t].y)
     app.stage.addChild(players[t].bkg_rect)
-    app.stage.addChild(players[t].rect)
+    // app.stage.addChild(players[t].rect)
     app.stage.addChild(players[t].sprite)
 }
 
