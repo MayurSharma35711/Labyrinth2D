@@ -1,5 +1,12 @@
 import { Entities } from "./entity_classes.mjs";
 import { size, tot_height, tot_width } from "../vis_updated.mjs";
+
+// HERE WE LOAD THE TEXTURE REQUIRED FOR THE CODE TO RUN
+await PIXI.Assets.load('https://mayursharma35711.github.io/Labyrinth2D/textures/sprites/stick_man.png');
+await PIXI.Assets.load('https://mayursharma35711.github.io/Labyrinth2D/textures/sprites/devil_man.png');
+await PIXI.Assets.load('https://mayursharma35711.github.io/Labyrinth2D/textures/sprites/indian.png');
+await PIXI.Assets.load('https://mayursharma35711.github.io/Labyrinth2D/textures/sprites/caricature.png');
+
 export class Player extends Entities
 {
     constructor( player_ind, sizex, sizey, vis_tier, name)
@@ -29,6 +36,19 @@ export class Player extends Entities
         this.atk_str = true;
         this.range_type = "regular";
         
+        this.sprite;
+        if (this.player_ind == 0)
+            this.sprite = PIXI.Sprite.from('https://mayursharma35711.github.io/Labyrinth2D/textures/sprites/stick_man.png');
+        else if (this.player_ind == 1)
+            this.sprite = PIXI.Sprite.from('https://mayursharma35711.github.io/Labyrinth2D/textures/sprites/devil_man.png');
+        else if (this.player_ind == 2)
+            this.sprite = PIXI.Sprite.from('https://mayursharma35711.github.io/Labyrinth2D/textures/sprites/indian.png');
+        else if (this.player_ind == 3)
+            this.sprite = PIXI.Sprite.from('https://mayursharma35711.github.io/Labyrinth2D/textures/sprites/caricature.png');
+        
+        this.sprite.width = sizex/2
+        this.sprite.height = sizey/2
+
         this.rect = new PIXI.Graphics();
         this.rect.rect(0, 0, sizex/2, sizey/2);
         if (this.player_ind == 0)
@@ -66,21 +86,27 @@ export class Player extends Entities
             
             if (this.player_ind == 0) {
                 this.rect.tint = 0x770000;
+                this.sprite.alpha = 0.5;
             }
             else if (this.player_ind == 1) {
                 // console.log('hi')
                 this.rect.tint = 0x007700;
+                this.sprite.alpha = 0.5;
             }
             else if (this.player_ind == 2) {
                 this.rect.tint= 0x000077;
+                this.sprite.alpha = 0.5;
             }
             else if (this.player_ind == 3) {
                 // console.log("here")
                 this.rect.tint = 0x770077;
+                this.sprite.alpha = 0.5;
             }
         }
         this.rect.x = (this.x - currx + 0.25) * sizex + Math.floor(tot_width / 2)
         this.rect.y = (this.y - curry + 0.25) * sizey + Math.floor(tot_height / 2)
+        this.sprite.x = (this.x - currx + 0.25) * sizex + Math.floor(tot_width / 2)
+        this.sprite.y = (this.y - curry + 0.25) * sizey + Math.floor(tot_height / 2)
         this.bkg_rect.x = this.rect.x
         this.bkg_rect.y = this.rect.y
         // console.log(this.rect.x, this.rect.y)
@@ -91,6 +117,8 @@ export class Player extends Entities
         this.bkg_rect.height = sizey / 2 + sizey/10
         this.rect.width = sizex / 2
         this.rect.height = sizey / 2
+        this.sprite.width = sizex / 2
+        this.sprite.height = sizey / 2
     }
     // moveMe(cell_sizex, cell_sizey, ax, ay)
     // {
