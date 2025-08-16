@@ -695,3 +695,12 @@ TO DO:
 - (mayur)
 - have character's dying working the way you expect (need to create a game over screen for player 1 dying)
 - there looks to be some bug in the monster AI, could be good to test it out, seems like monsters are vanishing
+
+8/15/25
+- (mayur)
+- spoke with nikki
+	- clarified some turn stuff
+	- drew up model for how screen should look 
+	- drew up model for how selector screen should look 
+- implemented some terrible looking sprites
+	- this one is kind of a big deal :) 
