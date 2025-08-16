@@ -1,105 +1,90 @@
 import { vis } from "../vis_updated.mjs";
+import { Equipment } from "./item_class.mjs";
 import { make_pop_up_menu } from "../methods/displays/pop_up.mjs";
 await PIXI.Assets.load('https://mayursharma35711.github.io/Labyrinth2D/textures/items/Chests.png');
 await PIXI.Assets.load('https://mayursharma35711.github.io/Labyrinth2D/textures/items/ChestsOpen.png');
 
 // SourceCode/game_entities/monster.mjs
-class equipment
+
+class pistol extends Equipment
 {
     constructor()
     {
-        this.strength_boost = 0;
-        this.speed_boost = 0;
-        this.prot_boost = 0;
-        this.durability_boost = 0;
-        this.range_boost = 0;
-        this.health_boost = 0;
-        this.vis_boost = 0;
-    }
-    setName(name)
-    {
-        this.name = name;
-    }
-}
-class pistol extends equipment
-{
-    constructor()
-    {
-        super();
+        super("pistol");
         super.strength_boost = 2;
         super.range_boost = 2; 
-        super.setName("pistol");
+        // super.setName();
     }
 }
-class rocket_launcher extends equipment
+class rocket_launcher extends Equipment
 {
     constructor()
     {
-        super();
+        super("rocket_launcher");
         super.strength_boost = 7;
         super.range_boost = 3;
-        super.setName("rocket_launcher");
+        // super.setName();
     }
 }
-class bow extends equipment
+class bow extends Equipment
 {
     constructor()
     {
-        super();
+        super("bow");
         super.strength_boost = 4;
         super.range_boost = 2;
-        super.setName("bow");
+        // super.setName();
     }
 }
-class crossbow extends equipment
+class crossbow extends Equipment
 {
     constructor()
     {
-        super();
+        super("crossbow");
         super.strength_boost = 4;
         super.range_boost = 3;
-        super.setName("crossbow");
+        // super.setName();
     }
 }
-class snowBoots extends equipment
+class snowBoots extends Equipment
 {
     constructor()
     {
-        super();
+        super("snowBoots");
         super.speed_boost = 2;
-        super.setName("snowBoots");
+        // super.setName();
     }
 }
-class chestplate extends equipment
+class chestplate extends Equipment
 {
     constructor()
     {
-        super();
+        super("chestplate");
         let tier = Math.floor(Math.random() * 4);
         super.prot_boost = (6 - tier);
         super.durability_boost = (9 - tier);
-        super.setName("chestplate");
+        // super.setName();
     }
 }
-class helmet extends equipment
+class helmet extends Equipment
 {
     constructor()
     {
-        super();
+        super("helmet");
         let tier = Math.floor(Math.random() * 4);
         super.prot_boost = 2;
         super.durability_boost = (11 - tier);
         super.vis_boost = 1;
-        super.setName("helmet");
+        // super.setName();
     }
 }
-class binoculars extends equipment
+class binoculars extends Equipment
 {
     constructor()
     {
-        super();
+        super("binoculars");
         super.vis_boost = 4;
-        super.setName("binoculars");
+        // super.setName();
     }
 }
 export class chest

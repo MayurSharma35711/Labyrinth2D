@@ -1,6 +1,6 @@
 import { map_init } from "./bkgnd_objs/mapgen.mjs";
 import { maze_init2 } from "./bkgnd_objs/mazegen.mjs";
-import { chest_gen } from "./game_entities/equipment.mjs";
+import { chest_gen } from "./items/equipment.mjs";
 import { maze_check } from "./bkgnd_objs/rooms.mjs";
 import { multiRooms, precise_rooms } from "./bkgnd_objs/rooms.mjs";
 import { full_dungeon } from "./bkgnd_objs/dungeon.mjs";

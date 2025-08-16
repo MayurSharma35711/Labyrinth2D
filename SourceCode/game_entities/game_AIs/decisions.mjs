@@ -67,47 +67,38 @@ export function monster_combat_range(center_x, center_y, numx, numy, tier, game_
 }
 
 function follow_path(monster) {
-    // this extra case is a redundacy checked to aboid disappearing monsters
-    if (monster.cur_path.length <= monster.speed) {
-        let final_site = monster.cur_path[monster.cur_path.length - 1]
-        monster.cur_path = [final_site]
-        monster.x = final_site % xrectnum
-        monster.y = Math.floor(final_site / xrectnum)
-    }
-    else {
-        let next_ind = Math.min(monster.speed - 1, monster.cur_path.length - 1)
-        let indices_to_travel = monster.cur_path.slice(0, next_ind + 1)
+    let next_ind = Math.min(monster.speed - 1, monster.cur_path.length - 1)
+    let indices_to_travel = monster.cur_path.slice(0, next_ind + 1)
 
-        
-        let blocked_index = -1
-        for (let l = 0; l < players.length; l++) {
-            let test_ind = players[l].y * xrectnum + players[l].x
-            let inside_list = indices_to_travel.indexOf(test_ind)
-            if (inside_list != -1 && (inside_list < blocked_index || blocked_index == -1) )
-                blocked_index = inside_list
-        }
-        for (let l = 0; l < monsters.length; l++) {
-            let test_ind = monsters[l].y * xrectnum + monsters[l].x
-            let inside_list = indices_to_travel.indexOf(test_ind)
-            if (inside_list != -1 && (inside_list < blocked_index || blocked_index == -1) )
-                blocked_index = inside_list
-        }
-        // console.log("travel info")
-        if (blocked_index != -1) {
-            if (blocked_index != 0) {
-                next_ind = blocked_index - 1
-                let new_loc = monster.cur_path[next_ind]
-                monster.x = new_loc % xrectnum
-                monster.y = Math.floor(new_loc / xrectnum)
-                monster.cur_path = monster.cur_path.slice(next_ind + 1)
-            }
-        }
-        else {
+    
+    let blocked_index = -1
+    for (let l = 0; l < players.length; l++) {
+        let test_ind = players[l].y * xrectnum + players[l].x
+        let inside_list = indices_to_travel.indexOf(test_ind)
+        if (inside_list != -1 && (inside_list < blocked_index || blocked_index == -1) )
+            blocked_index = inside_list
+    }
+    for (let l = 0; l < monsters.length; l++) {
+        let test_ind = monsters[l].y * xrectnum + monsters[l].x
+        let inside_list = indices_to_travel.indexOf(test_ind)
+        if (inside_list != -1 && (inside_list < blocked_index || blocked_index == -1) )
+            blocked_index = inside_list
+    }
+    // console.log("travel info")
+    if (blocked_index != -1) {
+        if (blocked_index != 0) {
+            next_ind = blocked_index - 1
             let new_loc = monster.cur_path[next_ind]
             monster.x = new_loc % xrectnum
             monster.y = Math.floor(new_loc / xrectnum)
             monster.cur_path = monster.cur_path.slice(next_ind + 1)
         }
+    }
+    else {
+        let new_loc = monster.cur_path[next_ind]
+        monster.x = new_loc % xrectnum
+        monster.y = Math.floor(new_loc / xrectnum)
+        monster.cur_path = monster.cur_path.slice(next_ind + 1)
     }
     
 }
