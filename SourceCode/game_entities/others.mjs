@@ -7,7 +7,7 @@ import { hunt_brain, hunt_flee_brain, patrol_brain, sniff_brain } from "./game_A
 import { adj_poses } from "../methods/graphics/visibility.mjs"
 import { blocked } from "../methods/graphics/visibility.mjs";
 
-await PIXI.Assets.load('../../textures/sprites/monster_spawner_beta.png');
+await PIXI.Assets.load('https://mayursharma35711.github.io/Labyrinth2D/textures/sprites/monster_spawner_beta.png');
 
 export class Other extends Entities
 {
@@ -23,7 +23,7 @@ export class Other extends Entities
 export class MonsterSpawner extends Entities {
     constructor(tier, sizex, sizey, num_x, num_y, map, label, type, freq) {
         super()
-        this.sprite = PIXI.Sprite.from('../../textures/sprites/monster_spawner_beta.png');
+        this.sprite = PIXI.Sprite.from('https://mayursharma35711.github.io/Labyrinth2D/textures/sprites/monster_spawner_beta.png');
         this.sprite.width = sizex * 3 / 4
         this.sprite.height = sizey * 3 / 4
         let x = Math.floor(Math.random() * num_x)
