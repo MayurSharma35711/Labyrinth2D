@@ -1,5 +1,5 @@
 import { total_visible_indices, get_view_sqr, get_view_range, adj_poses } from "../methods/graphics/visibility.mjs";
-import {game_map, game_maze, xrectnum, yrectnum, players, play_inds, curr_player, monsters, pause, menu_container, ptr, size, currx, curry, act_currx, act_curry, shiftx, shifty, chest_indices, chests, monster_indices, app, seen_indices, pop_up, pop_up_bubble, monster_spawn_indices, monster_spawns} from "../vis_updated.mjs"
+import {game_map, game_maze, xrectnum, yrectnum, players, play_inds, curr_player, monsters, pause, menu_container, ptr, size, currx, curry, act_currx, act_curry, shiftx, shifty, chest_indices, chests, monster_indices, app, seen_indices, pop_up, pop_up_bubble, selector, selector_bubble, monster_spawn_indices, monster_spawns} from "../vis_updated.mjs"
 import { sight } from "./graphics/sight.mjs";
 import { x_view_range } from "./combat/inRangeFuncs.mjs";
 import { inRange } from "./combat/inRangeFuncs.mjs";
@@ -370,6 +370,13 @@ function keyStart(e)
             menu_container.visible = true
             console.log("GAME IS pause.itemD");
         }
+        if (key != key_esc && key != keyone && key != keytwo && key != keythree && key != keyfour) {
+            if (selector.item) {
+                app.stage.removeChild(selector_bubble.item)
+                selector.item = false
+                selector_bubble.item = false
+            }
+        }
         // else if(key == key_y) {
         //     inventory_case.item = true
         // }
@@ -432,11 +439,20 @@ function keyStart(e)
     // // console.log(game_map[ptr.item].biome);
     setPlays();
     update_health_bars();
-    if (pause.item) {
-        app.stage.removeChild(menu_container)
-        app.stage.addChild(menu_container)
+    if (selector.item) {
+        app.stage.addChild(selector_bubble.item)
     }
     if (pop_up.item) {
         app.stage.addChild(pop_up_bubble.item)
     }
+    if (pause.item) {
+        if (selector_bubble.item) {
+            app.stage.removeChild(selector_bubble.item)
+            selector.item = false
+            selector_bubble.item = false
+        }
+        app.stage.removeChild(menu_container)
+        app.stage.addChild(menu_container)
+    }
+    
 }

@@ -45,6 +45,9 @@ export const pause = new Wrapper(false)
 export const pop_up = new Wrapper(false)
 export const pop_up_bubble = new Wrapper(false)
 
+export const selector = new Wrapper(false)
+export const selector_bubble = new Wrapper(false)
+
 export let xrectnum = 20;
 export let yrectnum = 20;
 let output = init_bkgnd(xrectnum, yrectnum);
@@ -93,7 +96,7 @@ export let players = new Array(4);
 export let monsters = new Array(monster_num);
 export let monster_indices = new Array(monsters.length);
 export let monster_spawns = new Array(monster_spawn_num);
-export let monster_spawn_indices = new Array(monsters.length);
+export let monster_spawn_indices = new Array(monster_spawns.length);
 export let currx = new Wrapper(0);
 export let curry = new Wrapper(0);
 export let act_currx = new Wrapper(0);
@@ -132,7 +135,7 @@ for(let i = 0;i < monster_spawns.length;i++)
     monster_spawn_indices[i] = monster_spawns[i].y * xrectnum + monster_spawns[i].x;
 }
 
-players[0] = new Player(0, size.item, size.item, 40, 'vivek');
+players[0] = new Player(0, size.item, size.item, 3, 'vivek');
 players[1] = new Player(1, size.item, size.item, 1, 'jane');
 // players[1].y = 8;
 players[2] = new Player(2, size.item, size.item, 4, 'nikki');

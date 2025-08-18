@@ -1,5 +1,7 @@
 // import { plain_text, lava_text, rocky_text } from "../map_graphics2.mjs";
-import { vis } from "../vis_updated.mjs";
+import { vis, app, pause } from "../vis_updated.mjs";
+import { selector, selector_bubble } from "../vis_updated.mjs";
+import { make_selector } from "../methods/displays/pop_up.mjs";
 import { genBiomes } from "./mapgenV2.mjs";
 import { VectorBiomes } from "./mapgenV2.mjs";
 
@@ -16,6 +18,52 @@ await PIXI.Assets.load('https://mayursharma35711.github.io/Labyrinth2D/textures/
 await PIXI.Assets.load('https://mayursharma35711.github.io/Labyrinth2D/textures/bkgnd/Dungeon.png');
 await PIXI.Assets.load('https://mayursharma35711.github.io/Labyrinth2D/textures/bkgnd/blank.png');
 await PIXI.Assets.load('https://mayursharma35711.github.io/Labyrinth2D/textures/bkgnd/RoomFloor.png');
+
+function print_out_biome(tile) {
+	let str = ""
+	switch(tile.biome)
+	{
+	case 1:
+		str += "grass"
+		// console.log("Complete");
+		break;
+	case 5:
+		str += "desert"
+		break;
+	case 7:
+		str += "shadows"
+		break;
+	case 6:
+		str += "volcano"
+		break;
+	case 4:
+		str += "rainforest"
+		break;
+	case 8:
+		str += "ooze"
+		break;
+	case 2:
+		str += "mountain"
+		break;
+	case 3:
+		str += "snow"
+		break;
+	case 0:
+		str += "water"
+		break;
+	case 9:
+		// console.log("roomfloor")
+		str += "room"
+		break;
+	case 10:
+		// console.log("dungeon")
+		str += "dungeon"
+		break;
+	default:
+		str = ""
+	}
+	return str
+}
 
 export class Tile {
 	biome = 0;
@@ -148,7 +196,49 @@ export class Tile {
 		// }
         this.sprite.width = cell_width;
         this.sprite.height = cell_height;
+
+		this.sprite.interactive = true;
+		this.sprite.buttonMode = true; // Changes cursor on hover
+		
+		
+
+		this.sprite.on('pointerdown', () => {
+			if (!pause.item && this.biome != -1) {
+				if (selector.item) {
+					app.stage.removeChild(selector_bubble.item)
+				}
+
+				let bubblex = this.sprite.x + app.screen.width / 2 + this.sprite.width * 1/5
+				let bubbley = this.sprite.y + app.screen.height / 2 - this.sprite.width * 1/5
+				let cellx = this.sprite.x + app.screen.width / 2
+				let celly = this.sprite.y + app.screen.height / 2
+				let cell_width = this.sprite.width
+				let cell_height = this.sprite.height
+				
+				selector_bubble.item = make_selector(bubblex, bubbley, 100, 50, print_out_biome(this), cellx, celly, cell_width, cell_height, this.biome)
+				// console.log(this.sprite.x + app.screen.width / 2, this.sprite.y + app.screen.height / 2)
+				app.stage.addChild(selector_bubble.item)
+				// console.log('selector case!', selector.item);
+			}
+			// Add logic to start game or transition to another scene
+		});
+
+		const border_rect = new PIXI.Graphics();
+		border_rect.rect(this.sprite.x, this.sprite.y, this.sprite.width, this.sprite.height);
+		border_rect.fill(0x000000, 0.3); // change this color depending on what the biome itself is
+		
+		border_rect.visible = false
+		this.sprite.on('mouseover', () => {
+			if (!pause.item && this.biome != -1)
+				border_rect.visible = true
+		})
+		this.sprite.on('mouseout', () => {
+			if (!pause.item && this.biome != -1)
+				border_rect.visible = false
+		})
+
         vis.addChild(this.sprite);
+		vis.addChild(border_rect)
 		// this.tile_image = new PIXI.Graphics();
 		// this.tile_image.beginFill(this.color);
 		// this.tile_image.drawRect((cell_width)*this.ind_x, (cell_height)*this.ind_y,cell_width,cell_height);

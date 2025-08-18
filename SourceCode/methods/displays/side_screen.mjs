@@ -76,9 +76,15 @@ export function init_pause_menu(app){
     return menuContainer
 }
 
-export function player_card(app, player) {
+export function init_player_card(player, sizex, sizey) {
     const player_card = new PIXI.Container()
     let index = player.player_ind
+    let namer = player.name
+    let spriter = player.sprite
+
+    
+    // this contains the player name, player sprite, player health bar, and maybe some of their status effects 
+    // probably need to make a class just for status effects
     
 }
 
