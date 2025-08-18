@@ -201,7 +201,17 @@ function keyStart(e)
         else if(key == key_n && !curr_player.item.turn_end)
         {
             // just need to concatenate other entities here and can do damage to anything then
-            let entities = players.concat(monsters)
+
+            let attPlayers = [];
+            for(let i = 0;i < players.length;i++)
+            {
+                if(curr_player.item.play_inds == i)
+                {
+                    continue;
+                }
+                attPlayers.push(players[i]);
+            }
+            let entities = attPlayers.concat(monsters)
             let entities_inds = play_inds.concat(monster_indices)
             if(curr_player.item.in_combat && curr_player.item.range_type == "xrange")
             {
@@ -261,8 +271,11 @@ function keyStart(e)
                     curr_player.item.turn_end = true;
                     curr_player.item.in_combat = false;
                 }
-                if(!hit) //This will also just run through the entire function so even if it hits the rigth functino will be carried out
+                                    console.log("PTR = " + ptr.item);
+
+                if(!hit || ptr.item == curr_player.item.x + curr_player.item.y * xrectnum) //This will also just run through the entire function so even if it hits the rigth functino will be carried out
                 {
+                    console.log(ptr.item);
                     curr_player.item.in_combat = false;
                     ptr.item = curr_player.item.y * xrectnum + curr_player.item.x;
                 }
