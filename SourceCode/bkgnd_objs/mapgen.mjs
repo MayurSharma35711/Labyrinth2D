@@ -1,5 +1,5 @@
 // import { plain_text, lava_text, rocky_text } from "../map_graphics2.mjs";
-import { vis, app, pause } from "../vis_updated.mjs";
+import { vis, app, pause, size } from "../vis_updated.mjs";
 import { selector, selector_bubble } from "../vis_updated.mjs";
 import { make_selector } from "../methods/displays/pop_up.mjs";
 import { genBiomes } from "./mapgenV2.mjs";
@@ -203,19 +203,20 @@ export class Tile {
 		
 
 		this.sprite.on('pointerdown', () => {
+			// console.log("biome")
 			if (!pause.item && this.biome != -1) {
 				if (selector.item) {
 					app.stage.removeChild(selector_bubble.item)
 				}
 
-				let bubblex = this.sprite.x + app.screen.width / 2 + this.sprite.width * 1/5
-				let bubbley = this.sprite.y + app.screen.height / 2 - this.sprite.width * 1/5
+				let bubblex = this.sprite.x + app.screen.width / 2 // + size.item * 1/5
+				let bubbley = this.sprite.y + app.screen.height / 2 // - size.item * 1/5
 				let cellx = this.sprite.x + app.screen.width / 2
 				let celly = this.sprite.y + app.screen.height / 2
 				let cell_width = this.sprite.width
 				let cell_height = this.sprite.height
 				
-				selector_bubble.item = make_selector(bubblex, bubbley, 100, 50, print_out_biome(this), cellx, celly, cell_width, cell_height, this.biome)
+				selector_bubble.item = make_selector(bubblex, bubbley, 100, 50, print_out_biome(this), 0x70AABB, 0xAAAA00, cellx, celly, cell_width, cell_height, this.biome)
 				// console.log(this.sprite.x + app.screen.width / 2, this.sprite.y + app.screen.height / 2)
 				app.stage.addChild(selector_bubble.item)
 				// console.log('selector case!', selector.item);

@@ -708,3 +708,10 @@ TO DO:
 8/16/25
 - (mayur)
 	- built a monster spawner
+
+8/18/25
+- (mayur)
+	- created a selector screen for tiles, monsters, and monster spawners
+	- the code for new spawners can literally be copied onto anything else now, just copy-paste it where needed
+- (vivek)
+	- fixed a bug in the combat selection screen

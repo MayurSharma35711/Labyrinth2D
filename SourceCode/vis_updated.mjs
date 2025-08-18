@@ -135,7 +135,7 @@ for(let i = 0;i < monster_spawns.length;i++)
     monster_spawn_indices[i] = monster_spawns[i].y * xrectnum + monster_spawns[i].x;
 }
 
-players[0] = new Player(0, size.item, size.item, 3, 'vivek');
+players[0] = new Player(0, size.item, size.item, 40, 'vivek');
 players[1] = new Player(1, size.item, size.item, 1, 'jane');
 // players[1].y = 8;
 players[2] = new Player(2, size.item, size.item, 4, 'nikki');

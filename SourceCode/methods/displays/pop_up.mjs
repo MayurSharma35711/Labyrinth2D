@@ -61,7 +61,7 @@ export function make_pop_up_menu(sizex, sizey, text){
 
 
 
-export function make_selector(locx, locy, sizex, sizey, text, cell_locx, cell_locy, cell_sizex, cell_sizey, cell_biome){
+export function make_selector(locx, locy, sizex, sizey, text, color, highcolor, cell_locx, cell_locy, cell_sizex, cell_sizey, cell_biome = 15){
     // most of this code was directly copied from the Google response
 
     const tot_container = new PIXI.Container()
@@ -73,12 +73,12 @@ export function make_selector(locx, locy, sizex, sizey, text, cell_locx, cell_lo
     const highlight_rect = new PIXI.Graphics();
     highlight_rect.rect(0, 0, cell_sizex, cell_sizey);
     // console.log(cell_locx, cell_locy, cell_sizex, cell_sizey)
-    highlight_rect.fill(0xAAAA00, 0.5); // change this color depending on what the biome itself is
+    highlight_rect.fill(highcolor, 0.5); // change this color depending on what the biome itself is
     highlight_container.addChild(highlight_rect)
 
 
     const selector_container = new PIXI.Container();
-    selector_container.position.set(locx + sizex, locy); // Center the menu
+    selector_container.position.set(cell_locx + 3 * cell_sizex / 4 + sizex / 2, cell_locy - cell_sizey / 4); // Center the menu
     selector_container.pivot.set(selector_container.width / 2, selector_container.height / 2); // Set pivot for centering
 
     const border_rect = new PIXI.Graphics();
@@ -88,7 +88,7 @@ export function make_selector(locx, locy, sizex, sizey, text, cell_locx, cell_lo
 
     const bkg_rect = new PIXI.Graphics();
     bkg_rect.rect(-sizex / 2, -sizey / 2, sizex, sizey);
-    bkg_rect.fill(0x70AABB);
+    bkg_rect.fill(color);
     // bkg_rect.alpha = 0.5
     selector_container.addChild(bkg_rect)
 

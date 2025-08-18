@@ -1,10 +1,13 @@
 import { Entities } from "./entity_classes.mjs";
 import { find_sector, get_sector_indices } from "./game_AIs/path_finding_nodes.mjs";
-import { game_maze, maze_dicter, xrectnum } from "../vis_updated.mjs";
+import { game_maze, maze_dicter, xrectnum, app } from "../vis_updated.mjs";
 import { Astar_maze, heur_l2sqr } from "./game_AIs/path_finding.mjs";
 import { monster_state } from "./game_AIs/decisions.mjs";
 import { tot_height, tot_width } from "../vis_updated.mjs";
 import { print_walls } from "../bkgnd_objs/mazegen.mjs";
+import { print_state } from "./game_AIs/decisions.mjs";
+import { pause, selector, selector_bubble } from "../vis_updated.mjs";
+import { make_selector } from "../methods/displays/pop_up.mjs";
 
 // shoudl have isOccupied condition for tile, so that if monsters or players are on tile, you can't move onto it
 export class Monster extends Entities
@@ -142,6 +145,32 @@ export class Monster extends Entities
         this.rect.height = sizey / 2
         this.rect.x = (this.x - currx + 0.25) * sizex + Math.floor(tot_width / 2)
         this.rect.y = (this.y - curry + 0.25) * sizey + Math.floor(tot_height / 2)
+
+
+        this.rect.interactive = true;
+        this.rect.buttonMode = true;
+        this.rect.on('pointerdown', () => {
+            if (!pause.item) {
+                console.log("here")
+                if (selector.item) {
+                    app.stage.removeChild(selector_bubble.item)
+                }
+
+                let bubblex = this.rect.x 
+                let bubbley = this.rect.y
+                let cellx = this.rect.x - this.rect.width * 1/4
+                let celly = this.rect.y - this.rect.width * 1/4
+                let cell_width = 2 * this.rect.width
+                let cell_height = 2 * this.rect.height
+                let str2print = this.tier + "; " + this.brain_type
+                
+                selector_bubble.item = make_selector(bubblex, bubbley, 100, 50, str2print, 0x2088AA, 0xAA0000, cellx, celly, cell_width * 3 / 4, cell_height * 3 / 4)
+                // console.log(this.sprite.x + app.screen.width / 2, this.sprite.y + app.screen.height / 2)
+                app.stage.addChild(selector_bubble.item)
+                // console.log('selector case!', selector.item);
+            }
+            // Add logic to start game or transition to another scene
+        });
     }
     resize (sizex, sizey) {
         this.rect.width = sizex / 2

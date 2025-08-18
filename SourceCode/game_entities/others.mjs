@@ -1,7 +1,7 @@
 import { Entities } from "./entity_classes.mjs";
 import { size, tot_height, tot_width } from "../vis_updated.mjs";
-
-import { monsters, monster_indices, monster_spawns, xrectnum, yrectnum, sect_size, game_map, play_inds, monster_spawn_indices } from "../vis_updated.mjs"
+import { make_selector } from "../methods/displays/pop_up.mjs";
+import { monsters, monster_indices, app, pause, selector, selector_bubble, monster_spawns, xrectnum, yrectnum, sect_size, game_map, play_inds, monster_spawn_indices } from "../vis_updated.mjs"
 import { Monster } from "./monster.mjs"
 import { hunt_brain, hunt_flee_brain, patrol_brain, sniff_brain } from "./game_AIs/decisions.mjs"
 import { adj_poses } from "../methods/graphics/visibility.mjs"
@@ -45,6 +45,34 @@ export class MonsterSpawner extends Entities {
     drawMe(sizex, sizey, currx, curry){
         this.sprite.x = (this.x - currx + 1 / 8) * sizex + Math.floor(tot_width / 2)
         this.sprite.y = (this.y - curry + 1 / 8) * sizey + Math.floor(tot_height / 2)
+
+        this.sprite.interactive = true;
+        this.sprite.buttonMode = true; // Changes cursor on hover
+                
+                
+        
+        this.sprite.on('pointerdown', () => {
+            if (!pause.item) {
+                console.log("here")
+                if (selector.item) {
+                    app.stage.removeChild(selector_bubble.item)
+                }
+
+                let bubblex = this.sprite.x 
+                let bubbley = this.sprite.y
+                let cellx = this.sprite.x + this.sprite.width * 1/8
+                let celly = this.sprite.y + this.sprite.width * 1/8
+                let cell_width = this.sprite.width
+                let cell_height = this.sprite.height
+                let str2print = this.label + "; " + this.type + "; " + this.freq.toString()
+                
+                selector_bubble.item = make_selector(bubblex, bubbley, 100, 50, str2print, 0x20BBAA, 0xAA00AA, cellx, celly, cell_width * 3 / 4, cell_height * 3 / 4)
+                // console.log(this.sprite.x + app.screen.width / 2, this.sprite.y + app.screen.height / 2)
+                app.stage.addChild(selector_bubble.item)
+                // console.log('selector case!', selector.item);
+            }
+            // Add logic to start game or transition to another scene
+        });
     }
     resize(sizex, sizey) {
         this.sprite.width = sizex * 3 / 4

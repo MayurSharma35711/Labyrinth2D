@@ -16,19 +16,21 @@ export const monster_state = Object.freeze({
     sniff: 7
 });
 
-function print_state(monster){
+export function print_state(monster){
+    let str = ""
     if (monster.decision_state == 0)
-        console.log("rest")
+        str = "rest"
     else if (monster.decision_state == 1)
-        console.log("patrol")
+        str = "patrol"
     else if (monster.decision_state == 2)
-        console.log("seek")
+        str = "seek"
     else if (monster.decision_state == 3)
-        console.log("hunt")
+        str = "hunt"
     else if (monster.decision_state == 4)
-        console.log("fight")
+        str = "fight"
     else if (monster.decision_state == 5)
-        console.log("return")
+        str = "return"
+    return str
 }
 
 function deltaX(x1, y1, x2, y2)
@@ -258,7 +260,7 @@ export function hunt_brain(monster) {
         monster.decision_state = monster_state.fight
         dealDamage(monster, players[do_combat[1]])
     }
-    print_state(monster)
+    // print_state(monster)
     // console.log(monster)
     if (monster.decision_state == monster_state.fight) {
         // not in range, so start seeking
