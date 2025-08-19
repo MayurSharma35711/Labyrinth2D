@@ -63,7 +63,7 @@ export class Monster extends Entities
             // console.log(map[this.x + this.y * num_x].getBiome())
             // console.log(this.x, this.y, this.patrol_path[0] % num_x, Math.floor(this.patrol_path[0] / num_x))
             // console.log(Astar_maze(game_maze, num_x, num_y, this.x, this.y, this.patrol_path[0] % num_x, Math.floor(this.patrol_path[0] / num_x), heur_l2sqr, map))
-            this.cur_path = Astar_maze(game_maze, num_x, num_y, this.x, this.y, this.patrol_path[0] % num_x, Math.floor(this.patrol_path[0] / num_x), heur_l2sqr, map).slice(1)
+            this.cur_path = Astar_maze(game_maze, num_x, num_y, this.x, this.y, this.patrol_path[0] % num_x, Math.floor(this.patrol_path[0] / num_x), heur_l2sqr, map, []).slice(1)
             this.brain_count = 0
             this.lastpos = [best_path[0] % num_x, Math.floor(best_path[0] / num_x)]
 
@@ -71,7 +71,7 @@ export class Monster extends Entities
         if (brain_type == "hunt") {
             this.decision_state = monster_state.seek
             this.init_sector = find_sector(maze_dicter[0], this.x, this.y, num_x, num_y)
-            let new_path = Astar_maze(game_maze, num_x, num_y, this.x, this.y, 0,0,heur_l2sqr, map)
+            let new_path = Astar_maze(game_maze, num_x, num_y, this.x, this.y, 0,0,heur_l2sqr, map, [])
             if (new_path != false)
                 this.cur_path = new_path.slice(1)
             this.final_sector = false

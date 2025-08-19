@@ -62,15 +62,27 @@ function remake_path(prior_list, curr_node){
     return full_path
 }
 
+function distance(x1, y1, x2, y2)
+{
+    return Math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2);
+}
+
 function test_entities(entities, index, numx) {
+    // console.log("entities", entities)
     for (let l = 0; l < entities.length; l++) {
+        // console.log(entities[l].x + entities[l].y * numx, index)
+        // if(distance(entities[l].x, entities[l].y, xfin, yfin) == 1)
+        // {
+        //     return true
+        // }
         if(entities[l].x + entities[l].y * numx == index)
             return false
     }
+    // console.log('-------------------')
     return true
 }
 
-export function Astar_maze(maze, numx, numy, x0, y0, xfin, yfin, heur, map, entities = []) {
+export function Astar_maze(maze, numx, numy, x0, y0, xfin, yfin, heur, map, entities) {
     // print_walls(maze, numx, numy)
     let open_points = new Priority_Queue()
     let visited_nodes = Array(maze.length/2).fill(-1)
@@ -81,7 +93,7 @@ export function Astar_maze(maze, numx, numy, x0, y0, xfin, yfin, heur, map, enti
     guess_scores[x0 + y0*numx] = heur(x0, y0, xfin, yfin)
 
     open_points.insert(x0 + y0*numx, guess_scores[x0 + y0*numx])
-
+    
     while (!open_points.isEmpty()) {
         // console.log(best_scores)
         let current = open_points.get_elt()
@@ -96,16 +108,34 @@ export function Astar_maze(maze, numx, numy, x0, y0, xfin, yfin, heur, map, enti
         
         let nbrs = []
 
-        if (y_comp < numy - 1 && maze[2*current].getWall() == false && test_entities(entities, current + numx, numx)){
-            nbrs.push(current + numx)
+        if (y_comp < numy - 1 && maze[2*current].getWall() == false){
+            if (test_entities(entities, current + numx, numx) || (distance(x_comp, y_comp, xfin, yfin) <= 2 && (x_comp == xfin || y_comp == yfin)))
+                nbrs.push(current + numx)
         }
-        if (x_comp < numx - 1 && maze[2*current+1].getWall() == false && test_entities(entities, current + 1, numx))
-            nbrs.push(current + 1)
-        if (x_comp > 0 && maze[2*current-1].getWall() == false && test_entities(entities, current - 1, numx))
-            nbrs.push(current - 1)
-        if (y_comp > 0 && maze[2*current-2*numx].getWall() == false && test_entities(entities, current - numx, numx))
-            nbrs.push(current - numx)
+        if (x_comp < numx - 1 && maze[2*current+1].getWall() == false){
+            if (test_entities(entities, current + 1, numx) ||( distance(x_comp, y_comp, xfin, yfin) <= 2  && (x_comp == xfin || y_comp == yfin)))
+                nbrs.push(current + 1)
+        }
+        if (x_comp > 0 && maze[2*current-1].getWall() == false) {
+            if (test_entities(entities, current - 1, numx) || (distance(x_comp, y_comp, xfin, yfin) <= 2  && (x_comp == xfin || y_comp == yfin)))
+                nbrs.push(current - 1)
+        }
+        if (y_comp > 0 && maze[2*current-2*numx].getWall() == false) {
+            if (test_entities(entities, current - numx, numx) || (distance(x_comp, y_comp, xfin, yfin) <= 2  && (x_comp == xfin || y_comp == yfin)))
+                nbrs.push(current - numx)
+        }
 
+
+
+        // if (!test_entities(entities, numx, numx)){
+        //     console.log("okay 1")
+        // }
+        // if (test_entities(entities, numx, numx)){
+        //     console.log("bad 1")
+        // }
+
+        // console.log("teststststs")
+        // console.log(current, nbrs)
         // nbrs = rand_inds(nbrs)
 
         // console.log(nbrs)

@@ -75,7 +75,7 @@ export function make_maze_dicts(maze, numx, numy, sector_size, map) {
                 let x1 = new_center % numx
                 let y1 = ~~(new_center / numx)
                 // let path = Astar_maze(maze, numx, numy, x0, y0, x1, y1, dijkstra)
-                let path = Astar_maze(maze, numx, numy, x0, y0, x1, y1, heur_l2sqr, map)
+                let path = Astar_maze(maze, numx, numy, x0, y0, x1, y1, heur_l2sqr, map, [])
                 // console.log(path)
                 path_dict.add( [[i,j],[inds2get[k][0], inds2get[k][1]]]  , path)
             }

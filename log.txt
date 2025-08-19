@@ -715,3 +715,10 @@ TO DO:
 	- the code for new spawners can literally be copied onto anything else now, just copy-paste it where needed
 - (vivek)
 	- fixed a bug in the combat selection screen
+	- fixed a bug in the monster path-finding screen
+	- it currently works by using a distance constraint for the extra condition
+		- make this work instead work having inrange as a pre-defined parameter 
+		- this will make the monsters automatically both go around other entities
+			- fine tune the array part of this
+		- and it will make it work with inrange functions once that part is done
+	- once this is done, then take a look at reversing stuck patrols

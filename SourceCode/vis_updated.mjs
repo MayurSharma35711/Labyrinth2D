@@ -56,8 +56,8 @@ export let game_maze = output[1];
 let rooms = output[2];
 export let chests = output[3];
 export let ptr = new Wrapper(0);
-let monster_num = 4;
-let monster_spawn_num = 3;
+let monster_num = 1;
+let monster_spawn_num = 0;
 export const sect_size = 5
 // print_walls(game_maze, xrectnum, yrectnum)
 
@@ -116,7 +116,7 @@ for(let i = 0; i < monsters.length;i++)
         y = Math.floor(Math.random() * yrectnum)
         ind = x + xrectnum * y
     }
-    monsters[i] = new Monster(4, size.item, size.item, xrectnum, yrectnum, "patrol", game_map, sect_size, x, y);
+    monsters[i] = new Monster(5, size.item, size.item, xrectnum, yrectnum, "hunt", game_map, sect_size, x, y);
 }
 
 for(let i = 0;i < monsters.length;i++)
@@ -127,7 +127,7 @@ for(let i = 0;i < monsters.length;i++)
 for(let i = 0; i < monster_spawns.length;i++)
 {
     // console.log((i % 5) + 1)
-    monster_spawns[i] = new MonsterSpawner(5, size.item, size.item, xrectnum, yrectnum, game_map, "spawn", "flee", 4)
+    monster_spawns[i] = new MonsterSpawner(5, size.item, size.item, xrectnum, yrectnum, game_map, "spawn", "sniff", 4)
 }
 
 for(let i = 0;i < monster_spawns.length;i++)
