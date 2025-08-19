@@ -722,3 +722,13 @@ TO DO:
 			- fine tune the array part of this
 		- and it will make it work with inrange functions once that part is done
 	- once this is done, then take a look at reversing stuck patrols
+		- for patrols
+			- need to have it reversing so that it can coexist with other monster AIs
+			- also optimize which regions are chosen for the patrols in the beginning 
+
+- for now vivek will handle the monster AI stuff 
+	- fixing the hard coded in distance constraint being used for path-finding 
+	- updating the patrol to allow reversing and fixing their swapping
+- mayur will handle the screen stuff
+	- specifically making the player cards for the screen 
+	- making the inventory screen and a simple crafting system
