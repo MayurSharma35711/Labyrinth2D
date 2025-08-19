@@ -15,6 +15,7 @@ import {key_setup, setPlays} from "./methods/key_bind.mjs"
 import { Wrapper } from "./methods/datatypes.mjs";
 import { init_pause_menu, init_health_bars } from "./methods/displays/side_screen.mjs";
 import { MonsterSpawner } from "./game_entities/others.mjs";
+import { create_inventory_screen } from "./methods/displays/inventory.mjs";
 // /Users/mayur/Documents/Github/textures
 
 // // HERE WE LOAD THE TEXTURE REQUIRED FOR THE CODE TO RUN
@@ -42,6 +43,10 @@ document.body.appendChild(app.canvas);
 
 export const menu_container = init_pause_menu(app)
 export const pause = new Wrapper(false)
+
+export const inventory = new Wrapper(false)
+export const inventory_screen = create_inventory_screen()
+
 export const pop_up = new Wrapper(false)
 export const pop_up_bubble = new Wrapper(false)
 
@@ -218,5 +223,7 @@ sight(game_map, game_maze, xrectnum, yrectnum, players, curr_player.item, monste
 
 
 app.stage.addChild(tot_player_health[0])
+app.stage.addChild(inventory_screen)
+inventory_screen.visible = inventory.item
 app.stage.addChild(menu_container)
 menu_container.visible = pause.item

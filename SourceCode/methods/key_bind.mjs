@@ -1,5 +1,5 @@
 import { total_visible_indices, get_view_sqr, get_view_range, adj_poses } from "../methods/graphics/visibility.mjs";
-import {game_map, game_maze, xrectnum, yrectnum, players, play_inds, curr_player, monsters, pause, menu_container, ptr, size, currx, curry, act_currx, act_curry, shiftx, shifty, chest_indices, chests, monster_indices, app, seen_indices, pop_up, pop_up_bubble, selector, selector_bubble, monster_spawn_indices, monster_spawns} from "../vis_updated.mjs"
+import {game_map, game_maze, xrectnum, yrectnum, players, play_inds, curr_player, monsters, pause, menu_container, ptr, size, currx, curry, act_currx, act_curry, shiftx, shifty, chest_indices, chests, monster_indices, app, seen_indices, pop_up, pop_up_bubble, selector, selector_bubble, monster_spawn_indices, monster_spawns, inventory, inventory_screen} from "../vis_updated.mjs"
 import { sight } from "./graphics/sight.mjs";
 import { x_view_range } from "./combat/inRangeFuncs.mjs";
 import { inRange } from "./combat/inRangeFuncs.mjs";
@@ -97,11 +97,13 @@ let keytwo = 50
 let keythree = 51
 let keyfour = 52
 
+let key_g = 71
 let key_h = 72
 let key_i = 73
 let key_j = 74
 let key_k = 75
 let key_l = 76
+let key_u = 85
 
 let left = 37;
 let up = 38;
@@ -130,7 +132,21 @@ function keyStart(e)
         pop_up.item = false
         return null
     }
-    if (!pause.item) {
+    if (inventory.item && !pause.item) {
+        console.log(inventory.item)
+        if (key == key_i) {
+            inventory.item = false
+            inventory_screen.visible = false
+        }
+        if(key == key_esc)
+        {
+            //display screens
+            pause.item = true;
+            menu_container.visible = true
+            console.log("GAME IS pause.itemD");
+        }
+    }
+    else if (!pause.item) {
         if (key == key_r) {
             if (size.item > 20)
                 size.item = Math.floor(size.item / 1.2)
@@ -148,15 +164,15 @@ function keyStart(e)
             }
             // console.log(size.item)
         }
-        else if(key == key_i)
+        else if(key == key_u)
             shifty.item = Math.max(shifty.item - 1, -act_curry.item +1 )
-        else if(key == key_j)
+        else if(key == key_h)
             shiftx.item = Math.max(shiftx.item - 1, -act_currx.item + 1)
-        else if(key == key_k)
+        else if(key == key_j)
             shifty.item = Math.min(shifty.item + 1, yrectnum - act_curry.item - 2)
-        else if(key == key_l)
+        else if(key == key_k)
             shiftx.item = Math.min(shiftx.item + 1, xrectnum - act_currx.item - 2)
-        else if(key == key_h) {
+        else if(key == key_g) {
             shifty.item = 0 
             shiftx.item = 0
         }
@@ -376,6 +392,14 @@ function keyStart(e)
             ptr.item = curr_player.item.y * xrectnum + curr_player.item.x;
             // // console.log(ptr.item);
         }
+        else if(key == key_i)
+        {
+            //display screens
+            inventory.item = true;
+            inventory_screen.visible = true
+
+            console.log("check inventory");
+        }
         else if(key == key_esc)
         {
             //display screens
@@ -457,6 +481,15 @@ function keyStart(e)
     }
     if (pop_up.item) {
         app.stage.addChild(pop_up_bubble.item)
+    }
+    if (inventory.item) {
+        if (selector_bubble.item) {
+            app.stage.removeChild(selector_bubble.item)
+            selector.item = false
+            selector_bubble.item = false
+        }
+        app.stage.removeChild(inventory_screen)
+        app.stage.addChild(inventory_screen)
     }
     if (pause.item) {
         if (selector_bubble.item) {

@@ -1,5 +1,5 @@
 import { Entities } from "./entity_classes.mjs";
-import { size, tot_height, tot_width } from "../vis_updated.mjs";
+import { inventory, size, tot_height, tot_width } from "../vis_updated.mjs";
 import { make_selector } from "../methods/displays/pop_up.mjs";
 import { monsters, monster_indices, app, pause, selector, selector_bubble, monster_spawns, xrectnum, yrectnum, sect_size, game_map, play_inds, monster_spawn_indices } from "../vis_updated.mjs"
 import { Monster } from "./monster.mjs"
@@ -52,7 +52,7 @@ export class MonsterSpawner extends Entities {
                 
         
         this.sprite.on('pointerdown', () => {
-            if (!pause.item) {
+            if (!pause.item && !inventory.item) {
                 console.log("here")
                 if (selector.item) {
                     app.stage.removeChild(selector_bubble.item)

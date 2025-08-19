@@ -731,4 +731,10 @@ TO DO:
 	- updating the patrol to allow reversing and fixing their swapping
 - mayur will handle the screen stuff
 	- specifically making the player cards for the screen 
-	- making the inventory screen and a simple crafting system
+	- making the inventory screen and a simple crafting system 
+
+8/19/25
+- (mayur)
+	- logic for when the inventory screen should appear and how it interacts with selection has been handled
+	- now need to implement how this screen actually looks and works
+	- the health bars have to be replaced with player cards as well

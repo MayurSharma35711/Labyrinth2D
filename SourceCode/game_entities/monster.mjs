@@ -1,6 +1,6 @@
 import { Entities } from "./entity_classes.mjs";
 import { find_sector, get_sector_indices } from "./game_AIs/path_finding_nodes.mjs";
-import { game_maze, maze_dicter, xrectnum, app } from "../vis_updated.mjs";
+import { game_maze, maze_dicter, xrectnum, app, inventory } from "../vis_updated.mjs";
 import { Astar_maze, heur_l2sqr } from "./game_AIs/path_finding.mjs";
 import { monster_state } from "./game_AIs/decisions.mjs";
 import { tot_height, tot_width } from "../vis_updated.mjs";
@@ -150,7 +150,7 @@ export class Monster extends Entities
         this.rect.interactive = true;
         this.rect.buttonMode = true;
         this.rect.on('pointerdown', () => {
-            if (!pause.item) {
+            if (!pause.item && !inventory.item) {
                 console.log("here")
                 if (selector.item) {
                     app.stage.removeChild(selector_bubble.item)

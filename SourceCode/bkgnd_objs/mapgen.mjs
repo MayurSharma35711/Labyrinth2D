@@ -1,5 +1,5 @@
 // import { plain_text, lava_text, rocky_text } from "../map_graphics2.mjs";
-import { vis, app, pause, size } from "../vis_updated.mjs";
+import { vis, app, pause, inventory, size } from "../vis_updated.mjs";
 import { selector, selector_bubble } from "../vis_updated.mjs";
 import { make_selector } from "../methods/displays/pop_up.mjs";
 import { genBiomes } from "./mapgenV2.mjs";
@@ -204,7 +204,7 @@ export class Tile {
 
 		this.sprite.on('pointerdown', () => {
 			// console.log("biome")
-			if (!pause.item && this.biome != -1) {
+			if (!pause.item && !inventory.item && this.biome != -1) {
 				if (selector.item) {
 					app.stage.removeChild(selector_bubble.item)
 				}
@@ -230,11 +230,11 @@ export class Tile {
 		
 		border_rect.visible = false
 		this.sprite.on('mouseover', () => {
-			if (!pause.item && this.biome != -1)
+			if (!pause.item && !inventory.item && this.biome != -1)
 				border_rect.visible = true
 		})
 		this.sprite.on('mouseout', () => {
-			if (!pause.item && this.biome != -1)
+			if (!pause.item && !inventory.item && this.biome != -1)
 				border_rect.visible = false
 		})
 

@@ -83,12 +83,12 @@ export function make_selector(locx, locy, sizex, sizey, text, color, highcolor, 
 
     const border_rect = new PIXI.Graphics();
     border_rect.rect(-sizex / 2 - 1, -sizey / 2 - 1, sizex + 2, sizey + 2);
-    border_rect.fill(0x000000);
+    border_rect.fill(0x000000, 0.5);
     selector_container.addChild(border_rect)
 
     const bkg_rect = new PIXI.Graphics();
     bkg_rect.rect(-sizex / 2, -sizey / 2, sizex, sizey);
-    bkg_rect.fill(color);
+    bkg_rect.fill(color, 0.5);
     // bkg_rect.alpha = 0.5
     selector_container.addChild(bkg_rect)
 
