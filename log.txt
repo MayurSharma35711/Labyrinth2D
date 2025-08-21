@@ -738,3 +738,12 @@ TO DO:
 	- logic for when the inventory screen should appear and how it interacts with selection has been handled
 	- now need to implement how this screen actually looks and works
 	- the health bars have to be replaced with player cards as well
+
+8/20/25
+- (mayur)
+	- simple player cards exist
+		- they follow the same logic as the health bars didn
+	- updates that need to be made 
+		- configure player card and health bar to work better with app screen size (not hard coded)
+		- make it so that sprites actually show up on the screen 
+	- after this, you can work on inventory screen perhaps
