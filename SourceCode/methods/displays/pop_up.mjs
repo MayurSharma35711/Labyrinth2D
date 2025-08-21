@@ -1,5 +1,5 @@
 import { pause, pop_up, selector } from "../../vis_updated.mjs";
-import { tot_player_health, players, ptr, game_maze, xrectnum, yrectnum, app, seen_indices, play_inds } from "../../vis_updated.mjs";
+import { players, ptr, game_maze, xrectnum, yrectnum, app, seen_indices, play_inds } from "../../vis_updated.mjs";
 import { get_view_sqr } from "../graphics/visibility.mjs";
 
 // export let screen = new PIXI.Container();

@@ -4,7 +4,7 @@ import { sight } from "./graphics/sight.mjs";
 import { x_view_range } from "./combat/inRangeFuncs.mjs";
 import { inRange } from "./combat/inRangeFuncs.mjs";
 import { take_game_turn } from "../game_entities/game_AIs/game_turn.mjs";
-import { update_health_bars } from "./displays/side_screen.mjs";
+import { update_player_cards } from "./displays/side_screen.mjs";
 
 export function key_setup(){
     document.addEventListener('keydown', keyStart)
@@ -475,7 +475,7 @@ function keyStart(e)
     // // console.log(get_view_sqr(curr_player.item.x, curr_player.item.y, xrectnum, yrectnum, curr_player.item.vis_tier));
     // // console.log(game_map[ptr.item].biome);
     setPlays();
-    update_health_bars();
+    update_player_cards();
     if (selector.item) {
         app.stage.addChild(selector_bubble.item)
     }

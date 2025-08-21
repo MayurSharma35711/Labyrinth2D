@@ -1,5 +1,5 @@
-import { pause } from "../../vis_updated.mjs";
-import { tot_player_health, players, ptr, game_maze, xrectnum, yrectnum, app, seen_indices, play_inds } from "../../vis_updated.mjs";
+import { pause, inventory, tot_cards, inventory_screen } from "../../vis_updated.mjs";
+import { players, ptr, game_maze, xrectnum, yrectnum, app, seen_indices, play_inds } from "../../vis_updated.mjs";
 import { get_view_sqr } from "../graphics/visibility.mjs";
 
 // export let screen = new PIXI.Container();
@@ -76,75 +76,136 @@ export function init_pause_menu(app){
     return menuContainer
 }
 
-export function init_player_card(player, sizex, sizey) {
+
+export function init_all_player_cards(players, locx, locy, sizex, sizey) {
+    const player_info = new PIXI.Container()
+    player_info.position.set(0, 0)
+    player_info.pivot.set(player_info.width / 2, player_info.height / 2)
+    
+    let cards = []
+    let health_bars = []
+    for (let l = 0; l < players.length; l++) {
+        let index = players[l].player_ind
+        let output = init_player_card(players[l], locx + index * (sizex) * 1.1 - 2.2 * sizex, locy, sizex, sizey)
+        cards.push(output[0])
+        health_bars.push(output[1])
+        player_info.addChild(output[0])
+    }
+    
+    return [player_info, cards, health_bars]
+}
+
+
+export function init_player_card(player, locx, locy, sizex, sizey) {
     const player_card = new PIXI.Container()
-    let index = player.player_ind
+    // let index = player.player_ind
     let namer = player.name
     let spriter = player.sprite
+    player_card.position.set(locx, locy); // Center the menu
+    player_card.pivot.set(player_card.width / 2, player_card.height / 2);
 
+    let health_bar = init_health_bar(player, sizex / 2 + sizex / 30 ,  sizey * 13/10)
+
+    const bndy_rect = new PIXI.Graphics();
+    bndy_rect.rect(0, 0, sizex, sizey);
+    bndy_rect.fill(0x000088, 0.5);
+    player_card.addChild(bndy_rect)
+
+    bndy_rect.interactive = true;
+    bndy_rect.buttonMode = true; // Changes cursor on hover
+
+    bndy_rect.on('pointerdown', () => {
+        // console.log('Play button clicked!');
+        inventory.item = true
+        inventory_screen.visible = true
+        app.stage.removeChild(inventory_screen)
+        app.stage.addChild(inventory_screen)
+        // console.log("here")
+        // Add logic to start game or transition to another scene
+    });
     
+    player_card.addChild(health_bar[0])
+
+    // player_card.addChild(spriter)
+
+    const player_name = new PIXI.Text(namer, {
+        fontFamily: 'Arial',
+        fontSize: 36,
+        fill: 0xffffff,
+    });
+    player_name.anchor.set(0.5); // Center the text within its bounds
+    player_name.position.y = sizey / 8; // Position relative to menuContainer's center
+    player_name.position.x = sizex / 2
+    player_card.addChild(player_name);
+
+    return [player_card, health_bar[1]]
     // this contains the player name, player sprite, player health bar, and maybe some of their status effects 
     // probably need to make a class just for status effects
     
 }
 
 
-export function init_health_bars(app, players){
-    const health_bars = new PIXI.Container();
-    health_bars.position.set(app.screen.width / 10, app.screen.height * 9 / 10); // Center the menu
+function init_health_bar(player, locx, locy){
+    const health_bar = new PIXI.Container();
+    let i = player.player_ind
+    health_bar.position.set(locx, locy); // Center the menu
+    health_bar.pivot.set(health_bar.width / 2, health_bar.height / 2);
     
-    let indiv_bars = []
-    let each_health_bar = []
-    for(let i = 0; i < players.length; i++) {
-        const ind_bar = new PIXI.Container()
+    // let indiv_bars = []
+    // let each_health_bar = []
 
-        const bndy_rect = new PIXI.Graphics();
-        bndy_rect.rect(-app.screen.width / 15 - app.screen.width / 400, -app.screen.width / 10 + 2 * i * app.screen.width / 80 - app.screen.width / 400 
-            , app.screen.width / 8 + app.screen.width / 200, app.screen.width / 70 + app.screen.width / 200);
-        bndy_rect.fill(0x000000);
-        // bkg_rect.lineStyle(100, 0x000000, 1)
-        // health_bars.addChild(bndy_rect)
+    
+    
+    // const ind_bar = new PIXI.Container()health_bar
 
-        const bkg_rect = new PIXI.Graphics();
-        bkg_rect.rect(-app.screen.width / 15, -app.screen.width / 10 + 2 * i * app.screen.width / 80 , app.screen.width / 8, app.screen.width / 70);
-        bkg_rect.fill(0x33FF66);
-        // bkg_rect.lineStyle(100, 0x000000, 1)
-        // health_bars.addChild(bkg_rect)
+    const bndy_rect = new PIXI.Graphics();
+    bndy_rect.rect(-app.screen.width / 15 - app.screen.width / 400, -app.screen.width / 10 - app.screen.width / 400 
+        , app.screen.width / 8 + app.screen.width / 200, app.screen.width / 70 + app.screen.width / 200);
+    bndy_rect.fill(0x000000);
+    // bkg_rect.lineStyle(100, 0x000000, 1)
+    // health_bars.addChild(bndy_rect)
 
-        const health_rect = new PIXI.Graphics();
-        health_rect.rect(-app.screen.width / 15 + app.screen.width / 200, -app.screen.width / 10 + 2 * i * app.screen.width / 80 + app.screen.width / 420, 
-            (app.screen.width / 8 - app.screen.width / 100) * players[i].health / 10, app.screen.width / 105);
-        //  ; ;  
-        health_rect.fill(0xFF3366);
-        // health_bars.addChild(health_rect)
+    const bkg_rect = new PIXI.Graphics();
+    bkg_rect.rect(-app.screen.width / 15, -app.screen.width / 10 , app.screen.width / 8, app.screen.width / 70);
+    bkg_rect.fill(0x33FF66);
+    // bkg_rect.lineStyle(100, 0x000000, 1)
+    // health_bars.addChild(bkg_rect)
 
-        ind_bar.addChild(bndy_rect)
-        ind_bar.addChild(bkg_rect)
-        ind_bar.addChild(health_rect)
-        health_bars.addChild(ind_bar)
-        indiv_bars.push(ind_bar)
-        each_health_bar.push(health_rect)
-    }
+    const health_rect = new PIXI.Graphics();
+    health_rect.rect(-app.screen.width / 15 + app.screen.width / 200, -app.screen.width / 10 + app.screen.width / 420, 
+        (app.screen.width / 8 - app.screen.width / 100) * player.health / 10, app.screen.width / 105);
+    //  ; ;  
+    health_rect.fill(0xFF3366);
+    // health_bars.addChild(health_rect)
+
+    health_bar.addChild(bndy_rect)
+    health_bar.addChild(bkg_rect)
+    health_bar.addChild(health_rect)
+
+    // health_bar.addChild(ind_bar)
+    // indiv_bars.push(ind_bar)
+    // each_health_bar.push(health_rect)
+    
     // console.log(health_bars)
-    return [health_bars, indiv_bars, each_health_bar]
+    return [health_bar, health_rect]
 }
 
 
-export function update_health_bars(){
+export function update_player_cards(){
     let play_visible = []
     for (let l = 0; l < players.length; l++) {
         play_visible.push(seen_indices.item.includes(play_inds[l]))
     }
-    let indiv_bars = tot_player_health[1]
-    let indiv_health = tot_player_health[2]
+    let indiv_cards = tot_cards[1]
+    let indiv_health = tot_cards[2]
     // console.log(play_visible)
     // console.log(ptr)
     for (let k = 0; k < players.length; k++) {
-        indiv_bars[k].visible = play_visible[k]
+        indiv_cards[k].visible = play_visible[k]
         let init_width = indiv_health[k].width
         indiv_health[k].width = Math.max(0, (app.screen.width / 8 - app.screen.width / 100) * players[k].health / 10)
         indiv_health[k].x = indiv_health[k].x - (init_width - indiv_health[k].width) / 2
     }
-    app.stage.removeChild(tot_player_health[0])
-    app.stage.addChild(tot_player_health[0])
+    app.stage.removeChild(tot_cards[0])
+    app.stage.addChild(tot_cards[0])
 }

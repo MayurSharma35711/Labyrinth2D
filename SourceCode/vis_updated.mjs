@@ -13,7 +13,7 @@ import { displayMap } from "./bkgnd_objs/mapgenV2.mjs";
 import { genBiomes } from "./bkgnd_objs/mapgenV2.mjs";
 import {key_setup, setPlays} from "./methods/key_bind.mjs"
 import { Wrapper } from "./methods/datatypes.mjs";
-import { init_pause_menu, init_health_bars } from "./methods/displays/side_screen.mjs";
+import { init_pause_menu, init_all_player_cards } from "./methods/displays/side_screen.mjs";
 import { MonsterSpawner } from "./game_entities/others.mjs";
 import { create_inventory_screen } from "./methods/displays/inventory.mjs";
 // /Users/mayur/Documents/Github/textures
@@ -140,7 +140,7 @@ for(let i = 0;i < monster_spawns.length;i++)
     monster_spawn_indices[i] = monster_spawns[i].y * xrectnum + monster_spawns[i].x;
 }
 
-players[0] = new Player(0, size.item, size.item, 40, 'vivek');
+players[0] = new Player(0, size.item, size.item, 3, 'vivek');
 players[1] = new Player(1, size.item, size.item, 1, 'jane');
 // players[1].y = 8;
 players[2] = new Player(2, size.item, size.item, 4, 'nikki');
@@ -163,7 +163,8 @@ players[1].speed = Math.max(2*players[1].vis_tier, min_speed_val);
 players[2].speed = Math.max(2*players[2].vis_tier, min_speed_val);
 players[3].speed = Math.max(2*players[3].vis_tier, min_speed_val);
 
-export const tot_player_health = init_health_bars(app, players)
+// export const tot_player_health = init_health_bars(app, players)
+export const tot_cards = init_all_player_cards(players, tot_width * 1/3, tot_height * 3 / 5, 200, 300)
 
 
 
@@ -222,7 +223,8 @@ console.log(monster_spawn_indices)
 sight(game_map, game_maze, xrectnum, yrectnum, players, curr_player.item, monsters, ptr.item, size.item, currx.item, curry.item, chest_indices, chests, monster_indices, monster_spawns, monster_spawn_indices, app);
 
 
-app.stage.addChild(tot_player_health[0])
+// app.stage.addChild(tot_player_health[0])
+app.stage.addChild(tot_cards[0])
 app.stage.addChild(inventory_screen)
 inventory_screen.visible = inventory.item
 app.stage.addChild(menu_container)
