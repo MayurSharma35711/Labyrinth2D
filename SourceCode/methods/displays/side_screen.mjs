@@ -84,15 +84,17 @@ export function init_all_player_cards(players, locx, locy, sizex, sizey) {
     
     let cards = []
     let health_bars = []
+    let name_text = []
     for (let l = 0; l < players.length; l++) {
         let index = players[l].player_ind
         let output = init_player_card(players[l], locx + index * (sizex) * 1.1 - 2.2 * sizex, locy, sizex, sizey)
         cards.push(output[0])
         health_bars.push(output[1])
+        name_text.push(output[2])
         player_info.addChild(output[0])
     }
     
-    return [player_info, cards, health_bars]
+    return [player_info, cards, health_bars, name_text]
 }
 
 
@@ -127,8 +129,12 @@ export function init_player_card(player, locx, locy, sizex, sizey) {
     player_card.addChild(health_bar[0])
 
     // player_card.addChild(spriter)
+    let speeder = " 0/"
+    speeder = speeder + player.speed
+    // console.log(typeof(player.speed))
+    // console.log(player.speed)
 
-    const player_name = new PIXI.Text(namer, {
+    const player_name = new PIXI.Text(namer + speeder, {
         fontFamily: 'Arial',
         fontSize: 36,
         fill: 0xffffff,
@@ -138,7 +144,7 @@ export function init_player_card(player, locx, locy, sizex, sizey) {
     player_name.position.x = sizex / 2
     player_card.addChild(player_name);
 
-    return [player_card, health_bar[1]]
+    return [player_card, health_bar[1], player_name]
     // this contains the player name, player sprite, player health bar, and maybe some of their status effects 
     // probably need to make a class just for status effects
     
@@ -198,10 +204,12 @@ export function update_player_cards(){
     }
     let indiv_cards = tot_cards[1]
     let indiv_health = tot_cards[2]
+    let indiv_names = tot_cards[3]
     // console.log(play_visible)
     // console.log(ptr)
     for (let k = 0; k < players.length; k++) {
         indiv_cards[k].visible = play_visible[k]
+        indiv_names[k].text = players[k].name + " " + players[k].blks_moved + "/" + players[k].speed
         let init_width = indiv_health[k].width
         indiv_health[k].width = Math.max(0, (app.screen.width / 8 - app.screen.width / 100) * players[k].health / 10)
         indiv_health[k].x = indiv_health[k].x - (init_width - indiv_health[k].width) / 2
