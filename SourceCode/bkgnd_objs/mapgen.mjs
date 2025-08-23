@@ -1,5 +1,5 @@
 // import { plain_text, lava_text, rocky_text } from "../map_graphics2.mjs";
-import { vis, app, pause, inventory, size } from "../vis_updated.mjs";
+import { vis, app, pause, inventory, size, tot_height, cutoff_y } from "../vis_updated.mjs";
 import { selector, selector_bubble } from "../vis_updated.mjs";
 import { make_selector } from "../methods/displays/pop_up.mjs";
 import { genBiomes } from "./mapgenV2.mjs";
@@ -205,15 +205,15 @@ export class Tile {
 		this.sprite.on('pointerdown', () => {
 			// console.log("biome")
 			if (!pause.item && !inventory.item && this.biome != -1) {
-				if (selector.item) {
-					app.stage.removeChild(selector_bubble.item)
-				}
+				// if (selector.item) {
+				app.stage.removeChild(selector_bubble.item)
+				// }
 
 				let bubblex = this.sprite.x + app.screen.width / 2 // + size.item * 1/5
-				console.log(app.screen.width / 2 )
-				let bubbley = this.sprite.y + app.screen.height / 2 // - size.item * 1/5
+				// console.log(app.screen.width / 2 )
+				let bubbley = this.sprite.y + tot_height.item / 2 - cutoff_y.item / 2 // - size.item * 1/5
 				let cellx = this.sprite.x + app.screen.width / 2
-				let celly = this.sprite.y + app.screen.height / 2
+				let celly = this.sprite.y + tot_height.item / 2 - cutoff_y.item / 2
 				let cell_width = this.sprite.width
 				let cell_height = this.sprite.height
 				
@@ -238,9 +238,10 @@ export class Tile {
 			if (!pause.item && !inventory.item && this.biome != -1)
 				border_rect.visible = false
 		})
-
-        vis.addChild(this.sprite);
-		vis.addChild(border_rect)
+		if(this.sprite.y + vis.y < tot_height.item - cutoff_y.item) {
+			vis.addChild(this.sprite);
+			vis.addChild(border_rect)
+		}
 		// this.tile_image = new PIXI.Graphics();
 		// this.tile_image.beginFill(this.color);
 		// this.tile_image.drawRect((cell_width)*this.ind_x, (cell_height)*this.ind_y,cell_width,cell_height);

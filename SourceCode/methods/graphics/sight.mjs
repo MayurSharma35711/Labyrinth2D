@@ -2,7 +2,7 @@ import { vis } from "../../vis_updated.mjs";
 import { walls } from "../../vis_updated.mjs";
 import { total_visible_indices, test_visible_indices, get_view_range, get_view_sqr, adj_poses } from "./visibility.mjs";
 // Sight uses visiblity code to show the map tiles and maze tiles that are visible
-export function sight(game_map, game_maze, xrectnum, yrectnum, players, curr_player, monsters, ptr, size, currx, curry, chest_indices, chests, monster_indices, entities, ent_inds, app)
+export function sight(game_map, game_maze, xrectnum, yrectnum, cutoff_y, tot_height, players, curr_player, monsters, ptr, size, currx, curry, chest_indices, chests, monster_indices, entities, ent_inds, app)
 {
     while(vis.children[0])
     {
@@ -95,7 +95,10 @@ export function sight(game_map, game_maze, xrectnum, yrectnum, players, curr_pla
             upwall.width = size;
             upwall.x = (map_indexer - currx) * size;
             upwall.y = (- curry) * size - 0.15*size;
-            walls.addChild(upwall)
+            if(upwall.y + walls.y < tot_height.item - cutoff_y.item) {
+                walls.addChild(upwall);
+            }
+            // walls.addChild(upwall)
         }
         if(map_indexer % xrectnum == 0 && game_map[map_indexer].getBiome() != -1) {
             let leftwall = PIXI.Sprite.from('https://mayursharma35711.github.io/Labyrinth2D/textures/bkgnd/WallsVertical.png');
@@ -103,7 +106,9 @@ export function sight(game_map, game_maze, xrectnum, yrectnum, players, curr_pla
             leftwall.width = 0.3 * size;
             leftwall.x = (0 - currx) * size - 0.15*size;
             leftwall.y = (map_indexer / xrectnum - curry) * size;
-            walls.addChild(leftwall)
+            if(leftwall.y + walls.y < tot_height.item - cutoff_y.item) {
+                walls.addChild(leftwall);
+            }
         }
         if(!map_indices.includes(map_indexer - xrectnum) && map_indexer - xrectnum >= 0) {
             if (opac_arr[i] != 0.3)

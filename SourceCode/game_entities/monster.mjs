@@ -3,7 +3,7 @@ import { find_sector, get_sector_indices } from "./game_AIs/path_finding_nodes.m
 import { game_maze, maze_dicter, xrectnum, app, inventory } from "../vis_updated.mjs";
 import { Astar_maze, heur_l2sqr } from "./game_AIs/path_finding.mjs";
 import { monster_state } from "./game_AIs/decisions.mjs";
-import { tot_height, tot_width } from "../vis_updated.mjs";
+import { tot_height, tot_width, cutoff_y } from "../vis_updated.mjs";
 import { print_walls } from "../bkgnd_objs/mazegen.mjs";
 import { print_state } from "./game_AIs/decisions.mjs";
 import { pause, selector, selector_bubble } from "../vis_updated.mjs";
@@ -144,7 +144,7 @@ export class Monster extends Entities
         this.rect.width = sizex / 2
         this.rect.height = sizey / 2
         this.rect.x = (this.x - currx + 0.25) * sizex + Math.floor(tot_width.item / 2)
-        this.rect.y = (this.y - curry + 0.25) * sizey + Math.floor(tot_height.item / 2)
+        this.rect.y = (this.y - curry + 0.25) * sizey + Math.floor(tot_height.item / 2 - cutoff_y.item / 2) 
 
 
         this.rect.interactive = true;
@@ -152,9 +152,9 @@ export class Monster extends Entities
         this.rect.on('pointerdown', () => {
             if (!pause.item && !inventory.item) {
                 console.log("here")
-                if (selector.item) {
-                    app.stage.removeChild(selector_bubble.item)
-                }
+                // if (selector.item) {
+                app.stage.removeChild(selector_bubble.item)
+                // }
 
                 let bubblex = this.rect.x 
                 let bubbley = this.rect.y

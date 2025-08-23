@@ -38,6 +38,7 @@ export const app = new PIXI.Application();
 export let size = new Wrapper(80);
 export const tot_width = new Wrapper(window.innerWidth)
 export const tot_height = new Wrapper(window.innerHeight)
+export const cutoff_y = new Wrapper(tot_height.item / 5)
 
 await app.init({ width: tot_width.item, height: tot_height.item });
 document.body.appendChild(app.canvas);
@@ -49,16 +50,16 @@ document.body.appendChild(app.canvas);
 function resize_func() {
     tot_width.item = window.innerWidth
     tot_height.item = window.innerHeight
-    console.log(tot_width.item , tot_height.item, currx, curry )
+    // console.log(tot_width.item , tot_height.item, currx, curry )
     app.renderer.resize(window.innerWidth, window.innerHeight)
     app.stage.removeChildren()
     // app.stage.removeChild(walls)
 
 
     vis.x = tot_width.item/2;
-    vis.y = tot_height.item/2;
+    vis.y = tot_height.item/2  - cutoff_y.item / 2;
     walls.x = tot_width.item/2;
-    walls.y = tot_height.item/2;
+    walls.y = tot_height.item/2  - cutoff_y.item / 2;
 
     app.stage.addChild(vis);
     app.stage.addChild(walls);
@@ -77,7 +78,7 @@ function resize_func() {
     inventory_screen.item.visible = inventory.item
     app.stage.addChild(menu_container)
 
-    sight(game_map, game_maze, xrectnum, yrectnum, players, curr_player.item, monsters, ptr.item, size.item, currx.item, curry.item, chest_indices, chests, monster_indices, monster_spawns, monster_spawn_indices, app);
+    sight(game_map, game_maze, xrectnum, yrectnum, cutoff_y, tot_height, players, curr_player.item, monsters, ptr.item, size.item, currx.item, curry.item, chest_indices, chests, monster_indices, monster_spawns, monster_spawn_indices, app);
     
 }
 
@@ -146,9 +147,9 @@ for(let i = 0;i < chests.length;i++)
 export let vis = new PIXI.Container();
 export let walls = new PIXI.Container();
 vis.x = tot_width.item/2;
-vis.y = tot_height.item/2;
+vis.y = tot_height.item/2 - cutoff_y.item / 2;
 walls.x = tot_width.item/2;
-walls.y = tot_height.item/2;
+walls.y = tot_height.item/2 - cutoff_y.item / 2;
 app.stage.addChild(vis);
 app.stage.addChild(walls);
 
@@ -199,7 +200,7 @@ for(let i = 0;i < monster_spawns.length;i++)
     monster_spawn_indices[i] = monster_spawns[i].y * xrectnum + monster_spawns[i].x;
 }
 
-players[0] = new Player(0, size.item, size.item, 3, 'vivek');
+players[0] = new Player(0, size.item, size.item, 40, 'vivek');
 players[1] = new Player(1, size.item, size.item, 1, 'jane');
 // players[1].y = 8;
 players[2] = new Player(2, size.item, size.item, 4, 'nikki');
@@ -207,7 +208,7 @@ players[2] = new Player(2, size.item, size.item, 4, 'nikki');
 // players[2].x = 3;
 players[3] = new Player(3, size.item, size.item, 2, 'mayur');
 // players[3].y = 11;
-
+// console.log("players", players)
 players[1].range_type = "xrange";
 players[1].range = 7;
 
@@ -278,8 +279,8 @@ for (let t = 0; t < players.length; t++) {
 //     // // console.log(players[t].x, players[t].y)
 //     app.stage.addChild(monsters[t].rect)
 // }
-console.log(monster_spawn_indices)
-sight(game_map, game_maze, xrectnum, yrectnum, players, curr_player.item, monsters, ptr.item, size.item, currx.item, curry.item, chest_indices, chests, monster_indices, monster_spawns, monster_spawn_indices, app);
+// console.log(monster_spawn_indices)
+sight(game_map, game_maze, xrectnum, yrectnum, cutoff_y, tot_height, players, curr_player.item, monsters, ptr.item, size.item, currx.item, curry.item, chest_indices, chests, monster_indices, monster_spawns, monster_spawn_indices, app);
 
 
 // app.stage.addChild(tot_player_health[0])

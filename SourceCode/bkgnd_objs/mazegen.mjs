@@ -1,4 +1,4 @@
-import { walls } from "../vis_updated.mjs";
+import { walls, tot_height, cutoff_y } from "../vis_updated.mjs";
 await PIXI.Assets.load('https://mayursharma35711.github.io/Labyrinth2D/textures/bkgnd/WallsVertical.png');
 await PIXI.Assets.load('https://mayursharma35711.github.io/Labyrinth2D/textures/bkgnd/WallsHorizontal.png');
 await PIXI.Assets.load('https://mayursharma35711.github.io/Labyrinth2D/textures/bkgnd/horiz_door.png');
@@ -64,7 +64,9 @@ export class TileWall{
                 this.wall_image.borderColor = 0xFFFFFF
                 this.wall_image.alpha = opac
             }
-            walls.addChild(this.wall_image);
+            if(this.wall_image.y + walls.y < tot_height.item - cutoff_y.item) {
+                walls.addChild(this.wall_image);
+            }
         }
         else if (this.exists){
             this.wall_image = new PIXI.Sprite();
@@ -88,7 +90,9 @@ export class TileWall{
                 this.wall_image.borderColor = 0xFFFFFF
                 this.wall_image.alpha = opac
             }
-            walls.addChild(this.wall_image);
+            if(this.wall_image.y + walls.y < tot_height.item - cutoff_y.item) {
+                walls.addChild(this.wall_image);
+            }
         }
 	}
     getWall() {
