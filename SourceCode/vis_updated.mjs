@@ -48,6 +48,7 @@ document.body.appendChild(app.canvas);
 
 // }
 function resize_func() {
+    cutoff_y.item = window.innerHeight * (cutoff_y.item / tot_height.item)
     tot_width.item = window.innerWidth
     tot_height.item = window.innerHeight
     // console.log(tot_width.item , tot_height.item, currx, curry )
@@ -200,13 +201,13 @@ for(let i = 0;i < monster_spawns.length;i++)
     monster_spawn_indices[i] = monster_spawns[i].y * xrectnum + monster_spawns[i].x;
 }
 
-players[0] = new Player(0, size.item, size.item, 40, 'vivek');
+players[0] = new Player(0, size.item, size.item, 2, 'vivek');
 players[1] = new Player(1, size.item, size.item, 1, 'jane');
 // players[1].y = 8;
-players[2] = new Player(2, size.item, size.item, 4, 'nikki');
+players[2] = new Player(2, size.item, size.item, 3, 'nikki');
 // players[2].y = 5;
 // players[2].x = 3;
-players[3] = new Player(3, size.item, size.item, 2, 'mayur');
+players[3] = new Player(3, size.item, size.item, 4, 'mayur');
 // players[3].y = 11;
 // console.log("players", players)
 players[1].range_type = "xrange";
@@ -224,7 +225,7 @@ players[2].speed = Math.max(2*players[2].vis_tier, min_speed_val);
 players[3].speed = Math.max(2*players[3].vis_tier, min_speed_val);
 
 // export const tot_player_health = init_health_bars(app, players)
-export const tot_cards = init_all_player_cards(players, tot_width.item * 1/3, tot_height.item * 3 / 5, 200, 300)
+export const tot_cards = init_all_player_cards(players, tot_width.item * 1/3, tot_height.item * 9 / 10, 200, tot_height.item / 10)
 
 
 

@@ -157,7 +157,9 @@ export function sight(game_map, game_maze, xrectnum, yrectnum, cutoff_y, tot_hei
             entities[i].drawMe(size, size, currx, curry);
             // console.log(entities[i].sprite)
             // console.log(entities[i])
-            app.stage.addChild(entities[i].sprite);
+            if(entities[i].sprite.y < tot_height.item - cutoff_y.item) {
+                app.stage.addChild(entities[i].sprite);
+            }
             // console.log("HERE");
             // console.log(chests[i].x);
             // console.log(chests[i].y);
@@ -185,7 +187,9 @@ export function sight(game_map, game_maze, xrectnum, yrectnum, cutoff_y, tot_hei
         {
             // console.log(monster_indices[i], i)
             monsters[i].drawMe(size, size, currx, curry);
-            app.stage.addChild(monsters[i].rect);
+            if(monsters[i].rect.y < tot_height.item - cutoff_y.item) {
+                app.stage.addChild(monsters[i].rect);
+            }
             // console.log("HERE");
             // console.log(chests[i].x);
             // console.log(chests[i].y);

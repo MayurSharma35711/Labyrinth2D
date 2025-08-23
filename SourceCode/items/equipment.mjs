@@ -1,4 +1,4 @@
-import { vis } from "../vis_updated.mjs";
+import { vis, tot_height, cutoff_y } from "../vis_updated.mjs";
 import { Equipment } from "./item_class.mjs";
 import { make_pop_up_menu } from "../methods/displays/pop_up.mjs";
 await PIXI.Assets.load('https://mayursharma35711.github.io/Labyrinth2D/textures/items/Chests.png');
@@ -138,7 +138,8 @@ export class chest
             this.sprite.height = 0.7 * cell_height;
             this.sprite.x = (this.x + 0.15 - currx) * cell_width;
             this.sprite.y = (this.y + 0.12 - curry) * cell_height;
-            vis.addChild(this.sprite);
+            if(this.sprite.y + vis.y < tot_height.item - cutoff_y.item)
+                vis.addChild(this.sprite);
         }
         else
         {
@@ -147,7 +148,8 @@ export class chest
             this.sprite.height = 0.7 * cell_height;
             this.sprite.x = (this.x + 0.15 - currx) * cell_width;
             this.sprite.y = (this.y + 0.12 - curry) * cell_height;
-            vis.addChild(this.sprite);
+            if(this.sprite.y + vis.y < tot_height.item - cutoff_y.item)
+                vis.addChild(this.sprite);
         }
     }
     Open()
