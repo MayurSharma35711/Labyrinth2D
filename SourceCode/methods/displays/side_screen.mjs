@@ -119,9 +119,9 @@ export function init_player_card(player, locx, locy, sizex, sizey) {
     bndy_rect.on('pointerdown', () => {
         // console.log('Play button clicked!');
         inventory.item = true
-        inventory_screen.visible = true
-        app.stage.removeChild(inventory_screen)
-        app.stage.addChild(inventory_screen)
+        inventory_screen.item.visible = true
+        app.stage.removeChild(inventory_screen.item)
+        app.stage.addChild(inventory_screen.item)
         // console.log("here")
         // Add logic to start game or transition to another scene
     });

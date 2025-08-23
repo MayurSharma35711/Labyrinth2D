@@ -136,7 +136,7 @@ function keyStart(e)
         console.log(inventory.item)
         if (key == key_i) {
             inventory.item = false
-            inventory_screen.visible = false
+            inventory_screen.item.visible = false
         }
         if(key == key_esc)
         {
@@ -396,7 +396,7 @@ function keyStart(e)
         {
             //display screens
             inventory.item = true;
-            inventory_screen.visible = true
+            inventory_screen.item.visible = true
 
             console.log("check inventory");
         }
@@ -488,8 +488,8 @@ function keyStart(e)
             selector.item = false
             selector_bubble.item = false
         }
-        app.stage.removeChild(inventory_screen)
-        app.stage.addChild(inventory_screen)
+        app.stage.removeChild(inventory_screen.item)
+        app.stage.addChild(inventory_screen.item)
     }
     if (pause.item) {
         if (selector_bubble.item) {

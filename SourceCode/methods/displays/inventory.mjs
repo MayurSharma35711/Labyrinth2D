@@ -7,8 +7,8 @@ export function create_inventory_screen(){
     inventory_screen.position.set(app.screen.width / 2, app.screen.height / 2); // Center the menu
     inventory_screen.pivot.set(inventory_screen.width / 2, inventory_screen.height / 2); // Set pivot for centering
     
-    let sizex = tot_width * 0.9
-    let sizey = tot_height * 0.9
+    let sizex = tot_width.item * 0.9
+    let sizey = tot_height.item * 0.9
 
 
     const border_rect = new PIXI.Graphics();

@@ -36,16 +36,75 @@ import { create_inventory_screen } from "./methods/displays/inventory.mjs";
 // HERE WE CREATE OUR ACTUAL MAP FOR THE GAME
 export const app = new PIXI.Application();
 export let size = new Wrapper(80);
-export const tot_width = window.innerWidth
-export const tot_height = window.innerHeight
-await app.init({ width: tot_width, height: tot_height });
+export const tot_width = new Wrapper(window.innerWidth)
+export const tot_height = new Wrapper(window.innerHeight)
+
+await app.init({ width: tot_width.item, height: tot_height.item });
 document.body.appendChild(app.canvas);
+
+// window.addEventListener('resize', resize_func);
+// function resize_func() {
+
+// }
+function resize_func() {
+    tot_width.item = window.innerWidth
+    tot_height.item = window.innerHeight
+    console.log(tot_width.item , tot_height.item, currx, curry )
+    app.renderer.resize(window.innerWidth, window.innerHeight)
+    app.stage.removeChildren()
+    // app.stage.removeChild(walls)
+
+
+    vis.x = tot_width.item/2;
+    vis.y = tot_height.item/2;
+    walls.x = tot_width.item/2;
+    walls.y = tot_height.item/2;
+
+    app.stage.addChild(vis);
+    app.stage.addChild(walls);
+
+    for (let t = 0; t < players.length; t++) {
+        players[t].drawMe(size.item, size.item, currx.item, curry.item)
+        // // console.log(players[t].x, players[t].y)
+        app.stage.addChild(players[t].bkg_rect)
+        // app.stage.addChild(players[t].rect)
+        app.stage.addChild(players[t].sprite)
+    }
+
+    app.stage.addChild(tot_cards[0])
+    inventory_screen.item = create_inventory_screen()
+    app.stage.addChild(inventory_screen.item)
+    inventory_screen.item.visible = inventory.item
+    app.stage.addChild(menu_container)
+
+    sight(game_map, game_maze, xrectnum, yrectnum, players, curr_player.item, monsters, ptr.item, size.item, currx.item, curry.item, chest_indices, chests, monster_indices, monster_spawns, monster_spawn_indices, app);
+    
+}
+
+window.onresize = resize_func;
+
+
+
+// window.addEventListener('resize', resize_screen);
+// $(window).resize(function() {
+//     console.log("here")
+//     tot_width.item = window.innerWidth
+//     tot_height.item = window.innerHeight
+// });
+// function resize_screen() {
+//     console.log("here")
+//     tot_width.item = window.innerWidth
+//     tot_height.item = window.innerHeight
+// }
+
+
+
 
 export const menu_container = init_pause_menu(app)
 export const pause = new Wrapper(false)
 
 export const inventory = new Wrapper(false)
-export const inventory_screen = create_inventory_screen()
+export const inventory_screen = new Wrapper(create_inventory_screen())
 
 export const pop_up = new Wrapper(false)
 export const pop_up_bubble = new Wrapper(false)
@@ -86,10 +145,10 @@ for(let i = 0;i < chests.length;i++)
 // const container = new PIXI.Container();
 export let vis = new PIXI.Container();
 export let walls = new PIXI.Container();
-vis.x = tot_width/2;
-vis.y = tot_height/2;
-walls.x = tot_width/2;
-walls.y = tot_height/2;
+vis.x = tot_width.item/2;
+vis.y = tot_height.item/2;
+walls.x = tot_width.item/2;
+walls.y = tot_height.item/2;
 app.stage.addChild(vis);
 app.stage.addChild(walls);
 
@@ -164,7 +223,7 @@ players[2].speed = Math.max(2*players[2].vis_tier, min_speed_val);
 players[3].speed = Math.max(2*players[3].vis_tier, min_speed_val);
 
 // export const tot_player_health = init_health_bars(app, players)
-export const tot_cards = init_all_player_cards(players, tot_width * 1/3, tot_height * 3 / 5, 200, 300)
+export const tot_cards = init_all_player_cards(players, tot_width.item * 1/3, tot_height.item * 3 / 5, 200, 300)
 
 
 
@@ -225,7 +284,7 @@ sight(game_map, game_maze, xrectnum, yrectnum, players, curr_player.item, monste
 
 // app.stage.addChild(tot_player_health[0])
 app.stage.addChild(tot_cards[0])
-app.stage.addChild(inventory_screen)
-inventory_screen.visible = inventory.item
+app.stage.addChild(inventory_screen.item)
+inventory_screen.item.visible = inventory.item
 app.stage.addChild(menu_container)
 menu_container.visible = pause.item

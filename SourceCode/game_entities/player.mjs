@@ -103,10 +103,10 @@ export class Player extends Entities
                 this.sprite.alpha = 0.5;
             }
         }
-        this.rect.x = (this.x - currx + 0.25) * sizex + Math.floor(tot_width / 2)
-        this.rect.y = (this.y - curry + 0.25) * sizey + Math.floor(tot_height / 2)
-        this.sprite.x = (this.x - currx + 1 / 8) * sizex + Math.floor(tot_width / 2)
-        this.sprite.y = (this.y - curry + 1 / 8) * sizey + Math.floor(tot_height / 2)
+        this.rect.x = (this.x - currx + 0.25) * sizex + Math.floor(tot_width.item / 2)
+        this.rect.y = (this.y - curry + 0.25) * sizey + Math.floor(tot_height.item / 2)
+        this.sprite.x = (this.x - currx + 1 / 8) * sizex + Math.floor(tot_width.item / 2)
+        this.sprite.y = (this.y - curry + 1 / 8) * sizey + Math.floor(tot_height.item / 2)
         this.bkg_rect.x = this.rect.x
         this.bkg_rect.y = this.rect.y
         // console.log(this.rect.x, this.rect.y)

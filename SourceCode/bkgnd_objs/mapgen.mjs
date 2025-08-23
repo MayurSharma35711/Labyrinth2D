@@ -210,6 +210,7 @@ export class Tile {
 				}
 
 				let bubblex = this.sprite.x + app.screen.width / 2 // + size.item * 1/5
+				console.log(app.screen.width / 2 )
 				let bubbley = this.sprite.y + app.screen.height / 2 // - size.item * 1/5
 				let cellx = this.sprite.x + app.screen.width / 2
 				let celly = this.sprite.y + app.screen.height / 2

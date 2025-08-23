@@ -143,8 +143,8 @@ export class Monster extends Entities
         // this.spr.x = (this.x - relx)
         this.rect.width = sizex / 2
         this.rect.height = sizey / 2
-        this.rect.x = (this.x - currx + 0.25) * sizex + Math.floor(tot_width / 2)
-        this.rect.y = (this.y - curry + 0.25) * sizey + Math.floor(tot_height / 2)
+        this.rect.x = (this.x - currx + 0.25) * sizex + Math.floor(tot_width.item / 2)
+        this.rect.y = (this.y - curry + 0.25) * sizey + Math.floor(tot_height.item / 2)
 
 
         this.rect.interactive = true;
