@@ -85,16 +85,18 @@ export function init_all_player_cards(players, locx, locy, sizex, sizey) {
     let cards = []
     let health_bars = []
     let name_text = []
+    let stepcounters = []
     for (let l = 0; l < players.length; l++) {
         let index = players[l].player_ind
-        let output = init_player_card(players[l], locx + index * (sizex) * 1.1 - 2.2 * sizex, locy, sizex, sizey)
+        let output = init_player_card(players[l], locx + index * (sizex) * 1 - 2 * sizex + 0.1*sizex, locy, 0.9 * sizex, 0.9*sizey)
         cards.push(output[0])
         health_bars.push(output[1])
         name_text.push(output[2])
+        stepcounters.push(output[3])
         player_info.addChild(output[0])
     }
     
-    return [player_info, cards, health_bars, name_text]
+    return [player_info, cards, health_bars, name_text, stepcounters]
 }
 
 
@@ -106,11 +108,11 @@ export function init_player_card(player, locx, locy, sizex, sizey) {
     player_card.position.set(locx, locy); // Center the menu
     player_card.pivot.set(player_card.width / 2, player_card.height / 2);
 
-    let health_bar = init_health_bar(player, sizex / 2 + sizex / 30 ,  sizey * 13/10)
+    let health_bar = init_health_bar(player, sizex / 2 + sizex / 30 ,  sizey, sizex, sizey)
 
     const bndy_rect = new PIXI.Graphics();
     bndy_rect.rect(0, 0, sizex, sizey);
-    bndy_rect.fill(0x000088, 0.5);
+    bndy_rect.fill(0x0000FF, 0.5);
     player_card.addChild(bndy_rect)
 
     bndy_rect.interactive = true;
@@ -134,26 +136,35 @@ export function init_player_card(player, locx, locy, sizex, sizey) {
     // console.log(typeof(player.speed))
     // console.log(player.speed)
 
-    const player_name = new PIXI.Text(namer + speeder, {
+    const player_name = new PIXI.Text( namer, {
         fontFamily: 'Arial',
-        fontSize: 36,
+        fontSize: 20,
         fill: 0xffffff,
     });
-    player_name.anchor.set(0.5); // Center the text within its bounds
-    player_name.position.y = sizey / 8; // Position relative to menuContainer's center
-    player_name.position.x = sizex / 2
+    player_name.anchor.set(0); // Center the text within its bounds
+    player_name.position.y = sizey * 2 / 24; // Position relative to menuContainer's center
+    player_name.position.x = sizex / 20
     player_card.addChild(player_name);
 
-    return [player_card, health_bar[1], player_name]
+    const stepper = new PIXI.Text(speeder, {
+        fontFamily: 'Arial',
+        fontSize: 20,
+        fill: 0x00ff00,
+    });
+    stepper.anchor.set(1,0); // Center the text within its bounds
+    stepper.position.y = sizey * 2 / 24; // Position relative to menuContainer's center
+    stepper.position.x = sizex * 19 / 20
+    player_card.addChild(stepper);
+
+    return [player_card, health_bar[1], player_name, stepper]
     // this contains the player name, player sprite, player health bar, and maybe some of their status effects 
     // probably need to make a class just for status effects
     
 }
 
 
-function init_health_bar(player, locx, locy){
+function init_health_bar(player, locx, locy, sizex, sizey){
     const health_bar = new PIXI.Container();
-    let i = player.player_ind
     health_bar.position.set(locx, locy); // Center the menu
     health_bar.pivot.set(health_bar.width / 2, health_bar.height / 2);
     
@@ -202,18 +213,29 @@ export function update_player_cards(){
     for (let l = 0; l < players.length; l++) {
         play_visible.push(seen_indices.item.includes(play_inds[l]))
     }
-    let indiv_cards = tot_cards[1]
-    let indiv_health = tot_cards[2]
-    let indiv_names = tot_cards[3]
+    let indiv_cards = tot_cards.item[1]
+    let indiv_health = tot_cards.item[2]
+    let indiv_names = tot_cards.item[3]
+    let indiv_steps = tot_cards.item[4]
     // console.log(play_visible)
     // console.log(ptr)
     for (let k = 0; k < players.length; k++) {
         indiv_cards[k].visible = play_visible[k]
-        indiv_names[k].text = players[k].name + " " + players[k].blks_moved + "/" + players[k].speed
+        indiv_steps[k].text = players[k].blks_moved + "/" + players[k].speed
+        console.log(indiv_steps[k])
+        if (players[k].blks_moved > players[k].speed / 2 && players[k].blks_moved <= players[k].speed - 2) {
+            indiv_steps[k].style.fill = 0xffff00
+        } 
+        else if (players[k].blks_moved > players[k].speed - 2) {
+            indiv_steps[k].style.fill = 0xff0000
+        } 
+        else {
+            indiv_steps[k].style.fill = 0x00ff00
+        }
         let init_width = indiv_health[k].width
         indiv_health[k].width = Math.max(0, (app.screen.width / 8 - app.screen.width / 100) * players[k].health / 10)
         indiv_health[k].x = indiv_health[k].x - (init_width - indiv_health[k].width) / 2
     }
-    app.stage.removeChild(tot_cards[0])
-    app.stage.addChild(tot_cards[0])
+    app.stage.removeChild(tot_cards.item[0])
+    app.stage.addChild(tot_cards.item[0])
 }

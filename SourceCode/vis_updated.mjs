@@ -66,12 +66,13 @@ function resize_func() {
     app.stage.addChild(walls);
 
     
+    tot_cards.item = init_all_player_cards(players, tot_width.item / 4, tot_height.item * 4 / 5 + size.item * 3/10, tot_width.item / 8,  tot_height.item / 5 - size.item * 4/10 - 10)
 
-    app.stage.addChild(tot_cards[0])
+    app.stage.addChild(tot_cards.item[0])
     inventory_screen.item = create_inventory_screen()
-    app.stage.addChild(inventory_screen.item)
+    
     inventory_screen.item.visible = inventory.item
-    app.stage.addChild(menu_container)
+    
 
     sight(game_map, game_maze, xrectnum, yrectnum, cutoff_y, tot_height, players, curr_player.item, monsters, ptr.item, size.item, currx.item, curry.item, chest_indices, chests, monster_indices, monster_spawns, monster_spawn_indices, app);
     for (let t = 0; t < players.length; t++) {
@@ -81,6 +82,9 @@ function resize_func() {
         // app.stage.addChild(players[t].rect)
         app.stage.addChild(players[t].sprite)
     }
+    app.stage.addChild(inventory_screen.item)
+    app.stage.addChild(menu_container)
+    
 }
 
 window.onresize = resize_func;
@@ -198,13 +202,13 @@ for(let i = 0;i < monster_spawns.length;i++)
     monster_spawn_indices[i] = monster_spawns[i].y * xrectnum + monster_spawns[i].x;
 }
 
-players[0] = new Player(0, size.item, size.item, 2, 'vivek');
-players[1] = new Player(1, size.item, size.item, 1, 'jane');
+players[0] = new Player(0, size.item, size.item, 2, 'Vivek');
+players[1] = new Player(1, size.item, size.item, 1, 'Jane');
 // players[1].y = 8;
-players[2] = new Player(2, size.item, size.item, 3, 'nikki');
+players[2] = new Player(2, size.item, size.item, 3, 'Nikki');
 // players[2].y = 5;
 // players[2].x = 3;
-players[3] = new Player(3, size.item, size.item, 4, 'mayur');
+players[3] = new Player(3, size.item, size.item, 4, 'Mayur');
 // players[3].y = 11;
 // console.log("players", players)
 players[1].range_type = "xrange";
@@ -222,7 +226,7 @@ players[2].speed = Math.max(2*players[2].vis_tier, min_speed_val);
 players[3].speed = Math.max(2*players[3].vis_tier, min_speed_val);
 
 // export const tot_player_health = init_health_bars(app, players)
-export const tot_cards = init_all_player_cards(players, tot_width.item * 1/3, tot_height.item * 9 / 10, 200, tot_height.item / 10)
+export const tot_cards = new Wrapper(init_all_player_cards(players, tot_width.item / 4, tot_height.item * 4 / 5 + size.item * 3/10, tot_width.item / 8,  tot_height.item / 5 - size.item * 4/10 - 10))
 
 
 
@@ -284,7 +288,7 @@ sight(game_map, game_maze, xrectnum, yrectnum, cutoff_y, tot_height, players, cu
 
 
 // app.stage.addChild(tot_player_health[0])
-app.stage.addChild(tot_cards[0])
+app.stage.addChild(tot_cards.item[0])
 app.stage.addChild(inventory_screen.item)
 inventory_screen.item.visible = inventory.item
 app.stage.addChild(menu_container)
