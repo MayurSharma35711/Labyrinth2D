@@ -24,6 +24,7 @@ export class Monster extends Entities
         super.setHealth((9 - tier) * 2);
         this.tier = tier
         this.brain_type = brain_type
+        this.display = false
         if (brain_type == "patrol") {
             this.decision_state = monster_state.return
             this.init_sector = find_sector(maze_dicter[0], this.x, this.y, num_x, num_y)
@@ -150,10 +151,15 @@ export class Monster extends Entities
         this.rect.interactive = true;
         this.rect.buttonMode = true;
         this.rect.on('pointerdown', () => {
-            if (!pause.item && !inventory.item) {
+            if (!pause.item && !inventory.item && this.display) {
+				app.stage.removeChild(selector_bubble.item)
+                this.display = false
+			}
+            else if (!pause.item && !inventory.item) {
                 console.log("here")
                 // if (selector.item) {
                 app.stage.removeChild(selector_bubble.item)
+                this.display = true
                 // }
 
                 let bubblex = this.rect.x 

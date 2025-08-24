@@ -41,6 +41,7 @@ export class MonsterSpawner extends Entities {
         this.turnval = 0
         this.freq = freq
         this.health = 10
+        this.display = false
     }
     drawMe(sizex, sizey, currx, curry){
         this.sprite.x = (this.x - currx + 1 / 8) * sizex + Math.floor(tot_width.item / 2)
@@ -52,11 +53,16 @@ export class MonsterSpawner extends Entities {
                 
         
         this.sprite.on('pointerdown', () => {
-            if (!pause.item && !inventory.item) {
+            if (!pause.item && !inventory.item && this.display) {
+				app.stage.removeChild(selector_bubble.item)
+                this.display = false
+			}
+            else if (!pause.item && !inventory.item) {
                 console.log("here")
                 // if (selector.item) {
                 app.stage.removeChild(selector_bubble.item)
                 // }
+                this.display = true
 
                 let bubblex = this.sprite.x 
                 let bubbley = this.sprite.y

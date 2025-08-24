@@ -78,6 +78,7 @@ export class Tile {
 		this.ind_y = ind_y
 		this.rendered = false;
         this.tile_image = new PIXI.Sprite();
+		this.display = false
     }
 	setColor () {
 		
@@ -204,9 +205,14 @@ export class Tile {
 
 		this.sprite.on('pointerdown', () => {
 			// console.log("biome")
-			if (!pause.item && !inventory.item && this.biome != -1) {
+			if (!pause.item && !inventory.item && this.biome != -1 && this.display) {
+				app.stage.removeChild(selector_bubble.item)
+				this.display = false
+			}
+			else if (!pause.item && !inventory.item && this.biome != -1) {
 				// if (selector.item) {
 				app.stage.removeChild(selector_bubble.item)
+				this.display = true
 				// }
 
 				let bubblex = this.sprite.x + app.screen.width / 2 // + size.item * 1/5

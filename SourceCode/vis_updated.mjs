@@ -65,13 +65,7 @@ function resize_func() {
     app.stage.addChild(vis);
     app.stage.addChild(walls);
 
-    for (let t = 0; t < players.length; t++) {
-        players[t].drawMe(size.item, size.item, currx.item, curry.item)
-        // // console.log(players[t].x, players[t].y)
-        app.stage.addChild(players[t].bkg_rect)
-        // app.stage.addChild(players[t].rect)
-        app.stage.addChild(players[t].sprite)
-    }
+    
 
     app.stage.addChild(tot_cards[0])
     inventory_screen.item = create_inventory_screen()
@@ -80,7 +74,13 @@ function resize_func() {
     app.stage.addChild(menu_container)
 
     sight(game_map, game_maze, xrectnum, yrectnum, cutoff_y, tot_height, players, curr_player.item, monsters, ptr.item, size.item, currx.item, curry.item, chest_indices, chests, monster_indices, monster_spawns, monster_spawn_indices, app);
-    
+    for (let t = 0; t < players.length; t++) {
+        players[t].drawMe(size.item, size.item, currx.item, curry.item)
+        // // console.log(players[t].x, players[t].y)
+        app.stage.addChild(players[t].bkg_rect)
+        // app.stage.addChild(players[t].rect)
+        app.stage.addChild(players[t].sprite)
+    }
 }
 
 window.onresize = resize_func;
@@ -104,9 +104,6 @@ window.onresize = resize_func;
 
 export const menu_container = init_pause_menu(app)
 export const pause = new Wrapper(false)
-
-export const inventory = new Wrapper(false)
-export const inventory_screen = new Wrapper(create_inventory_screen())
 
 export const pop_up = new Wrapper(false)
 export const pop_up_bubble = new Wrapper(false)
@@ -236,6 +233,8 @@ export let play_inds = new Array(players.length);
 
 
 
+export const inventory = new Wrapper(false)
+export const inventory_screen = new Wrapper(create_inventory_screen())
 
 
 setPlays();

@@ -1,4 +1,4 @@
-import { app, tot_height, tot_width } from "../../vis_updated.mjs";
+import { app, players, tot_height, tot_width } from "../../vis_updated.mjs";
 
 
 export function create_inventory_screen(){
@@ -21,15 +21,22 @@ export function create_inventory_screen(){
     bkg_rect.fill(0xABA4A0);
     inventory_screen.addChild(bkg_rect)
 
-    const text_inside = new PIXI.Text('inventory', {
+    const text_inside = new PIXI.Text('Inventory', {
         fontFamily: 'Arial',
         fontSize: 20,
         fill: 0xffffff,
     });
 
     text_inside.anchor.set(0.5); // Center the text within its bounds
-    text_inside.position.y = 0; // Position relative to menuContainer's center
+    text_inside.position.x = 0; // Position relative to menuContainer's center
+    text_inside.position.y = -sizey / 2 + 15; // Position relative to menuContainer's center
     inventory_screen.addChild(text_inside);
+
+
+    for (let t = 0; t < players.length; t++) {
+        // console.log(players[t].sprite)
+        inventory_screen.addChild(players[t].sprite)
+    }
 
     // pop_up.item = true
     // text_inside.on('pointerdown', () => {
