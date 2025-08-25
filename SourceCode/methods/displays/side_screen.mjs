@@ -169,17 +169,17 @@ export function init_all_player_cards(players, locx, locy, sizex, sizey) {
             if(!inventory.item) {
                 cards[0][l].visible = false
                 cards[2][l].visible = true
+                app.stage.removeChild(tot_cards.item[0])
+                app.stage.addChild(tot_cards.item[0])
             }
-            app.stage.removeChild(tot_cards.item[0])
-            app.stage.addChild(tot_cards.item[0])
         });
         bndrects[1][l].on('mouseover', () => {
             if(!inventory.item) {
                 cards[1][l].visible = false
                 cards[2][l].visible = true
+                app.stage.removeChild(tot_cards.item[0])
+                app.stage.addChild(tot_cards.item[0])
             }
-            app.stage.removeChild(tot_cards.item[0])
-            app.stage.addChild(tot_cards.item[0])
         });
         bndrects[2][l].on('mouseout', () => {
             if (!inventory.item) {
