@@ -243,7 +243,7 @@ export class Tile {
 		this.sprite.on('mouseover', () => {
 			if (!pause.item && !inventory.item && this.biome != -1) {
 				border_rect.visible = true
-				if (curr_player.item.in_combat && this.sprite.alpha < 0.7) {
+				if (curr_player.item.in_combat && this.sprite.alpha == 0.5) {
 					ptr.item = this.ind_x + this.ind_y * xrectnum
 
 					let curr_player_view = get_view_sqr(curr_player.item.x, curr_player.item.y, xrectnum, yrectnum, curr_player.item.vis_tier)
