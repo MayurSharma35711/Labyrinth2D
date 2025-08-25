@@ -45,6 +45,7 @@ document.body.appendChild(app.canvas);
 
 // window.addEventListener('resize', resize_func);
 // function resize_func() {
+export const curr_player_index = new Wrapper(0)
 
 // }
 function resize_func() {
@@ -232,7 +233,6 @@ export const tot_cards = new Wrapper(init_all_player_cards(players, tot_width.it
 
 
 export let curr_player = new Wrapper(players[0])
-export const curr_player_index = new Wrapper(0)
 export const curr_player_trues = new Wrapper([true, false, false, false])
 // export let curr_index = 0
 

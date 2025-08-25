@@ -56,6 +56,7 @@ export class MonsterSpawner extends Entities {
             if (!pause.item && !inventory.item && this.display) {
 				app.stage.removeChild(selector_bubble.item)
                 this.display = false
+                selector.item = false
 			}
             else if (!pause.item && !inventory.item) {
                 console.log("here")

@@ -211,7 +211,7 @@ export function sight(game_map, game_maze, xrectnum, yrectnum, cutoff_y, tot_hei
         {
             if(!curr_player_view.includes(range[i]))
                 continue;
-            console.log(game_map[range[i]])
+            // console.log(game_map[range[i]])
             game_map[range[i]].sprite.alpha = 0.5;
             game_map[range[i]].sprite.tint = 0xFFBB88;
             // game_map[range[i]].sprite.saturation = .1;

@@ -460,8 +460,12 @@ function keyStart(e)
     }
     // // console.log("*****")
     // // console.log(xmax, xmin, ymax, ymin)
+
+
     act_currx.item = Math.floor((xmax + xmin)/2)
     act_curry.item = Math.floor( (ymax + ymin)/2 )
+    // act_currx.item = Math.floor((xmax + xmin + curr_player.item.x)/3)
+    // act_curry.item = Math.floor( (ymax + ymin + curr_player.item.y)/3 )
     
     currx.item = act_currx.item + shiftx.item
     curry.item = act_curry.item + shifty.item
@@ -488,6 +492,7 @@ function keyStart(e)
     // // console.log(game_map[ptr.item].biome);
     setPlays();
     update_player_cards();
+    // console.log("selector", selector.item)
     if (selector.item) {
         app.stage.addChild(selector_bubble.item)
     }
@@ -512,5 +517,6 @@ function keyStart(e)
         app.stage.removeChild(menu_container)
         app.stage.addChild(menu_container)
     }
+    console.log(players[1].health)
     
 }

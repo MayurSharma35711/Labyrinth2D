@@ -147,7 +147,7 @@ export function init_all_player_cards(players, locx, locy, sizex, sizey) {
     }
 
     for (let l = 0; l < players.length; l++) {
-        if(l == 0) {
+        if(l == curr_player_index.item) {
             cards[0][l].visible = false
             cards[1][l].visible = true
         }
@@ -519,7 +519,7 @@ export function update_player_cards(){
             else {
                 indiv_steps[l][k].style.fill = 0x00ff00
             }
-            let init_width = indiv_health[l][k].width
+            let init_width = indiv_bnds[l][k].width * 18 / 20
             indiv_health[l][k].width = Math.max(0, init_width * players[k].health / 10)
             // indiv_health[k].x = indiv_health[k].x - (init_width - indiv_health[k].width) / 2
         }

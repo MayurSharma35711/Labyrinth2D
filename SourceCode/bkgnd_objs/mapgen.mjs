@@ -1,9 +1,11 @@
 // import { plain_text, lava_text, rocky_text } from "../map_graphics2.mjs";
-import { vis, app, pause, inventory, size, tot_height, cutoff_y } from "../vis_updated.mjs";
+import { vis, app, pause, inventory, size, tot_height, cutoff_y, curr_player, xrectnum, ptr, game_map, game_maze, yrectnum, players, monsters, chest_indices, chests, monster_indices, monster_spawns, monster_spawn_indices } from "../vis_updated.mjs";
 import { selector, selector_bubble } from "../vis_updated.mjs";
 import { make_selector } from "../methods/displays/pop_up.mjs";
 import { genBiomes } from "./mapgenV2.mjs";
 import { VectorBiomes } from "./mapgenV2.mjs";
+import { sight } from "../methods/graphics/sight.mjs";
+import { get_view_range, get_view_sqr } from "../methods/graphics/visibility.mjs";
 
 // HERE WE LOAD THE TEXTURE REQUIRED FOR THE CODE TO RUN
 await PIXI.Assets.load('https://mayursharma35711.github.io/Labyrinth2D/textures/bkgnd/ShadowLands2.png');
@@ -197,6 +199,7 @@ export class Tile {
 		// }
         this.sprite.width = cell_width;
         this.sprite.height = cell_height;
+		this.sprite.alpha = 1
 
 		this.sprite.interactive = true;
 		this.sprite.buttonMode = true; // Changes cursor on hover
@@ -208,6 +211,7 @@ export class Tile {
 			if (!pause.item && !inventory.item && this.biome != -1 && this.display) {
 				app.stage.removeChild(selector_bubble.item)
 				this.display = false
+				selector.item = false
 			}
 			else if (!pause.item && !inventory.item && this.biome != -1) {
 				// if (selector.item) {
@@ -237,12 +241,45 @@ export class Tile {
 		
 		border_rect.visible = false
 		this.sprite.on('mouseover', () => {
-			if (!pause.item && !inventory.item && this.biome != -1)
+			if (!pause.item && !inventory.item && this.biome != -1) {
 				border_rect.visible = true
+				if (curr_player.item.in_combat && this.sprite.alpha < 0.7) {
+					ptr.item = this.ind_x + this.ind_y * xrectnum
+
+					let curr_player_view = get_view_sqr(curr_player.item.x, curr_player.item.y, xrectnum, yrectnum, curr_player.item.vis_tier)
+					let range = get_view_range(curr_player.item.x, curr_player.item.y, xrectnum, yrectnum, curr_player.item.range, game_maze, curr_player.item.range_type)
+					range = new Set(range);
+					range = range.intersection(new Set(curr_player_view));
+					range = Array.from(range)
+						
+					for(let i = 0;i < range.length;i++)
+					{
+						if(!curr_player_view.includes(range[i]))
+							continue;
+						// console.log(game_map[range[i]])
+						game_map[range[i]].sprite.alpha = 0.5;
+						game_map[range[i]].sprite.tint = 0xFFBB88;
+						// game_map[range[i]].sprite.saturation = .1;
+					}
+					if(curr_player.item.range_type == "regular")
+					{
+						game_map[ptr.item].sprite.alpha = 0
+						game_map[ptr.item].sprite.tint = 0xFFFFFF;
+						console.log('here', ptr.item)
+					}
+					// sight(game_map, game_maze, xrectnum, yrectnum, cutoff_y, tot_height, players, curr_player, monsters, ptr, size, currx, curry, chest_indices, chests, monster_indices, monster_spawns, monster_spawn_indices, app)
+				}
+			}
+				
 		})
 		this.sprite.on('mouseout', () => {
-			if (!pause.item && !inventory.item && this.biome != -1)
+			if (!pause.item && !inventory.item && this.biome != -1) {
 				border_rect.visible = false
+				// if (curr_player.item.in_combat && this.sprite.alpha == 0.1) {
+				// // 	// ptr.item = this.ind_x + this.ind_y * xrectnum
+				// 	this.sprite.alpha = this.sprite.old_alpha_val
+				// }
+			}
 		})
 		if(this.sprite.y + vis.y < tot_height.item - cutoff_y.item) {
 			vis.addChild(this.sprite);
