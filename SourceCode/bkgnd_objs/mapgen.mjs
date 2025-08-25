@@ -214,35 +214,6 @@ export class Tile {
 				selector.item = false
 			}
 			else if (!pause.item && !inventory.item && this.biome != -1) {
-				// if (selector.item) {
-				app.stage.removeChild(selector_bubble.item)
-				this.display = true
-				// }
-
-				let bubblex = this.sprite.x + app.screen.width / 2 // + size.item * 1/5
-				// console.log(app.screen.width / 2 )
-				let bubbley = this.sprite.y + tot_height.item / 2 - cutoff_y.item / 2 // - size.item * 1/5
-				let cellx = this.sprite.x + app.screen.width / 2
-				let celly = this.sprite.y + tot_height.item / 2 - cutoff_y.item / 2
-				let cell_width = this.sprite.width
-				let cell_height = this.sprite.height
-				
-				selector_bubble.item = make_selector(bubblex, bubbley, 100, 50, print_out_biome(this), 0x70AABB, 0xAAAA00, cellx, celly, cell_width, cell_height, this.biome)
-				// console.log(this.sprite.x + app.screen.width / 2, this.sprite.y + app.screen.height / 2)
-				app.stage.addChild(selector_bubble.item)
-				// console.log('selector case!', selector.item);
-			}
-			// Add logic to start game or transition to another scene
-		});
-
-		const border_rect = new PIXI.Graphics();
-		border_rect.rect(this.sprite.x, this.sprite.y, this.sprite.width, this.sprite.height);
-		border_rect.fill(0x000000, 0.3); // change this color depending on what the biome itself is
-		
-		border_rect.visible = false
-		this.sprite.on('mouseover', () => {
-			if (!pause.item && !inventory.item && this.biome != -1) {
-				border_rect.visible = true
 				if (curr_player.item.in_combat && this.sprite.alpha == 0.5) {
 					ptr.item = this.ind_x + this.ind_y * xrectnum
 
@@ -269,6 +240,37 @@ export class Tile {
 					}
 					// sight(game_map, game_maze, xrectnum, yrectnum, cutoff_y, tot_height, players, curr_player, monsters, ptr, size, currx, curry, chest_indices, chests, monster_indices, monster_spawns, monster_spawn_indices, app)
 				}
+				else {
+					// if (selector.item) {
+					app.stage.removeChild(selector_bubble.item)
+					this.display = true
+					// }
+
+					let bubblex = this.sprite.x + app.screen.width / 2 // + size.item * 1/5
+					// console.log(app.screen.width / 2 )
+					let bubbley = this.sprite.y + tot_height.item / 2 - cutoff_y.item / 2 // - size.item * 1/5
+					let cellx = this.sprite.x + app.screen.width / 2
+					let celly = this.sprite.y + tot_height.item / 2 - cutoff_y.item / 2
+					let cell_width = this.sprite.width
+					let cell_height = this.sprite.height
+					
+					selector_bubble.item = make_selector(bubblex, bubbley, 100, 50, print_out_biome(this), 0x70AABB, 0xAAAA00, cellx, celly, cell_width, cell_height, this.biome)
+					// console.log(this.sprite.x + app.screen.width / 2, this.sprite.y + app.screen.height / 2)
+					app.stage.addChild(selector_bubble.item)
+					// console.log('selector case!', selector.item);
+				}
+			}
+			// Add logic to start game or transition to another scene
+		});
+
+		const border_rect = new PIXI.Graphics();
+		border_rect.rect(this.sprite.x, this.sprite.y, this.sprite.width, this.sprite.height);
+		border_rect.fill(0x000000, 0.3); // change this color depending on what the biome itself is
+		
+		border_rect.visible = false
+		this.sprite.on('mouseover', () => {
+			if (!pause.item && !inventory.item && this.biome != -1) {
+				border_rect.visible = true
 			}
 				
 		})
