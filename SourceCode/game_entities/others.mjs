@@ -122,7 +122,7 @@ export function spawn_mon(monster_spawn) {
             let tier = monster_spawn.tier
             let sizer = size.item
             let brain = monster_spawn.type
-            monsters.push( new Monster(tier, sizer, sizer, xrectnum, yrectnum, brain, game_map, sect_size, x, y) )
+            monsters.push( new Monster(tier, sizer, sizer, xrectnum, yrectnum, brain, game_map.item, sect_size, x, y) )
             monster_indices.push(x + y * xrectnum)
         }
         console.log(monsters[monsters.length - 1])

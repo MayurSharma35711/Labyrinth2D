@@ -1,15 +1,16 @@
 import { map_init } from "./mapgen.mjs";
 import { maze_init2 } from "./mazegen.mjs";
-import { chest_gen } from "../game_entities/equipment.mjs";
+import { chest_gen } from "../items/equipment.mjs";
 import { maze_check } from "./rooms.mjs";
 import { multiRooms } from "./rooms.mjs";
 import { full_dungeon } from "./dungeon.mjs";
+import { precise_rooms } from "./rooms.mjs";
 // xrectnum = 20;
 // yrectnum = 20;
 
 // room generation needs to start being less automated and more input driven!! 
 export function init_maze_level(xrectnum, yrectnum) {
-   console.log("Here"+xrectnum);
+//    console.log("Here"+xrectnum);
        let game_map = map_init(xrectnum, yrectnum,[1,1,0,0]);
        let game_maze = maze_init2(xrectnum, yrectnum);
        // roominfo gives [xstart, ystart, xlen, ylen, room_biome, doors]
@@ -36,7 +37,7 @@ export function init_maze_level(xrectnum, yrectnum) {
 
 export function init_dungeon_level(xrectnum, yrectnum){
     // dungeon testing
-    console.log("Here"+xrectnum);
+    // console.log("Here"+xrectnum);
     let output = full_dungeon(xrectnum, yrectnum, 2)
     return [output[0], output[1], [], []]
 }

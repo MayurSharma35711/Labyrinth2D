@@ -16,6 +16,7 @@ import { Wrapper } from "./methods/datatypes.mjs";
 import { init_pause_menu, init_all_player_cards } from "./methods/displays/side_screen.mjs";
 import { MonsterSpawner } from "./game_entities/others.mjs";
 import { create_inventory_screen } from "./methods/displays/inventory.mjs";
+import { Area, Level_Door } from "./bkgnd_objs/area.mjs";
 // /Users/mayur/Documents/Github/textures
 
 // // HERE WE LOAD THE TEXTURE REQUIRED FOR THE CODE TO RUN
@@ -75,7 +76,7 @@ function resize_func() {
     inventory_screen.item.visible = inventory.item
     
 
-    sight(game_map, game_maze, xrectnum, yrectnum, cutoff_y, tot_height, players, curr_player.item, monsters, ptr.item, size.item, currx.item, curry.item, chest_indices, chests, monster_indices, monster_spawns, monster_spawn_indices, app);
+    sight(game_map.item, game_maze.item, xrectnum, yrectnum, cutoff_y, tot_height, players, curr_player.item, monsters, ptr.item, size.item, currx.item, curry.item, chest_indices, chests, monster_indices, monster_spawns, monster_spawn_indices, app);
     for (let t = 0; t < players.length; t++) {
         players[t].drawMe(size.item, size.item, currx.item, curry.item)
         // // console.log(players[t].x, players[t].y)
@@ -118,23 +119,35 @@ export const selector_bubble = new Wrapper(false)
 
 export let xrectnum = 20;
 export let yrectnum = 20;
-let output = init_bkgnd(xrectnum, yrectnum);
-export let game_map = output[0];
-export let game_maze = output[1];
+
+const first_maze = new Area("maze1", xrectnum, yrectnum, "m")
+const first_dungeon = new Area("dung1", xrectnum, yrectnum, "d")
+const doorer = new Level_Door(first_maze, first_dungeon, [4,0], [4,0], [0, 1, 20, 21], [0, 1, 20, 21])
+first_maze.set_up_doors([doorer])
+first_dungeon.set_up_doors([doorer])
+
+export const current_area = new Wrapper(first_maze)
+
+
+let output = current_area.item.full_setup
+// console.log(output)
+// console.log(first_maze)
+export let game_map = new Wrapper(output[0]);
+export let game_maze = new Wrapper(output[1]);
 let rooms = output[2];
-export let chests = output[3];
+export let chests = [] // output[3];
 export let ptr = new Wrapper(0);
 let monster_num = 1;
 let monster_spawn_num = 0;
 export const sect_size = 5
 // print_walls(game_maze, xrectnum, yrectnum)
 
-game_maze[0].exists = false;
-game_maze[1].exists = false;
-game_maze[2].exists = false;
-game_maze[2 * xrectnum + 1].exists = false;
+game_maze.item[0].exists = false;
+game_maze.item[1].exists = false;
+game_maze.item[2].exists = false;
+game_maze.item[2 * xrectnum + 1].exists = false;
 
-export const maze_dicter =  make_maze_dicts(game_maze, xrectnum, yrectnum, sect_size, game_map)
+export const maze_dicter =  make_maze_dicts(game_maze.item, xrectnum, yrectnum, sect_size, game_map.item)
 // (above 4 lineS are needed for a MAZE)
 
 
@@ -179,12 +192,12 @@ for(let i = 0; i < monsters.length;i++)
     let x = Math.floor(Math.random() * xrectnum)
     let y = Math.floor(Math.random() * yrectnum)
     let ind = x + xrectnum * y
-    while(game_map[ind].getBiome() == 9 || game_map[ind].getBiome() == -1 || game_map[ind].getBiome() == 10) {
+    while(game_map.item[ind].getBiome() == 9 || game_map.item[ind].getBiome() == -1 || game_map.item[ind].getBiome() == 10) {
         x = Math.floor(Math.random() * xrectnum)
         y = Math.floor(Math.random() * yrectnum)
         ind = x + xrectnum * y
     }
-    monsters[i] = new Monster(5, size.item, size.item, xrectnum, yrectnum, "hunt", game_map, sect_size, x, y);
+    monsters[i] = new Monster(5, size.item, size.item, xrectnum, yrectnum, "hunt", game_map.item, sect_size, x, y);
 }
 
 for(let i = 0;i < monsters.length;i++)
@@ -195,7 +208,7 @@ for(let i = 0;i < monsters.length;i++)
 for(let i = 0; i < monster_spawns.length;i++)
 {
     // console.log((i % 5) + 1)
-    monster_spawns[i] = new MonsterSpawner(5, size.item, size.item, xrectnum, yrectnum, game_map, "spawn", "sniff", 4)
+    monster_spawns[i] = new MonsterSpawner(5, size.item, size.item, xrectnum, yrectnum, game_map.item, "spawn", "sniff", 4)
 }
 
 for(let i = 0;i < monster_spawns.length;i++)
@@ -287,7 +300,7 @@ for (let t = 0; t < players.length; t++) {
 //     app.stage.addChild(monsters[t].rect)
 // }
 // console.log(monster_spawn_indices)
-sight(game_map, game_maze, xrectnum, yrectnum, cutoff_y, tot_height, players, curr_player.item, monsters, ptr.item, size.item, currx.item, curry.item, chest_indices, chests, monster_indices, monster_spawns, monster_spawn_indices, app);
+sight(game_map.item, game_maze.item, xrectnum, yrectnum, cutoff_y, tot_height, players, curr_player.item, monsters, ptr.item, size.item, currx.item, curry.item, chest_indices, chests, monster_indices, monster_spawns, monster_spawn_indices, app);
 
 
 // app.stage.addChild(tot_player_health[0])

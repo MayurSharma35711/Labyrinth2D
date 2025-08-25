@@ -218,7 +218,7 @@ export class Tile {
 					ptr.item = this.ind_x + this.ind_y * xrectnum
 
 					let curr_player_view = get_view_sqr(curr_player.item.x, curr_player.item.y, xrectnum, yrectnum, curr_player.item.vis_tier)
-					let range = get_view_range(curr_player.item.x, curr_player.item.y, xrectnum, yrectnum, curr_player.item.range, game_maze, curr_player.item.range_type)
+					let range = get_view_range(curr_player.item.x, curr_player.item.y, xrectnum, yrectnum, curr_player.item.range, game_maze.item, curr_player.item.range_type)
 					range = new Set(range);
 					range = range.intersection(new Set(curr_player_view));
 					range = Array.from(range)
@@ -228,14 +228,14 @@ export class Tile {
 						if(!curr_player_view.includes(range[i]))
 							continue;
 						// console.log(game_map[range[i]])
-						game_map[range[i]].sprite.alpha = 0.5;
-						game_map[range[i]].sprite.tint = 0xFFBB88;
+						game_map.item[range[i]].sprite.alpha = 0.5;
+						game_map.item[range[i]].sprite.tint = 0xFFBB88;
 						// game_map[range[i]].sprite.saturation = .1;
 					}
 					if(curr_player.item.range_type == "regular")
 					{
-						game_map[ptr.item].sprite.alpha = 0
-						game_map[ptr.item].sprite.tint = 0xFFFFFF;
+						game_map.item[ptr.item].sprite.alpha = 0
+						game_map.item[ptr.item].sprite.tint = 0xFFFFFF;
 						console.log('here', ptr.item)
 					}
 					// sight(game_map, game_maze, xrectnum, yrectnum, cutoff_y, tot_height, players, curr_player, monsters, ptr, size, currx, curry, chest_indices, chests, monster_indices, monster_spawns, monster_spawn_indices, app)
