@@ -766,3 +766,11 @@ TO DO:
 - next things that need to be done
 	- get levels working
 	- start getting the inventory screen into shape
+
+8/25/25
+- (mayur)
+- got combat working with the selector screen
+- fixed some bugs 
+	- player card healthbar corrected
+	- the selector screen appears correctly
+	- players also disappear when off screen
