@@ -5,6 +5,7 @@ import { x_view_range } from "./combat/inRangeFuncs.mjs";
 import { inRange } from "./combat/inRangeFuncs.mjs";
 import { take_game_turn } from "../game_entities/game_AIs/game_turn.mjs";
 import { update_player_cards } from "./displays/side_screen.mjs";
+import { tot_cards } from "../vis_updated.mjs";
 
 export function key_setup(){
     document.addEventListener('keydown', keyStart)
@@ -409,6 +410,23 @@ function keyStart(e)
             //display screens
             inventory.item = true;
             inventory_screen.item.visible = true
+
+            let indiv_cards = tot_cards.item[1]
+            let play_visible = []
+            for (let l = 0; l < players.length; l++) {
+                play_visible.push(seen_indices.item.includes(play_inds[l]))
+            }
+            for (let k = 0; k < players.length; k++) {
+                indiv_cards[2][k].visible = false
+                if(k == curr_player_index.item) {
+                    indiv_cards[0][k].visible = false
+                    indiv_cards[1][k].visible = play_visible[k]
+                }
+                else {
+                    indiv_cards[1][k].visible = false
+                    indiv_cards[0][k].visible = play_visible[k]
+                }
+            }
 
             console.log("check inventory");
         }

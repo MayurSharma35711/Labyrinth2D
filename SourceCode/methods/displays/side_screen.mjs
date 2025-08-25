@@ -2,6 +2,7 @@ import { pause, inventory, tot_cards, inventory_screen, curr_player_trues, curr_
 import { players, ptr, game_maze, xrectnum, yrectnum, app, seen_indices, play_inds } from "../../vis_updated.mjs";
 import { get_view_sqr } from "../graphics/visibility.mjs";
 
+
 // export let screen = new PIXI.Container();
 // screen.backgroundColor = 0x0000FF
 
@@ -88,6 +89,7 @@ export function init_all_player_cards(players, locx, locy, sizex, sizey) {
     let stepcounters = []
     let staters = []
     let bndrects = []
+    let coverrects = []
 
     cards.push([])
     health_bars.push([])
@@ -95,6 +97,7 @@ export function init_all_player_cards(players, locx, locy, sizex, sizey) {
     stepcounters.push([])
     staters.push([])
     bndrects.push([])
+    coverrects.push([])
 
     for (let l = 0; l < players.length; l++) {
         let index = players[l].player_ind
@@ -105,6 +108,7 @@ export function init_all_player_cards(players, locx, locy, sizex, sizey) {
         stepcounters[0].push(output[3])
         staters[0].push(output[4])
         bndrects[0].push(output[5])
+        coverrects[0].push(output[6])
         player_info.addChild(output[0])
     }
 
@@ -114,6 +118,7 @@ export function init_all_player_cards(players, locx, locy, sizex, sizey) {
     stepcounters.push([])
     staters.push([])
     bndrects.push([])
+    coverrects.push([])
 
     for (let l = 0; l < players.length; l++) {
         let index = players[l].player_ind
@@ -124,6 +129,7 @@ export function init_all_player_cards(players, locx, locy, sizex, sizey) {
         stepcounters[1].push(output[3])
         staters[1].push(output[4])
         bndrects[1].push(output[5])
+        coverrects[1].push(output[6])
         player_info.addChild(output[0])
     }
 
@@ -133,6 +139,7 @@ export function init_all_player_cards(players, locx, locy, sizex, sizey) {
     stepcounters.push([])
     staters.push([])
     bndrects.push([])
+    coverrects.push([])
 
     for (let l = 0; l < players.length; l++) {
         let index = players[l].player_ind
@@ -143,6 +150,7 @@ export function init_all_player_cards(players, locx, locy, sizex, sizey) {
         stepcounters[2].push(output[3])
         staters[2].push(output[4])
         bndrects[2].push(output[5])
+        coverrects[2].push(output[6])
         player_info.addChild(output[0])
     }
 
@@ -162,12 +170,16 @@ export function init_all_player_cards(players, locx, locy, sizex, sizey) {
                 cards[0][l].visible = false
                 cards[2][l].visible = true
             }
+            app.stage.removeChild(tot_cards.item[0])
+            app.stage.addChild(tot_cards.item[0])
         });
         bndrects[1][l].on('mouseover', () => {
             if(!inventory.item) {
                 cards[1][l].visible = false
                 cards[2][l].visible = true
             }
+            app.stage.removeChild(tot_cards.item[0])
+            app.stage.addChild(tot_cards.item[0])
         });
         bndrects[2][l].on('mouseout', () => {
             if (!inventory.item) {
@@ -178,7 +190,7 @@ export function init_all_player_cards(players, locx, locy, sizex, sizey) {
         })
     }
     
-    return [player_info, cards, health_bars, name_text, stepcounters, staters, bndrects]
+    return [player_info, cards, health_bars, name_text, stepcounters, staters, bndrects, coverrects]
 }
 
 
@@ -195,6 +207,10 @@ function init_small_player_card(player, locx, locy, sizex, sizey) {
     bndy_rect.rect(0, 0, sizex, sizey);
     bndy_rect.fill(0x0000FF, 0.5);
     player_card.addChild(bndy_rect)
+
+    const cover_rect = new PIXI.Graphics();
+    cover_rect.rect(0, 0, sizex, sizey);
+    cover_rect.fill(0x000000, 0.5);
     
     player_card.addChild(health_bar[0])
 
@@ -255,13 +271,33 @@ function init_small_player_card(player, locx, locy, sizex, sizey) {
         // console.log('Play button clicked!');
         inventory.item = true
         inventory_screen.item.visible = true
+
+        let indiv_cards = tot_cards.item[1]
+        let play_visible = []
+        for (let l = 0; l < players.length; l++) {
+            play_visible.push(seen_indices.item.includes(play_inds[l]))
+        }
+        for (let k = 0; k < players.length; k++) {
+            indiv_cards[2][k].visible = false
+            if(k == curr_player_index.item) {
+                indiv_cards[0][k].visible = false
+                indiv_cards[1][k].visible = play_visible[k]
+            }
+            else {
+                indiv_cards[1][k].visible = false
+                indiv_cards[0][k].visible = play_visible[k]
+            }
+        }
+
         app.stage.removeChild(inventory_screen.item)
         app.stage.addChild(inventory_screen.item)
         // console.log("here")
         // Add logic to start game or transition to another scene
     });
 
-    return [player_card, health_bar[1], player_name, stepper, player_stats, bndy_rect]
+    player_card.addChild(cover_rect)
+    cover_rect.visible = false
+    return [player_card, health_bar[1], player_name, stepper, player_stats, bndy_rect, cover_rect]
     // this contains the player name, player sprite, player health bar, and maybe some of their status effects 
     // probably need to make a class just for status effects
     
@@ -281,6 +317,10 @@ function init_medium_player_card(player, locx, locy, sizex, sizey) {
     bndy_rect.rect(0, - 4 * sizey / 10, sizex, 1.4 * sizey);
     bndy_rect.fill(0x0000FF, 0.5);
     player_card.addChild(bndy_rect)
+
+    const cover_rect = new PIXI.Graphics();
+    cover_rect.rect(0, - 4 * sizey / 10, sizex, 1.4 * sizey);
+    cover_rect.fill(0x000000, 0.5);
     
     player_card.addChild(health_bar[0])
 
@@ -341,13 +381,33 @@ function init_medium_player_card(player, locx, locy, sizex, sizey) {
         // console.log('Play button clicked!');
         inventory.item = true
         inventory_screen.item.visible = true
+
+        let indiv_cards = tot_cards.item[1]
+        let play_visible = []
+        for (let l = 0; l < players.length; l++) {
+            play_visible.push(seen_indices.item.includes(play_inds[l]))
+        }
+        for (let k = 0; k < players.length; k++) {
+            indiv_cards[2][k].visible = false
+            if(k == curr_player_index.item) {
+                indiv_cards[0][k].visible = false
+                indiv_cards[1][k].visible = play_visible[k]
+            }
+            else {
+                indiv_cards[1][k].visible = false
+                indiv_cards[0][k].visible = play_visible[k]
+            }
+        }
+
         app.stage.removeChild(inventory_screen.item)
         app.stage.addChild(inventory_screen.item)
         // console.log("here")
         // Add logic to start game or transition to another scene
     });
 
-    return [player_card, health_bar[1], player_name, stepper, player_stats, bndy_rect]
+    player_card.addChild(cover_rect)
+    cover_rect.visible = false
+    return [player_card, health_bar[1], player_name, stepper, player_stats, bndy_rect, cover_rect]
     // this contains the player name, player sprite, player health bar, and maybe some of their status effects 
     // probably need to make a class just for status effects
     
@@ -368,6 +428,12 @@ function init_large_player_card(player, locx, locy, sizex, sizey) {
     bndy_rect.rect(0, - 1.5*sizey, sizex, 2.5 * sizey);
     bndy_rect.fill(0x0000FF, 0.5);
     player_card.addChild(bndy_rect)
+
+    const cover_rect = new PIXI.Graphics();
+    cover_rect.rect(0, - 1.5*sizey, sizex, 2.5 * sizey);
+    cover_rect.fill(0x000000, 0.5);
+    
+
     
     player_card.addChild(health_bar[0])
 
@@ -428,13 +494,34 @@ function init_large_player_card(player, locx, locy, sizex, sizey) {
         // console.log('Play button clicked!');
         inventory.item = true
         inventory_screen.item.visible = true
+
+        let indiv_cards = tot_cards.item[1]
+        let play_visible = []
+        for (let l = 0; l < players.length; l++) {
+            play_visible.push(seen_indices.item.includes(play_inds[l]))
+        }
+        for (let k = 0; k < players.length; k++) {
+            indiv_cards[2][k].visible = false
+            if(k == curr_player_index.item) {
+                indiv_cards[0][k].visible = false
+                indiv_cards[1][k].visible = play_visible[k]
+            }
+            else {
+                indiv_cards[1][k].visible = false
+                indiv_cards[0][k].visible = play_visible[k]
+            }
+        }
+
         app.stage.removeChild(inventory_screen.item)
         app.stage.addChild(inventory_screen.item)
         // console.log("here")
         // Add logic to start game or transition to another scene
     });
 
-    return [player_card, health_bar[1], player_name, stepper, player_stats, bndy_rect]
+    player_card.addChild(cover_rect)
+    cover_rect.visible = false
+
+    return [player_card, health_bar[1], player_name, stepper, player_stats, bndy_rect, cover_rect]
     // this contains the player name, player sprite, player health bar, and maybe some of their status effects 
     // probably need to make a class just for status effects
     
@@ -502,6 +589,7 @@ export function update_player_cards(){
     let indiv_steps = tot_cards.item[4]
     let indiv_stats = tot_cards.item[5]
     let indiv_bnds = tot_cards.item[6]
+    let indiv_covers = tot_cards.item[7]
     // console.log(play_visible)
     // console.log(ptr)
     
@@ -527,6 +615,17 @@ export function update_player_cards(){
 
     // FIGURE OUT WHICH OF THE 3 CARDS SHOULD NOW BE VISIBLE
     for (let k = 0; k < players.length; k++) {
+        if (players[k].turn_end == true || players[k].blks_moved == players[k].speed) {
+            indiv_covers[0][k].visible = true
+            indiv_covers[1][k].visible = true
+            indiv_covers[2][k].visible = true
+        }
+        else {
+            indiv_covers[0][k].visible = false
+            indiv_covers[1][k].visible = false
+            indiv_covers[2][k].visible = false
+        }
+            
         if(indiv_cards[2][k].visible) {
             indiv_cards[2][k].visible = play_visible[k]
         }
