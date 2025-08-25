@@ -747,3 +747,22 @@ TO DO:
 		- configure player card and health bar to work better with app screen size (not hard coded)
 		- make it so that sprites actually show up on the screen 
 	- after this, you can work on inventory screen perhaps
+
+8/24/25
+- (mayur)
+- full version of player cards now works 
+	- it has 3 different player cards
+		- one (medium sized) for the current player chosen
+		- one (small) for not the current player 
+		- one (large) for when the mouse is scrolled over 
+	- they all seem to have their health bars working properly
+	- they all also work well with the visibility code 
+	- they mouse controls and the keyboard updates also work well (without many extra variables needed)
+- also have it so that the screen resizing will result in everything staying where it is supposed to
+	- if the tab is VERY small sized, than it will cause issues, but not much to do in extreme cases
+- also have it so that the map is now positioned a bit above the center of the screen 
+	- there is a bit of offset at the bottom where nothing will be rendered (except some of the walls)
+
+- next things that need to be done
+- get levels working
+- make the 
