@@ -1,5 +1,5 @@
 import { total_visible_indices, get_view_sqr, get_view_range, adj_poses } from "../methods/graphics/visibility.mjs";
-import {game_map, game_maze, xrectnum, yrectnum, cutoff_y, tot_height, players, play_inds, curr_player, monsters, pause, menu_container, ptr, size, currx, curry, act_currx, act_curry, shiftx, shifty, chest_indices, chests, monster_indices, app, seen_indices, pop_up, pop_up_bubble, selector, selector_bubble, monster_spawn_indices, monster_spawns, inventory, inventory_screen} from "../vis_updated.mjs"
+import {game_map, game_maze, xrectnum, yrectnum, cutoff_y, tot_height, players, play_inds, curr_player, monsters, pause, menu_container, ptr, size, currx, curry, act_currx, act_curry, shiftx, shifty, chest_indices, chests, monster_indices, app, seen_indices, pop_up, pop_up_bubble, selector, selector_bubble, monster_spawn_indices, monster_spawns, inventory, inventory_screen, curr_player_trues, curr_player_index} from "../vis_updated.mjs"
 import { sight } from "./graphics/sight.mjs";
 import { x_view_range } from "./combat/inRangeFuncs.mjs";
 import { inRange } from "./combat/inRangeFuncs.mjs";
@@ -193,21 +193,33 @@ function keyStart(e)
             curr_player.item.in_combat = false;
             curr_player.item = players[0]
             ptr.item = curr_player.item.y * xrectnum + curr_player.item.x;
+            curr_player_trues.item[curr_player_index.item] = false
+            curr_player_index.item = 0
+            curr_player_trues.item[curr_player_index.item] = true
         }
         else if(key == keytwo && players[1].health > 0) {
             curr_player.item.in_combat = false;
             curr_player.item = players[1]
             ptr.item = curr_player.item.y * xrectnum + curr_player.item.x;
+            curr_player_trues.item[curr_player_index.item] = false
+            curr_player_index.item = 1
+            curr_player_trues.item[curr_player_index.item] = true
         }
         else if(key == keythree && players[2].health > 0) {
             curr_player.item.in_combat = false;
             curr_player.item = players[2]
             ptr.item = curr_player.item.y * xrectnum + curr_player.item.x;
+            curr_player_trues.item[curr_player_index.item] = false
+            curr_player_index.item = 2
+            curr_player_trues.item[curr_player_index.item] = true
         }
         else if(key == keyfour && players[3].health > 0) {
             curr_player.item.in_combat = false;
             curr_player.item = players[3]
             ptr.item = curr_player.item.y * xrectnum + curr_player.item.x;
+            curr_player_trues.item[curr_player_index.item] = false
+            curr_player_index.item = 3
+            curr_player_trues.item[curr_player_index.item] = true
         }
         else if(key == key_v && curr_player.item.range_type == "xrange" && curr_player.item.in_combat)
         {

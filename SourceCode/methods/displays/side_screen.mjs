@@ -1,4 +1,4 @@
-import { pause, inventory, tot_cards, inventory_screen } from "../../vis_updated.mjs";
+import { pause, inventory, tot_cards, inventory_screen, curr_player_trues, curr_player_index } from "../../vis_updated.mjs";
 import { players, ptr, game_maze, xrectnum, yrectnum, app, seen_indices, play_inds } from "../../vis_updated.mjs";
 import { get_view_sqr } from "../graphics/visibility.mjs";
 
@@ -87,26 +87,99 @@ export function init_all_player_cards(players, locx, locy, sizex, sizey) {
     let name_text = []
     let stepcounters = []
     let staters = []
+    let bndrects = []
+
+    cards.push([])
+    health_bars.push([])
+    name_text.push([])
+    stepcounters.push([])
+    staters.push([])
+    bndrects.push([])
+
     for (let l = 0; l < players.length; l++) {
         let index = players[l].player_ind
-        let output = init_player_card(players[l], locx + index * (sizex) * 1 - 2 * sizex + 0.1*sizex, locy, 0.9 * sizex, 0.9*sizey)
-        cards.push(output[0])
-        health_bars.push(output[1])
-        name_text.push(output[2])
-        stepcounters.push(output[3])
-        staters.push(output[4])
+        let output = init_small_player_card(players[l], locx + index * (sizex) * 1 - 2 * sizex + 0.1*sizex, locy, 0.9 * sizex, 0.9*sizey)
+        cards[0].push(output[0])
+        health_bars[0].push(output[1])
+        name_text[0].push(output[2])
+        stepcounters[0].push(output[3])
+        staters[0].push(output[4])
+        bndrects[0].push(output[5])
         player_info.addChild(output[0])
     }
+
+    cards.push([])
+    health_bars.push([])
+    name_text.push([])
+    stepcounters.push([])
+    staters.push([])
+    bndrects.push([])
+
+    for (let l = 0; l < players.length; l++) {
+        let index = players[l].player_ind
+        let output = init_medium_player_card(players[l], locx + index * (sizex) * 1 - 2 * sizex + 0.1*sizex, locy, 0.9 * sizex, 0.9*sizey)
+        cards[1].push(output[0])
+        health_bars[1].push(output[1])
+        name_text[1].push(output[2])
+        stepcounters[1].push(output[3])
+        staters[1].push(output[4])
+        bndrects[1].push(output[5])
+        player_info.addChild(output[0])
+    }
+
+    cards.push([])
+    health_bars.push([])
+    name_text.push([])
+    stepcounters.push([])
+    staters.push([])
+    bndrects.push([])
+
+    for (let l = 0; l < players.length; l++) {
+        let index = players[l].player_ind
+        let output = init_large_player_card(players[l], locx + index * (sizex) * 1 - 2 * sizex + 0.1*sizex, locy, 0.9 * sizex, 0.9*sizey)
+        cards[2].push(output[0])
+        health_bars[2].push(output[1])
+        name_text[2].push(output[2])
+        stepcounters[2].push(output[3])
+        staters[2].push(output[4])
+        bndrects[2].push(output[5])
+        player_info.addChild(output[0])
+    }
+
+    for (let l = 0; l < players.length; l++) {
+        if(l == 0) {
+            cards[0][l].visible = false
+            cards[1][l].visible = true
+        }
+        else {
+            cards[0][l].visible = true
+            cards[1][l].visible = false
+        }
+        cards[2][l].visible = false
+
+        bndrects[0][l].on('mouseover', () => {
+            cards[0][l].visible = false
+            cards[2][l].visible = true
+        });
+        bndrects[1][l].on('mouseover', () => {
+            cards[1][l].visible = false
+            cards[2][l].visible = true
+        });
+        bndrects[2][l].on('mouseout', () => {
+            cards[2][l].visible = false
+            cards[0][l].visible = !curr_player_trues.item[l]
+            cards[1][l].visible = curr_player_trues.item[l]
+        })
+    }
     
-    return [player_info, cards, health_bars, name_text, stepcounters, staters]
+    return [player_info, cards, health_bars, name_text, stepcounters, staters, bndrects]
 }
 
 
-export function init_player_card(player, locx, locy, sizex, sizey) {
+function init_small_player_card(player, locx, locy, sizex, sizey) {
     const player_card = new PIXI.Container()
     // let index = player.player_ind
     let namer = player.name
-    let spriter = player.sprite
     player_card.position.set(locx, locy); // Center the menu
     player_card.pivot.set(player_card.width / 2, player_card.height / 2);
 
@@ -116,19 +189,6 @@ export function init_player_card(player, locx, locy, sizex, sizey) {
     bndy_rect.rect(0, 0, sizex, sizey);
     bndy_rect.fill(0x0000FF, 0.5);
     player_card.addChild(bndy_rect)
-
-    bndy_rect.interactive = true;
-    bndy_rect.buttonMode = true; // Changes cursor on hover
-
-    bndy_rect.on('pointerdown', () => {
-        // console.log('Play button clicked!');
-        inventory.item = true
-        inventory_screen.item.visible = true
-        app.stage.removeChild(inventory_screen.item)
-        app.stage.addChild(inventory_screen.item)
-        // console.log("here")
-        // Add logic to start game or transition to another scene
-    });
     
     player_card.addChild(health_bar[0])
 
@@ -181,14 +241,199 @@ export function init_player_card(player, locx, locy, sizex, sizey) {
     sprite.width = sizex * 5 / 20
     sprite.height = sizex * 5 / 20
     player_card.addChild(sprite)
-    
 
+    bndy_rect.interactive = true;
+    bndy_rect.buttonMode = true; // Changes cursor on hover
 
-    return [player_card, health_bar[1], player_name, stepper, player_stats]
+    bndy_rect.on('pointerdown', () => {
+        // console.log('Play button clicked!');
+        inventory.item = true
+        inventory_screen.item.visible = true
+        app.stage.removeChild(inventory_screen.item)
+        app.stage.addChild(inventory_screen.item)
+        // console.log("here")
+        // Add logic to start game or transition to another scene
+    });
+
+    return [player_card, health_bar[1], player_name, stepper, player_stats, bndy_rect]
     // this contains the player name, player sprite, player health bar, and maybe some of their status effects 
     // probably need to make a class just for status effects
     
 }
+
+
+function init_medium_player_card(player, locx, locy, sizex, sizey) {
+    const player_card = new PIXI.Container()
+    // let index = player.player_ind
+    let namer = player.name
+    player_card.position.set(locx, locy); // Center the menu
+    player_card.pivot.set(player_card.width / 2, player_card.height / 2);
+
+    let health_bar = init_health_bar(player, sizex / 20 ,  sizey * 19 / 24, sizex * 18 / 20, sizey / 10)
+
+    const bndy_rect = new PIXI.Graphics();
+    bndy_rect.rect(0, - 4 * sizey / 10, sizex, 1.4 * sizey);
+    bndy_rect.fill(0x0000FF, 0.5);
+    player_card.addChild(bndy_rect)
+    
+    player_card.addChild(health_bar[0])
+
+    // player_card.addChild(spriter)
+    let speeder = " 0/"
+    speeder = speeder + player.speed
+    // console.log(typeof(player.speed))
+    // console.log(player.speed)
+
+    const player_name = new PIXI.Text( namer, {
+        fontFamily: 'Arial',
+        fontSize: 20,
+        fill: 0xffffff,
+    });
+    player_name.anchor.set(0); // Center the text within its bounds
+    player_name.position.y = sizey * 1.5 / 24 - 4 * sizey / 10; // Position relative to menuContainer's center
+    player_name.position.x = sizex / 20
+    player_card.addChild(player_name);
+
+    const player_stats = new PIXI.Text( "stats \neffects", {
+        fontFamily: 'Arial',
+        fontSize: 16,
+        fill: 0xffffff,
+    });
+    player_stats.anchor.set(0); // Center the text within its bounds
+    player_stats.position.y = sizey * 8 / 24 - 4 * sizey / 10; // Position relative to menuContainer's center
+    player_stats.position.x = sizex / 20
+    player_card.addChild(player_stats);
+
+    const stepper = new PIXI.Text(speeder, {
+        fontFamily: 'Arial',
+        fontSize: 20,
+        fill: 0x00ff00,
+    });
+    stepper.anchor.set(1,0); // Center the text within its bounds
+    stepper.position.y = sizey * 1.5 / 24 - 4 * sizey / 10; // Position relative to menuContainer's center
+    stepper.position.x = sizex * 19 / 20
+    player_card.addChild(stepper);
+
+    const sprite_bkg = new PIXI.Graphics()
+    sprite_bkg.rect(sizex * 8 / 20 , sizey * 7/24 - 4 * sizey / 10, sizex * 11 / 20 , sizex * 11 / 20)
+    // bndy_rect.rect(-app.screen.width / 15 - app.screen.width / 400, -app.screen.width / 10 - app.screen.width / 400 
+    //     , app.screen.width / 8 + app.screen.width / 200, app.screen.width / 70 + app.screen.width / 200);
+    sprite_bkg.fill(0xFFFFFF);
+    player_card.addChild(sprite_bkg)
+
+    const sprite = new PIXI.Sprite(player.sprite.texture)
+    sprite.x = sizex * 8 / 20 + sizex * 1 / 40
+    sprite.y = sizey * 7/24 + sizex * 1 / 40 - 4 * sizey / 10
+    sprite.width = sizex * 10 / 20
+    sprite.height = sizex * 10 / 20
+    player_card.addChild(sprite)
+
+    bndy_rect.interactive = true;
+    bndy_rect.buttonMode = true; // Changes cursor on hover
+
+    bndy_rect.on('pointerdown', () => {
+        // console.log('Play button clicked!');
+        inventory.item = true
+        inventory_screen.item.visible = true
+        app.stage.removeChild(inventory_screen.item)
+        app.stage.addChild(inventory_screen.item)
+        // console.log("here")
+        // Add logic to start game or transition to another scene
+    });
+
+    return [player_card, health_bar[1], player_name, stepper, player_stats, bndy_rect]
+    // this contains the player name, player sprite, player health bar, and maybe some of their status effects 
+    // probably need to make a class just for status effects
+    
+}
+
+
+
+function init_large_player_card(player, locx, locy, sizex, sizey) {
+    const player_card = new PIXI.Container()
+    // let index = player.player_ind
+    let namer = player.name
+    player_card.position.set(locx, locy); // Center the menu
+    player_card.pivot.set(player_card.width / 2, player_card.height / 2);
+
+    let health_bar = init_health_bar(player, sizex / 20 ,  sizey * 19 / 24, sizex * 18 / 20, sizey / 10)
+
+    const bndy_rect = new PIXI.Graphics();
+    bndy_rect.rect(0, - 1.5*sizey, sizex, 2.5 * sizey);
+    bndy_rect.fill(0x0000FF, 0.5);
+    player_card.addChild(bndy_rect)
+    
+    player_card.addChild(health_bar[0])
+
+    // player_card.addChild(spriter)
+    let speeder = " 0/"
+    speeder = speeder + player.speed
+    // console.log(typeof(player.speed))
+    // console.log(player.speed)
+
+    const player_name = new PIXI.Text( namer, {
+        fontFamily: 'Arial',
+        fontSize: 20,
+        fill: 0xffffff,
+    });
+    player_name.anchor.set(0); // Center the text within its bounds
+    player_name.position.y = sizey * 1.5 / 24 - 1.5*sizey; // Position relative to menuContainer's center
+    player_name.position.x = sizex / 20
+    player_card.addChild(player_name);
+
+    const player_stats = new PIXI.Text( "stats \neffects", {
+        fontFamily: 'Arial',
+        fontSize: 16,
+        fill: 0xffffff,
+    });
+    player_stats.anchor.set(0); // Center the text within its bounds
+    player_stats.position.y = sizey * 8 / 24 - 1.5* sizey; // Position relative to menuContainer's center
+    player_stats.position.x = sizex / 20
+    player_card.addChild(player_stats);
+
+    const stepper = new PIXI.Text(speeder, {
+        fontFamily: 'Arial',
+        fontSize: 20,
+        fill: 0x00ff00,
+    });
+    stepper.anchor.set(1,0); // Center the text within its bounds
+    stepper.position.y = sizey * 1.5 / 24 - 1.5* sizey; // Position relative to menuContainer's center
+    stepper.position.x = sizex * 19 / 20
+    player_card.addChild(stepper);
+
+    const sprite_bkg = new PIXI.Graphics()
+    sprite_bkg.rect(sizex * 1 / 20 , sizey * 7/24 - sizey, sizex * 18 / 20 , sizex * 18 / 20)
+    // bndy_rect.rect(-app.screen.width / 15 - app.screen.width / 400, -app.screen.width / 10 - app.screen.width / 400 
+    //     , app.screen.width / 8 + app.screen.width / 200, app.screen.width / 70 + app.screen.width / 200);
+    sprite_bkg.fill(0xFFFFFF);
+    player_card.addChild(sprite_bkg)
+
+    const sprite = new PIXI.Sprite(player.sprite.texture)
+    sprite.x = sizex * 1 / 20 + sizex * 1 / 40
+    sprite.y = sizey * 7/24 + sizex * 1 / 40 - sizey
+    sprite.width = sizex * 17 / 20
+    sprite.height = sizex * 17 / 20
+    player_card.addChild(sprite)
+
+    bndy_rect.interactive = true;
+    bndy_rect.buttonMode = true; // Changes cursor on hover
+
+    bndy_rect.on('pointerdown', () => {
+        // console.log('Play button clicked!');
+        inventory.item = true
+        inventory_screen.item.visible = true
+        app.stage.removeChild(inventory_screen.item)
+        app.stage.addChild(inventory_screen.item)
+        // console.log("here")
+        // Add logic to start game or transition to another scene
+    });
+
+    return [player_card, health_bar[1], player_name, stepper, player_stats, bndy_rect]
+    // this contains the player name, player sprite, player health bar, and maybe some of their status effects 
+    // probably need to make a class just for status effects
+    
+}
+
 
 
 function init_health_bar(player, locx, locy, sizex, sizey){
@@ -249,25 +494,48 @@ export function update_player_cards(){
     let indiv_health = tot_cards.item[2]
     let indiv_names = tot_cards.item[3]
     let indiv_steps = tot_cards.item[4]
+    let indiv_stats = tot_cards.item[5]
+    let indiv_bnds = tot_cards.item[6]
     // console.log(play_visible)
     // console.log(ptr)
-    for (let k = 0; k < players.length; k++) {
-        indiv_cards[k].visible = play_visible[k]
-        indiv_steps[k].text = players[k].blks_moved + "/" + players[k].speed
-        console.log(indiv_steps[k])
-        if (players[k].blks_moved > players[k].speed / 2 && players[k].blks_moved <= players[k].speed - 2) {
-            indiv_steps[k].style.fill = 0xffff00
-        } 
-        else if (players[k].blks_moved > players[k].speed - 2) {
-            indiv_steps[k].style.fill = 0xff0000
-        } 
-        else {
-            indiv_steps[k].style.fill = 0x00ff00
+    
+    // UPDATE THE INFO ON EVERY SINGLE CARD FIRST
+    for (let l = 0; l < 3; l++) {
+        for (let k = 0; k < players.length; k++) {
+            indiv_steps[l][k].text = players[k].blks_moved + "/" + players[k].speed
+            // console.log(indiv_steps[k])
+            if (players[k].blks_moved > players[k].speed / 2 && players[k].blks_moved <= players[k].speed - 2) {
+                indiv_steps[l][k].style.fill = 0xffff00
+            } 
+            else if (players[k].blks_moved > players[k].speed - 2) {
+                indiv_steps[l][k].style.fill = 0xff0000
+            } 
+            else {
+                indiv_steps[l][k].style.fill = 0x00ff00
+            }
+            let init_width = indiv_health[l][k].width
+            indiv_health[l][k].width = Math.max(0, init_width * players[k].health / 10)
+            // indiv_health[k].x = indiv_health[k].x - (init_width - indiv_health[k].width) / 2
         }
-        let init_width = indiv_health[k].width
-        indiv_health[k].width = Math.max(0, init_width * players[k].health / 10)
-        // indiv_health[k].x = indiv_health[k].x - (init_width - indiv_health[k].width) / 2
     }
+
+    // FIGURE OUT WHICH OF THE 3 CARDS SHOULD NOW BE VISIBLE
+    for (let k = 0; k < players.length; k++) {
+        if(indiv_cards[2][k].visible) {
+            indiv_cards[2][k].visible = play_visible[k]
+        }
+        else {
+            if(k == curr_player_index.item) {
+                indiv_cards[0][k].visible = false
+                indiv_cards[1][k].visible = play_visible[k]
+            }
+            else {
+                indiv_cards[1][k].visible = false
+                indiv_cards[0][k].visible = play_visible[k]
+            }
+        }
+    }
+    
     app.stage.removeChild(tot_cards.item[0])
     app.stage.addChild(tot_cards.item[0])
 }

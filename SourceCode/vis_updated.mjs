@@ -219,6 +219,7 @@ players[2].y = 1;
 players[3].x = 1;
 players[3].y = 1;
 
+
 const min_speed_val = 7;
 players[0].speed = Math.max(2*players[0].vis_tier, min_speed_val);
 players[1].speed = Math.max(2*players[1].vis_tier, min_speed_val);
@@ -231,6 +232,8 @@ export const tot_cards = new Wrapper(init_all_player_cards(players, tot_width.it
 
 
 export let curr_player = new Wrapper(players[0])
+export const curr_player_index = new Wrapper(0)
+export const curr_player_trues = new Wrapper([true, false, false, false])
 // export let curr_index = 0
 
 export let play_inds = new Array(players.length);
