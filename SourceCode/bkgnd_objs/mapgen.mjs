@@ -199,7 +199,7 @@ export class Tile {
 		// }
         this.sprite.width = cell_width;
         this.sprite.height = cell_height;
-		this.sprite.alpha = 1
+		// this.sprite.alpha = 1
 
 		this.sprite.interactive = true;
 		this.sprite.buttonMode = true; // Changes cursor on hover
