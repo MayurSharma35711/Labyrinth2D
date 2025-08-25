@@ -764,5 +764,5 @@ TO DO:
 	- there is a bit of offset at the bottom where nothing will be rendered (except some of the walls)
 
 - next things that need to be done
-- get levels working
-- make the 
+	- get levels working
+	- start getting the inventory screen into shape
