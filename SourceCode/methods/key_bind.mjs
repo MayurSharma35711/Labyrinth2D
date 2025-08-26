@@ -52,7 +52,7 @@ function checkPlayer(map_ind)
     return false;
 }
 
-function checkDoor(player, maze, xrectnum, yrectnum) {
+function checkDoor(player, maze, xrectnum, yrectnum, is_start_level) {
     let x = player.item.x 
     let y = player.item.y
 
@@ -67,8 +67,10 @@ function checkDoor(player, maze, xrectnum, yrectnum) {
     if(y < yrectnum)
         check_inds.push(2 * (x + y * xrectnum))
 
+    if (x == 0 && y == 0 && !is_start_level)
+            return [true, -1]
     for(let l = 0; l < check_inds.length; l++) {
-        console.log(check_inds)
+        // console.log(check_inds)
         if (maze[check_inds[l]].setDoor)
             return [true, check_inds[l]]
     }
@@ -184,18 +186,24 @@ function keyStart(e)
             pop_up_bubble.item = chests[chest_indices.indexOf(curr_player.item.y * xrectnum + curr_player.item.x)].listItems();
         }
         else if(key == key_open) {
-            let caser = checkDoor(curr_player, game_maze.item, xrectnum, yrectnum)
+            let caser = checkDoor(curr_player, game_maze.item, xrectnum, yrectnum, current_area.item.is_start_level)
             if (caser[0]) {
-                game_maze.item[caser[1]].setDoor = false
-                game_maze.item[caser[1]].wall_image.visible = false
-                console.log(curr_player.item.x, curr_player.item.y)
+                let door_used = false
                 for (let l = 0; l < current_area.item.doors.length; l++) {
                     if(curr_player.item.x == current_area.item.doors[l].spot1[0] && curr_player.item.y == current_area.item.doors[l].spot1[1]) {
                         current_area.item.doors[l].useDoor(current_area.item)
+                        door_used = true
+                        break
                     }
                     if(curr_player.item.x == current_area.item.doors[l].spot2[0] && curr_player.item.y == current_area.item.doors[l].spot2[1]) {
                         current_area.item.doors[l].useDoor(current_area.item)
+                        door_used = true
+                        break
                     }
+                }
+                if (caser[1] != -1 && !door_used) {
+                    game_maze.item[caser[1]].setDoor = false
+                    game_maze.item[caser[1]].wall_image.visible = false
                 }
             }
             
@@ -503,7 +511,7 @@ function keyStart(e)
 // // console.log(currx.item,curry.item)
     // // console.log(currx.item, curry.item)
     
-    sight(game_map.item, game_maze.item, xrectnum, yrectnum, cutoff_y, tot_height, players, curr_player.item, monsters, ptr.item, size.item, currx.item, curry.item, chest_indices, chests, monster_indices, monster_spawns, monster_spawn_indices, app);
+    sight(game_map.item, game_maze.item, xrectnum, yrectnum, cutoff_y, tot_height, players, curr_player.item, monsters, ptr.item, size.item, currx.item, curry.item, chest_indices, chests, monster_indices, monster_spawns, monster_spawn_indices, current_area.item.is_start_level, app);
     
     for (let t = 0; t < players.length; t++) {
         players[t].drawMe(size.item, size.item, currx.item, curry.item)

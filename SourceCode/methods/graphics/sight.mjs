@@ -2,7 +2,7 @@ import { vis } from "../../vis_updated.mjs";
 import { walls } from "../../vis_updated.mjs";
 import { total_visible_indices, test_visible_indices, get_view_range, get_view_sqr, adj_poses } from "./visibility.mjs";
 // Sight uses visiblity code to show the map tiles and maze tiles that are visible
-export function sight(game_map, game_maze, xrectnum, yrectnum, cutoff_y, tot_height, players, curr_player, monsters, ptr, size, currx, curry, chest_indices, chests, monster_indices, entities, ent_inds, app)
+export function sight(game_map, game_maze, xrectnum, yrectnum, cutoff_y, tot_height, players, curr_player, monsters, ptr, size, currx, curry, chest_indices, chests, monster_indices, entities, ent_inds, is_start_level, app)
 {
     while(vis.children[0])
     {
@@ -102,11 +102,20 @@ export function sight(game_map, game_maze, xrectnum, yrectnum, cutoff_y, tot_hei
         }
         if(map_indexer % xrectnum == 0 && game_map[map_indexer].getBiome() != -1) {
             let leftwall = PIXI.Sprite.from('https://mayursharma35711.github.io/Labyrinth2D/textures/bkgnd/WallsVertical.png');
-            leftwall.height = size;
-            leftwall.width = 0.3 * size;
-            leftwall.x = (0 - currx) * size - 0.15*size;
-            leftwall.y = (map_indexer / xrectnum - curry) * size;
-            if(leftwall.y + walls.y < tot_height.item - cutoff_y.item) {
+            
+            if (map_indexer == 0 && !is_start_level) {
+                let leftdoor = PIXI.Sprite.from('https://mayursharma35711.github.io/Labyrinth2D/textures/bkgnd/vert_door.png');
+                leftdoor.height = size;
+                leftdoor.width = 0.3 * size;
+                leftdoor.x = (0 - currx) * size - 0.15*size;
+                leftdoor.y = (map_indexer / xrectnum - curry) * size;
+                walls.addChild(leftdoor);
+            }
+            else if(leftwall.y + walls.y < tot_height.item - cutoff_y.item) {
+                leftwall.height = size;
+                leftwall.width = 0.3 * size;
+                leftwall.x = (0 - currx) * size - 0.15*size;
+                leftwall.y = (map_indexer / xrectnum - curry) * size;
                 walls.addChild(leftwall);
             }
         }

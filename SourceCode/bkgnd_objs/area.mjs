@@ -10,11 +10,13 @@ export class Area{
     size_y;
     doors;
     full_setup;
-    constructor(id, x_size, y_size, typer){
+    is_start_level;
+    constructor(id, x_size, y_size, typer, is_start_level){
         this.id = id
         this.size_x = x_size;
         this.size_y = y_size;
         this.type = typer;
+        this.is_start_level = is_start_level
         console.log(id, x_size, y_size, typer)
         // this.doors = doors
         if (this.type == "d") {
@@ -54,6 +56,7 @@ export class Level_Door{
                 players[l].x = this.placement_spots2[l] % this.loc2.size_x
                 players[l].y = Math.floor(this.placement_spots2[l] / this.loc2.size_x)
                 play_inds[l] = this.placement_spots2[l]
+                players[l].blks_moved = 0
             }
             current_area.item = this.loc2
         }
@@ -64,10 +67,11 @@ export class Level_Door{
                 players[l].x = this.placement_spots1[l] % this.loc1.size_x
                 players[l].y = Math.floor(this.placement_spots1[l] / this.loc1.size_x)
                 play_inds[l] = this.placement_spots1[l]
+                players[l].blks_moved = 0
             }
             current_area.item = this.loc1
         }
-        sight(game_map.item, game_maze.item, xrectnum, yrectnum, cutoff_y, tot_height, players, curr_player.item, monsters, ptr.item, size.item, currx.item, curry.item, chest_indices, chests, monster_indices, monster_spawns, monster_spawn_indices, app);
+        sight(game_map.item, game_maze.item, xrectnum, yrectnum, cutoff_y, tot_height, players, curr_player.item, monsters, ptr.item, size.item, currx.item, curry.item, chest_indices, chests, monster_indices, monster_spawns, monster_spawn_indices, current_area.item.is_start_level, app);
     }
     
 }

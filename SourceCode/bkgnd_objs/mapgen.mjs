@@ -236,7 +236,7 @@ export class Tile {
 					{
 						game_map.item[ptr.item].sprite.alpha = 0
 						game_map.item[ptr.item].sprite.tint = 0xFFFFFF;
-						console.log('here', ptr.item)
+						// console.log('here', ptr.item)
 					}
 					// sight(game_map, game_maze, xrectnum, yrectnum, cutoff_y, tot_height, players, curr_player, monsters, ptr, size, currx, curry, chest_indices, chests, monster_indices, monster_spawns, monster_spawn_indices, app)
 				}

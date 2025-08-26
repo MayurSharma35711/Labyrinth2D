@@ -76,7 +76,7 @@ function resize_func() {
     inventory_screen.item.visible = inventory.item
     
 
-    sight(game_map.item, game_maze.item, xrectnum, yrectnum, cutoff_y, tot_height, players, curr_player.item, monsters, ptr.item, size.item, currx.item, curry.item, chest_indices, chests, monster_indices, monster_spawns, monster_spawn_indices, app);
+    sight(game_map.item, game_maze.item, xrectnum, yrectnum, cutoff_y, tot_height, players, curr_player.item, monsters, ptr.item, size.item, currx.item, curry.item, chest_indices, chests, monster_indices, monster_spawns, monster_spawn_indices, current_area.item.is_start_level, app);
     for (let t = 0; t < players.length; t++) {
         players[t].drawMe(size.item, size.item, currx.item, curry.item)
         // // console.log(players[t].x, players[t].y)
@@ -120,10 +120,12 @@ export const selector_bubble = new Wrapper(false)
 export let xrectnum = 20;
 export let yrectnum = 20;
 
-const first_maze = new Area("maze1", xrectnum, yrectnum, "m")
-const first_dungeon = new Area("dung1", xrectnum, yrectnum, "d")
-const door1 = new Level_Door(first_maze, first_dungeon, [4,8], [4,0], [0, 1, 20, 21], [0, 1, 20, 21])
-// const door2 = new Level_Door(first_maze, first_dungeon, [15, 17], [4,0], [0, 1, 20, 21], [0, 1, 20, 21])
+const first_maze = new Area("maze1", xrectnum, yrectnum, "m", true)
+const first_dungeon = new Area("dung1", xrectnum, yrectnum, "d", false)
+const door1 = new Level_Door(first_maze, first_dungeon, [4,8], [0,0], [0, 1, 20, 21], [0, 1, 20, 21])
+const door2 = new Level_Door(first_maze, first_dungeon, [11,7], [0,0], [0, 1, 20, 21], [0, 1, 20, 21])
+const door3 = new Level_Door(first_maze, first_dungeon, [17, 14], [0,0], [0, 1, 20, 21], [0, 1, 20, 21])
+const door4 = new Level_Door(first_maze, first_dungeon, [14, 17], [0,0], [0, 1, 20, 21], [0, 1, 20, 21])
 first_maze.set_up_doors([door1])
 first_dungeon.set_up_doors([door1])
 
@@ -301,7 +303,7 @@ for (let t = 0; t < players.length; t++) {
 //     app.stage.addChild(monsters[t].rect)
 // }
 // console.log(monster_spawn_indices)
-sight(game_map.item, game_maze.item, xrectnum, yrectnum, cutoff_y, tot_height, players, curr_player.item, monsters, ptr.item, size.item, currx.item, curry.item, chest_indices, chests, monster_indices, monster_spawns, monster_spawn_indices, app);
+sight(game_map.item, game_maze.item, xrectnum, yrectnum, cutoff_y, tot_height, players, curr_player.item, monsters, ptr.item, size.item, currx.item, curry.item, chest_indices, chests, monster_indices, monster_spawns, monster_spawn_indices, current_area.item.is_start_level, app);
 
 
 // app.stage.addChild(tot_player_health[0])

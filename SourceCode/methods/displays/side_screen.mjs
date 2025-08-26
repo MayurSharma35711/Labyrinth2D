@@ -215,7 +215,7 @@ function init_small_player_card(player, locx, locy, sizex, sizey) {
     player_card.addChild(health_bar[0])
 
     // player_card.addChild(spriter)
-    let speeder = " 0/"
+    let speeder = " " + player.blks_moved + "/"
     speeder = speeder + player.speed
     // console.log(typeof(player.speed))
     // console.log(player.speed)
@@ -325,7 +325,7 @@ function init_medium_player_card(player, locx, locy, sizex, sizey) {
     player_card.addChild(health_bar[0])
 
     // player_card.addChild(spriter)
-    let speeder = " 0/"
+    let speeder = " " + player.blks_moved + "/"
     speeder = speeder + player.speed
     // console.log(typeof(player.speed))
     // console.log(player.speed)
@@ -438,7 +438,7 @@ function init_large_player_card(player, locx, locy, sizex, sizey) {
     player_card.addChild(health_bar[0])
 
     // player_card.addChild(spriter)
-    let speeder = " 0/"
+    let speeder = " " + player.blks_moved + "/"
     speeder = speeder + player.speed
     // console.log(typeof(player.speed))
     // console.log(player.speed)
