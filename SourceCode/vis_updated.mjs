@@ -122,9 +122,10 @@ export let yrectnum = 20;
 
 const first_maze = new Area("maze1", xrectnum, yrectnum, "m")
 const first_dungeon = new Area("dung1", xrectnum, yrectnum, "d")
-const doorer = new Level_Door(first_maze, first_dungeon, [4,0], [4,0], [0, 1, 20, 21], [0, 1, 20, 21])
-first_maze.set_up_doors([doorer])
-first_dungeon.set_up_doors([doorer])
+const door1 = new Level_Door(first_maze, first_dungeon, [4,0], [4,0], [0, 1, 20, 21], [0, 1, 20, 21])
+// const door2 = new Level_Door(first_maze, first_dungeon, [15, 17], [4,0], [0, 1, 20, 21], [0, 1, 20, 21])
+first_maze.set_up_doors([door1])
+first_dungeon.set_up_doors([door1])
 
 export const current_area = new Wrapper(first_maze)
 
@@ -135,7 +136,7 @@ let output = current_area.item.full_setup
 export let game_map = new Wrapper(output[0]);
 export let game_maze = new Wrapper(output[1]);
 let rooms = output[2];
-export let chests = [] // output[3];
+export let chests = output[3];
 export let ptr = new Wrapper(0);
 let monster_num = 1;
 let monster_spawn_num = 0;

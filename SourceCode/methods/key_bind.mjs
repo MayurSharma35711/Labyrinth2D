@@ -188,6 +188,7 @@ function keyStart(e)
             if (caser[0]) {
                 game_maze.item[caser[1]].setDoor = false
                 game_maze.item[caser[1]].wall_image.visible = false
+                console.log(curr_player.item.x, curr_player.item.y)
                 
             }
             for (let l = 0; l < current_area.item.doors.length; l++) {
@@ -198,6 +199,8 @@ function keyStart(e)
                     current_area.item.doors[l].useDoor(current_area.item)
                 }
             }
+            
+            
         }
         else if (key == keyone && players[0].health > 0) {
             curr_player.item.in_combat = false;
