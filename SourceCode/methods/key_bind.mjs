@@ -189,16 +189,16 @@ function keyStart(e)
                 game_maze.item[caser[1]].setDoor = false
                 game_maze.item[caser[1]].wall_image.visible = false
                 console.log(curr_player.item.x, curr_player.item.y)
-                
-            }
-            for (let l = 0; l < current_area.item.doors.length; l++) {
-                if(curr_player.item.x == current_area.item.doors[l].spot1[0] && curr_player.item.y == current_area.item.doors[l].spot1[1]) {
-                    current_area.item.doors[l].useDoor(current_area.item)
+                for (let l = 0; l < current_area.item.doors.length; l++) {
+                    if(curr_player.item.x == current_area.item.doors[l].spot1[0] && curr_player.item.y == current_area.item.doors[l].spot1[1]) {
+                        current_area.item.doors[l].useDoor(current_area.item)
+                    }
+                    if(curr_player.item.x == current_area.item.doors[l].spot2[0] && curr_player.item.y == current_area.item.doors[l].spot2[1]) {
+                        current_area.item.doors[l].useDoor(current_area.item)
+                    }
                 }
-                if(curr_player.item.x == current_area.item.doors[l].spot2[0] && curr_player.item.y == current_area.item.doors[l].spot2[1]) {
-                    current_area.item.doors[l].useDoor(current_area.item)
-                }
             }
+            
             
             
         }

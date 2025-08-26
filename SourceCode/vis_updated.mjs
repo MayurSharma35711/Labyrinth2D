@@ -122,7 +122,7 @@ export let yrectnum = 20;
 
 const first_maze = new Area("maze1", xrectnum, yrectnum, "m")
 const first_dungeon = new Area("dung1", xrectnum, yrectnum, "d")
-const door1 = new Level_Door(first_maze, first_dungeon, [4,0], [4,0], [0, 1, 20, 21], [0, 1, 20, 21])
+const door1 = new Level_Door(first_maze, first_dungeon, [4,8], [4,0], [0, 1, 20, 21], [0, 1, 20, 21])
 // const door2 = new Level_Door(first_maze, first_dungeon, [15, 17], [4,0], [0, 1, 20, 21], [0, 1, 20, 21])
 first_maze.set_up_doors([door1])
 first_dungeon.set_up_doors([door1])
