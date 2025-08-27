@@ -59,12 +59,21 @@ export function precise_rooms(xnum, ynum, room_infos, maze, map) {
             }
             if (room_infos[k][5][l][0] == startx + xsize) {
                 door_inds.push(2 * (room_infos[k][5][l][0] + room_infos[k][5][l][1] * xnum) - 1)
+                maze[2 * (room_infos[k][5][l][0] + room_infos[k][5][l][1] * xnum) + 1].exists = false
+                maze[2 * (room_infos[k][5][l][0] + (room_infos[k][5][l][1] - 1) * xnum) + 1].exists = false
+                maze[2 * (room_infos[k][5][l][0] + (room_infos[k][5][l][1] - 1) * xnum)].exists = false
             }
             if (room_infos[k][5][l][1] == starty){
                 door_inds.push(2 * (room_infos[k][5][l][0] + (room_infos[k][5][l][1] - 1) * xnum))
+                maze[2 * (room_infos[k][5][l][0] + (room_infos[k][5][l][1] - 2) * xnum)].exists = false
+                maze[2 * (room_infos[k][5][l][0] + (room_infos[k][5][l][1] - 1) * xnum) + 1].exists = false
+                maze[2 * (room_infos[k][5][l][0] + (room_infos[k][5][l][1] - 2) * xnum) + 1].exists = false
             }
             if (room_infos[k][5][l][1] == starty + ysize) {
                 door_inds.push(2 * (room_infos[k][5][l][0] + (room_infos[k][5][l][1]) * xnum))
+                maze[2 * (room_infos[k][5][l][0] + (room_infos[k][5][l][1] + 1) * xnum)].exists = false
+                maze[2 * (room_infos[k][5][l][0] + (room_infos[k][5][l][1] + 1) * xnum) + 1].exists = false
+                maze[2 * (room_infos[k][5][l][0] + (room_infos[k][5][l][1] + 2) * xnum) + 1].exists = false
             }
             
         }

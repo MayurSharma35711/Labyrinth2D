@@ -774,3 +774,11 @@ TO DO:
 	- player card healthbar corrected
 	- the selector screen appears correctly
 	- players also disappear when off screen
+
+8/27/25
+- (mayur)
+- levels are now working properly
+	- if you use a door, it will also go back to the same door when you use that door
+- there is also a loading screen
+	- this is useful for future testing when we have many sprites to load
+- i also updated graphics to recenter after the number of seen characters disappears

@@ -103,7 +103,7 @@ function dung_type_2(){
 
 // put walls around the border of the entire dungeon
 
-export function full_dungeon(sizex, sizey, typer) {
+export function full_dungeon(sizex, sizey, typer, biome_val) {
     // let full_starting_tree = cut_up(sizex, sizey, iterations)
     // console.log(full_starting_tree)
 
@@ -120,9 +120,20 @@ export function full_dungeon(sizex, sizey, typer) {
     // sizex = sizex + extender[0]
     // sizey = sizey + extender[1]
 
-    let output = dung_type_2()
-    let dung_rooms = output[0]
-    let corridors = output[1]
+    let output; 
+    let dung_rooms;
+    let corridors;
+
+    if (typer == 1) {
+        output = dung_type_1()
+        dung_rooms = output[0]
+        corridors = output[1]
+    }
+    else if (typer == 2) {
+        output = dung_type_2()
+        dung_rooms = output[0]
+        corridors = output[1]
+    }
     
 
     // console.log(sizex, sizey)
@@ -146,7 +157,7 @@ export function full_dungeon(sizex, sizey, typer) {
                 // console.log(x)
                 // console.log(y)
                 // console.log(curr_room)
-                dung_map[y * sizex + x].setBiome(10);
+                dung_map[y * sizex + x].setBiome(biome_val);
             }
         }
     }
@@ -157,7 +168,7 @@ export function full_dungeon(sizex, sizey, typer) {
             let new_tile = corr_now[i]
             let new_x = new_tile[0]
             let new_y = new_tile[1]
-            dung_map[new_y * sizex + new_x].setBiome(10);
+            dung_map[new_y * sizex + new_x].setBiome(biome_val);
         }
     }
     // even walls are the horizontal _ ones, odd are the vertical | walls

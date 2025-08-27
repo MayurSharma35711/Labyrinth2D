@@ -1,5 +1,5 @@
 import { total_visible_indices, get_view_sqr, get_view_range, adj_poses } from "../methods/graphics/visibility.mjs";
-import {game_map, game_maze, xrectnum, yrectnum, cutoff_y, tot_height, players, play_inds, curr_player, monsters, pause, menu_container, ptr, size, currx, curry, act_currx, act_curry, shiftx, shifty, chest_indices, chests, monster_indices, app, seen_indices, pop_up, pop_up_bubble, selector, selector_bubble, monster_spawn_indices, monster_spawns, inventory, inventory_screen, curr_player_trues, curr_player_index, current_area} from "../vis_updated.mjs"
+import {game_map, game_maze, xrectnum, yrectnum, cutoff_y, tot_height, players, play_inds, curr_player, monsters, pause, menu_container, ptr, size, currx, curry, act_currx, act_curry, shiftx, shifty, chest_indices, chests, monster_indices, app, seen_indices, pop_up, pop_up_bubble, selector, selector_bubble, monster_spawn_indices, monster_spawns, inventory, inventory_screen, curr_player_trues, curr_player_index, current_area, visible_player_num} from "../vis_updated.mjs"
 import { sight } from "./graphics/sight.mjs";
 import { x_view_range } from "./combat/inRangeFuncs.mjs";
 import { inRange } from "./combat/inRangeFuncs.mjs";
@@ -189,18 +189,34 @@ function keyStart(e)
             let caser = checkDoor(curr_player, game_maze.item, xrectnum, yrectnum, current_area.item.is_start_level)
             if (caser[0]) {
                 let door_used = false
-                for (let l = 0; l < current_area.item.doors.length; l++) {
-                    if(curr_player.item.x == current_area.item.doors[l].spot1[0] && curr_player.item.y == current_area.item.doors[l].spot1[1]) {
-                        current_area.item.doors[l].useDoor(current_area.item)
+                for (let l = current_area.item.doors_used.length - 1; l >= 0 ; l--) {
+                    console.log('in loop',curr_player.item.x, curr_player.item.y,  current_area.item.doors_used[l].spot1[0], current_area.item.doors_used[l].spot1[1], current_area.item.doors_used[l].spot2[0], current_area.item.doors_used[l].spot2[1])
+                    if(curr_player.item.x == current_area.item.doors_used[l].spot1[0] && curr_player.item.y == current_area.item.doors_used[l].spot1[1]) {
+                        current_area.item.doors_used[l].useDoor(current_area.item)
                         door_used = true
                         break
                     }
-                    if(curr_player.item.x == current_area.item.doors[l].spot2[0] && curr_player.item.y == current_area.item.doors[l].spot2[1]) {
-                        current_area.item.doors[l].useDoor(current_area.item)
+                    if(curr_player.item.x == current_area.item.doors_used[l].spot2[0] && curr_player.item.y == current_area.item.doors_used[l].spot2[1]) {
+                        current_area.item.doors_used[l].useDoor(current_area.item)
                         door_used = true
                         break
                     }
                 }
+                if (!door_used) {
+                    for (let l = 0; l < current_area.item.doors.length; l++) {
+                        if(curr_player.item.x == current_area.item.doors[l].spot1[0] && curr_player.item.y == current_area.item.doors[l].spot1[1]) {
+                            current_area.item.doors[l].useDoor(current_area.item)
+                            door_used = true
+                            break
+                        }
+                        if(curr_player.item.x == current_area.item.doors[l].spot2[0] && curr_player.item.y == current_area.item.doors[l].spot2[1]) {
+                            current_area.item.doors[l].useDoor(current_area.item)
+                            door_used = true
+                            break
+                        }
+                    }
+                }
+                
                 if (caser[1] != -1 && !door_used) {
                     game_maze.item[caser[1]].setDoor = false
                     game_maze.item[caser[1]].wall_image.visible = false
@@ -498,7 +514,16 @@ function keyStart(e)
     }
     // // console.log("*****")
     // // console.log(xmax, xmin, ymax, ymin)
-
+    let seen_num = 0
+    for (let l = 0; l < players.length; l++) {
+        if(seen_indices.item.includes(play_inds[l])) 
+            seen_num = seen_num + 1
+    }
+    // console.log("players", visible_player_num.item, seen_num)
+    if (visible_player_num.item != seen_num) {
+        shiftx.item = 0
+        shifty.item = 0
+    }
 
     act_currx.item = Math.floor((xmax + xmin)/2)
     act_curry.item = Math.floor( (ymax + ymin)/2 )
@@ -511,6 +536,8 @@ function keyStart(e)
 // // console.log(currx.item,curry.item)
     // // console.log(currx.item, curry.item)
     
+
+
     sight(game_map.item, game_maze.item, xrectnum, yrectnum, cutoff_y, tot_height, players, curr_player.item, monsters, ptr.item, size.item, currx.item, curry.item, chest_indices, chests, monster_indices, monster_spawns, monster_spawn_indices, current_area.item.is_start_level, app);
     
     for (let t = 0; t < players.length; t++) {

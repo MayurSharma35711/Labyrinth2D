@@ -121,13 +121,16 @@ export let xrectnum = 20;
 export let yrectnum = 20;
 
 const first_maze = new Area("maze1", xrectnum, yrectnum, "m", true)
-const first_dungeon = new Area("dung1", xrectnum, yrectnum, "d", false)
-const door1 = new Level_Door(first_maze, first_dungeon, [4,8], [0,0], [4 + 8 *20, 3 + 8 *20, 4 + 7 *20, 3 + 7 *20], [0, 1, 20, 21])
-const door2 = new Level_Door(first_maze, first_dungeon, [10,7], [0,0], [0, 1, 20, 21], [0, 1, 20, 21])
-const door3 = new Level_Door(first_maze, first_dungeon, [17, 14], [0,0], [0, 1, 20, 21], [0, 1, 20, 21])
-const door4 = new Level_Door(first_maze, first_dungeon, [14, 17], [0,0], [0, 1, 20, 21], [0, 1, 20, 21])
+const first_dungeon = new Area("dung1", xrectnum, yrectnum, "d", false, 10, 2)
+const first_hall = new Area("hall1", xrectnum, yrectnum, "h", false, 9, 1)
+
+const door1 = new Level_Door("door1", first_maze, first_hall, [4,8], [0,0], [4 + 8 *20, 3 + 8 *20, 4 + 7 *20, 3 + 7 *20], [0, 1, 20, 21])
+const door2 = new Level_Door("door2", first_maze, first_hall, [10,7], [0,0], [10 + 7 *20, 11 + 7 *20, 10 + 6 *20, 11 + 6 *20], [0, 1, 20, 21])
+const door3 = new Level_Door("door3", first_maze, first_dungeon, [17, 14], [0,0], [0, 1, 20, 21], [0, 1, 20, 21])
+const door4 = new Level_Door("door4", first_maze, first_dungeon, [14, 17], [14 + 17 *20, 13 + 17 *20, 14 + 16 *20, 13 + 16 *20], [0, 1, 20, 21], [0, 1, 20, 21])
 first_maze.set_up_doors([door1, door2, door3, door4])
-first_dungeon.set_up_doors([door1, door2, door3, door4])
+first_dungeon.set_up_doors([door3, door4])
+first_hall.set_up_doors([door1, door2])
 
 export const current_area = new Wrapper(first_maze)
 
@@ -226,6 +229,7 @@ players[2] = new Player(2, size.item, size.item, 3, 'Nikki');
 // players[2].y = 5;
 // players[2].x = 3;
 players[3] = new Player(3, size.item, size.item, 4, 'Mayur');
+
 // players[3].y = 11;
 // console.log("players", players)
 players[1].range_type = "xrange";
@@ -237,11 +241,12 @@ players[3].x = 1;
 players[3].y = 1;
 
 
-const min_speed_val = 100;
+const min_speed_val = 1000;
 players[0].speed = Math.max(2*players[0].vis_tier, min_speed_val);
 players[1].speed = Math.max(2*players[1].vis_tier, min_speed_val);
 players[2].speed = Math.max(2*players[2].vis_tier, min_speed_val);
 players[3].speed = Math.max(2*players[3].vis_tier, min_speed_val);
+export const visible_player_num = new Wrapper(players.length)
 
 // export const tot_player_health = init_health_bars(app, players)
 

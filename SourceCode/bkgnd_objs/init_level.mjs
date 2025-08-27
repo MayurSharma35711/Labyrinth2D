@@ -35,9 +35,9 @@ export function init_maze_level(xrectnum, yrectnum) {
        return [game_map, game_maze, rooms, chests]
 }
 
-export function init_dungeon_level(xrectnum, yrectnum){
+export function init_dungeon_level(xrectnum, yrectnum, dtype, biome){
     // dungeon testing
     // console.log("Here"+xrectnum);
-    let output = full_dungeon(xrectnum, yrectnum, 2)
+    let output = full_dungeon(xrectnum, yrectnum, dtype, biome)
     return [output[0], output[1], [], []]
 }
