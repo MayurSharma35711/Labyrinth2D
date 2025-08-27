@@ -205,7 +205,7 @@ for(let i = 0; i < monsters.length;i++)
         y = Math.floor(Math.random() * yrectnum)
         ind = x + xrectnum * y
     }
-    monsters[i] = new Monster(4, size.item, size.item, xrectnum, yrectnum, "patrol", game_map.item, sect_size, x, y);
+    monsters[i] = new Monster(4, size.item, size.item, xrectnum, yrectnum, "hunt", game_map.item, sect_size, x, y);
 }
 
 for(let i = 0;i < monsters.length;i++)
