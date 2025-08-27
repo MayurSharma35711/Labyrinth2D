@@ -102,7 +102,11 @@ export function sight(game_map, game_maze, xrectnum, yrectnum, cutoff_y, tot_hei
         }
         if(map_indexer % xrectnum == 0 && game_map[map_indexer].getBiome() != -1) {
             let leftwall = PIXI.Sprite.from('https://mayursharma35711.github.io/Labyrinth2D/textures/bkgnd/WallsVertical.png');
-            
+            // console.log(leftwall.y, walls.y, tot_height.item, cutoff_y.item)
+            leftwall.height = size;
+            leftwall.width = 0.3 * size;
+            leftwall.x = (0 - currx) * size - 0.15*size;
+            leftwall.y = (map_indexer / xrectnum - curry) * size;
             if (map_indexer == 0 && !is_start_level) {
                 let leftdoor = PIXI.Sprite.from('https://mayursharma35711.github.io/Labyrinth2D/textures/bkgnd/vert_door.png');
                 leftdoor.height = size;
@@ -112,10 +116,6 @@ export function sight(game_map, game_maze, xrectnum, yrectnum, cutoff_y, tot_hei
                 walls.addChild(leftdoor);
             }
             else if(leftwall.y + walls.y < tot_height.item - cutoff_y.item) {
-                leftwall.height = size;
-                leftwall.width = 0.3 * size;
-                leftwall.x = (0 - currx) * size - 0.15*size;
-                leftwall.y = (map_indexer / xrectnum - curry) * size;
                 walls.addChild(leftwall);
             }
         }

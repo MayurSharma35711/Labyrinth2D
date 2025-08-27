@@ -122,12 +122,12 @@ export let yrectnum = 20;
 
 const first_maze = new Area("maze1", xrectnum, yrectnum, "m", true)
 const first_dungeon = new Area("dung1", xrectnum, yrectnum, "d", false)
-const door1 = new Level_Door(first_maze, first_dungeon, [4,8], [0,0], [0, 1, 20, 21], [0, 1, 20, 21])
-const door2 = new Level_Door(first_maze, first_dungeon, [11,7], [0,0], [0, 1, 20, 21], [0, 1, 20, 21])
+const door1 = new Level_Door(first_maze, first_dungeon, [4,8], [0,0], [4 + 8 *20, 3 + 8 *20, 4 + 7 *20, 3 + 7 *20], [0, 1, 20, 21])
+const door2 = new Level_Door(first_maze, first_dungeon, [10,7], [0,0], [0, 1, 20, 21], [0, 1, 20, 21])
 const door3 = new Level_Door(first_maze, first_dungeon, [17, 14], [0,0], [0, 1, 20, 21], [0, 1, 20, 21])
 const door4 = new Level_Door(first_maze, first_dungeon, [14, 17], [0,0], [0, 1, 20, 21], [0, 1, 20, 21])
-first_maze.set_up_doors([door1])
-first_dungeon.set_up_doors([door1])
+first_maze.set_up_doors([door1, door2, door3, door4])
+first_dungeon.set_up_doors([door1, door2, door3, door4])
 
 export const current_area = new Wrapper(first_maze)
 
@@ -237,19 +237,16 @@ players[3].x = 1;
 players[3].y = 1;
 
 
-const min_speed_val = 7;
+const min_speed_val = 100;
 players[0].speed = Math.max(2*players[0].vis_tier, min_speed_val);
 players[1].speed = Math.max(2*players[1].vis_tier, min_speed_val);
 players[2].speed = Math.max(2*players[2].vis_tier, min_speed_val);
 players[3].speed = Math.max(2*players[3].vis_tier, min_speed_val);
 
 // export const tot_player_health = init_health_bars(app, players)
-export const tot_cards = new Wrapper(init_all_player_cards(players, tot_width.item / 4, tot_height.item * 4 / 5 + size.item * 3/10, tot_width.item / 8,  tot_height.item / 5 - size.item * 4/10 - 10))
 
 
 
-export let curr_player = new Wrapper(players[0])
-export const curr_player_trues = new Wrapper([true, false, false, false])
 // export let curr_index = 0
 
 export let play_inds = new Array(players.length);
@@ -262,6 +259,11 @@ export const inventory_screen = new Wrapper(create_inventory_screen())
 
 setPlays();
 export let seen_indices = new Wrapper(total_visible_indices(players, xrectnum, yrectnum));
+
+export let curr_player = new Wrapper(players[0])
+export const curr_player_trues = new Wrapper([true, false, false, false])
+export const tot_cards = new Wrapper(init_all_player_cards(players, tot_width.item / 4, tot_height.item * 4 / 5 + size.item * 3/10, tot_width.item / 8,  tot_height.item / 5 - size.item * 4/10 - 10))
+
 
 key_setup()
 

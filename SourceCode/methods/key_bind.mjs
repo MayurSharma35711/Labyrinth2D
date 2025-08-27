@@ -57,7 +57,7 @@ function checkDoor(player, maze, xrectnum, yrectnum, is_start_level) {
     let y = player.item.y
 
     let check_inds = []
-
+    console.log(x, y)
     if(x > 0) 
         check_inds.push(2 * (x + y * xrectnum) - 1)
     if(x < xrectnum - 1)
@@ -320,11 +320,11 @@ function keyStart(e)
                     curr_player.item.turn_end = true;
                     curr_player.item.in_combat = false;
                 }
-                                    console.log("PTR = " + ptr.item);
+                                    // console.log("PTR = " + ptr.item);
 
                 if(!hit || ptr.item == curr_player.item.x + curr_player.item.y * xrectnum) //This will also just run through the entire function so even if it hits the rigth functino will be carried out
                 {
-                    console.log(ptr.item);
+                    // console.log(ptr.item);
                     curr_player.item.in_combat = false;
                     ptr.item = curr_player.item.y * xrectnum + curr_player.item.x;
                 }

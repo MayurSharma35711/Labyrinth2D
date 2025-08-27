@@ -51,15 +51,21 @@ export function precise_rooms(xnum, ynum, room_infos, maze, map) {
             let xsize = room_infos[k][2]
             let ysize = room_infos[k][3]
             room_infos[k][5][l][0] + room_infos[k][5][l][1] * xnum
-            if (room_infos[k][5][l][0] == startx)
+            if (room_infos[k][5][l][0] == startx){
                 door_inds.push(2 * (room_infos[k][5][l][0] + room_infos[k][5][l][1] * xnum) - 1)
-            if (room_infos[k][5][l][0] == startx + xsize)
+                maze[2 * (room_infos[k][5][l][0] + room_infos[k][5][l][1] * xnum) - 3].exists = false
+                maze[2 * (room_infos[k][5][l][0] + (room_infos[k][5][l][1] - 1) * xnum) - 3].exists = false
+                maze[2 * (room_infos[k][5][l][0] + (room_infos[k][5][l][1] - 1) * xnum) - 2].exists = false
+            }
+            if (room_infos[k][5][l][0] == startx + xsize) {
                 door_inds.push(2 * (room_infos[k][5][l][0] + room_infos[k][5][l][1] * xnum) - 1)
+            }
             if (room_infos[k][5][l][1] == starty){
                 door_inds.push(2 * (room_infos[k][5][l][0] + (room_infos[k][5][l][1] - 1) * xnum))
             }
-            if (room_infos[k][5][l][1] == starty + ysize)
+            if (room_infos[k][5][l][1] == starty + ysize) {
                 door_inds.push(2 * (room_infos[k][5][l][0] + (room_infos[k][5][l][1]) * xnum))
+            }
             
         }
     }

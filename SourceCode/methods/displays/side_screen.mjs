@@ -189,6 +189,16 @@ export function init_all_player_cards(players, locx, locy, sizex, sizey) {
             }
         })
     }
+
+    let play_visible = []
+    for (let l = 0; l < players.length; l++) {
+        play_visible.push(seen_indices.item.includes(play_inds[l]))
+    }
+    for (let l = 0; l < players.length; l++) {
+        cards[0][l].visible = cards[0][l].visible && play_visible[l]
+        cards[1][l].visible = cards[1][l].visible && play_visible[l]
+        cards[2][l].visible = cards[2][l].visible && play_visible[l]
+    }
     
     return [player_info, cards, health_bars, name_text, stepcounters, staters, bndrects, coverrects]
 }
