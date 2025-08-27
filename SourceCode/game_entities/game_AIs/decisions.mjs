@@ -47,7 +47,7 @@ function distance(x1, y1, x2, y2) {
 // returns if player is in range and if so, gives the distance it is away
 
 export function monster_combat_range(center_x, center_y, numx, numy, tier, game_maze, range_type) {
-    const off_cen_size = Math.max(1, 7 - tier)
+    const off_cen_size = Math.max(1, 6 - tier)
     // console.log(off_cen_size)
     // We now use this to give our side indices
     let map_indices = []

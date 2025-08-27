@@ -30,6 +30,8 @@ export class MonsterSpawner extends Entities {
         let y = Math.floor(Math.random() * num_y)
         let ind = x + num_x * y
         while(map[ind].getBiome() == 9 || map[ind].getBiome() == -1 || map[ind].getBiome() == 10) {
+            if (x < 2 && y < 2)
+                continue
             x = Math.floor(Math.random() * num_x)
             y = Math.floor(Math.random() * num_y)
             ind = x + num_x * y

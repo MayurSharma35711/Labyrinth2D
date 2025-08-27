@@ -143,8 +143,8 @@ export let game_maze = new Wrapper(output[1]);
 let rooms = output[2];
 export let chests = output[3];
 export let ptr = new Wrapper(0);
-let monster_num = 1;
-let monster_spawn_num = 0;
+let monster_num = 8;
+let monster_spawn_num = 3;
 export const sect_size = 5
 // print_walls(game_maze, xrectnum, yrectnum)
 
@@ -199,11 +199,13 @@ for(let i = 0; i < monsters.length;i++)
     let y = Math.floor(Math.random() * yrectnum)
     let ind = x + xrectnum * y
     while(game_map.item[ind].getBiome() == 9 || game_map.item[ind].getBiome() == -1 || game_map.item[ind].getBiome() == 10) {
+        if (x < 2 && y < 2)
+            continue
         x = Math.floor(Math.random() * xrectnum)
         y = Math.floor(Math.random() * yrectnum)
         ind = x + xrectnum * y
     }
-    monsters[i] = new Monster(5, size.item, size.item, xrectnum, yrectnum, "hunt", game_map.item, sect_size, x, y);
+    monsters[i] = new Monster(4, size.item, size.item, xrectnum, yrectnum, "patrol", game_map.item, sect_size, x, y);
 }
 
 for(let i = 0;i < monsters.length;i++)
