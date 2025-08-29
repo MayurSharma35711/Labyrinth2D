@@ -782,3 +782,12 @@ TO DO:
 - there is also a loading screen
 	- this is useful for future testing when we have many sprites to load
 - i also updated graphics to recenter after the number of seen characters disappears
+
+8/29/25
+- (mayur)
+- added chests to each area individually
+- need to do the same for monsters and spawners next 
+- next tasks for me 
+	- character stuff (check in with nikki)
+	- monster AI stuff (check in with vivek)
+	- start on equipment and the inventory set up
