@@ -13,7 +13,7 @@ export function sight(game_map, game_maze, xrectnum, yrectnum, cutoff_y, tot_hei
         walls.removeChild(walls.children[0]);
     }
     let map_indices = total_visible_indices(players, xrectnum, yrectnum);
-    let curr_player_view = get_view_sqr(curr_player.x, curr_player.y, xrectnum, yrectnum, curr_player.vis_tier)
+    let curr_player_view = get_view_sqr(curr_player.x, curr_player.y, xrectnum, yrectnum, curr_player.used_vis)
     let range = get_view_range(curr_player.x, curr_player.y, xrectnum, yrectnum, curr_player.range, game_maze, curr_player.range_type)
     range = new Set(range);
     range = range.intersection(new Set(curr_player_view));
@@ -57,7 +57,7 @@ export function sight(game_map, game_maze, xrectnum, yrectnum, cutoff_y, tot_hei
                 } else {
                     poses.push([players[i].x, players[i].y])
                 }
-                tiers.push(players[i].vis_tier)
+                tiers.push(players[i].used_vis)
             }
             let new_indices = test_visible_indices(poses, tiers, xrectnum, yrectnum)
             for(let i = 1; i < players.length; i++) {

@@ -66,6 +66,13 @@ export class Level_Door{
                 players[l].y = Math.floor(this.placement_spots2[l] / this.loc2.size_x)
                 play_inds[l] = this.placement_spots2[l]
                 players[l].blks_moved = 0
+                if (this.loc2.type == "h" || this.loc2.type == "d") {
+                    players[l].used_vis = players[l].vis_tier - 1
+                }
+                else {
+                    players[l].used_vis = players[l].vis_tier
+                }
+                    
             }
             current_area.item = this.loc2
         }
@@ -77,6 +84,12 @@ export class Level_Door{
                 players[l].y = Math.floor(this.placement_spots1[l] / this.loc1.size_x)
                 play_inds[l] = this.placement_spots1[l]
                 players[l].blks_moved = 0
+                if (this.loc1.type == "h" || this.loc1.type == "d") {
+                    players[l].used_vis = players[l].vis_tier - 1
+                }
+                else {
+                    players[l].used_vis = players[l].vis_tier
+                }
             }
             current_area.item = this.loc1
         }

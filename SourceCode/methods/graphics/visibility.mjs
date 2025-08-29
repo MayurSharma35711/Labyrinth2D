@@ -177,7 +177,7 @@ export function total_visible_indices (players, numx, numy) {
         if (players[k].health <= 0 && k > 0)
             new_inds = [players[k].x + players[k].y * numx]
         else
-            new_inds = get_view_sqr(players[k].x,players[k].y,numx,numy,players[k].vis_tier)
+            new_inds = get_view_sqr(players[k].x,players[k].y,numx,numy,players[k].used_vis)
         // console.log(new_inds)
         players_indices.push(new Set(new_inds))
     }

@@ -217,7 +217,7 @@ export class Tile {
 				if (curr_player.item.in_combat && this.sprite.alpha == 0.5) {
 					ptr.item = this.ind_x + this.ind_y * xrectnum
 
-					let curr_player_view = get_view_sqr(curr_player.item.x, curr_player.item.y, xrectnum, yrectnum, curr_player.item.vis_tier)
+					let curr_player_view = get_view_sqr(curr_player.item.x, curr_player.item.y, xrectnum, yrectnum, curr_player.item.used_vis)
 					let range = get_view_range(curr_player.item.x, curr_player.item.y, xrectnum, yrectnum, curr_player.item.range, game_maze.item, curr_player.item.range_type)
 					range = new Set(range);
 					range = range.intersection(new Set(curr_player_view));

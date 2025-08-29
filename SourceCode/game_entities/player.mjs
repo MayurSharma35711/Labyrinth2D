@@ -36,6 +36,7 @@ export class Player extends Entities
         this.atk_str = true;
         this.range_type = "regular";
         this.blks_moved = 0
+        this.used_vis = vis_tier
         
         this.sprite;
         if (this.player_ind == 0)
