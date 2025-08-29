@@ -162,8 +162,8 @@ function keyStart(e)
             for (let t = 0; t < monsters.length; t++) {
                 monsters[t].resize(size.item, size.item)
             }
-            for (let t = 0; t < monster_spawns.length; t++) {
-                monster_spawns[t].resize(size.item, size.item)
+            for (let t = 0; t < monster_spawns.item.length; t++) {
+                monster_spawns.item[t].resize(size.item, size.item)
             }
             // console.log(size.item)
         }
@@ -179,11 +179,11 @@ function keyStart(e)
             shifty.item = 0 
             shiftx.item = 0
         }
-        else if(key == key_open && (chest_indices.includes(curr_player.item.y * xrectnum + curr_player.item.x) && !chests[chest_indices.indexOf(curr_player.item.y * xrectnum + curr_player.item.x)].opened))
+        else if(key == key_open && (chest_indices.item.includes(curr_player.item.y * xrectnum + curr_player.item.x) && !chests.item[chest_indices.item.indexOf(curr_player.item.y * xrectnum + curr_player.item.x)].opened))
         {
             // alert("Good");
-            chests[chest_indices.indexOf(curr_player.item.y * xrectnum + curr_player.item.x)].Open();
-            pop_up_bubble.item = chests[chest_indices.indexOf(curr_player.item.y * xrectnum + curr_player.item.x)].listItems();
+            chests.item[chest_indices.item.indexOf(curr_player.item.y * xrectnum + curr_player.item.x)].Open();
+            pop_up_bubble.item = chests.item[chest_indices.item.indexOf(curr_player.item.y * xrectnum + curr_player.item.x)].listItems();
         }
         else if(key == key_open) {
             let caser = checkDoor(curr_player, game_maze.item, xrectnum, yrectnum, current_area.item.is_start_level)
@@ -538,7 +538,7 @@ function keyStart(e)
     
 
 
-    sight(game_map.item, game_maze.item, xrectnum, yrectnum, cutoff_y, tot_height, players, curr_player.item, monsters, ptr.item, size.item, currx.item, curry.item, chest_indices, chests, monster_indices, monster_spawns, monster_spawn_indices, current_area.item.is_start_level, app);
+    sight(game_map.item, game_maze.item, xrectnum, yrectnum, cutoff_y, tot_height, players, curr_player.item, monsters, ptr.item, size.item, currx.item, curry.item, chest_indices.item, chests.item, monster_indices, monster_spawns.item, monster_spawn_indices.item, current_area.item.is_start_level, app);
     
     for (let t = 0; t < players.length; t++) {
         players[t].drawMe(size.item, size.item, currx.item, curry.item)

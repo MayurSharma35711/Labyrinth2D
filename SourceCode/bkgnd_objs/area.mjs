@@ -61,16 +61,28 @@ export class Level_Door{
         if (loc.id == this.loc1.id){
             game_map.item = this.loc2.full_setup[0]
             game_maze.item = this.loc2.full_setup[1]
+            chests.item = this.loc2.full_setup[3]
+            chest_indices.item = []
+            for(let i = 0;i < chests.item.length;i++)
+            {
+                chest_indices.item[i] = chests.item[i].index;
+            }
             for (let l = 0; l < players.length; l++) {
                 players[l].x = this.placement_spots2[l] % this.loc2.size_x
                 players[l].y = Math.floor(this.placement_spots2[l] / this.loc2.size_x)
                 play_inds[l] = this.placement_spots2[l]
                 players[l].blks_moved = 0
-                if (this.loc2.type == "h" || this.loc2.type == "d") {
+                if (this.loc2.type == "h") {
+                    players[l].used_vis = 40
+                    // size.item = 20
+                }
+                else if (this.loc2.type == "h" || this.loc2.type == "d") {
                     players[l].used_vis = players[l].vis_tier - 1
+                    // size.item = 80
                 }
                 else {
                     players[l].used_vis = players[l].vis_tier
+                    // size.item = 80
                 }
                     
             }
@@ -79,12 +91,21 @@ export class Level_Door{
         else {
             game_map.item = this.loc1.full_setup[0]
             game_maze.item = this.loc1.full_setup[1]
+            chests.item = this.loc1.full_setup[3]
+            chest_indices.item = []
+            for(let i = 0;i < chests.item.length;i++)
+            {
+                chest_indices.item[i] = chests.item[i].index;
+            }
             for (let l = 0; l < players.length; l++) {
                 players[l].x = this.placement_spots1[l] % this.loc1.size_x
                 players[l].y = Math.floor(this.placement_spots1[l] / this.loc1.size_x)
                 play_inds[l] = this.placement_spots1[l]
                 players[l].blks_moved = 0
-                if (this.loc1.type == "h" || this.loc1.type == "d") {
+                if (this.loc1.type == "h") {
+                    players[l].used_vis = 40
+                }
+                else if (this.loc1.type == "d") {
                     players[l].used_vis = players[l].vis_tier - 1
                 }
                 else {
@@ -94,20 +115,20 @@ export class Level_Door{
             current_area.item = this.loc1
         }
 
-        console.log("first onen")
-        for(let l = 0; l < this.loc1.doors_used.length; l++) {
-            console.log(this.loc1.doors_used[l].id)
-        }
-        console.log("second onen")
-        for(let l = 0; l < this.loc2.doors_used.length; l++) {
-            console.log(this.loc2.doors_used[l].id)
-        }
+        // console.log("first onen")
+        // for(let l = 0; l < this.loc1.doors_used.length; l++) {
+        //     console.log(this.loc1.doors_used[l].id)
+        // }
+        // console.log("second onen")
+        // for(let l = 0; l < this.loc2.doors_used.length; l++) {
+        //     console.log(this.loc2.doors_used[l].id)
+        // }
 
         let ind1 = 0
         for (let k = 0; k < this.loc1.doors_used.length; k++) {
             if(this.loc1.doors_used[k].id == this.id) {
                 ind1 = k
-                console.log("FOUND MATCH 1")
+                // console.log("FOUND MATCH 1")
             }
         }
         if (ind1 != -1) 
@@ -118,23 +139,23 @@ export class Level_Door{
         for (let k = 0; k < this.loc2.doors_used.length; k++) {
             if(this.loc2.doors_used[k].id == this.id){
                 ind2 = k
-                console.log("FOUND MATCH 2")
+                // console.log("FOUND MATCH 2")
             }
         }
         if (ind2 != -1) 
             this.loc2.doors_used.splice(ind2)
         this.loc2.doors_used.push(this)
 
-        console.log("--------\nn\nn after \n\n -------- \n")
-        console.log("first onen")
-        for(let l = 0; l < this.loc1.doors_used.length; l++) {
-            console.log(this.loc1.doors_used[l].id)
-        }
-        console.log("second onen")
-        for(let l = 0; l < this.loc2.doors_used.length; l++) {
-            console.log(this.loc2.doors_used[l].id)
-        }
-        sight(game_map.item, game_maze.item, xrectnum, yrectnum, cutoff_y, tot_height, players, curr_player.item, monsters, ptr.item, size.item, currx.item, curry.item, chest_indices, chests, monster_indices, monster_spawns, monster_spawn_indices, current_area.item.is_start_level, app);
+        // console.log("--------\nn\nn after \n\n -------- \n")
+        // console.log("first onen")
+        // for(let l = 0; l < this.loc1.doors_used.length; l++) {
+        //     console.log(this.loc1.doors_used[l].id)
+        // }
+        // console.log("second onen")
+        // for(let l = 0; l < this.loc2.doors_used.length; l++) {
+        //     console.log(this.loc2.doors_used[l].id)
+        // }
+        sight(game_map.item, game_maze.item, xrectnum, yrectnum, cutoff_y, tot_height, players, curr_player.item, monsters, ptr.item, size.item, currx.item, curry.item, chest_indices.item, chests.item, monster_indices, monster_spawns.item, monster_spawn_indices.item, current_area.item.is_start_level, app);
     }
     
 }

@@ -30,7 +30,7 @@ export function take_game_turn(){
         monster_indices[k] = monsters[k].y * xrectnum + monsters[k].x;
         console.log(monster_indices[k], monsters[k].decision_state)
     }
-    for (let k = 0; k < monster_spawns.length; k++) {
-        spawn_mon(monster_spawns[k])
+    for (let k = 0; k < monster_spawns.item.length; k++) {
+        spawn_mon(monster_spawns.item[k])
     }
 }

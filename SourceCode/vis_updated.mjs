@@ -76,7 +76,7 @@ function resize_func() {
     inventory_screen.item.visible = inventory.item
     
 
-    sight(game_map.item, game_maze.item, xrectnum, yrectnum, cutoff_y, tot_height, players, curr_player.item, monsters, ptr.item, size.item, currx.item, curry.item, chest_indices, chests, monster_indices, monster_spawns, monster_spawn_indices, current_area.item.is_start_level, app);
+    sight(game_map.item, game_maze.item, xrectnum, yrectnum, cutoff_y, tot_height, players, curr_player.item, monsters, ptr.item, size.item, currx.item, curry.item, chest_indices.item, chests.item, monster_indices, monster_spawns.item, monster_spawn_indices.item, current_area.item.is_start_level, app);
     for (let t = 0; t < players.length; t++) {
         players[t].drawMe(size.item, size.item, currx.item, curry.item)
         // // console.log(players[t].x, players[t].y)
@@ -141,7 +141,7 @@ let output = current_area.item.full_setup
 export let game_map = new Wrapper(output[0]);
 export let game_maze = new Wrapper(output[1]);
 let rooms = output[2];
-export let chests = output[3];
+export let chests = new Wrapper(output[3]);
 export let ptr = new Wrapper(0);
 let monster_num = 8;
 let monster_spawn_num = 3;
@@ -157,11 +157,11 @@ export const maze_dicter =  make_maze_dicts(game_maze.item, xrectnum, yrectnum, 
 // (above 4 lineS are needed for a MAZE)
 
 
-export let chest_indices = [];
+export let chest_indices = new Wrapper([]);
 
-for(let i = 0;i < chests.length;i++)
+for(let i = 0;i < chests.item.length;i++)
 {
-    chest_indices[i] = chests[i].index;
+    chest_indices.item[i] = chests.item[i].index;
 }
 
 
@@ -182,8 +182,11 @@ let tier = 4;
 export let players = new Array(4);
 export let monsters = new Array(monster_num);
 export let monster_indices = new Array(monsters.length);
-export let monster_spawns = new Array(monster_spawn_num);
-export let monster_spawn_indices = new Array(monster_spawns.length);
+export let monster_spawns = new Wrapper(new Array(monster_spawn_num));
+export let monster_spawn_indices = new Wrapper(new Array(monster_spawns.length));
+
+// first_maze.spawns = monster_spawns.item
+
 export let currx = new Wrapper(0);
 export let curry = new Wrapper(0);
 export let act_currx = new Wrapper(0);
@@ -213,15 +216,15 @@ for(let i = 0;i < monsters.length;i++)
     monster_indices[i] = monsters[i].y * xrectnum + monsters[i].x;
 }
 
-for(let i = 0; i < monster_spawns.length;i++)
+for(let i = 0; i < monster_spawns.item.length;i++)
 {
     // console.log((i % 5) + 1)
-    monster_spawns[i] = new MonsterSpawner(5, size.item, size.item, xrectnum, yrectnum, game_map.item, "spawn", "sniff", 4)
+    monster_spawns.item[i] = new MonsterSpawner(5, size.item, size.item, xrectnum, yrectnum, game_map.item, "spawn", "sniff", 4)
 }
 
-for(let i = 0;i < monster_spawns.length;i++)
+for(let i = 0;i < monster_spawns.item.length;i++)
 {
-    monster_spawn_indices[i] = monster_spawns[i].y * xrectnum + monster_spawns[i].x;
+    monster_spawn_indices.item[i] = monster_spawns.item[i].y * xrectnum + monster_spawns.item[i].x;
 }
 
 players[0] = new Player(0, size.item, size.item, 2, 'Vivek');
@@ -312,7 +315,7 @@ for (let t = 0; t < players.length; t++) {
 //     app.stage.addChild(monsters[t].rect)
 // }
 // console.log(monster_spawn_indices)
-sight(game_map.item, game_maze.item, xrectnum, yrectnum, cutoff_y, tot_height, players, curr_player.item, monsters, ptr.item, size.item, currx.item, curry.item, chest_indices, chests, monster_indices, monster_spawns, monster_spawn_indices, current_area.item.is_start_level, app);
+sight(game_map.item, game_maze.item, xrectnum, yrectnum, cutoff_y, tot_height, players, curr_player.item, monsters, ptr.item, size.item, currx.item, curry.item, chest_indices.item, chests.item, monster_indices, monster_spawns.item, monster_spawn_indices.item, current_area.item.is_start_level, app);
 
 
 // app.stage.addChild(tot_player_health[0])
