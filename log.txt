@@ -790,4 +790,14 @@ TO DO:
 - next tasks for me 
 	- character stuff (check in with nikki)
 	- monster AI stuff (check in with vivek)
-	- start on equipment and the inventory set up
+	- start on equipment and the inventory 
+
+8/30/25
+- tasks to do today
+	- monster AI updates
+	- (TABLED) hit button creation
+	- attach everything to each area
+		- maybe implement entities? 
+	- start up on inventory + weapons + multiple attacks 
+	- implement exp system ??
+	- implement leveling up ?? 
