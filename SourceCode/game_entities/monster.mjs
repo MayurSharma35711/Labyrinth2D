@@ -18,7 +18,7 @@ export class Monster extends Entities
         super();
         super.setSpeed((6 - tier));
         super.setStrength(6 - tier);
-        super.setRange(Math.floor(0.5 * (6 - tier)));
+        super.setRange(Math.ceil(0.5 * (6 - tier)));
         super.setProt((6 - tier), (2 * (6 - tier)));
         super.setpos(x, y);
         super.setHealth((9 - tier) * 2);
@@ -27,6 +27,7 @@ export class Monster extends Entities
         this.display = false
         if (brain_type == "patrol") {
             this.decision_state = monster_state.return
+            this.stagnant = 0
             this.init_sector = find_sector(maze_dicter[0], this.x, this.y, num_x, num_y)
             let adj_sectors = []
             for (let l = 0; l < maze_dicter[0].keys.length; l++) {

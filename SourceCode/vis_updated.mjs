@@ -143,8 +143,8 @@ export let game_maze = new Wrapper(output[1]);
 let rooms = output[2];
 export let chests = new Wrapper(output[3]);
 export let ptr = new Wrapper(0);
-let monster_num = 8;
-let monster_spawn_num = 3;
+let monster_num = 5;
+let monster_spawn_num = 0;
 export const sect_size = 5
 // print_walls(game_maze, xrectnum, yrectnum)
 
@@ -201,14 +201,23 @@ for(let i = 0; i < monsters.length;i++)
     let x = Math.floor(Math.random() * xrectnum)
     let y = Math.floor(Math.random() * yrectnum)
     let ind = x + xrectnum * y
-    while(game_map.item[ind].getBiome() == 9 || game_map.item[ind].getBiome() == -1 || game_map.item[ind].getBiome() == 10) {
-        if (x < 2 && y < 2)
-            continue
+    let overlap = false
+
+    while((x < 4 && y < 4) || overlap || (game_map.item[ind].getBiome() == 9 || game_map.item[ind].getBiome() == -1 || game_map.item[ind].getBiome() == 10)) {
         x = Math.floor(Math.random() * xrectnum)
         y = Math.floor(Math.random() * yrectnum)
         ind = x + xrectnum * y
+
+        overlap = false
+        for (let j = 0; j < i; j++) {
+            if (x == monsters[j].x && y == monsters[j].y) {
+                overlap = true
+                break
+            }
+                
+        }
     }
-    monsters[i] = new Monster(4, size.item, size.item, xrectnum, yrectnum, "hunt", game_map.item, sect_size, x, y);
+    monsters[i] = new Monster(4, size.item, size.item, xrectnum, yrectnum, "patrol", game_map.item, sect_size, x, y);
 }
 
 for(let i = 0;i < monsters.length;i++)
@@ -219,7 +228,28 @@ for(let i = 0;i < monsters.length;i++)
 for(let i = 0; i < monster_spawns.item.length;i++)
 {
     // console.log((i % 5) + 1)
-    monster_spawns.item[i] = new MonsterSpawner(5, size.item, size.item, xrectnum, yrectnum, game_map.item, "spawn", "sniff", 4)
+    let x = Math.floor(Math.random() * xrectnum)
+    let y = Math.floor(Math.random() * yrectnum)
+    let ind = x + xrectnum * y
+    let overlap = false
+    while((x < 4 && y < 4) || overlap || (game_map.item[ind].getBiome() == 9 || game_map.item[ind].getBiome() == -1 || game_map.item[ind].getBiome() == 10)) {
+        x = Math.floor(Math.random() * xrectnum)
+        y = Math.floor(Math.random() * yrectnum)
+        ind = x + xrectnum * y
+
+        overlap = false
+        for (let j = 0; j < i; j++) {
+            if (x == monster_spawns.item[j].x && y == monster_spawns.item[j].y) {
+                overlap = true
+                break
+            }
+                
+        }
+    }
+    
+    // x = Math.floor(Math.random() * xrectnum)
+    // y = Math.floor(Math.random() * yrectnum)
+    monster_spawns.item[i] = new MonsterSpawner(5, x, y, size.item, size.item, xrectnum, yrectnum, game_map.item, "spawn", "sniff", 10)
 }
 
 for(let i = 0;i < monster_spawns.item.length;i++)
@@ -227,7 +257,7 @@ for(let i = 0;i < monster_spawns.item.length;i++)
     monster_spawn_indices.item[i] = monster_spawns.item[i].y * xrectnum + monster_spawns.item[i].x;
 }
 
-players[0] = new Player(0, size.item, size.item, 2, 'Vivek');
+players[0] = new Player(0, size.item, size.item, 40, 'Vivek');
 players[1] = new Player(1, size.item, size.item, 1, 'Jane');
 // players[1].y = 8;
 players[2] = new Player(2, size.item, size.item, 3, 'Nikki');

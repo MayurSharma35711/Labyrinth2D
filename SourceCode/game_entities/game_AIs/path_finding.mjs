@@ -67,7 +67,7 @@ function distance(x1, y1, x2, y2)
     return Math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2);
 }
 
-function test_entities(entities, index, numx) {
+function test_entities(entities, index, numx ) {
     // console.log("entities", entities)
     for (let l = 0; l < entities.length; l++) {
         // console.log(entities[l].x + entities[l].y * numx, index)
@@ -82,9 +82,10 @@ function test_entities(entities, index, numx) {
     return true
 }
 
-export function Astar_maze(maze, numx, numy, x0, y0, xfin, yfin, heur, map, entities) {
+export function Astar_maze(maze, numx, numy, x0, y0, xfin, yfin, heur, map, entities, range = 1, range_type = "regular") {
     // print_walls(maze, numx, numy)
     let open_points = new Priority_Queue()
+    console.log(maze.length)
     let visited_nodes = Array(maze.length/2).fill(-1)
     let best_scores = Array(maze.length/2).fill(-1)
     best_scores[x0 + y0*numx] = 0
@@ -108,20 +109,20 @@ export function Astar_maze(maze, numx, numy, x0, y0, xfin, yfin, heur, map, enti
         
         let nbrs = []
 
-        if (y_comp < numy - 1 && maze[2*current].getWall() == false){
-            if (test_entities(entities, current + numx, numx) || (distance(x_comp, y_comp, xfin, yfin) <= 2 && (x_comp == xfin || y_comp == yfin)))
+        if (y_comp < numy - 1 && maze[2*current].getWall() == false && range_type == "regular"){
+            if (test_entities(entities, current + numx, numx) || (distance(x_comp, y_comp, xfin, yfin) <= range && (x_comp == xfin || y_comp == yfin)))
                 nbrs.push(current + numx)
         }
-        if (x_comp < numx - 1 && maze[2*current+1].getWall() == false){
-            if (test_entities(entities, current + 1, numx) ||( distance(x_comp, y_comp, xfin, yfin) <= 2  && (x_comp == xfin || y_comp == yfin)))
+        if (x_comp < numx - 1 && maze[2*current+1].getWall() == false && range_type == "regular"){
+            if (test_entities(entities, current + 1, numx) ||( distance(x_comp, y_comp, xfin, yfin) <= range  && (x_comp == xfin || y_comp == yfin)))
                 nbrs.push(current + 1)
         }
-        if (x_comp > 0 && maze[2*current-1].getWall() == false) {
-            if (test_entities(entities, current - 1, numx) || (distance(x_comp, y_comp, xfin, yfin) <= 2  && (x_comp == xfin || y_comp == yfin)))
+        if (x_comp > 0 && maze[2*current-1].getWall() == false && range_type == "regular") {
+            if (test_entities(entities, current - 1, numx) || (distance(x_comp, y_comp, xfin, yfin) <= range  && (x_comp == xfin || y_comp == yfin)))
                 nbrs.push(current - 1)
         }
-        if (y_comp > 0 && maze[2*current-2*numx].getWall() == false) {
-            if (test_entities(entities, current - numx, numx) || (distance(x_comp, y_comp, xfin, yfin) <= 2  && (x_comp == xfin || y_comp == yfin)))
+        if (y_comp > 0 && maze[2*current-2*numx].getWall() == false && range_type == "regular") {
+            if (test_entities(entities, current - numx, numx) || (distance(x_comp, y_comp, xfin, yfin) <= range  && (x_comp == xfin || y_comp == yfin)))
                 nbrs.push(current - numx)
         }
 
