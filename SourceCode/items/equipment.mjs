@@ -138,7 +138,7 @@ export class chest
             this.sprite.height = 0.7 * cell_height;
             this.sprite.x = (this.x + 0.15 - currx) * cell_width;
             this.sprite.y = (this.y + 0.12 - curry) * cell_height;
-            if(this.sprite.y + vis.y < tot_height.item - cutoff_y.item)
+            if(this.sprite.y + vis.y < tot_height.item - cutoff_y.item - cell_height)
                 vis.addChild(this.sprite);
         }
         else
@@ -148,7 +148,7 @@ export class chest
             this.sprite.height = 0.7 * cell_height;
             this.sprite.x = (this.x + 0.15 - currx) * cell_width;
             this.sprite.y = (this.y + 0.12 - curry) * cell_height;
-            if(this.sprite.y + vis.y < tot_height.item - cutoff_y.item)
+            if(this.sprite.y + vis.y < tot_height.item - cutoff_y.item - cell_height)
                 vis.addChild(this.sprite);
         }
     }

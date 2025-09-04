@@ -95,7 +95,7 @@ export function sight(game_map, game_maze, xrectnum, yrectnum, cutoff_y, tot_hei
             upwall.width = size;
             upwall.x = (map_indexer - currx) * size;
             upwall.y = (- curry) * size - 0.15*size;
-            if(upwall.y + walls.y < tot_height.item - cutoff_y.item) {
+            if(upwall.y + walls.y < tot_height.item - cutoff_y.item - upwall.height) {
                 walls.addChild(upwall);
             }
             // walls.addChild(upwall)
@@ -115,7 +115,7 @@ export function sight(game_map, game_maze, xrectnum, yrectnum, cutoff_y, tot_hei
                 leftdoor.y = (map_indexer / xrectnum - curry) * size;
                 walls.addChild(leftdoor);
             }
-            else if(leftwall.y + walls.y < tot_height.item - cutoff_y.item) {
+            else if(leftwall.y + walls.y < tot_height.item - cutoff_y.item - leftwall.height) {
                 walls.addChild(leftwall);
             }
         }
@@ -166,7 +166,7 @@ export function sight(game_map, game_maze, xrectnum, yrectnum, cutoff_y, tot_hei
             entities[i].drawMe(size, size, currx, curry);
             // console.log(entities[i].sprite)
             // console.log(entities[i])
-            if(entities[i].sprite.y < tot_height.item - cutoff_y.item) {
+            if(entities[i].sprite.y < tot_height.item - cutoff_y.item - size) {
                 app.stage.addChild(entities[i].sprite);
             }
             // console.log("HERE");
@@ -196,7 +196,7 @@ export function sight(game_map, game_maze, xrectnum, yrectnum, cutoff_y, tot_hei
         {
             // console.log(monster_indices[i], i)
             monsters[i].drawMe(size, size, currx, curry);
-            if(monsters[i].rect.y < tot_height.item - cutoff_y.item) {
+            if(monsters[i].rect.y < tot_height.item - cutoff_y.item - size) {
                 app.stage.addChild(monsters[i].rect);
             }
             // console.log("HERE");

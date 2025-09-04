@@ -283,7 +283,7 @@ export class Tile {
 				// }
 			}
 		})
-		if(this.sprite.y + vis.y < tot_height.item - cutoff_y.item) {
+		if(this.sprite.y + vis.y < tot_height.item - cutoff_y.item - this.sprite.height) {
 			vis.addChild(this.sprite);
 			vis.addChild(border_rect)
 		}

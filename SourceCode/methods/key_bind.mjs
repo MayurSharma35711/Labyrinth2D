@@ -521,9 +521,11 @@ function keyStart(e)
     }
     // console.log("players", visible_player_num.item, seen_num)
     if (visible_player_num.item != seen_num) {
+        
         shiftx.item = 0
         shifty.item = 0
     }
+    console.log(shiftx.item, shifty.item, currx.item, curry.item)
 
     act_currx.item = Math.floor((xmax + xmin)/2)
     act_curry.item = Math.floor( (ymax + ymin)/2 )

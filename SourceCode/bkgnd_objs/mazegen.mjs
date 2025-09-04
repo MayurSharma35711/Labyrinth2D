@@ -53,7 +53,7 @@ export class TileWall{
                 this.wall_image.y = (this.ind_y - curry) * cell_height;
                 this.wall_image.borderColor = 0xFFFFFF
                 this.wall_image.alpha = opac
-                if(this.wall_image.y + walls.y < tot_height.item - cutoff_y.item) {
+                if(this.wall_image.y + walls.y < tot_height.item - cutoff_y.item - cell_height) {
                     walls.addChild(this.wall_image);
                 }
             }
@@ -66,7 +66,7 @@ export class TileWall{
                 this.wall_image.y = (this.ind_y - curry) * cell_height + 0.85*cell_height;
                 this.wall_image.borderColor = 0xFFFFFF
                 this.wall_image.alpha = opac
-                if(this.wall_image.y + walls.y - this.wall_image.height < tot_height.item - cutoff_y.item) {
+                if(this.wall_image.y + walls.y - this.wall_image.height < tot_height.item - cutoff_y.item - cell_height) {
                     walls.addChild(this.wall_image);
                 }
             }
@@ -82,7 +82,7 @@ export class TileWall{
                 this.wall_image.y = (this.ind_y - curry) * cell_height;
                 this.wall_image.borderColor = 0xFFFFFF
                 this.wall_image.alpha = opac
-                if(this.wall_image.y + walls.y < tot_height.item - cutoff_y.item) {
+                if(this.wall_image.y + walls.y < tot_height.item - cutoff_y.item  - cell_height) {
                     walls.addChild(this.wall_image);
                 }
             }
@@ -95,7 +95,7 @@ export class TileWall{
                 this.wall_image.y = (this.ind_y - curry) * cell_height + 0.85*cell_height;
                 this.wall_image.borderColor = 0xFFFFFF
                 this.wall_image.alpha = opac
-                if(this.wall_image.y + walls.y - this.wall_image.height < tot_height.item - cutoff_y.item) {
+                if(this.wall_image.y + walls.y - this.wall_image.height < tot_height.item - cutoff_y.item - cell_height) {
                     walls.addChild(this.wall_image);
                 }
             }

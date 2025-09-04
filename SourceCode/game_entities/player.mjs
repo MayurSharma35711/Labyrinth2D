@@ -111,7 +111,7 @@ export class Player extends Entities
         this.sprite.y = (this.y - curry + 1 / 8) * sizey + Math.floor(tot_height.item / 2 - cutoff_y.item / 2)
         this.bkg_rect.x = this.rect.x
         this.bkg_rect.y = this.rect.y
-        if(this.sprite.y > tot_height.item - cutoff_y.item) {
+        if(this.sprite.y > tot_height.item - cutoff_y.item - sizey) {
             this.sprite.visible = false
             this.bkg_rect.visible = false
             // vis.addChild(border_rect)
