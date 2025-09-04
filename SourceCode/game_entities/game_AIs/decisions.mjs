@@ -487,6 +487,8 @@ export function patrol_brain(monster) {
     let mindist = 100
     let closest_player = 0
     for (let i = 0; i < players.length; i++) {
+        if (players[i].health <= 0 || !seen_indices.item.includes(play_inds[i]))
+            continue
         let xi = players[i].x 
         let yi = players[i].y
         let testdist = distance(xi, yi, monster.x, monster.y)
@@ -495,6 +497,7 @@ export function patrol_brain(monster) {
             closest_player = i
         }
     }
+    
     let new_path = Astar_maze(game_maze.item, xrectnum, yrectnum, monster.x, monster.y, players[closest_player].x, players[closest_player].y, dijkstra, game_map.item, players)
     // console.log("repath")
     // console.log(new_path)
