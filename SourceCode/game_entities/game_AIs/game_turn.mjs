@@ -7,7 +7,7 @@ import { spawn_mon } from "../others.mjs"
 
 
 export function take_game_turn(){
-    console.log("game_turn")
+    console.log("game_turn-------------------------------------------")
     // console.log(monsters[0].cur_path)
     // console.log(monsters[0].x, monsters[0].y)
     for (let k = 0; k < monsters.length; k++) {
@@ -26,7 +26,7 @@ export function take_game_turn(){
         else {
             console.log('unknown type')
         }
-        console.log("_____", k)
+        // console.log("_____", k)
         monster_indices[k] = monsters[k].y * xrectnum + monsters[k].x;
         console.log(monster_indices[k], monsters[k].decision_state)
     }

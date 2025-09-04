@@ -801,3 +801,11 @@ TO DO:
 	- start up on inventory + weapons + multiple attacks 
 	- implement exp system ??
 	- implement leveling up ?? 
+
+- (vivek)
+	- monster path following now uses range as desired
+	- patrols now look like they properly reverse
+
+- next things to do 
+	- attach everything to areas
+	- start on inventory, weapons, exp, levels

@@ -21,21 +21,21 @@ export class Other extends Entities
 }
 
 export class MonsterSpawner extends Entities {
-    constructor(tier, sizex, sizey, num_x, num_y, map, label, type, freq) {
+    constructor(tier, x, y, sizex, sizey, num_x, num_y, map, label, type, freq) {
         super()
         this.sprite = PIXI.Sprite.from('https://mayursharma35711.github.io/Labyrinth2D/textures/sprites/monster_spawner_beta.png');
         this.sprite.width = sizex * 3 / 4
         this.sprite.height = sizey * 3 / 4
-        let x = Math.floor(Math.random() * num_x)
-        let y = Math.floor(Math.random() * num_y)
+        // let x = Math.floor(Math.random() * num_x)
+        // let y = Math.floor(Math.random() * num_y)
         let ind = x + num_x * y
-        while(map[ind].getBiome() == 9 || map[ind].getBiome() == -1 || map[ind].getBiome() == 10) {
-            if (x < 2 && y < 2)
-                continue
-            x = Math.floor(Math.random() * num_x)
-            y = Math.floor(Math.random() * num_y)
-            ind = x + num_x * y
-        }
+        // while(map[ind].getBiome() == 9 || map[ind].getBiome() == -1 || map[ind].getBiome() == 10) {
+        //     if (x < 2 && y < 2)
+        //         continue
+        //     x = Math.floor(Math.random() * num_x)
+        //     y = Math.floor(Math.random() * num_y)
+        //     ind = x + num_x * y
+        // }
         super.setpos(x, y);
         this.tier = tier
         this.type = type
