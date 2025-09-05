@@ -57,32 +57,34 @@ loadingText.y = app.screen.height / 2;
 app.stage.addChild(loadingContainer);
 app.stage.addChild(loadingText);
 
+let base_dir_string = "https://mayursharma35711.github.io/Labyrinth2D/"
+
 async function loadAssets() {
   // Register your bundle
   PIXI.Assets.addBundle('game', {
-    grass: '../textures/bkgnd/GrassyPlains.png',
-    desert: '../textures/bkgnd/Desert2.png',
-    shadow: '../textures/bkgnd/Shadowlands2.png',
-    lava: '../textures/bkgnd/Lava.png',
-    mud: '../textures/bkgnd/MuddyRainforest2.png',
-    ooze: '../textures/bkgnd/PoisonOoze.png',
-    rock: '../textures/bkgnd/RockyArea.png',
-    snow: '../textures/bkgnd/SnowyIce.png',
-    water: '../textures/bkgnd/Waves2.png',
-    hall: '../textures/bkgnd/RoomFloor.png',
-    dungeon: '../textures/bkgnd/Dungeon.png',
-    blank: '../textures/bkgnd/blank.png',
-    vert_door: '../textures/bkgnd/vert_door.png',
-    horiz_door: '../textures/bkgnd/horiz_door.png',
-    vert_wall: '../textures/bkgnd/WallsVertical.png',
-    horiz_wall: '../textures/bkgnd/WallsHorizontal.png',
-    spawner: '../textures/sprites/monster_spawner_beta.png',
-    stick_man: '../textures/sprites/stick_man.png',
-    devil_man: '../textures/sprites/devil_man.png',
-    indian: '../textures/sprites/indian.png',
-    caricature: '../textures/sprites/caricature.png',
-    chest_closed: '../textures/items/Chests.png',
-    chest_open: '../textures/items/Chests.png'
+    grass: base_dir_string + '/textures/bkgnd/GrassyPlains.png',
+    desert: base_dir_string + '/textures/bkgnd/Desert2.png',
+    shadow: base_dir_string + '/textures/bkgnd/Shadowlands2.png',
+    lava: base_dir_string + '/textures/bkgnd/Lava.png',
+    mud: base_dir_string + '/textures/bkgnd/MuddyRainforest2.png',
+    ooze: base_dir_string + '/textures/bkgnd/PoisonOoze.png',
+    rock: base_dir_string + '/textures/bkgnd/RockyArea.png',
+    snow: base_dir_string + '/textures/bkgnd/SnowyIce.png',
+    water: base_dir_string + '/textures/bkgnd/Waves2.png',
+    hall: base_dir_string + '/textures/bkgnd/RoomFloor.png',
+    dungeon: base_dir_string + '/textures/bkgnd/Dungeon.png',
+    blank: base_dir_string + '/textures/bkgnd/blank.png',
+    vert_door: base_dir_string + '/textures/bkgnd/vert_door.png',
+    horiz_door: base_dir_string + '/textures/bkgnd/horiz_door.png',
+    vert_wall: base_dir_string + '/textures/bkgnd/WallsVertical.png',
+    horiz_wall: base_dir_string + '/textures/bkgnd/WallsHorizontal.png',
+    spawner: base_dir_string + '/textures/sprites/monster_spawner_beta.png',
+    stick_man: base_dir_string + '/textures/sprites/stick_man.png',
+    devil_man: base_dir_string + '/textures/sprites/devil_man.png',
+    indian: base_dir_string + '/textures/sprites/indian.png',
+    caricature: base_dir_string + '/textures/sprites/caricature.png',
+    chest_closed: base_dir_string + '/textures/items/Chests.png',
+    chest_open: base_dir_string + '/textures/items/ChestsOpen.png'
   });
 
   // Load with progress
