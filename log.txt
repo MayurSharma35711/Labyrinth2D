@@ -820,9 +820,9 @@ TO DO:
 - organizing future coding tasks
 - implementing levels 
 	- making more dungeon maps 
-	- attaching monsters and monster spawners to the init_level function 
-		- use the Wrapper class 
 	- putting in the doors to connect the levels
+	- (DONE 9/5/25) attaching monsters and monster spawners to the init_level function 
+		- use the Wrapper class 
 - implementing equipment and inventory
 	- writing template for animations
 	- making weapons

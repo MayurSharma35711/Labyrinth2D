@@ -1,6 +1,6 @@
 import { Entities } from "./entity_classes.mjs";
 import { find_sector, get_sector_indices } from "./game_AIs/path_finding_nodes.mjs";
-import { game_maze, maze_dicter, xrectnum, app, inventory } from "../vis_updated.mjs";
+import { game_maze, maze_dicter, monsters, xrectnum, app, inventory } from "../vis_updated.mjs";
 import { Astar_maze, heur_l2sqr } from "./game_AIs/path_finding.mjs";
 import { monster_state } from "./game_AIs/decisions.mjs";
 import { tot_height, tot_width, cutoff_y } from "../vis_updated.mjs";
@@ -20,6 +20,7 @@ export class Monster extends Entities
         super.setStrength(6 - tier);
         super.setRange(Math.ceil(0.5 * (6 - tier)));
         super.setProt((6 - tier), (2 * (6 - tier)));
+        
         super.setpos(x, y);
         super.setHealth((9 - tier) * 2);
         this.tier = tier

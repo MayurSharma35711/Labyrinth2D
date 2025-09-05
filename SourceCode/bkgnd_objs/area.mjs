@@ -1,6 +1,5 @@
 import { game_map, game_maze, play_inds, players, xrectnum, yrectnum, cutoff_y, tot_height, curr_player, monsters, ptr, size, currx, curry, chest_indices, chests, monster_indices, monster_spawn_indices, monster_spawns, app, current_area, shiftx } from "../vis_updated.mjs";
-import { init_maze_level } from "./init_level.mjs";
-import { init_dungeon_level } from "./init_level.mjs";
+import { init_maze_level, init_dungeon_level, create_level_monsters } from "./init_level.mjs";
 import { sight } from "../methods/graphics/sight.mjs";
 
 export class Area{
@@ -25,13 +24,24 @@ export class Area{
             this.full_setup = init_dungeon_level(this.size_x, this.size_y, this.dtype, 10)
         }
         if (this.type == "h") {
-            this.full_setup = init_dungeon_level(this.size_x, this.size_y, this.dtype, 9)
+            this.full_setup = init_dungeon_level(this.size_x, this.size_y, this.dtype, 9, [], [])
         }
         if (this.type == "m") {
             // console.log('got to maze set up')
             this.full_setup = init_maze_level(this.size_x, this.size_y)
             // console.log(this.full_setup)
         }
+    }
+    prep_monsters(monsters_info, monster_spawn_info) {
+        let mons = create_level_monsters(xrectnum, yrectnum, this.full_setup[0], monsters_info, monster_spawn_info)
+        let maze_monsters = mons[0]
+        let monster_indices = mons[1]
+        let spawns = mons[2]
+        let spawn_indices = mons[3]
+        this.full_setup.push(maze_monsters)
+        this.full_setup.push(monster_indices)
+        this.full_setup.push(spawns)
+        this.full_setup.push(spawn_indices)
     }
     set_up_doors(doors){
         this.doors = doors
@@ -62,6 +72,18 @@ export class Level_Door{
             game_map.item = this.loc2.full_setup[0]
             game_maze.item = this.loc2.full_setup[1]
             chests.item = this.loc2.full_setup[3]
+            for (let l = 0; l < monsters.item.length; l++) {
+                app.stage.removeChild(monsters.item[l].rect)
+            }
+            monsters.item = this.loc2.full_setup[4]
+            monster_indices.item = this.loc2.full_setup[5]
+            for (let l = 0; l < monster_spawns.item.length; l++) {
+                app.stage.removeChild(monster_spawns.item[l].sprite)
+            }
+            monster_spawns.item = this.loc2.full_setup[6]
+            monster_spawn_indices.item = this.loc2.full_setup[7]
+
+
             chest_indices.item = []
             for(let i = 0;i < chests.item.length;i++)
             {
@@ -92,6 +114,17 @@ export class Level_Door{
             game_map.item = this.loc1.full_setup[0]
             game_maze.item = this.loc1.full_setup[1]
             chests.item = this.loc1.full_setup[3]
+            for (let l = 0; l < monsters.item.length; l++) {
+                app.stage.removeChild(monsters.item[l].rect)
+            }
+            monsters.item = this.loc1.full_setup[4]
+            monster_indices.item = this.loc1.full_setup[5]
+            for (let l = 0; l < monster_spawns.item.length; l++) {
+                app.stage.removeChild(monster_spawns.item[l].sprite)
+            }
+            monster_spawns.item = this.loc1.full_setup[6]
+            monster_spawn_indices.item = this.loc1.full_setup[7]
+
             chest_indices.item = []
             for(let i = 0;i < chests.item.length;i++)
             {
@@ -155,7 +188,8 @@ export class Level_Door{
         // for(let l = 0; l < this.loc2.doors_used.length; l++) {
         //     console.log(this.loc2.doors_used[l].id)
         // }
-        sight(game_map.item, game_maze.item, xrectnum, yrectnum, cutoff_y, tot_height, players, curr_player.item, monsters, ptr.item, size.item, currx.item, curry.item, chest_indices.item, chests.item, monster_indices, monster_spawns.item, monster_spawn_indices.item, current_area.item.is_start_level, app);
+        console.log("monsters",monsters.item, monster_indices.item)
+        sight(game_map.item, game_maze.item, xrectnum, yrectnum, cutoff_y, tot_height, players, curr_player.item, monsters.item, ptr.item, size.item, currx.item, curry.item, chest_indices.item, chests.item, monster_indices.item, monster_spawns.item, monster_spawn_indices.item, current_area.item.is_start_level, app);
     }
     
 }

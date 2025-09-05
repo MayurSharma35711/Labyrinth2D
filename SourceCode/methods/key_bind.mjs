@@ -80,7 +80,7 @@ function checkDoor(player, maze, xrectnum, yrectnum, is_start_level) {
 
 function checkMonster(map_ind)
 {
-    for(let i = 0;i < monsters.length;i++)
+    for(let i = 0;i < monsters.item.length;i++)
     {
         if(monster_indices[i] == map_ind)
         {
@@ -159,8 +159,8 @@ function keyStart(e)
             for (let t = 0; t < players.length; t++) {
                 players[t].resize(size.item, size.item)
             }
-            for (let t = 0; t < monsters.length; t++) {
-                monsters[t].resize(size.item, size.item)
+            for (let t = 0; t < monsters.item.length; t++) {
+                monsters.item[t].resize(size.item, size.item)
             }
             for (let t = 0; t < monster_spawns.item.length; t++) {
                 monster_spawns.item[t].resize(size.item, size.item)
@@ -276,7 +276,7 @@ function keyStart(e)
                 }
                 attPlayers.push(players[i]);
             }
-            let entities = attPlayers.concat(monsters)
+            let entities = attPlayers.concat(monsters.item)
             let entities_inds = play_inds.concat(monster_indices)
             if(curr_player.item.in_combat && curr_player.item.range_type == "xrange")
             {
@@ -540,15 +540,15 @@ function keyStart(e)
     
 
 
-    sight(game_map.item, game_maze.item, xrectnum, yrectnum, cutoff_y, tot_height, players, curr_player.item, monsters, ptr.item, size.item, currx.item, curry.item, chest_indices.item, chests.item, monster_indices, monster_spawns.item, monster_spawn_indices.item, current_area.item.is_start_level, app);
+    sight(game_map.item, game_maze.item, xrectnum, yrectnum, cutoff_y, tot_height, players, curr_player.item, monsters.item, ptr.item, size.item, currx.item, curry.item, chest_indices.item, chests.item, monster_indices.item, monster_spawns.item, monster_spawn_indices.item, current_area.item.is_start_level, app);
     
     for (let t = 0; t < players.length; t++) {
         players[t].drawMe(size.item, size.item, currx.item, curry.item)
         // // console.log(players[t])
         // app.stage.addChild(players[t].rect)
     }
-    for (let t = 0; t < monsters.length; t++) {
-        monsters[t].drawMe(size.item, size.item, currx.item, curry.item)
+    for (let t = 0; t < monsters.item.length; t++) {
+        monsters.item[t].drawMe(size.item, size.item, currx.item, curry.item)
     }
     let x_indices = x_view_range(curr_player.item.x, curr_player.item.y, xrectnum, yrectnum, curr_player.item.range);
     // console.log("START");

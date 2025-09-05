@@ -121,7 +121,7 @@ function resize_func() {
     inventory_screen.item.visible = inventory.item
     
 
-    sight(game_map.item, game_maze.item, xrectnum, yrectnum, cutoff_y, tot_height, players, curr_player.item, monsters, ptr.item, size.item, currx.item, curry.item, chest_indices.item, chests.item, monster_indices, monster_spawns.item, monster_spawn_indices.item, current_area.item.is_start_level, app);
+    sight(game_map.item, game_maze.item, xrectnum, yrectnum, cutoff_y, tot_height, players, curr_player.item, monsters.item, ptr.item, size.item, currx.item, curry.item, chest_indices.item, chests.item, monster_indices.item, monster_spawns.item, monster_spawn_indices.item, current_area.item.is_start_level, app);
     for (let t = 0; t < players.length; t++) {
         players[t].drawMe(size.item, size.item, currx.item, curry.item)
         // // console.log(players[t].x, players[t].y)
@@ -161,8 +161,6 @@ export let game_maze = new Wrapper(0);
 // let rooms = output[2];
 export let chests = new Wrapper(0);
 export let ptr = new Wrapper(0);
-let monster_num = 5;
-let monster_spawn_num = 0;
 export const sect_size = 5
 // print_walls(game_maze, xrectnum, yrectnum)
 
@@ -185,10 +183,12 @@ export let shifty = new Wrapper(0);
 // HERE WE CREATE THE PLAYERS AND THE MONSTERS FOR THE GAME LEVEL
 // need to modify the players, player_inds, seen_indices.item, and maybe the monsters after a key as a result
 export let players = new Array(4);
-export let monsters = new Array(monster_num);
-export let monster_indices = new Array(monsters.length);
-export let monster_spawns = new Wrapper(new Array(monster_spawn_num));
-export let monster_spawn_indices = new Wrapper(new Array(monster_spawns.length));
+
+export let monsters = new Wrapper(0)
+export let monster_indices = new Wrapper(0)
+
+export let monster_spawns = new Wrapper(0);
+export let monster_spawn_indices = new Wrapper(0);
 
 export const visible_player_num = new Wrapper(players.length)
 
@@ -214,7 +214,7 @@ async function start() {
     app.stage.removeChild(loadingContainer)
     app.stage.removeChild(loadingText)
 
-    const first_maze = new Area("maze1", xrectnum, yrectnum, "m", true)
+    const first_maze = new Area("maze1", xrectnum, yrectnum, "m", true, 5, 0)
     const first_dungeon = new Area("dung1", xrectnum, yrectnum, "d", false, 10, 2)
     const first_hall = new Area("hall1", xrectnum, yrectnum, "h", false, 9, 1)
 
@@ -233,8 +233,6 @@ async function start() {
     let rooms = output[2];
     chests.item = output[3];
 
-    let monster_num = 5;
-    let monster_spawn_num = 0;
     // print_walls(game_maze, xrectnum, yrectnum)
 
     game_maze.item[0].exists = false;
@@ -242,6 +240,10 @@ async function start() {
     game_maze.item[2].exists = false;
     game_maze.item[2 * xrectnum + 1].exists = false;
     maze_dicter.item = make_maze_dicts(game_maze.item, xrectnum, yrectnum, sect_size, game_map.item)
+
+    first_maze.prep_monsters([[3, "patrol",[9,10,-1]]], [[5, "tester", "hunt", 9, [9, 10, -1]]])
+    first_hall.prep_monsters([], [])
+    first_dungeon.prep_monsters([[4, "sniff",[9,-1]]], [[5, "tester", "sniff", 3, [9, 10, -1]]])
 
     for(let i = 0;i < chests.item.length;i++)
     {
@@ -256,70 +258,14 @@ async function start() {
     app.stage.addChild(walls);
 
 
-    for(let i = 0; i < monsters.length;i++)
-    {
-        // console.log((i % 5) + 1)
+    monsters.item = output[4]
+    monster_indices.item = output[5]
+    
+    monster_spawns.item = output[6]
+    monster_spawn_indices.item = output[7]
 
-        let x = Math.floor(Math.random() * xrectnum)
-        let y = Math.floor(Math.random() * yrectnum)
-        let ind = x + xrectnum * y
-        let overlap = false
 
-        while((x < 4 && y < 4) || overlap || (game_map.item[ind].getBiome() == 9 || game_map.item[ind].getBiome() == -1 || game_map.item[ind].getBiome() == 10)) {
-            x = Math.floor(Math.random() * xrectnum)
-            y = Math.floor(Math.random() * yrectnum)
-            ind = x + xrectnum * y
-
-            overlap = false
-            for (let j = 0; j < i; j++) {
-                if (x == monsters[j].x && y == monsters[j].y) {
-                    overlap = true
-                    break
-                }
-                    
-            }
-        }
-        monsters[i] = new Monster(4, size.item, size.item, xrectnum, yrectnum, "patrol", game_map.item, sect_size, x, y);
-    }
-
-    for(let i = 0;i < monsters.length;i++)
-    {
-        monster_indices[i] = monsters[i].y * xrectnum + monsters[i].x;
-    }
-
-    for(let i = 0; i < monster_spawns.item.length;i++)
-    {
-        // console.log((i % 5) + 1)
-        let x = Math.floor(Math.random() * xrectnum)
-        let y = Math.floor(Math.random() * yrectnum)
-        let ind = x + xrectnum * y
-        let overlap = false
-        while((x < 4 && y < 4) || overlap || (game_map.item[ind].getBiome() == 9 || game_map.item[ind].getBiome() == -1 || game_map.item[ind].getBiome() == 10)) {
-            x = Math.floor(Math.random() * xrectnum)
-            y = Math.floor(Math.random() * yrectnum)
-            ind = x + xrectnum * y
-
-            overlap = false
-            for (let j = 0; j < i; j++) {
-                if (x == monster_spawns.item[j].x && y == monster_spawns.item[j].y) {
-                    overlap = true
-                    break
-                }
-                    
-            }
-        }
-        
-        // x = Math.floor(Math.random() * xrectnum)
-        // y = Math.floor(Math.random() * yrectnum)
-        monster_spawns.item[i] = new MonsterSpawner(5, x, y, size.item, size.item, xrectnum, yrectnum, game_map.item, "spawn", "sniff", 10)
-    }
-
-    for(let i = 0;i < monster_spawns.item.length;i++)
-    {
-        monster_spawn_indices.item[i] = monster_spawns.item[i].y * xrectnum + monster_spawns.item[i].x;
-    }
-
-    players[0] = new Player(0, size.item, size.item, 2, 'Vivek');
+    players[0] = new Player(0, size.item, size.item, 40, 'Vivek');
     players[1] = new Player(1, size.item, size.item, 1, 'Jane');
     // players[1].y = 8;
     players[2] = new Player(2, size.item, size.item, 3, 'Nikki');
@@ -400,7 +346,7 @@ async function start() {
     //     app.stage.addChild(monsters[t].rect)
     // }
     // console.log(monster_spawn_indices)
-    sight(game_map.item, game_maze.item, xrectnum, yrectnum, cutoff_y, tot_height, players, curr_player.item, monsters, ptr.item, size.item, currx.item, curry.item, chest_indices.item, chests.item, monster_indices, monster_spawns.item, monster_spawn_indices.item, current_area.item.is_start_level, app);
+    sight(game_map.item, game_maze.item, xrectnum, yrectnum, cutoff_y, tot_height, players, curr_player.item, monsters.item, ptr.item, size.item, currx.item, curry.item, chest_indices.item, chests.item, monster_indices.item, monster_spawns.item, monster_spawn_indices.item, current_area.item.is_start_level, app);
 
 
     // app.stage.addChild(tot_player_health[0])

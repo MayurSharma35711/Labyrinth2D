@@ -10,25 +10,25 @@ export function take_game_turn(){
     console.log("game_turn-------------------------------------------")
     // console.log(monsters[0].cur_path)
     // console.log(monsters[0].x, monsters[0].y)
-    for (let k = 0; k < monsters.length; k++) {
-        if (monsters[k].brain_type == "hunt") {
-            hunt_brain(monsters[k])
+    for (let k = 0; k < monsters.item.length; k++) {
+        if (monsters.item[k].brain_type == "hunt") {
+            hunt_brain(monsters.item[k])
         }
-        else if (monsters[k].brain_type == "patrol") {
-            patrol_brain(monsters[k])
+        else if (monsters.item[k].brain_type == "patrol") {
+            patrol_brain(monsters.item[k])
         }
-        else if (monsters[k].brain_type == "flee") {
-            hunt_flee_brain(monsters[k])
+        else if (monsters.item[k].brain_type == "flee") {
+            hunt_flee_brain(monsters.item[k])
         }
-        else if(monsters[k].brain_type == "sniff") {
-            sniff_brain(monsters[k])
+        else if(monsters.item[k].brain_type == "sniff") {
+            sniff_brain(monsters.item[k])
         }
         else {
             console.log('unknown type')
         }
         // console.log("_____", k)
-        monster_indices[k] = monsters[k].y * xrectnum + monsters[k].x;
-        console.log(monster_indices[k], monsters[k].decision_state)
+        monster_indices.item[k] = monsters.item[k].y * xrectnum + monsters.item[k].x;
+        // console.log(monster_indices.item[k], monsters.item[k].decision_state)
     }
     for (let k = 0; k < monster_spawns.item.length; k++) {
         spawn_mon(monster_spawns.item[k])
