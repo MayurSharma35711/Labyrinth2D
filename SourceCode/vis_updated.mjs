@@ -214,9 +214,9 @@ async function start() {
     app.stage.removeChild(loadingContainer)
     app.stage.removeChild(loadingText)
 
-    const first_maze = new Area("maze1", xrectnum, yrectnum, "m", true, 5, 0)
-    const first_dungeon = new Area("dung1", xrectnum, yrectnum, "d", false, 10, 2)
-    const first_hall = new Area("hall1", xrectnum, yrectnum, "h", false, 9, 1)
+    const first_maze = new Area("maze1", xrectnum, yrectnum, "m", true, -1, [4,4,0,0], [[15, 15, 5, 5, 10, [[17, 15], [15, 17]]], [5, 5, 5, 5, 9, [[5,8], [10, 7]]]])
+    const first_dungeon = new Area("dung1", xrectnum, yrectnum, "d", false, 2, [], [])
+    const first_hall = new Area("hall1", xrectnum, yrectnum, "h", false, 1, [], [])
 
     const door1 = new Level_Door("door1", first_maze, first_hall, [4,8], [0,0], [4 + 8 *20, 3 + 8 *20, 4 + 7 *20, 3 + 7 *20], [0, 1, 20, 21])
     const door2 = new Level_Door("door2", first_maze, first_hall, [10,7], [0,0], [10 + 7 *20, 11 + 7 *20, 10 + 6 *20, 11 + 6 *20], [0, 1, 20, 21])

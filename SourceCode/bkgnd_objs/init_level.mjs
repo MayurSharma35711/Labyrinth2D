@@ -15,12 +15,14 @@ import { MonsterSpawner } from "../game_entities/others.mjs";
 // room generation needs to start being less automated and more input driven!! 
 
 
-export function init_maze_level(xrectnum, yrectnum, monster_info, monster_spawn_info) {
+export function init_maze_level(xrectnum, yrectnum, biomes, roominfos) {
 //    console.log("Here"+xrectnum);
-        let game_map = map_init(xrectnum, yrectnum,[1,1,0,0]);
+        // let biomes = [1,1,0,0]
+        // console.log("biomes", biomes)
+        let game_map = map_init(xrectnum, yrectnum, biomes);
         let game_maze = maze_init2(xrectnum, yrectnum);
         // roominfo gives [xstart, ystart, xlen, ylen, room_biome, doors]
-        let roominfos = [[15, 15, 5, 5, 10, [[17, 15], [15, 17]]], [5, 5, 5, 5, 9, [[5,8], [10, 7]]]]
+        // let roominfos = [[15, 15, 5, 5, 10, [[17, 15], [15, 17]]], [5, 5, 5, 5, 9, [[5,8], [10, 7]]]]
         
         let output = precise_rooms(xrectnum, yrectnum, roominfos, game_maze, game_map);
         game_maze = output[0]

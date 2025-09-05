@@ -10,7 +10,7 @@ export class Area{
     doors;
     full_setup;
     is_start_level;
-    constructor(id, x_size, y_size, typer, is_start_level, biome, dtype = 0){
+    constructor(id, x_size, y_size, typer, is_start_level, dtype = 0, biomes, rooms){
         this.id = id
         this.size_x = x_size;
         this.size_y = y_size;
@@ -24,11 +24,11 @@ export class Area{
             this.full_setup = init_dungeon_level(this.size_x, this.size_y, this.dtype, 10)
         }
         if (this.type == "h") {
-            this.full_setup = init_dungeon_level(this.size_x, this.size_y, this.dtype, 9, [], [])
+            this.full_setup = init_dungeon_level(this.size_x, this.size_y, this.dtype, 9)
         }
         if (this.type == "m") {
             // console.log('got to maze set up')
-            this.full_setup = init_maze_level(this.size_x, this.size_y)
+            this.full_setup = init_maze_level(this.size_x, this.size_y, biomes, rooms)
             // console.log(this.full_setup)
         }
     }
