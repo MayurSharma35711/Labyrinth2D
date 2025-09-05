@@ -156,6 +156,20 @@ export class Level_Door{
         // for(let l = 0; l < this.loc2.doors_used.length; l++) {
         //     console.log(this.loc2.doors_used[l].id)
         // }
+        for (let l = 0; l < monsters.item.length; l++) {
+            if (play_inds.includes(monster_indices.item[l])) {
+                if (!play_inds.includes(monsters.item[l].x + monsters.item[l].y * xrectnum)) {
+                    monsters.item[l].x = monsters.item[l].initial_x
+                    monsters.item[l].y = monsters.item[l].initial_y
+                    monster_indices.item[l] = monsters.item[l].x + monsters.item[l].y * xrectnum
+                }
+                else {
+                    monsters.item[l].x = monsters.item[l].x - 2
+                    monsters.item[l].y = monsters.item[l].y - 2
+                    monster_indices.item[l] = monsters.item[l].x + monsters.item[l].y * xrectnum
+                }
+            }
+        }
 
         let ind1 = 0
         for (let k = 0; k < this.loc1.doors_used.length; k++) {

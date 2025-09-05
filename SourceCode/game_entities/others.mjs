@@ -49,7 +49,8 @@ export class MonsterSpawner extends Entities {
     drawMe(sizex, sizey, currx, curry){
         this.sprite.x = (this.x - currx + 1 / 8) * sizex + Math.floor(tot_width.item / 2)
         this.sprite.y = (this.y - curry + 1 / 8) * sizey + Math.floor(tot_height.item / 2 - cutoff_y.item / 2)
-
+        this.sprite.width = sizex * 3 / 4
+        this.sprite.height = sizey * 3 / 4
         this.sprite.interactive = true;
         this.sprite.buttonMode = true; // Changes cursor on hover
                 

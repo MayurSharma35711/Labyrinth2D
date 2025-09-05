@@ -17,10 +17,11 @@ export class Monster extends Entities
     { 
         super();
         super.setSpeed((6 - tier));
-        super.setStrength(6 - tier);
+        super.setStrength(0.5 * (6 - tier));
         super.setRange(Math.ceil(0.5 * (6 - tier)));
         super.setProt((6 - tier), (2 * (6 - tier)));
-        
+        this.initial_x = x
+        this.initial_y = y
         super.setpos(x, y);
         super.setHealth((9 - tier) * 2);
         this.tier = tier

@@ -87,7 +87,11 @@ function follow_path(monster) {
             blocked_index = inside_list
     }
     // console.log("travel info")
-    if (blocked_index != -1) {
+    if (monster.cur_path.length == 0) {
+        monster.x = monster.x
+        monster.y = monster.y
+    }
+    else if (blocked_index != -1) {
         if (blocked_index != 0) {
             next_ind = blocked_index - 1
             let new_loc = monster.cur_path[next_ind]

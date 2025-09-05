@@ -220,8 +220,8 @@ async function start() {
 
     const door1 = new Level_Door("door1", first_maze, first_hall, [4,8], [0,0], [4 + 8 *20, 3 + 8 *20, 4 + 7 *20, 3 + 7 *20], [0, 1, 20, 21])
     const door2 = new Level_Door("door2", first_maze, first_hall, [10,7], [0,0], [10 + 7 *20, 11 + 7 *20, 10 + 6 *20, 11 + 6 *20], [0, 1, 20, 21])
-    const door3 = new Level_Door("door3", first_maze, first_dungeon, [17, 14], [0,0], [0, 1, 20, 21], [0, 1, 20, 21])
-    const door4 = new Level_Door("door4", first_maze, first_dungeon, [14, 17], [14 + 17 *20, 13 + 17 *20, 14 + 16 *20, 13 + 16 *20], [0, 1, 20, 21], [0, 1, 20, 21])
+    const door3 = new Level_Door("door3", first_maze, first_dungeon, [17, 14], [0,0], [17 + 14 * 20, 17 + 13 * 20 , 18 + 14 * 20 , 18 + 13 * 20], [0, 1, 20, 21])
+    const door4 = new Level_Door("door4", first_maze, first_dungeon, [14, 17], [0,0], [14 + 17 *20, 13 + 17 *20, 14 + 16 *20, 13 + 16 *20], [0, 1, 20, 21])
     first_maze.set_up_doors([door1, door2, door3, door4])
     first_dungeon.set_up_doors([door3, door4])
     first_hall.set_up_doors([door1, door2])
@@ -241,9 +241,10 @@ async function start() {
     game_maze.item[2 * xrectnum + 1].exists = false;
     maze_dicter.item = make_maze_dicts(game_maze.item, xrectnum, yrectnum, sect_size, game_map.item)
 
-    first_maze.prep_monsters([[3, "patrol",[9,10,-1]]], [[5, "tester", "hunt", 9, [9, 10, -1]]])
+    first_maze.prep_monsters([[4, "patrol",[9,10,-1]], [4, "patrol",[9,10,-1]], [4, "patrol",[9,10,-1]], [4, "patrol",[9,10,-1]], [4, "patrol",[9,10,-1]]], 
+        [[5, "tester", "hunt", 9, [9, 10, -1]], [5, "tester", "hunt", 8, [9, 10, -1]], [5, "tester", "hunt", 7, [9, 10, -1]]])
     first_hall.prep_monsters([], [])
-    first_dungeon.prep_monsters([[4, "sniff",[9,-1]]], [[5, "tester", "sniff", 3, [9, 10, -1]]])
+    first_dungeon.prep_monsters([[5, "sniff",[9,-1]], [5, "sniff",[9,-1]], [5, "sniff",[9,-1]], [5, "sniff",[9,-1]], [5, "sniff",[9,-1]], [5, "sniff",[9,-1]], [5, "sniff",[9,-1]]], [[4, "tester22", "sniff", 9, [9, -1]], [4, "tester22", "sniff", 11, [9, -1]]])
 
     for(let i = 0;i < chests.item.length;i++)
     {
