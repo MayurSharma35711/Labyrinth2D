@@ -64,7 +64,7 @@ async function loadAssets() {
   PIXI.Assets.addBundle('game', {
     grass: base_dir_string + '/textures/bkgnd/GrassyPlains.png',
     desert: base_dir_string + '/textures/bkgnd/Desert2.png',
-    shadow: base_dir_string + '/textures/bkgnd/Shadowlands2.png',
+    shadow: base_dir_string + '/textures/bkgnd/ShadowLands2.png',
     lava: base_dir_string + '/textures/bkgnd/Lava.png',
     mud: base_dir_string + '/textures/bkgnd/MuddyRainforest2.png',
     ooze: base_dir_string + '/textures/bkgnd/PoisonOoze.png',
