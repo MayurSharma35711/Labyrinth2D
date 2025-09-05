@@ -61,7 +61,7 @@ let base_dir_string = "https://mayursharma35711.github.io/Labyrinth2D/"
 
 async function loadAssets() {
   // Register your bundle
-  PIXI.Assets.addBundle('map', {
+  PIXI.Assets.addBundle('game', {
     grass: base_dir_string + '/textures/bkgnd/GrassyPlains.png',
     desert: base_dir_string + '/textures/bkgnd/Desert2.png',
     shadow: base_dir_string + '/textures/bkgnd/ShadowLands2.png',
@@ -77,9 +77,7 @@ async function loadAssets() {
     vert_door: base_dir_string + '/textures/bkgnd/vert_door.png',
     horiz_door: base_dir_string + '/textures/bkgnd/horiz_door.png',
     vert_wall: base_dir_string + '/textures/bkgnd/WallsVertical.png',
-    horiz_wall: base_dir_string + '/textures/bkgnd/WallsHorizontal.png'
-  });
-  PIXI.Assets.addBundle('textures', {
+    horiz_wall: base_dir_string + '/textures/bkgnd/WallsHorizontal.png',
     spawner: base_dir_string + '/textures/sprites/monster_spawner_beta.png',
     stick_man: base_dir_string + '/textures/sprites/stick_man.png',
     devil_man: base_dir_string + '/textures/sprites/devil_man.png',
@@ -87,15 +85,12 @@ async function loadAssets() {
     caricature: base_dir_string + '/textures/sprites/caricature.png',
     chest_closed: base_dir_string + '/textures/items/Chests.png',
     chest_open: base_dir_string + '/textures/items/ChestsOpen.png'
-  })
+  });
 
   // Load with progress
   await PIXI.Assets.loadBundle('game', (progress) => {
-    loadingText.text = `Map loading... ${Math.round(progress * 100)}%`;
+    loadingText.text = `Loading... ${Math.round(progress * 100)}%`;
   });
-  await PIXI.Assets.loadBundle('textures', (progress) => {
-    loadText.text = 'Textures loading... ${Math.round(progress * 100)}%';
-  })
 }
 
 
