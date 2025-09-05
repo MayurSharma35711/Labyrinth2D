@@ -520,12 +520,12 @@ function keyStart(e)
             seen_num = seen_num + 1
     }
     // console.log("players", visible_player_num.item, seen_num)
-    if (visible_player_num.item != seen_num) {
+    if (visible_player_num.item != seen_num && (key != key_u && key != key_h && key != key_j && key !=key_k)) {
         
         shiftx.item = 0
         shifty.item = 0
     }
-    console.log(shiftx.item, shifty.item, currx.item, curry.item)
+    // console.log(shiftx.item, shifty.item, currx.item, curry.item)
 
     act_currx.item = Math.floor((xmax + xmin)/2)
     act_curry.item = Math.floor( (ymax + ymin)/2 )

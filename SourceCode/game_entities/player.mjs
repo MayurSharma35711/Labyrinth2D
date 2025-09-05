@@ -2,10 +2,10 @@ import { Entities } from "./entity_classes.mjs";
 import { size, tot_height, tot_width, cutoff_y } from "../vis_updated.mjs";
 
 // HERE WE LOAD THE TEXTURE REQUIRED FOR THE CODE TO RUN
-await PIXI.Assets.load('https://mayursharma35711.github.io/Labyrinth2D/textures/sprites/stick_man.png');
-await PIXI.Assets.load('https://mayursharma35711.github.io/Labyrinth2D/textures/sprites/devil_man.png');
-await PIXI.Assets.load('https://mayursharma35711.github.io/Labyrinth2D/textures/sprites/indian.png');
-await PIXI.Assets.load('https://mayursharma35711.github.io/Labyrinth2D/textures/sprites/caricature.png');
+// await PIXI.Assets.load('https://mayursharma35711.github.io/Labyrinth2D/textures/sprites/stick_man.png');
+// await PIXI.Assets.load('https://mayursharma35711.github.io/Labyrinth2D/textures/sprites/devil_man.png');
+// await PIXI.Assets.load('https://mayursharma35711.github.io/Labyrinth2D/textures/sprites/indian.png');
+// await PIXI.Assets.load('https://mayursharma35711.github.io/Labyrinth2D/textures/sprites/caricature.png');
 
 export class Player extends Entities
 {
@@ -39,14 +39,22 @@ export class Player extends Entities
         this.used_vis = vis_tier
         
         this.sprite;
-        if (this.player_ind == 0)
-            this.sprite = PIXI.Sprite.from('https://mayursharma35711.github.io/Labyrinth2D/textures/sprites/stick_man.png');
-        else if (this.player_ind == 1)
-            this.sprite = PIXI.Sprite.from('https://mayursharma35711.github.io/Labyrinth2D/textures/sprites/devil_man.png');
-        else if (this.player_ind == 2)
-            this.sprite = PIXI.Sprite.from('https://mayursharma35711.github.io/Labyrinth2D/textures/sprites/indian.png');
-        else if (this.player_ind == 3)
-            this.sprite = PIXI.Sprite.from('https://mayursharma35711.github.io/Labyrinth2D/textures/sprites/caricature.png');
+        if (this.player_ind == 0) {
+            this.sprite = PIXI.Sprite.from(PIXI.Assets.get('stick_man'));
+            // this.sprite = PIXI.Sprite.from('https://mayursharma35711.github.io/Labyrinth2D/textures/sprites/stick_man.png');
+        }
+        else if (this.player_ind == 1) {
+            this.sprite = PIXI.Sprite.from(PIXI.Assets.get('devil_man'));
+            // this.sprite = PIXI.Sprite.from('https://mayursharma35711.github.io/Labyrinth2D/textures/sprites/devil_man.png');
+        }
+        else if (this.player_ind == 2) {
+            this.sprite = PIXI.Sprite.from(PIXI.Assets.get('indian'));
+            // this.sprite = PIXI.Sprite.from('https://mayursharma35711.github.io/Labyrinth2D/textures/sprites/indian.png');
+        }
+        else if (this.player_ind == 3) {
+            this.sprite = PIXI.Sprite.from(PIXI.Assets.get('caricature'));
+            // this.sprite = PIXI.Sprite.from('https://mayursharma35711.github.io/Labyrinth2D/textures/sprites/caricature.png');
+        }
         
         this.sprite.width = sizex * 3 / 4  
         this.sprite.height = sizey * 3 / 4

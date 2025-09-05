@@ -90,7 +90,8 @@ export function sight(game_map, game_maze, xrectnum, yrectnum, cutoff_y, tot_hei
         let map_indexer = map_indices[i]
         
         if(map_indexer < xrectnum && game_map[map_indexer].getBiome() != -1) {
-            let upwall = PIXI.Sprite.from('https://mayursharma35711.github.io/Labyrinth2D/textures/bkgnd/WallsHorizontal.png');
+            // let upwall = PIXI.Sprite.from('https://mayursharma35711.github.io/Labyrinth2D/textures/bkgnd/WallsHorizontal.png');
+            let upwall = PIXI.Sprite.from(PIXI.Assets.get('horiz_wall'));
             upwall.height = 0.3 * size;
             upwall.width = size;
             upwall.x = (map_indexer - currx) * size;
@@ -101,14 +102,16 @@ export function sight(game_map, game_maze, xrectnum, yrectnum, cutoff_y, tot_hei
             // walls.addChild(upwall)
         }
         if(map_indexer % xrectnum == 0 && game_map[map_indexer].getBiome() != -1) {
-            let leftwall = PIXI.Sprite.from('https://mayursharma35711.github.io/Labyrinth2D/textures/bkgnd/WallsVertical.png');
+            // let leftwall = PIXI.Sprite.from('https://mayursharma35711.github.io/Labyrinth2D/textures/bkgnd/WallsVertical.png');
+            let leftwall = PIXI.Sprite.from(PIXI.Assets.get('vert_wall'));
             // console.log(leftwall.y, walls.y, tot_height.item, cutoff_y.item)
             leftwall.height = size;
             leftwall.width = 0.3 * size;
             leftwall.x = (0 - currx) * size - 0.15*size;
             leftwall.y = (map_indexer / xrectnum - curry) * size;
             if (map_indexer == 0 && !is_start_level) {
-                let leftdoor = PIXI.Sprite.from('https://mayursharma35711.github.io/Labyrinth2D/textures/bkgnd/vert_door.png');
+                // let leftdoor = PIXI.Sprite.from('https://mayursharma35711.github.io/Labyrinth2D/textures/bkgnd/vert_door.png');
+                let leftdoor = PIXI.Sprite.from(PIXI.Assets.get('vert_door'));
                 leftdoor.height = size;
                 leftdoor.width = 0.3 * size;
                 leftdoor.x = (0 - currx) * size - 0.15*size;

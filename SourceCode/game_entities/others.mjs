@@ -23,7 +23,8 @@ export class Other extends Entities
 export class MonsterSpawner extends Entities {
     constructor(tier, x, y, sizex, sizey, num_x, num_y, map, label, type, freq) {
         super()
-        this.sprite = PIXI.Sprite.from('https://mayursharma35711.github.io/Labyrinth2D/textures/sprites/monster_spawner_beta.png');
+        // this.sprite = PIXI.Sprite.from('https://mayursharma35711.github.io/Labyrinth2D/textures/sprites/monster_spawner_beta.png');
+        this.sprite = PIXI.Sprite.from(PIXI.Assets.get('spawner'));
         this.sprite.width = sizex * 3 / 4
         this.sprite.height = sizey * 3 / 4
         // let x = Math.floor(Math.random() * num_x)

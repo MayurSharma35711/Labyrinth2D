@@ -1,8 +1,8 @@
 import { vis, tot_height, cutoff_y } from "../vis_updated.mjs";
 import { Equipment } from "./item_class.mjs";
 import { make_pop_up_menu } from "../methods/displays/pop_up.mjs";
-await PIXI.Assets.load('https://mayursharma35711.github.io/Labyrinth2D/textures/items/Chests.png');
-await PIXI.Assets.load('https://mayursharma35711.github.io/Labyrinth2D/textures/items/ChestsOpen.png');
+// await PIXI.Assets.load('https://mayursharma35711.github.io/Labyrinth2D/textures/items/Chests.png');
+// await PIXI.Assets.load('https://mayursharma35711.github.io/Labyrinth2D/textures/items/ChestsOpen.png');
 
 // SourceCode/game_entities/monster.mjs
 
@@ -133,7 +133,8 @@ export class chest
     {
         if(this.opened)
         {
-            this.sprite = PIXI.Sprite.from('https://mayursharma35711.github.io/Labyrinth2D/textures/items/ChestsOpen.png');
+            // this.sprite = PIXI.Sprite.from('https://mayursharma35711.github.io/Labyrinth2D/textures/items/ChestsOpen.png');
+            this.sprite = PIXI.Sprite.from(PIXI.Assets.get('chest_open'));
             this.sprite.width = 0.7 * cell_width;
             this.sprite.height = 0.7 * cell_height;
             this.sprite.x = (this.x + 0.15 - currx) * cell_width;
@@ -143,7 +144,8 @@ export class chest
         }
         else
         {
-            this.sprite = PIXI.Sprite.from('https://mayursharma35711.github.io/Labyrinth2D/textures/items/Chests.png');
+            // this.sprite = PIXI.Sprite.from('https://mayursharma35711.github.io/Labyrinth2D/textures/items/Chests.png');
+            this.sprite = PIXI.Sprite.from(PIXI.Assets.get('chest_closed'));
             this.sprite.width = 0.7 * cell_width;
             this.sprite.height = 0.7 * cell_height;
             this.sprite.x = (this.x + 0.15 - currx) * cell_width;

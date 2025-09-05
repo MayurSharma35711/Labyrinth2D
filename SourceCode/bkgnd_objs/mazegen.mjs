@@ -1,8 +1,8 @@
 import { walls, tot_height, cutoff_y } from "../vis_updated.mjs";
-await PIXI.Assets.load('https://mayursharma35711.github.io/Labyrinth2D/textures/bkgnd/WallsVertical.png');
-await PIXI.Assets.load('https://mayursharma35711.github.io/Labyrinth2D/textures/bkgnd/WallsHorizontal.png');
-await PIXI.Assets.load('https://mayursharma35711.github.io/Labyrinth2D/textures/bkgnd/horiz_door.png');
-await PIXI.Assets.load('https://mayursharma35711.github.io/Labyrinth2D/textures/bkgnd/vert_door.png');
+// await PIXI.Assets.load('https://mayursharma35711.github.io/Labyrinth2D/textures/bkgnd/WallsVertical.png');
+// await PIXI.Assets.load('https://mayursharma35711.github.io/Labyrinth2D/textures/bkgnd/WallsHorizontal.png');
+// await PIXI.Assets.load('https://mayursharma35711.github.io/Labyrinth2D/textures/bkgnd/horiz_door.png');
+// await PIXI.Assets.load('https://mayursharma35711.github.io/Labyrinth2D/textures/bkgnd/vert_door.png');
 import { Stack } from "../methods/datatypes.mjs";
 
 export class TileWall{
@@ -46,7 +46,8 @@ export class TileWall{
             this.wall_image = new PIXI.Sprite();
             if(this.isVertical)
             {
-                this.wall_image = PIXI.Sprite.from('https://mayursharma35711.github.io/Labyrinth2D/textures/bkgnd/vert_door.png');
+                // this.wall_image = PIXI.Sprite.from('https://mayursharma35711.github.io/Labyrinth2D/textures/bkgnd/vert_door.png');
+                this.wall_image = PIXI.Sprite.from(PIXI.Assets.get('vert_door'));
                 this.wall_image.height = cell_height;
                 this.wall_image.width = 0.3 * cell_width;
                 this.wall_image.x = (this.ind_x - currx) * cell_width  + 0.85*cell_width;
@@ -59,7 +60,8 @@ export class TileWall{
             }
             else
             {
-                this.wall_image = PIXI.Sprite.from('https://mayursharma35711.github.io/Labyrinth2D/textures/bkgnd/horiz_door.png');
+                // this.wall_image = PIXI.Sprite.from('https://mayursharma35711.github.io/Labyrinth2D/textures/bkgnd/horiz_door.png');
+                this.wall_image = PIXI.Sprite.from(PIXI.Assets.get('horiz_door'));
                 this.wall_image.height = 0.3 * cell_height;
                 this.wall_image.width = cell_width;
                 this.wall_image.x = (this.ind_x - currx) * cell_width;
@@ -75,7 +77,8 @@ export class TileWall{
             this.wall_image = new PIXI.Sprite();
             if(this.isVertical)
             {
-                this.wall_image = PIXI.Sprite.from('https://mayursharma35711.github.io/Labyrinth2D/textures/bkgnd/WallsVertical.png');
+                // this.wall_image = PIXI.Sprite.from('https://mayursharma35711.github.io/Labyrinth2D/textures/bkgnd/WallsVertical.png');
+                this.wall_image = PIXI.Sprite.from(PIXI.Assets.get('vert_wall'));
                 this.wall_image.height = cell_height;
                 this.wall_image.width = 0.3 * cell_width;
                 this.wall_image.x = (this.ind_x - currx) * cell_width  + 0.85*cell_width;
@@ -88,7 +91,8 @@ export class TileWall{
             }
             else
             {
-                this.wall_image = PIXI.Sprite.from('https://mayursharma35711.github.io/Labyrinth2D/textures/bkgnd/WallsHorizontal.png');
+                // this.wall_image = PIXI.Sprite.from('https://mayursharma35711.github.io/Labyrinth2D/textures/bkgnd/WallsHorizontal.png');
+                this.wall_image = PIXI.Sprite.from(PIXI.Assets.get('horiz_wall'));
                 this.wall_image.height = 0.3 * cell_height;
                 this.wall_image.width = cell_width;
                 this.wall_image.x = (this.ind_x - currx) * cell_width;

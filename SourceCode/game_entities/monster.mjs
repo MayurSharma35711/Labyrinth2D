@@ -28,30 +28,30 @@ export class Monster extends Entities
         if (brain_type == "patrol") {
             this.decision_state = monster_state.return
             this.stagnant = 0
-            this.init_sector = find_sector(maze_dicter[0], this.x, this.y, num_x, num_y)
+            this.init_sector = find_sector(maze_dicter.item[0], this.x, this.y, num_x, num_y)
             let adj_sectors = []
-            for (let l = 0; l < maze_dicter[0].keys.length; l++) {
-                // console.log(maze_dicter[0].keys[l])
-                let sector_new = get_sector_indices(num_x, num_y, sector_size, maze_dicter[0].keys[l][0],maze_dicter[0].keys[l][1])
+            for (let l = 0; l < maze_dicter.item[0].keys.length; l++) {
+                // console.log(maze_dicter.item[0].keys[l])
+                let sector_new = get_sector_indices(num_x, num_y, sector_size, maze_dicter.item[0].keys[l][0],maze_dicter.item[0].keys[l][1])
                 let new_center = sector_new[~~(sector_new.length / 2)]
                 // console.log(sector_new)
                 if(map[new_center].getBiome() == 9 || map[new_center].getBiome() == 10) {
                     // console.log("here")
                     continue
                 }
-                else if (this.init_sector[0] == maze_dicter[0].keys[l][0] && ((this.init_sector[1] == maze_dicter[0].keys[l][1] - 1) || (this.init_sector[1] == maze_dicter[0].keys[l][1] + 1))) 
-                    adj_sectors.push(maze_dicter[0].keys[l])
-                else if (this.init_sector[1] == maze_dicter[0].keys[l][1] && ((this.init_sector[0] == maze_dicter[0].keys[l][0] - 1) || (this.init_sector[0] == maze_dicter[0].keys[l][0] + 1)))
-                    adj_sectors.push(maze_dicter[0].keys[l])
+                else if (this.init_sector[0] == maze_dicter.item[0].keys[l][0] && ((this.init_sector[1] == maze_dicter.item[0].keys[l][1] - 1) || (this.init_sector[1] == maze_dicter.item[0].keys[l][1] + 1))) 
+                    adj_sectors.push(maze_dicter.item[0].keys[l])
+                else if (this.init_sector[1] == maze_dicter.item[0].keys[l][1] && ((this.init_sector[0] == maze_dicter.item[0].keys[l][0] - 1) || (this.init_sector[0] == maze_dicter.item[0].keys[l][0] + 1)))
+                    adj_sectors.push(maze_dicter.item[0].keys[l])
             } 
             // console.log(this.init_sector, adj_sectors)
             let best_dist_ind = 0 
             let best_dist = 100
             let best_path = []
             for (let k = 0; k < adj_sectors.length; k++) {
-                let pather = maze_dicter[1].getElt([this.init_sector, adj_sectors[k]])
+                let pather = maze_dicter.item[1].getElt([this.init_sector, adj_sectors[k]])
                 if (pather == false) 
-                    pather = maze_dicter[1].getElt([adj_sectors[k], this.init_sector])
+                    pather = maze_dicter.item[1].getElt([adj_sectors[k], this.init_sector])
                 if (best_dist > pather.length) {
                     best_dist = pather.length
                     best_dist_ind = k
@@ -72,7 +72,7 @@ export class Monster extends Entities
         }
         if (brain_type == "hunt") {
             this.decision_state = monster_state.seek
-            this.init_sector = find_sector(maze_dicter[0], this.x, this.y, num_x, num_y)
+            this.init_sector = find_sector(maze_dicter.item[0], this.x, this.y, num_x, num_y)
             let new_path = Astar_maze(game_maze.item, num_x, num_y, this.x, this.y, 0,0,heur_l2sqr, map, [])
             if (new_path != false)
                 this.cur_path = new_path.slice(1)
@@ -83,7 +83,7 @@ export class Monster extends Entities
         }
         if (brain_type == "flee") {
             this.decision_state = monster_state.seek
-            this.init_sector = find_sector(maze_dicter[0], this.x, this.y, num_x, num_y)
+            this.init_sector = find_sector(maze_dicter.item[0], this.x, this.y, num_x, num_y)
             this.cur_path = []
             this.final_sector = false
             this.patrol_path = false
@@ -92,7 +92,7 @@ export class Monster extends Entities
         }
         if (brain_type == "sniff") {
             this.decision_state = monster_state.sniff
-            this.init_sector = find_sector(maze_dicter[0], this.x, this.y, num_x, num_y)
+            this.init_sector = find_sector(maze_dicter.item[0], this.x, this.y, num_x, num_y)
             this.cur_path = []
             this.final_sector = false
             this.patrol_path = false
