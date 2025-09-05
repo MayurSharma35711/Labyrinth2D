@@ -809,3 +809,44 @@ TO DO:
 - next things to do 
 	- attach everything to areas
 	- start on inventory, weapons, exp, levels
+
+9/4/25
+- organized exports in vis_updated
+- made a muchhhhh better PIXI loading screen to load in sprites
+- we tried to get electron working
+	- it broke 
+- fixed graphics boundary so that player cards are almost never covered
+
+- organizing future coding tasks
+- implementing levels 
+	- making more dungeon maps 
+	- attaching monsters and monster spawners to the init_level function 
+		- use the Wrapper class 
+	- putting in the doors to connect the levels
+- implementing equipment and inventory
+	- writing template for animations
+	- making weapons
+	- putting them in the chests
+	- maybe having them display on the character
+	- drawing
+		- fixing the chest sprites (the open chest should become the closed chest and draw the new opening)
+		- starting to draw some weapons and armor
+	- implementing some biome and status effects
+	- making new in range functions
+- monsters and NPCs
+	- make more AIs :)
+	- some monsters can use multiple attacks
+	- some monsters can equip armor and weapons 
+	- some monsters drop things when killed
+		- some monsters anticipate where you're going and block you 
+		- others try to sneak up on you (they're invisible until they want to attack you)
+- player abilities
+	- multiple attack types 
+	- displaying the attack type boxes
+	- leveling up system 
+		- check up in the log somewhere, it will be there 
+- start creating story things 
+	- quest implementers
+		- some procedurally generated
+		- some manual 
+	- dialogue screens 
