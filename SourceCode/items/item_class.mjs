@@ -68,6 +68,29 @@ export class Weapon extends Equipment{
     }
 }
 
+export class Tool extends Equipment{
+    constructor(name, element, tier, sub_class, weapon_type, ismagic) {
+        super(name)
+        this.element = element
+        this.tier = tier
+        this.sub_class = sub_class
+        this.weapon_type = weapon_type
+        this.ismagic = ismagic
+    }
+    set_effects(str, speed, prot, dur, range, hlth, vis) {
+        this.strength_boost = str;
+        this.speed_boost = speed;
+        this.prot_boost = prot;
+        this.durability_boost = dur;
+        this.range_boost = range;
+        this.health_boost = hlth;
+        this.vis_boost = vis;
+    }
+}
+
+// binoculars will be a type of tool
+// so could a shovel, or something like that 
+
 // potions are different from normal equipment, they can be drunk, thrown or used for other potions
 export class Potion extends Item{
     constructor(name, tier, potion_type, area_range, drink_num){

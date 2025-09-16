@@ -1,5 +1,5 @@
 import { maze_dicter } from "../../vis_updated.mjs";
-import { Astar_maze, dijkstra, heur_l2sqr } from "./path_finding.mjs";
+import { Astar_dungeon, Astar_maze, dijkstra, heur_l2sqr } from "./path_finding.mjs";
 import { find_sector } from "./path_finding_nodes.mjs";
 import {game_map, game_maze, xrectnum, yrectnum, players, play_inds, curr_player, monsters, pause, menu_container, ptr, size, currx, curry, act_currx, act_curry, shiftx, shifty, chest_indices, chests, monster_indices, app, seen_indices} from "../../vis_updated.mjs";
 import { blocked } from "../../methods/graphics/visibility.mjs";
@@ -13,7 +13,8 @@ export const monster_state = Object.freeze({
     fight: 4,
     return: 5, 
     flee: 6,
-    sniff: 7
+    sniff: 7, 
+    hidden: 8
 });
 
 export function print_state(monster){
@@ -535,8 +536,6 @@ export function patrol_brain(monster) {
 
     if (monster.decision_state == monster_state.fight) {
         // player not in range
-        console.log("case 1")
-        console.log(monster.x, monster.y)
         if (!do_combat[0]) {
             // reseeking case
             if (new_path.length < 4) {
@@ -719,6 +718,77 @@ export function patrol_brain(monster) {
         // if rest counter, go to top
 }
 
+export function hide_brain(monster) {
+    let mindist = 100
+    let closest_player = 0
+    for (let i = 0; i < players.length; i++) {
+        if (players[i].health <= 0 || !seen_indices.item.includes(play_inds[i]))
+            continue
+        let xi = players[i].x 
+        let yi = players[i].y
+        let testdist = distance(xi, yi, monster.x, monster.y)
+        if (mindist > testdist) {
+            mindist = testdist
+            closest_player = i
+        }
+    }
+    let entities = [];
+    entities = entities.concat(players);
+    entities = entities.concat(monsters);
+    let new_path = Astar_dungeon(game_maze.item, xrectnum, yrectnum, monster.x, monster.y, players[closest_player].x, players[closest_player].y, dijkstra, game_map.item, entities, monster.range)
+    // console.log("repath")
+    // console.log(new_path)
+    if (new_path != false && new_path.length > 0)
+        new_path = new_path.slice(1)
+
+    let do_combat = check_combat(monster)
+
+    // print_state(monster)
+    // console.log(monster.x, monster.y)
+    // fight immediately against nearest player
+    if (do_combat[0]) {
+        if (monster.decision_state == monster_state.hidden) {
+            monster.rect.visible = true
+        }
+        else{
+            dealDamage(monster, players[do_combat[1]])
+        }
+        monster.decision_state = monster_state.fight
+    }
+    if (monster.decision_state == monster_state.fight) {
+        // player not in range
+        if (!do_combat[0]) {
+            // reseeking case
+            if (new_path.length < 8) {
+                monster.cur_path = new_path
+                monster.decision_state = monster_state.seek
+            // returning case
+            } else {
+                monster.decision_state = monster_state.hidden
+            }
+        }
+    }
+    
+    if (monster.decision_state == monster_state.seek) {
+        // player not in range
+        if (monster.cur_path.length < 8) {
+            monster.cur_path = new_path
+            follow_path(monster)
+        }
+        else {
+            monster.decision_state = monster_state.hidden
+        }
+    }
+    
+    if (monster.decision_state = monster_state.hidden) {
+        monster.rest.visible = false
+    }
+
+}
+
+export function block_brain(monster) {
+    
+}
 
 // sector space is the rectangle of minimum and maximum x,y sectors
 function ai(players){

@@ -7,7 +7,7 @@ import { hunt_brain, hunt_flee_brain, patrol_brain, sniff_brain } from "./game_A
 import { adj_poses } from "../methods/graphics/visibility.mjs"
 import { blocked } from "../methods/graphics/visibility.mjs";
 
-await PIXI.Assets.load('https://mayursharma35711.github.io/Labyrinth2D/textures/sprites/monster_spawner_beta.png');
+// await PIXI.Assets.load('https://mayursharma35711.github.io/Labyrinth2D/textures/sprites/monster_spawner_beta.png');
 
 export class Other extends Entities
 {
@@ -20,6 +20,77 @@ export class Other extends Entities
     }
 }
 
+// these are things like bombs and boulders that can get in your way
+export class MapObstructionn extends Entities {
+    constructor(tier, x, y, sizex, sizey, num_x, num_y, map, type) {
+        super()
+        // this.sprite = PIXI.Sprite.from('https://mayursharma35711.github.io/Labyrinth2D/textures/sprites/monster_spawner_beta.png');
+        this.sprite = PIXI.Sprite.from(PIXI.Assets.get(type));
+        this.sprite.width = sizex * 3 / 4
+        this.sprite.height = sizey * 3 / 4
+        // let x = Math.floor(Math.random() * num_x)
+        // let y = Math.floor(Math.random() * num_y)
+        let ind = x + num_x * y
+        // while(map[ind].getBiome() == 9 || map[ind].getBiome() == -1 || map[ind].getBiome() == 10) {
+        //     if (x < 2 && y < 2)
+        //         continue
+        //     x = Math.floor(Math.random() * num_x)
+        //     y = Math.floor(Math.random() * num_y)
+        //     ind = x + num_x * y
+        // }
+        super.setpos(x, y);
+        this.tier = tier
+        this.type = type
+        this.turnval = 0
+        this.health = 10
+        this.display = false
+    }
+    drawMe(sizex, sizey, currx, curry){
+        this.sprite.x = (this.x - currx + 1 / 8) * sizex + Math.floor(tot_width.item / 2)
+        this.sprite.y = (this.y - curry + 1 / 8) * sizey + Math.floor(tot_height.item / 2 - cutoff_y.item / 2)
+        this.sprite.width = sizex * 3 / 4 
+        this.sprite.height = sizey * 3 / 4
+        this.sprite.interactive = true;
+        this.sprite.buttonMode = true; // Changes cursor on hover
+                
+                
+        
+        this.sprite.on('pointerdown', () => {
+            if (!pause.item && !inventory.item && this.display) {
+				app.stage.removeChild(selector_bubble.item)
+                this.display = false
+                selector.item = false
+			}
+            else if (!pause.item && !inventory.item) {
+                console.log("here")
+                // if (selector.item) {
+                app.stage.removeChild(selector_bubble.item)
+                // }
+                this.display = true
+
+                let bubblex = this.sprite.x 
+                let bubbley = this.sprite.y
+                let cellx = this.sprite.x + this.sprite.width * 1/8
+                let celly = this.sprite.y + this.sprite.width * 1/8
+                let cell_width = this.sprite.width
+                let cell_height = this.sprite.height
+                let str2print = this.label + "; " + this.type + "; " + this.freq.toString()
+                
+                selector_bubble.item = make_selector(bubblex, bubbley, 100, 50, str2print, 0x20BBAA, 0xAA00AA, cellx, celly, cell_width * 3 / 4, cell_height * 3 / 4)
+                // console.log(this.sprite.x + app.screen.width / 2, this.sprite.y + app.screen.height / 2)
+                app.stage.addChild(selector_bubble.item)
+                // console.log('selector case!', selector.item);
+            }
+            // Add logic to start game or transition to another scene
+        });
+    }
+    resize(sizex, sizey) {
+        this.sprite.width = sizex * 3 / 4
+        this.sprite.height = sizey * 3 / 4
+    }
+}
+
+// these spawn monsters, but can be stood on
 export class MonsterSpawner extends Entities {
     constructor(tier, x, y, sizex, sizey, num_x, num_y, map, label, type, freq) {
         super()

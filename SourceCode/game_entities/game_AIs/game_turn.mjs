@@ -10,6 +10,12 @@ export function take_game_turn(){
     console.log("game_turn-------------------------------------------")
     // console.log(monsters[0].cur_path)
     // console.log(monsters[0].x, monsters[0].y)
+
+    // here the environment has to act
+        // any map_obstruction that is on screen has to take a turn
+    // any on_screen tile with a monster or player also has to take a turn
+
+
     for (let k = 0; k < monsters.item.length; k++) {
         if (monsters.item[k].brain_type == "hunt") {
             hunt_brain(monsters.item[k])

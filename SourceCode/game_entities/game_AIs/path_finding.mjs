@@ -166,6 +166,91 @@ export function Astar_maze(maze, numx, numy, x0, y0, xfin, yfin, heur, map, enti
 
 
 
+export function Astar_dungeon(maze, numx, numy, x0, y0, xfin, yfin, heur, map, entities, range = 1, range_type = "regular") {
+    // print_walls(maze, numx, numy)
+    let open_points = new Priority_Queue()
+    console.log(maze.length)
+    let visited_nodes = Array(maze.length/2).fill(-1)
+    let best_scores = Array(maze.length/2).fill(-1)
+    best_scores[x0 + y0*numx] = 0
+
+    let guess_scores = Array(maze.length).fill(-1)
+    guess_scores[x0 + y0*numx] = heur(x0, y0, xfin, yfin)
+
+    open_points.insert(x0 + y0*numx, guess_scores[x0 + y0*numx])
+    
+    while (!open_points.isEmpty()) {
+        // console.log(best_scores)
+        let current = open_points.get_elt()
+        // console.log(current)
+        let x_comp = current % numx
+        let y_comp = Math.floor(current / numx)
+
+        if (x_comp == xfin && y_comp == yfin) {
+            let path = remake_path(visited_nodes, current)
+            return path.reverse()
+        }
+        
+        let nbrs = []
+
+        if (y_comp < numy - 1 && maze[2*current].getWall() == false && range_type == "regular"){
+            if (test_entities(entities, current + numx, numx) || (distance(x_comp, y_comp, xfin, yfin) <= range && (x_comp == xfin || y_comp == yfin)))
+                nbrs.push(current + numx)
+        }
+        if (x_comp < numx - 1 && maze[2*current+1].getWall() == false && range_type == "regular"){
+            if (test_entities(entities, current + 1, numx) ||( distance(x_comp, y_comp, xfin, yfin) <= range  && (x_comp == xfin || y_comp == yfin)))
+                nbrs.push(current + 1)
+        }
+        if (x_comp > 0 && maze[2*current-1].getWall() == false && range_type == "regular") {
+            if (test_entities(entities, current - 1, numx) || (distance(x_comp, y_comp, xfin, yfin) <= range  && (x_comp == xfin || y_comp == yfin)))
+                nbrs.push(current - 1)
+        }
+        if (y_comp > 0 && maze[2*current-2*numx].getWall() == false && range_type == "regular") {
+            if (test_entities(entities, current - numx, numx) || (distance(x_comp, y_comp, xfin, yfin) <= range  && (x_comp == xfin || y_comp == yfin)))
+                nbrs.push(current - numx)
+        }
+
+
+
+        // if (!test_entities(entities, numx, numx)){
+        //     console.log("okay 1")
+        // }
+        // if (test_entities(entities, numx, numx)){
+        //     console.log("bad 1")
+        // }
+
+        // console.log("teststststs")
+        // console.log(current, nbrs)
+        // nbrs = rand_inds(nbrs)
+
+        // console.log(nbrs)
+        // console.log(x0, y0, xfin, yfin, best_scores)
+        for (let i = 0; i < nbrs.length; i++) {
+            let tent_score = best_scores[current] + 1
+            let nbr_x = nbrs[i] % numx
+            let nbr_y = Math.floor(nbrs[i] / numx)
+            if (best_scores[nbrs[i]] == -1 || tent_score < best_scores[nbrs[i]]) {
+                visited_nodes[nbrs[i]] = current
+                best_scores[nbrs[i]] = tent_score
+                guess_scores[nbrs[i]] = tent_score + heur(nbr_x, nbr_y, xfin, yfin)
+                if (!open_points.contains_elt(nbrs[i])){
+                    if(map[nbrs[i]].getBiome() != -1) {
+                        
+                        open_points.insert(nbrs[i], guess_scores[nbrs[i]])
+                    }
+                }
+            }
+        }
+        // for(let k = 0; k < open_points.elts.length; k++)
+        //     console.log(open_points.elts[k])
+    }
+    // console.log("failed", x0, y0, xfin, yfin)
+    return false
+}
+
+
+
+
 
 
 // let sidelen = 40

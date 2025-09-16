@@ -23,23 +23,23 @@ export function create_inventory_screen(){
 
     const text_inside = new PIXI.Text('Inventory', {
         fontFamily: 'Arial',
-        fontSize: 20,
+        fontSize: 40,
         fill: 0xffffff,
     });
 
     text_inside.anchor.set(0.5); // Center the text within its bounds
     text_inside.position.x = 0; // Position relative to menuContainer's center
-    text_inside.position.y = -sizey / 2 + 15; // Position relative to menuContainer's center
+    text_inside.position.y = -sizey / 2 + 25; // Position relative to menuContainer's center
     inventory_screen.addChild(text_inside);
 
     
     for (let t = 0; t < players.length; t++) {
         // console.log(players[t].sprite)
         const sprite = new PIXI.Sprite(players[t].sprite.texture)
-        sprite.width = sizex * 5 / 20
-        sprite.height = sizex * 5 / 20
-        sprite.x = sizex * 13 / 20 + sizex * 1 / 40 + t * sizex * 1.5 
-        sprite.y = sizey * 7/24 + sizex * 1 / 40
+        sprite.width = sizex * 8 / 40
+        sprite.height = sizex * 8 / 40
+        sprite.x = sizex * -9 / 20  + t * sizex * 9/40
+        sprite.y = - sizey * 10/24 + sizex * 1 / 40
         inventory_screen.addChild(sprite)
     }
 

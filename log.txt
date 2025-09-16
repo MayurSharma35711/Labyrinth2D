@@ -819,7 +819,7 @@ TO DO:
 
 - organizing future coding tasks
 - implementing levels 
-	- making more dungeon maps 
+	- making more dungeon / village maps 
 	- putting in the doors to connect the levels
 	- (DONE 9/5/25) attaching monsters and monster spawners to the init_level function 
 		- use the Wrapper class 
@@ -827,22 +827,25 @@ TO DO:
 	- writing template for animations
 	- making weapons
 	- putting them in the chests
+	- having them display in the inventory
 	- maybe having them display on the character
 	- drawing
 		- fixing the chest sprites (the open chest should become the closed chest and draw the new opening)
 		- starting to draw some weapons and armor
 	- implementing some biome and status effects
 	- making new in range functions
-- monsters and NPCs
+- monsters, NPCs, map entities
 	- make more AIs :)
 	- some monsters can use multiple attacks
 	- some monsters can equip armor and weapons 
 	- some monsters drop things when killed
 		- some monsters anticipate where you're going and block you 
 		- others try to sneak up on you (they're invisible until they want to attack you)
+	- also need map elements like boulders and bombs
 - player abilities
 	- multiple attack types 
 	- displaying the attack type boxes
+	- create a map for players showing all seen_indices for each floor
 	- leveling up system 
 		- check up in the log somewhere, it will be there 
 - start creating story things 

@@ -57,7 +57,8 @@ loadingText.y = app.screen.height / 2;
 app.stage.addChild(loadingContainer);
 app.stage.addChild(loadingText);
 
-let base_dir_string = "https://mayursharma35711.github.io/Labyrinth2D/"
+// let base_dir_string = "https://mayursharma35711.github.io/Labyrinth2D/"
+let base_dir_string = "../"
 
 async function loadAssets() {
   // Register your bundle
@@ -84,7 +85,9 @@ async function loadAssets() {
     indian: base_dir_string + '/textures/sprites/indian.png',
     caricature: base_dir_string + '/textures/sprites/caricature.png',
     chest_closed: base_dir_string + '/textures/items/Chests.png',
-    chest_open: base_dir_string + '/textures/items/ChestsOpen.png'
+    chest_open: base_dir_string + '/textures/items/ChestsOpen.png',
+    bomb: base_dir_string + '/textures/items/bomb.png',
+    rock: base_dir_string + '/textures/items/boulder.png'
   });
 
   // Load with progress
@@ -214,7 +217,7 @@ async function start() {
     app.stage.removeChild(loadingContainer)
     app.stage.removeChild(loadingText)
 
-    const first_maze = new Area("maze1", xrectnum, yrectnum, "m", true, -1, [4,4,0,0], [[15, 15, 5, 5, 10, [[17, 15], [15, 17]]], [5, 5, 5, 5, 9, [[5,8], [10, 7]]]])
+    const first_maze = new Area("maze1", xrectnum, yrectnum, "m", true, -1, [1,1,0,0], [[15, 15, 5, 5, 10, [[17, 15], [15, 17]]], [5, 5, 5, 5, 9, [[5,8], [10, 7]]]])
     const first_dungeon = new Area("dung1", xrectnum, yrectnum, "d", false, 2, [], [])
     const first_hall = new Area("hall1", xrectnum, yrectnum, "h", false, 1, [], [])
 
@@ -285,7 +288,7 @@ async function start() {
     players[3].y = 1;
 
 
-    const min_speed_val = 1000;
+    const min_speed_val = 10;
     players[0].speed = Math.max(2*players[0].vis_tier, min_speed_val);
     players[1].speed = Math.max(2*players[1].vis_tier, min_speed_val);
     players[2].speed = Math.max(2*players[2].vis_tier, min_speed_val);
