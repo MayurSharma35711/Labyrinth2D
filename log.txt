@@ -820,6 +820,13 @@ TO DO:
 - organizing future coding tasks
 - implementing levels 
 	- making more dungeon / village maps 
+		- start making the first village artwork and implementing it
+		- start creating some simple village NPCs
+	- add in a dig, mine mechanics
+	- add in the biome effects on gameplay (written down in notebook)
+	- there should be a minimap showing all tiles that have ever been seen on each map
+	- the village and subdungeon 'rooms' in the maze should be much smaller
+	- the boss room should just be a door randomly placed on the rightmost wall
 	- putting in the doors to connect the levels
 	- (DONE 9/5/25) attaching monsters and monster spawners to the init_level function 
 		- use the Wrapper class 
@@ -832,7 +839,7 @@ TO DO:
 	- drawing
 		- fixing the chest sprites (the open chest should become the closed chest and draw the new opening)
 		- starting to draw some weapons and armor
-	- implementing some biome and status effects
+	- implementing some biome and status effects on the weapons and characters
 	- making new in range functions
 - monsters, NPCs, map entities
 	- make more AIs :)
@@ -844,6 +851,7 @@ TO DO:
 	- also need map elements like boulders and bombs
 - player abilities
 	- multiple attack types 
+		- need a basic display for this (check the notebook drawing)
 	- displaying the attack type boxes
 	- create a map for players showing all seen_indices for each floor
 	- leveling up system 
