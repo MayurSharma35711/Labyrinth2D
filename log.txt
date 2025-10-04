@@ -824,14 +824,26 @@ TO DO:
 		- start creating some simple village NPCs
 	- add in a dig, mine mechanics
 	- add in the biome effects on gameplay (written down in notebook)
-	- there should be a minimap showing all tiles that have ever been seen on each map
+	- (HALF-DONE 9/26/25) there should be a minimap showing all tiles that have ever been seen on each map
+		- (9/26/25) need to display it, but the tiles are being saved now
 	- the village and subdungeon 'rooms' in the maze should be much smaller
 	- the boss room should just be a door randomly placed on the rightmost wall
 	- putting in the doors to connect the levels
 	- (DONE 9/5/25) attaching monsters and monster spawners to the init_level function 
-		- use the Wrapper class 
+		- use the Wrapper class  
 - implementing equipment and inventory
-	- writing template for animations
+	- (RESEARCHED 9/29/25) writing template for animations
+		- // check the above links 
+		// https://www.google.com/search?q=how+to+delete+animations+after+using+them+pixi&rlz=1C5CHFA_enUS845US845&oq=how+to+delete+animations+after+using+them+pixi&gs_lcrp=EgZjaHJvbWUyBggAEEUYOTIHCAEQIRigATIHCAIQIRigATIHCAMQIRigATIHCAQQIRigATIHCAUQIRigAdIBCDkyOTNqMGo3qAIAsAIA&sourceid=chrome&ie=UTF-8
+		// https://www.google.com/search?q=how+to+reuse+animations+pixi&rlz=1C5CHFA_enUS845US845&oq=how+to+reuse+animations+pixi+&gs_lcrp=EgZjaHJvbWUyBggAEEUYOTIHCAEQIRigATIHCAIQIRigATIHCAMQIRigATIHCAQQIRigATIHCAUQIRiPAjIHCAYQIRiPAjIHCAcQIRiPAtIBCDUyOTNqMGo3qAIAsAIA&sourceid=chrome&ie=UTF-8
+		// app.ticker.add
+		// app.ticker.addOnce((ticker) => {
+		//     // Rotate the circle
+		//     const delta = ticker.deltaTime;
+		//     players[0].sprite.rotation += 0.05 * delta;
+
+		//     // Move the circle slightly
+		// });
 	- making weapons
 	- putting them in the chests
 	- having them display in the inventory
@@ -842,22 +854,22 @@ TO DO:
 	- implementing some biome and status effects on the weapons and characters
 	- making new in range functions
 - monsters, NPCs, map entities
-	- make more AIs :)
 	- some monsters can use multiple attacks
 	- some monsters can equip armor and weapons 
 	- some monsters drop things when killed
+	- (FAR ENOUGH 9/29/25 - we have a few right now) make more AIs :)
 		- some monsters anticipate where you're going and block you 
-		- others try to sneak up on you (they're invisible until they want to attack you)
-	- also need map elements like boulders and bombs
+		- (DONE) others try to sneak up on you (they're invisible until they want to attack you)
+	- (HALF DONE) also need map elements like boulders and bombs
 - player abilities
 	- multiple attack types 
 		- need a basic display for this (check the notebook drawing)
 	- displaying the attack type boxes
-	- create a map for players showing all seen_indices for each floor
-	- leveling up system 
+	- leveling up system  
 		- check up in the log somewhere, it will be there 
 - start creating story things 
-	- quest implementers
-		- some procedurally generated
-		- some manual 
+	- quest implementation
+		- procedurally generated? 
+	- (DONE 9/26/25) write down some quest ideas
 	- dialogue screens 
+- try to get stuff working with electron 

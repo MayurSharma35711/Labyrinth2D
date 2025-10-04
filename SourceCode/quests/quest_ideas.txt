@@ -1,0 +1,127 @@
+Some Ideas for Quests:
+(still need to think about rewards)
+
+you'll notice that i've included an 'insurance / bank' group
+    - i think it would be interesting and make sense for something like this to exist, even in our small society
+    - notably, some areas are extra dangerous and if people have children, they may want those kids to not be left unsupported
+    - thus you take our insurance on yourself or on your source of income 
+        - sort of like in the first types of historical insurance existing 
+        - they are also very scummy and scammy in the same way :) 
+
+i think it should be an option to kill an npc in areas where weapons are allowed to be used, however it should have consequences
+could also be cool if killing npcs gave extra souls or something like that
+
+some characters to include for the game 
+- botanist (poison + earth)
+- adventurer (air + ice)
+- metal smith (fire + water)
+- watchtower keeper (light + dark)
+
+- these characters / types of characters could be in certain select locations, offer specific quests and items / experience
+- they also have overarching missions
+    - botanist: collect all the seeds and fancy rocks you find 
+    - adventurer: uncover as much of all the minimaps as possible 
+    - metal smith: show off cool armor sets and gear
+    - watchtower keeper: tell NPCs you meet to go visit him (only for NPCs you know better) or keep a journal for him of all the people you've met
+
+- if they offer specific items based on their elements (which don't match the neutral pairs exactly either) it would add extra interest I feel 
+- also, all of these require the player to actually go out and explore the maze, dungeons and villages
+
+- Thematic Quests
+    - protect a lost child as he moves from 1 village to another 
+    - help a pair of lovers meet by escorting one of them through a dungeon
+        - they should get a little area to meet that is very pretty
+    - help a village character find their lost friends 
+        - one will be in a subdungeon
+        - the other will be fending off monsters in the maze
+        - the third is the subdungeon boss who you may almost kill 
+            - (he'll have used human blood to hide among the monsters)
+        - another will have been the remains of the human killed in the subdungeon 
+            - perhaps they were killed by their friend 
+    - a few of the villages are actively getting attacked by monsters or by crazy humans
+        - defend them 
+        - try to save as many people as possible
+    - you run into an NPC and fight along side them and help them find something
+        - you meet them a few other times later
+        - you meet them later without an arm and leg
+            - you can either save them (and they are fully crippled) or put them out of their misery
+        - he describes the monster which did this to him 
+            - you can choose to go and kill it and bring him back the trophy
+            - bring it within an inch of its life and give it to him to kill 
+            - get rid of all traces of it 
+    - you have to haggle with the insurance group over what a kid should get for his father's death 
+        - he will have tried to ensure that his kid will survive in the maze after his death 
+    - you have to haggle with the hospital over helping your friend who needs a very specific potion they have
+    - try to find yourself a house to live in
+    - perhaps you also find a stall where you can sell some items (through an employee who runs the place)
+        - this would give you some way to earn extra money, continue to want to be in the maze, and keep finding items
+    - the casino tells you that someone ran away without paying their debt and want you to track them down
+        - you can choose to pay their debt for them 
+        - track them down and bring them back (they will die and they have a family)
+        - see that they have a family and try to fight against the casino 
+        - kill them yourself
+    - if you complete various tasks like this, you can meet the head of the casino, the insurance group, and the hospital 
+    - a villager tells you to look for their boyfriend in a subdungeon and 
+        - you go there but realize that the monsters were originally human but were turned into monsters by the subboss
+        - you realize after killing a few of them
+        - you're given info about people who were lost by the villager
+            - now you either have to defeat the subboss while fighting them to turn them back 
+            - or kill them and defeat the subboss
+        - if you kill them, it would be interesting if the villagers find out and kick you out of some areas 
+    - some maze levels have extra subdungeons, leading to multiple villages 
+        - some of these villages need help trading with one another 
+        - one pair of these villages are raiding each other and you need to stop them from fighting 
+            - they will have escorted 2 fighters each to fight outside of the maze, defeat them all and then talk to the villages
+    - in one area, they need help to defeat the last of the monsters and start setting up a village
+        - defeat some monsters left while protecting the builders
+        - help them set up the protection spells required 
+        - tell other people about this village 
+    - some villages are set up near dangerous biomes 
+        - help them recover after flooding 
+        - help them recover after a volcanic eruption
+        - save people after they an avalance and a blizzard
+        - an area has a noxious disease get released
+            - help them quickly make a potion for their cure 
+            - give it to as many people as possible 
+        
+
+- Less Plot-heavy Quests
+    - catch a specific fish 
+    - get x specific monster parts for a potion
+    - 'terraform' parts of the maze
+        - using some items / spells / effects, maze tiles can change biome
+        - villagers may ask you to use this to get them better food options
+    - dig up items that villagers have hidden in the maze 
+    - Help them sell some of their items in other floors 
+    - make a potion to help villagers who are... 
+        - suffering from the cold
+        - suffering from burns
+        - suffering from disease
+        - have been greatly injured
+        - who want to die (you are given the option of whether to help them)
+    - gather tools and materials to help villagers 
+        - help them fish better
+        - help them farm better
+        - fight back monsters
+        - take care of some of the lost children 
+        - help the injured
+        - help find necessary tools for specific tasks
+        - help them make specific colors for artwork
+    - find / craft keys to get to specific locations on the map or open specific chests 
+    - get hired as a bodyguard by different people 
+        - casino 
+        - insurance group / bank 
+        - hospital 
+        - specialty stores
+    - a few of the larger villages could also have sports / games to pass time 
+        - some of these could be 2-on-2 play fighting
+        - a strategy game like a simplified chess
+        - hide and seek with some of the children
+        - (reference for mayur) a card game like legend of ka'ah from big bang theory (deckbuilder to fight each other)
+    - some areas might also have cats / dogs you can try to take to whatever home you have
+    - get hired as a delivery person / messeneger for different villagers 
+    - they ask you to find specific hidden areas
+        - tunnels between different parts of the maze you can find using a shovel 
+        - wishing wells / ponds / fountains hidden in the corner of a maze that gives you specialty buffs in exchange for debuffs
+        - hidden subdungeons which is harder but gives a path to skip some levels
+    - a little girl lost her pet cat / toy / ... somewhere in the maze, find and retrieve it 

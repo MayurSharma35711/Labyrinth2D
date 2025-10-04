@@ -496,6 +496,9 @@ function keyStart(e)
 
     let counter = 0
     seen_indices.item = total_visible_indices(players, xrectnum, yrectnum);
+    // this step gives the minimap of seen tiles, but I'm worried about the speed / efficiency of this 
+    current_area.item.seen_area_indices = [...new Set([...current_area.item.seen_area_indices, ...seen_indices.item])]
+
     let xmin = xrectnum;
     let xmax = 0;
     let ymin = xrectnum;

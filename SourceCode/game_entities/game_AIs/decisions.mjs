@@ -81,8 +81,8 @@ function follow_path(monster) {
         if (inside_list != -1 && (inside_list < blocked_index || blocked_index == -1) )
             blocked_index = inside_list
     }
-    for (let l = 0; l < monsters.length; l++) {
-        let test_ind = monsters[l].y * xrectnum + monsters[l].x
+    for (let l = 0; l < monsters.item.length; l++) {
+        let test_ind = monsters.item[l].y * xrectnum + monsters.item[l].x
         let inside_list = indices_to_travel.indexOf(test_ind)
         if (inside_list != -1 && (inside_list < blocked_index || blocked_index == -1) )
             blocked_index = inside_list
@@ -173,8 +173,8 @@ function go_direction(monster, direction) {
         if (test_ind == (monster.y + shifty) * xrectnum + (monster.x + shiftx))
             return false
     }
-    for (let l = 0; l < monsters.length; l++) {
-        let test_ind = monsters[l].y * xrectnum + monsters[l].x
+    for (let l = 0; l < monsters.item.length; l++) {
+        let test_ind = monsters.item[l].y * xrectnum + monsters.item[l].x
         if (test_ind == (monster.y + shifty) * xrectnum + (monster.x + shiftx))
             return false
     }
@@ -263,7 +263,7 @@ export function hunt_brain(monster) {
                 continue
             let entities = [];
             entities = entities.concat(players);
-            entities = entities.concat(monsters);
+            entities = entities.concat(monsters.item);
             // console.log(entities, players)
             console.log("player", i)
             let test_new_path = Astar_maze(game_maze.item, xrectnum, yrectnum, monster.x, monster.y, players[i].x, players[i].y, dijkstra, game_map.item, entities, monster.range)
@@ -319,7 +319,7 @@ export function hunt_brain(monster) {
     }
     if(monster.decision_state == monster_state.rest) {
         let entities = [];
-        entities = entities.concat(monsters);
+        entities = entities.concat(monsters.item);
         entities = entities.concat(players);
         // console.log(entities, players)
         //  console.log("came to do a rest")
@@ -355,7 +355,7 @@ export function hunt_flee_brain(monster) {
     if (monster.brain_count % 4 == 0 || monster.cur_path.length < 5) {
         let entities = [];
         entities = entities.concat(players);
-        entities = entities.concat(monsters);
+        entities = entities.concat(monsters.item);
         let test_new_path = Astar_maze(game_maze.item, xrectnum, yrectnum, monster.x, monster.y, players[closest_player].x, players[closest_player].y, dijkstra, game_map.item, entities, monster.range)
         if (test_new_path != false && test_new_path.length > 0)
             monster.cur_path = test_new_path.slice(1)
@@ -421,7 +421,7 @@ export function hunt_flee_brain(monster) {
     if(monster.decision_state == monster_state.rest) {
         let entities = [];
         entities = entities.concat(players);
-        entities = entities.concat(monsters);
+        entities = entities.concat(monsters.item);
         let test_new_path = Astar_maze(game_maze.item, xrectnum, yrectnum, monster.x, monster.y, players[closest_player].x, players[closest_player].y, dijkstra, game_map.item, entities, monster.range)
         console.log(test_new_path)
         if(test_new_path != false && test_new_path.length > 0) {
@@ -516,7 +516,7 @@ export function patrol_brain(monster) {
     }
     let entities = [];
     entities = entities.concat(players);
-    entities = entities.concat(monsters);
+    entities = entities.concat(monsters.item);
     let new_path = Astar_maze(game_maze.item, xrectnum, yrectnum, monster.x, monster.y, players[closest_player].x, players[closest_player].y, dijkstra, game_map.item, entities, monster.range)
     // console.log("repath")
     // console.log(new_path)
@@ -548,7 +548,7 @@ export function patrol_brain(monster) {
             } else {
                 let entities = [];
                 entities = entities.concat(players);
-                entities = entities.concat(monsters);
+                entities = entities.concat(monsters.item);
                 let test_new_path= Astar_maze(game_maze.item, xrectnum, yrectnum, monster.x, monster.y, monster.lastpos[0], monster.lastpos[1], dijkstra, game_map.item, entities, monster.range)
                 if (test_new_path != false && test_new_path.length > 0)
                     monster.cur_path = test_new_path.slice(1)
@@ -645,7 +645,7 @@ export function patrol_brain(monster) {
         else {
             let entities = [];
             entities = entities.concat(players);
-            entities = entities.concat(monsters);
+            entities = entities.concat(monsters.item);
             new_path = Astar_maze(game_maze.item, xrectnum, yrectnum, monster.x, monster.y, monster.lastpos[0], monster.lastpos[1], dijkstra, game_map.item, entities, monster.range)
             monster.decision_state = monster_state.return
             if(new_path != false && test_new_path != false && test_new_path.length > 0) {
@@ -734,7 +734,7 @@ export function hide_brain(monster) {
     }
     let entities = [];
     entities = entities.concat(players);
-    entities = entities.concat(monsters);
+    entities = entities.concat(monsters.item);
     let new_path = Astar_dungeon(game_maze.item, xrectnum, yrectnum, monster.x, monster.y, players[closest_player].x, players[closest_player].y, dijkstra, game_map.item, entities, monster.range)
     // console.log("repath")
     // console.log(new_path)
@@ -807,7 +807,7 @@ function ai(players){
         // range differs for weapons / creatures (based on tiers & types)
         // some things also can use bombs or make walls
     
-    // items monsters can carry
+    // items monsters.item can carry
         // some tier 2 can carry weak weapons
         // some tier 4 and tier 5 can carry stronger weapons
     
@@ -838,10 +838,10 @@ function ai(players){
         // flee
             // run away
         // mob
-            // they choose to find other monsters and join up together
+            // they choose to find other monsters.item and join up together
             // may also choose leader
         // heal
-            // some monsters can choose to heal when low on health
+            // some monsters.item can choose to heal when low on health
 
         // kamikaze
             // give enemies status effects if they die
@@ -852,7 +852,7 @@ function ai(players){
             // create breakable walls
             // create monster spawning locations
             // change environment effects
-        // command (allows for monsters to strategize without iterating over monster behavior)
+        // command (allows for monsters.item to strategize without iterating over monster behavior)
             // command will have sub-elements
             // override monster self-commands (unless monster has extreme health / other concern)
                 // if high health high aggression, ignore, if low health, low aggression ignore
@@ -873,7 +873,7 @@ function ai(players){
         // 
     // else just go towards the players 
         // some also herd together first
-        // some herd around smaller monsters
+        // some herd around smaller monsters.item
         // some also go towards chests
         // some may also group into a trap
         // some also just go towards rooms

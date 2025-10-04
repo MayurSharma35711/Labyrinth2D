@@ -137,10 +137,12 @@ function arrayEqual(arr1, arr2) {
     for (let k = 0; k < arr1.length; k++) {
         if (!val)
             return val
-        if (typeof(arr1[k]) != 'number')
-            val = val && arrayEqual(arr1[k], arr2[k])
+        if (typeof(arr1[k]) == 'number')
+            val = val && (arr1[k] == arr2[k]) 
+        else if (typeof(arr1[k]) == 'string')
+            val = val && (arr1[k] === arr2[k]) 
         else
-            val = val && (arr1[k] == arr2[k])
+            val = val && arrayEqual(arr1[k], arr2[k])
     }
     return val
 }

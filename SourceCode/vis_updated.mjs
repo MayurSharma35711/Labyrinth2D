@@ -269,7 +269,7 @@ async function start() {
     monster_spawn_indices.item = output[7]
 
 
-    players[0] = new Player(0, size.item, size.item, 40, 'Vivek');
+    players[0] = new Player(0, size.item, size.item, 2, 'Vivek');
     players[1] = new Player(1, size.item, size.item, 1, 'Jane');
     // players[1].y = 8;
     players[2] = new Player(2, size.item, size.item, 3, 'Nikki');
@@ -343,6 +343,7 @@ async function start() {
         // app.stage.addChild(players[t].rect)
         app.stage.addChild(players[t].sprite)
     }
+    players[0].sprite.rotation = 0
 
     // for (let t = 0; t < monsters.length; t++) {
     //     monsters[t].drawMe(size.item, size.item, currx.item, curry.item)
@@ -359,6 +360,18 @@ async function start() {
     inventory_screen.item.visible = inventory.item
     app.stage.addChild(menu_container)
     menu_container.visible = pause.item
+
+    // check the above links 
+    // https://www.google.com/search?q=how+to+delete+animations+after+using+them+pixi&rlz=1C5CHFA_enUS845US845&oq=how+to+delete+animations+after+using+them+pixi&gs_lcrp=EgZjaHJvbWUyBggAEEUYOTIHCAEQIRigATIHCAIQIRigATIHCAMQIRigATIHCAQQIRigATIHCAUQIRigAdIBCDkyOTNqMGo3qAIAsAIA&sourceid=chrome&ie=UTF-8
+    // https://www.google.com/search?q=how+to+reuse+animations+pixi&rlz=1C5CHFA_enUS845US845&oq=how+to+reuse+animations+pixi+&gs_lcrp=EgZjaHJvbWUyBggAEEUYOTIHCAEQIRigATIHCAIQIRigATIHCAMQIRigATIHCAQQIRigATIHCAUQIRiPAjIHCAYQIRiPAjIHCAcQIRiPAtIBCDUyOTNqMGo3qAIAsAIA&sourceid=chrome&ie=UTF-8
+    // app.ticker.add
+    // app.ticker.addOnce((ticker) => {
+    //     // Rotate the circle
+    //     const delta = ticker.deltaTime;
+    //     players[0].sprite.rotation += 0.05 * delta;
+
+    //     // Move the circle slightly
+    // });
 }
 
 start()

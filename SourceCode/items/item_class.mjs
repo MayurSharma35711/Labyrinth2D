@@ -18,6 +18,10 @@ export class Item{
     }
 }
 
+// to allow for recipes to exist, all that is needed is a dictionary of recipes
+// that dictionary will immediately make it so that crafting just works
+
+
 // this is specifically for armor, weapons, tomes, and things like that which characters would use
 export class Equipment extends Item
 {

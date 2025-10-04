@@ -1,5 +1,5 @@
 
-import { monsters, monster_indices, monster_spawns, xrectnum, size, yrectnum, sect_size, game_map, play_inds, monster_spawn_indices } from "../../vis_updated.mjs"
+import { players, monsters, monster_indices, monster_spawns, xrectnum, size, yrectnum, sect_size, game_map, play_inds, monster_spawn_indices, seen_indices } from "../../vis_updated.mjs"
 import { Monster } from "../monster.mjs"
 import { hunt_brain, hunt_flee_brain, patrol_brain, sniff_brain } from "./decisions.mjs"
 import { adj_poses } from "../../methods/graphics/visibility.mjs"
@@ -13,9 +13,15 @@ export function take_game_turn(){
 
     // here the environment has to act
         // any map_obstruction that is on screen has to take a turn
+    let entities = monsters.item.concat(players)
+    for (let i = 0; i < entities.item.length; i++) {
+        let ind = entities.item[i].x + entities.item[i].y * xrectnum
+        if (seen_indices.item.includes(ind)) {
+            // do something
+        }
+    }
+
     // any on_screen tile with a monster or player also has to take a turn
-
-
     for (let k = 0; k < monsters.item.length; k++) {
         if (monsters.item[k].brain_type == "hunt") {
             hunt_brain(monsters.item[k])

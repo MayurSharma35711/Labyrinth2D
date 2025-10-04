@@ -10,6 +10,7 @@ export class Area{
     doors;
     full_setup;
     is_start_level;
+    seen_area_indices;
     constructor(id, x_size, y_size, typer, is_start_level, dtype = 0, biomes, rooms){
         this.id = id
         this.size_x = x_size;
@@ -17,6 +18,7 @@ export class Area{
         this.type = typer;
         this.is_start_level = is_start_level
         this.doors_used = [] 
+        this.seen_area_indices = []
         this.dtype = dtype
         console.log(id, x_size, y_size, typer)
         // this.doors = doors
